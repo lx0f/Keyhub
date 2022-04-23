@@ -4,7 +4,8 @@
   "description": "An Ecommerce mechanical keyboard website, built for enthusiasts, by enthusiasts.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "App": "nodemon ./src/app.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,17 @@
   "bugs": {
     "url": "https://github.com/Ronandt/Mechanical-Keyboard-Website/issues"
   },
-  "homepage": "https://github.com/Ronandt/Mechanical-Keyboard-Website#readme"
+  "homepage": "https://github.com/Ronandt/Mechanical-Keyboard-Website#readme",
+  "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.5",
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.5",
+    "handlebars": "^4.7.7",
+    "passport": "^0.5.2",
+    "sequelize": "^6.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }
