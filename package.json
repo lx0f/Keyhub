@@ -1,0 +1,27 @@
+{
+  "name": "mechanical-keyboard-website",
+  "version": "1.0.0",
+  "description": "An Ecommerce mechanical keyboard website, built for enthusiasts, by enthusiasts.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ronandt/Mechanical-Keyboard-Website.git"
+  },
+  "keywords": [
+    "mechanical",
+    "mechanical_keyboards",
+    "keycaps",
+    "keyboards",
+    "clicky",
+    "lube"
+  ],
+  "author": "Declan, Luth, Ira, Jia Jun, Zhe Yin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ronandt/Mechanical-Keyboard-Website/issues"
+  },
+  "homepage": "https://github.com/Ronandt/Mechanical-Keyboard-Website#readme"
+}
