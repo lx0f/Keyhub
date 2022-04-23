@@ -1,29 +1,37 @@
-//Imports
+//Library Imports
 const express = require("express");
 const path = require("path");
 const handlebars = require("handlebars");
 const express_handlebars = require("express-handlebars");
-const { engine } = require("express-handlebars")
-const { allowInsecurePrototypeAccess } = require("@handlebars/allow-prototype-access")
+const { engine } = require("express-handlebars");
+const {
+  allowInsecurePrototypeAccess,
+} = require("@handlebars/allow-prototype-access");
+
+//Local Imports
+const customerRouter = require("./routes/customer");
 
 //Initialization of the app
 const app = express();
 
-app.use(express.static(path.join(__dirname, "../public")))
+app.use("/", customerRouter);
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, "../public")));
 
-app.use(flash())
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.set("view engine", "handlebars")
+app.use(flash());
 
-app.set("views", path.join(__dirname, "../views"))
+app.set("view engine", "handlebars");
 
-app.engine("handlebars", engine({
+app.set("views", path.join(__dirname, "../views"));
+
+app.engine(
+  "handlebars",
+  engine({
     handlebars: allowInsecurePrototypeAccess(handlebars),
-    defaultLayout: ""
-}))
-
-
+    defaultLayout: "",
+  })
+);
 
 module.exports = app;
