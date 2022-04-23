@@ -4,6 +4,7 @@ const path = require("path");
 const handlebars = require("handlebars");
 const express_handlebars = require("express-handlebars");
 const { engine } = require("express-handlebars");
+const bodyParser = require("body-parser");
 const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
@@ -20,7 +21,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(flash());
+
 
 app.set("view engine", "handlebars");
 
@@ -30,7 +31,7 @@ app.engine(
   "handlebars",
   engine({
     handlebars: allowInsecurePrototypeAccess(handlebars),
-    defaultLayout: "",
+    defaultLayout: "page-layout",
   })
 );
 
