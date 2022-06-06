@@ -5,21 +5,27 @@ const handlebars = require("handlebars");
 const express_handlebars = require("express-handlebars");
 const { engine } = require("express-handlebars");
 const bodyParser = require("body-parser");
-
 const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
 
 //Local Imports
+const initaliseDatabase = require("./models/initalise_database")
 const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
 
-//Initialization of the app
+
+//Initialisation of the app
 const app = express();
+
+//Initalisation of the database
+initaliseDatabase()
 
 //Setup
 app.use(express.static(path.join(__dirname, "../public")));
+
+app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -41,6 +47,7 @@ app.engine(
   })
 );
 
+//Routers
 app.use("/staff", staffRouter);
 app.use("/", loginRouter);
 app.use("/", customerRouter);

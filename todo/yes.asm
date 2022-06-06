@@ -1,1 +1,0 @@
--Add a footer to the layout and remove it from the other layouts (staff and customer)
