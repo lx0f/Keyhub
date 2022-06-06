@@ -32,7 +32,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(session({
-  secret:"keyhub"
+  secret:"keyhub",
+  resave: false,
+  saveUninitialized: false
 }))
 
 app.use(flash())
