@@ -9,9 +9,8 @@ customerRouter.use((req, res, next) => {
 });
 
 customerRouter.route("/").get((req, res) => {
-  res.render("./customers/page-profile-main");
+  res.render("./customers/page-index-3");
 });
-
 
 
 module.exports = customerRouter;

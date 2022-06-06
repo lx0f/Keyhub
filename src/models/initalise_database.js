@@ -1,5 +1,5 @@
 const sequelize  = require("./database_setup");
-const User = require("./User");
+const user = require("./user");
 
 const initaliseDatabase = () => {
   sequelize
