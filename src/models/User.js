@@ -17,7 +17,7 @@ User.init(
       unique: true,
       allowNull: false,
     },
-    name: {
+    username: {
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
       unique: true,
@@ -30,7 +30,7 @@ User.init(
     password: {
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
-      unique: false,
+      unique: false,   
       set(value) {
         this.setDataValue("password", bcrypt.hashSync(value, 10) + "");
       },

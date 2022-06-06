@@ -1,0 +1,38 @@
+{{#each info}}
+  <div class="alert alert-info alert-dismissible">
+    <a
+      href="#"
+      class="close"
+      data-dismiss="alert"
+      aria-la-
+      bel="close"
+    >&times;</a>
+    <h6><i class="fas fa-info-circle"></i> {{this}}</h6>
+  </div>
+{{/each}}
+
+{{#each error}}
+  <div class="alert alert-danger alert-dismissible">
+    <a
+      href="#"
+      class="close"
+      data-dismiss="alert"
+      aria-la-
+      bel="close"
+    >&times;</a>
+    <h6><i class="fas fa-exclamation-circle"></i> {{this}}</h6>
+  </div>
+{{/each}}
+
+{{#each success}}
+  <div class="alert alert-success alert-dismissible">
+    <a
+      href="#"
+      class="close"
+      data-dismiss="alert"
+      aria-la-
+      bel="close"
+    >&times;</a>
+    <h6><i class="fas fa-success-circle"></i> {{this}}</h6>
+  </div>
+{{/each}}
