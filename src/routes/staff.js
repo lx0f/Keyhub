@@ -1,4 +1,5 @@
 const express = require("express");
+const { restart } = require("nodemon");
 const User = require("../models/user");
 const staffRouter = express.Router();
 
@@ -18,6 +19,10 @@ staffRouter.use((req, res, next) => {
 
 staffRouter.route("/").get((req, res) => {
     res.render("./staff/staff-charts")
+})
+
+staffRouter.route("/manage_accounts").get((req, res) => {
+  res.render("./staff/staff-tables")
 })
 
 module.exports = staffRouter;
