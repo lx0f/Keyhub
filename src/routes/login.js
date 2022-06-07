@@ -4,6 +4,14 @@ const User = require("../models/User")
 const passport = require("passport")
 const loginRouter = express.Router();
 
+loginRouter.use((req, res, next) => {
+    if (req.isAuthenticated()) {
+        req.flash("info", "You have already logged in. Please logout first")
+        res.redirect("/")
+    }
+    
+    next()
+})
 
 loginRouter.route("/register").get((req, res) => {
     res.render("./customers/page-user-register");
@@ -17,7 +25,6 @@ loginRouter.route("/register").get((req, res) => {
             req.flash("error", "Name or email is not unique!")
             return res.redirect("/register")
         } 
-        //insert record
         User.create({username: req.body.username, email: req.body.email, password: req.body.password, isStaff: false})
         req.flash("success", "Successfully registered!")
         return res.redirect("/login")
