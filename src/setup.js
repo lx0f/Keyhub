@@ -10,9 +10,10 @@ const bodyParser = require("body-parser");
 const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
-
+const passport = require("passport")
 //Local Imports
 const initaliseDatabase = require("./models/initalise_database")
+const initalisePassportLocal = require("./authentication/passport_local")
 const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
@@ -24,7 +25,12 @@ const app = express();
 //Initalisation of the database
 initaliseDatabase()
 
+//Initalisation of the passport authentication systems
+//initalisePassportLocal()
+
 //Setup
+//app.use(passport.session())
+
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(bodyParser.json());
