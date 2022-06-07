@@ -11,6 +11,7 @@ const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
 const passport = require("passport")
+
 //Local Imports
 const initaliseDatabase = require("./models/initalise_database")
 const initalisePassportLocal = require("./authentication/passport_local")

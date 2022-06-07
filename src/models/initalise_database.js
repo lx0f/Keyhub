@@ -1,7 +1,8 @@
 const sequelize  = require("./database_setup");
-const user = require("./user");
+const User = require("./user");
+const superusers = require("../../data/superusers")
 
-const initaliseDatabase = () => {
+const initaliseDatabase = async () => {
   sequelize
     .authenticate()
     .then(() => {
@@ -14,6 +15,16 @@ const initaliseDatabase = () => {
         });
     })
     .catch((err) => console.log(err));
+
+ 
+    for(const superuser in superusers) {
+
+      if(!(await User.findOne({where: {email: superusers[superuser].email}}) || await User.findOne({where: {username: superusers[superuser].username}}) )){
+
+        User.create({email: superusers[superuser].email, username: superusers[superuser].username, password: superusers[superuser].password ,isStaff: superusers[superuser].isStaff })
+      }
+    }
+  //if(User.findOne())
 };
 
 module.exports = initaliseDatabase
