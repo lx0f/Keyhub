@@ -4,14 +4,16 @@ const User = require("../models/User")
 const passport = require("passport")
 const loginRouter = express.Router();
 
-loginRouter.use((req, res, next) => {
+
+
+/*loginRouter.use((req, res, next) => {
     if (req.isAuthenticated()) {
         req.flash("info", "You have already logged in. Please logout first")
         res.redirect("/")
     }
     
     next()
-})
+})*/
 
 loginRouter.route("/register").get((req, res) => {
     res.render("./customers/page-user-register");

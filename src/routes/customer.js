@@ -17,6 +17,11 @@ customerRouter.use((req, res, next) => {
   next();
 });
 
+customerRouter.route("/logout").get((req, res) => {
+  req.logOut();
+  res.redirect("/login")
+})
+
 customerRouter.route("/").get((req, res) => {
   res.render("./customers/page-index-3");
 });

@@ -31,11 +31,22 @@
 			<div class="widget-header icontext">
 				<a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
 				<div class="text">
-					<span class="text-muted">Welcome!</span>
-					<div> 
-						<a href="#">Sign in</a> |  
-						<a href="#"> Register</a>
+					<span class="text-muted">Welcome {{#if authenticated}} {{user.username}}!{{/if}}</span>
+					{{#if authenticated}} 
+					<div>
+						<a href="/logout">Logout</a>
 					</div>
+					{{else}}
+					<div> 
+						<a href="/login">Sign in</a> |  
+						<a href="/register"> Register</a>
+					</div>
+					{{/if}}
+
+
+
+
+
 				</div>
 			</div>
 
