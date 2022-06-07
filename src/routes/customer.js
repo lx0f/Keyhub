@@ -14,7 +14,6 @@ customerRouter.use((req, res, next) => {
 customerRouter.use((req, res, next) => {
   res.locals.path = req.baseUrl;
   console.log(req.baseUrl);
-
   next();
 });
 
