@@ -4,7 +4,6 @@ const customerRouter = express.Router();
 
 customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
-      req.flash("info", "Please login first")
       res.redirect("/login")
   }
   next()

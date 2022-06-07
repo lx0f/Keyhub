@@ -16,15 +16,14 @@ const initaliseDatabase = async () => {
     })
     .catch((err) => console.log(err));
 
- 
-    for(const superuser in superusers) {
+Object.entries(superusers).forEach(async ([key, superuser]) => {
+  if(!(await User.findOne({where: {email: superuser.email}}) || await User.findOne({where: {username: superuser.username}}) )){
+   const user =  await User.create({email: superuser.email, username: superuser.username, password: superuser.password ,isStaff: superuser.isStaff })
+  }
+})
 
-      if(!(await User.findOne({where: {email: superusers[superuser].email}}) || await User.findOne({where: {username: superusers[superuser].username}}) )){
 
-        User.create({email: superusers[superuser].email, username: superusers[superuser].username, password: superusers[superuser].password ,isStaff: superusers[superuser].isStaff })
-      }
-    }
   //if(User.findOne())
-};
+}
 
 module.exports = initaliseDatabase
