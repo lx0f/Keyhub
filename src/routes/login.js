@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("../models/database_setup")
 const User = require("../models/User")
+const passport = require("passport")
 const loginRouter = express.Router();
 
 
@@ -28,8 +29,10 @@ loginRouter.route("/register").get((req, res) => {
 
 loginRouter.route("/login").get((req, res) => {
     res.render("./customers/page-user-login")
-}).post(async (req, res) => {
-    
-})
+}).post(passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+}))
 
 module.exports = loginRouter;

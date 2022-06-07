@@ -22,24 +22,20 @@ const loginRouter = require("./routes/login");
 //Initialisation of the app
 const app = express();
 
-//Initalisation of the database
-initaliseDatabase()
-
-//Initalisation of the passport authentication systems
-//initalisePassportLocal()
 
 //Setup
-//app.use(passport.session())
+
+app.use(session({
+  secret:"keyhub"
+}))
+
+app.use(passport.session())
 
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(session({
-  secret:"keyhub"
-}))
 
 app.use(flash())
 
@@ -60,6 +56,13 @@ app.engine(
     },
   })
 );
+
+//Initalisation of the database
+initaliseDatabase()
+
+//Initalisation of the passport authentication systems
+initalisePassportLocal()
+
 
 //Global variables (middleware)
 app.use((req, res, next) => {
