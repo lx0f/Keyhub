@@ -27,7 +27,11 @@ const app = express();
 //Setup
 
 app.use(session({
-  secret:"keyhub"
+  secret:"keyhub",
+  rolling: true,
+  cookie: {
+    maxAge: 99999999
+  }
 }))
 
 app.use(passport.session())
