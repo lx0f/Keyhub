@@ -38,10 +38,12 @@ loginRouter.route("/register").get((req, res) => {
 
 loginRouter.route("/login").get((req, res) => {
     res.render("./customers/page-user-login")
-}).post(passport.authenticate("local", {
+}).post(passport.authenticate(["local", "anonymous"], {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
-}))
+}), (req, res) => {
+    res.redirect("/login")
+})
 
 module.exports = loginRouter;

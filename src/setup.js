@@ -4,17 +4,18 @@ const flash = require("connect-flash")
 const path = require("path");
 const session = require("express-session")
 const handlebars = require("handlebars");
-const express_handlebars = require("express-handlebars");
 const { engine } = require("express-handlebars");
 const bodyParser = require("body-parser");
 const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
 const passport = require("passport")
+const passportAnonymous = require("passport-anonymous")
 
 //Local Imports
 const initaliseDatabase = require("./models/initalise_database")
 const initalisePassportLocal = require("./authentication/passport_local")
+const initalisePassportAnonymous = require("./authentication/passport_anonymous")
 const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
@@ -67,6 +68,7 @@ initaliseDatabase()
 
 //Initalisation of the passport authentication systems
 initalisePassportLocal()
+initalisePassportAnonymous()
 
 
 //Global variables (middleware)
