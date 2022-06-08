@@ -4,15 +4,18 @@ const flash = require("connect-flash")
 const path = require("path");
 const session = require("express-session")
 const handlebars = require("handlebars");
-const express_handlebars = require("express-handlebars");
 const { engine } = require("express-handlebars");
 const bodyParser = require("body-parser");
 const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
+const passport = require("passport")
+const passportAnonymous = require("passport-anonymous")
 
 //Local Imports
 const initaliseDatabase = require("./models/initalise_database")
+const initalisePassportLocal = require("./authentication/passport_local")
+const initalisePassportAnonymous = require("./authentication/passport_anonymous")
 const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
@@ -21,10 +24,19 @@ const loginRouter = require("./routes/login");
 //Initialisation of the app
 const app = express();
 
-//Initalisation of the database
-initaliseDatabase()
 
 //Setup
+
+app.use(session({
+  secret:"keyhub",
+  rolling: true,
+  cookie: {
+    maxAge: 99999999
+  }
+}))
+
+app.use(passport.session())
+
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(bodyParser.json());
@@ -57,12 +69,21 @@ app.engine(
   })
 );
 
+//Initalisation of the database
+initaliseDatabase()
+
+//Initalisation of the passport authentication systems
+initalisePassportLocal()
+initalisePassportAnonymous()
+
+
 //Global variables (middleware)
 app.use((req, res, next) => {
   res.locals.error = req.flash("error")
   res.locals.info = req.flash("info")
   res.locals.success = req.flash("success")
-
+  res.locals.authenticated = req.isAuthenticated()
+  res.locals.user = req.user
   next()
 })
 
