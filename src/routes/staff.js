@@ -30,7 +30,7 @@ staffRouter
     } else {
     id = req.query.id
     const user = await User.findOne({where: {id}})
-    return res.render("./staff/staff-register", {user: user.dataValues})
+    return res.render("./staff/staff-manage-account", {user: user.dataValues})
     }
   })
   .post((req, res) => {
