@@ -43,6 +43,7 @@ loginRouter.route("/login").get((req, res) => {
     failureRedirect: "/login",
     failureFlash: true
 }), (req, res) => {
+    req.flash("error", "No such account")
     res.redirect("/login")
 })
 

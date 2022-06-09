@@ -24,11 +24,18 @@ staffRouter.route("/").get((req, res) => {
 staffRouter
   .route("/manage_accounts")
   .get(async (req, res) => {
+    if(!req.query.id) {
     const users = await (await User.findAll()).map(x => x.dataValues)
-    res.render("./staff/staff-tables", {users});
+    return res.render("./staff/staff-tables", {users});
+    } else {
+    id = req.query.id
+    const user = await User.findOne({where: {id}})
+    return res.render("./staff/staff-register", {user: user.dataValues})
+    }
   })
   .post((req, res) => {
 
   });
+
 
 module.exports = staffRouter;
