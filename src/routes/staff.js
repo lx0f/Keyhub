@@ -24,18 +24,17 @@ staffRouter.route("/").get((req, res) => {
 staffRouter
   .route("/manage_accounts")
   .get(async (req, res) => {
-    if(!req.query.id) {
-    const users = await (await User.findAll()).map(x => x.dataValues)
-    return res.render("./staff/staff-tables", {users});
+    if (!req.query.id) {
+      const users = await (await User.findAll()).map((x) => x.dataValues);
+      return res.render("./staff/staff-tables", { users });
     } else {
-    id = req.query.id
-    const user = await User.findOne({where: {id}})
-    return res.render("./staff/staff-manage-account", {user: user.dataValues})
+      const id = req.query.id;
+      const user = await User.findOne({ where: { id } });
+      return res.render("./staff/staff-manage-account", {
+        user: user.dataValues, //what happens when no id
+      });
     }
   })
-  .post((req, res) => {
-
-  });
-
+  .post((req, res) => {});
 
 module.exports = staffRouter;
