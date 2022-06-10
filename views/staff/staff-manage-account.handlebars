@@ -13,7 +13,7 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Edit {{user.username}} [id: {{user.id}}]<h1>
                             </div>
-                            <form class="user">
+                            <form method="POST" action="/staff/accounts"class="user">
                                 <div class="form-group row">
                                    Change Username: <input type="text" style="max-width: 980px; margin-left: 10px" class="form-control form-control-user" name="username"id="exampleFirstName"
                                             placeholder="Username" name="username "value="{{user.username}}">
@@ -33,11 +33,11 @@
                                             id="exampleRepeatPassword" placeholder="Change Permission Level" min="0" max="1" value="{{user.isStaff}}">
                                     </div>
                                 </div>
-                         
+                         <input type="hidden" value="{{user.id}}" name="id">
                                 <hr>
-                        <a href="login.html" class="btn btn-primary btn-user btn-block">
+                        <button class="btn btn-primary btn-user btn-block">
                                     Save Changes
-                                </a>
+                                </button>
                             </form>
                             <hr>
                  
