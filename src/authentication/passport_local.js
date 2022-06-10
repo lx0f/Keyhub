@@ -26,7 +26,7 @@ function initalisePassportLocal() {
   });
 
   passport.deserializeUser(async (id, done) => {
-    return done(null, await User.findOne({ where: { id } }));
+    return done(null, await User.findByPk(id));
   });
 }
 

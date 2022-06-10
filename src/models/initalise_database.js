@@ -3,6 +3,7 @@ const User = require("./user");
 const superusers = require("../../data/superusers");
 
 const initaliseDatabase = async () => {
+
   sequelize
     .authenticate()
     .then(() => {
@@ -16,7 +17,7 @@ const initaliseDatabase = async () => {
     })
     .catch((err) => {
       console.log(err);
-      User.sync({});
+      
     });
 
   Object.entries(superusers).forEach(async ([key, superuser]) => {

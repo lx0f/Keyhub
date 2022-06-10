@@ -8,20 +8,40 @@ manageAccountRoute
     return res.render("./staff/staff-tables", { users });
   })
   .post(async (req, res) => {
-    const id = req.body.id;
-    const user = await User.findOne({ where: { id } });
-    user.isStaff = req.body.isStaff || user.isStaff;
-    user.username = req.body.username || user.username;
-    user.email = req.body.email || user.email;
-    user.password = req.body.password || user.password;
-    await user.save();
-    req.flash("success", "User updated!");
-    res.redirect("/staff/accounts");
+   
+   
+    const method = req.body.method
+    switch(method) {
+  
+      case "DELETE":
+
+        await User.destroy({ where: { id: req.body.id } });
+    
+        break;
+      case "PATCH":
+      
+        const user = await User.findByPk(req.body.id);
+        user.isStaff = req.body.isStaff || user.isStaff;
+        user.username = req.body.username || user.username;
+        user.email = req.body.email || user.email;
+        if (req.body.password != "") {
+          user.password = req.body.password; //unable to use short circuit eval as hashed password
+        }
+    
+        await user.save();
+        req.flash("success", "User updated!");
+        break;
+      default:
+        break;
+
+
+    }
+    res.redirect("/staff/accounts")
   });
 
 manageAccountRoute.get("/:id", async (req, res) => {
-  const id = req.params.id;
-  const user = await User.findOne({ where: { id } });
+  const id = req.params.id
+  const user = await User.findByPk(id);
   if (user) {
     return res.render("./staff/staff-manage-account", {
       user: user.dataValues, //what happens when no id
