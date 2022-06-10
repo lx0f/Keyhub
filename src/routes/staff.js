@@ -2,6 +2,8 @@ const express = require("express");
 const { restart } = require("nodemon");
 const User = require("../models/user");
 const staffRouter = express.Router();
+const manageAccountRoute = require("./manage_accounts")
+
 
 staffRouter.use((req, res, next) => {
   if (req.isUnauthenticated() || !req.user.isStaff) {
@@ -17,24 +19,15 @@ staffRouter.use((req, res, next) => {
   next();
 });
 
+
+staffRouter.use("/accounts", manageAccountRoute )
+
+
+
 staffRouter.route("/").get((req, res) => {
   res.render("./staff/staff-charts");
 });
 
-staffRouter
-  .route("/manage_accounts")
-  .get(async (req, res) => {
-    if (!req.query.id) {
-      const users = await (await User.findAll()).map((x) => x.dataValues);
-      return res.render("./staff/staff-tables", { users });
-    } else {
-      const id = req.query.id;
-      const user = await User.findOne({ where: { id } });
-      return res.render("./staff/staff-manage-account", {
-        user: user.dataValues, //what happens when no id
-      });
-    }
-  })
-  .post((req, res) => {});
+
 
 module.exports = staffRouter;

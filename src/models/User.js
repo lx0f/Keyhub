@@ -36,7 +36,7 @@ User.init(
       },
     },
     isStaff: {
-      type: Sequelize.DataTypes.BOOLEAN,
+      type: Sequelize.DataTypes.NUMBER,
       allowNull: false,
     },
     updatedAt: {
