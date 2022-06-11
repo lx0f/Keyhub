@@ -38,6 +38,7 @@ User.init(
     isStaff: {
       type: Sequelize.DataTypes.NUMBER,
       allowNull: false,
+      defaultValue: 0
     },
     updatedAt: {
       type: Sequelize.DataTypes.DATE,
