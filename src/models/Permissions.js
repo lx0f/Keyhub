@@ -6,6 +6,7 @@ class Permission extends Sequelize.Model {}
 Permission.init({
   id: {
     type: Sequelize.DataTypes.UUID,
+    defaultValue: Sequelize.UUIDV4,
     primaryKey: true,
     allowNull: false,
     unique: true
