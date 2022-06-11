@@ -29,7 +29,7 @@ User.init(
     },
     password: {
       type: Sequelize.DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: false,   
       set(value) {
         this.setDataValue("password", bcrypt.hashSync(value, 10) + "");

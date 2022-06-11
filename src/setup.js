@@ -16,9 +16,11 @@ const passportAnonymous = require("passport-anonymous")
 const initaliseDatabase = require("./models/initalise_database")
 const initalisePassportLocal = require("./authentication/passport_local")
 const initalisePassportAnonymous = require("./authentication/passport_anonymous")
+const InitaliseGoogleLogin = require("./authentication/passport_google")
 const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
+
 
 
 //Initialisation of the app
@@ -32,7 +34,9 @@ app.use(session({
   rolling: true,
   cookie: {
     maxAge: 99999999
-  }
+  },
+  saveUninitialized: true,
+  resave: false
 }))
 
 app.use(passport.session())
@@ -75,6 +79,7 @@ initaliseDatabase()
 //Initalisation of the passport authentication systems
 initalisePassportLocal()
 initalisePassportAnonymous()
+
 
 
 //Global variables (middleware)

@@ -36,9 +36,13 @@ loginRouter.route("/register").get((req, res) => {
 
 })
 
+loginRouter.route("/login-google").get((req, res) => {
+    passport.authenticate("google", {scope: ['profile']})
+})
+
 loginRouter.route("/login").get((req, res) => {
     res.render("./customers/page-user-login")
-}).post(passport.authenticate(["local", "anonymous"], {
+}).post(passport.authenticate(["local", "anonymous", "google"], {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
@@ -46,5 +50,7 @@ loginRouter.route("/login").get((req, res) => {
     req.flash("error", "No such account")
     res.redirect("/login")
 })
+
+
 
 module.exports = loginRouter;
