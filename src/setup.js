@@ -10,7 +10,8 @@ const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
 const passport = require("passport")
-const passportAnonymous = require("passport-anonymous")
+const methodOverride = require("method-override")
+
 
 //Local Imports
 const initaliseDatabase = require("./models/initalise_database")
@@ -51,6 +52,15 @@ app.use(session({
   secret:"keyhub",
   resave: false,
   saveUninitialized: false
+}))
+
+app.use(methodOverride(function (req, res) {
+  if (req.body && typeof req.body === 'object' && 'method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    const method = req.body.method
+    delete req.body.method
+    return method
+  }
 }))
 
 app.use(flash())
