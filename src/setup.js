@@ -55,7 +55,6 @@ app.use(session({
   secret:"keyhub",
   resave: false,
   saveUninitialized: true,
-  cookie: {secure: true}
 }))
 
 
