@@ -36,11 +36,18 @@ loginRouter.route("/register").get((req, res) => {
 
 })
 
-/*loginRouter.route("/login-google").get((req, res) => {
-    passport.authenticate("google", {scope: ['profile']})
-})*/
+loginRouter.route("/login-google").get( passport.authenticate("google", {scope: ['profile', 'email']}))
+loginRouter.route("/login-google/callback").get(passport.authenticate('google', {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+}), (req, res) => {
+    res.redirect("/")
+})
+
 
 loginRouter.route("/login").get((req, res) => {
+ 
     res.render("./customers/page-user-login")
 }).post(passport.authenticate(["local", "anonymous"], {
     successRedirect: "/",

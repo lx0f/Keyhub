@@ -2,13 +2,13 @@ const express = require("express");
 const customerRouter = express.Router();
 
 
-customerRouter.use((req, res, next) => {
+/*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
       return res.redirect("/login")
   }
   
   next()
-})
+})*/
 
 
 customerRouter.use((req, res, next) => {

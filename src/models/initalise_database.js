@@ -3,8 +3,7 @@ const User = require("./user");
 const superusers = require("../../data/superusers");
 
 const initaliseDatabase = async () => {
-
-  sequelize
+   sequelize
     .authenticate()
     .then(() => {
       sequelize

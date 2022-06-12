@@ -11,6 +11,7 @@ const {
 } = require("@handlebars/allow-prototype-access");
 const passport = require("passport")
 const methodOverride = require("method-override")
+const cookieParser = require("cookie-parser")
 
 
 //Local Imports
@@ -40,6 +41,8 @@ app.use(session({
   resave: false
 }))
 
+app.use(cookieParser())
+
 app.use(passport.session())
 
 app.use(express.static(path.join(__dirname, "../public")));
@@ -51,8 +54,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
   secret:"keyhub",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: true,
+  cookie: {secure: true}
 }))
+
+
 
 app.use(methodOverride(function (req, res) {
   if (req.body && typeof req.body === 'object' && 'method' in req.body) {
@@ -89,6 +95,7 @@ initaliseDatabase()
 //Initalisation of the passport authentication systems
 initalisePassportLocal()
 initalisePassportAnonymous()
+InitaliseGoogleLogin()
 
 
 

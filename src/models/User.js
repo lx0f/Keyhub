@@ -32,13 +32,22 @@ User.init(
       allowNull: true,
       unique: false,   
       set(value) {
+        if(value) {
         this.setDataValue("password", bcrypt.hashSync(value, 10) + "");
+        }
+
       },
     },
     isStaff: {
       type: Sequelize.DataTypes.NUMBER,
       allowNull: false,
       defaultValue: 0
+    },
+    authMethod: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "local",
+      isIn: [["local", "oauth"]]
     },
     updatedAt: {
       type: Sequelize.DataTypes.DATE,
