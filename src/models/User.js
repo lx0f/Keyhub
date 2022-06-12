@@ -20,7 +20,6 @@ User.init(
     username: {
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     email: {
       type: Sequelize.DataTypes.STRING,
