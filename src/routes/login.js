@@ -64,8 +64,11 @@ loginRouter.route("/login").get((req, res) => {
 
 loginRouter.route("/reset-password").get((req, res) => {
     res.render("page-reset-password")
-}).post((req, res) => {
+}).post(async (req, res) => {
+    const email = User.findOne({where: {email: req.body.email}})
     
+    req.flash("success", "Reset link to your email sent! Please check your email.")
+    res.redirect("/reset-password")
 })
 
 
