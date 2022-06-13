@@ -40,7 +40,8 @@ loginRouter.route("/login-google").get( passport.authenticate("google", {scope: 
 loginRouter.route("/login-google/callback").get(passport.authenticate('google', {
     successRedirect: "/",
     failureRedirect: "/login",
-    failureFlash: true
+    failureFlash: true,
+    successFlash: true
 }), (req, res) => {
     res.redirect("/")
 })
@@ -52,7 +53,8 @@ loginRouter.route("/login").get((req, res) => {
 }).post(passport.authenticate(["local", "anonymous"], {
     successRedirect: "/",
     failureRedirect: "/login",
-    failureFlash: true
+    failureFlash: true,
+    successFlash: true
 }), (req, res) => {
     req.flash("error", "No such account")
     res.redirect("/login")
