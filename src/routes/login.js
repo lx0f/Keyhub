@@ -2,6 +2,7 @@ const express = require("express");
 const db = require("../models/database_setup")
 const User = require("../models/User")
 const passport = require("passport")
+const nodemailer = require("nodemailer")
 const loginRouter = express.Router();
 
 
@@ -58,6 +59,11 @@ loginRouter.route("/login").get((req, res) => {
 }), (req, res) => {
     req.flash("error", "No such account")
     res.redirect("/login")
+})
+
+
+loginRouter.route("/reset-password").get((req, res) => {
+    res.render()
 })
 
 

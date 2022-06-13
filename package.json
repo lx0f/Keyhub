@@ -38,6 +38,7 @@
     "handlebars": "^4.7.7",
     "method-override": "^3.0.0",
     "moment": "^2.29.3",
+    "nodemailer": "^6.7.5",
     "openid-client": "^5.1.6",
     "passport": "^0.5.3",
     "passport-anonymous": "^1.0.1",
