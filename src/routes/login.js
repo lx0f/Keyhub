@@ -63,7 +63,9 @@ loginRouter.route("/login").get((req, res) => {
 
 
 loginRouter.route("/reset-password").get((req, res) => {
-    res.render()
+    res.render("page-reset-password")
+}).post((req, res) => {
+    
 })
 
 
