@@ -2,7 +2,7 @@ const express = require("express");
 const db = require("../models/database_setup")
 const User = require("../models/User")
 const passport = require("passport")
-const nodemailer = require("nodemailer")
+const Mail = require("../configuration/nodemailer")
 const loginRouter = express.Router();
 
 
@@ -63,10 +63,12 @@ loginRouter.route("/login").get((req, res) => {
 
 
 loginRouter.route("/reset-password").get((req, res) => {
-    res.render("page-reset-password")
+    res.render("./customers/page-reset-password")
 }).post(async (req, res) => {
     const email = User.findOne({where: {email: req.body.email}})
-    
+
+        Mail.send(res, {to: "declanisaackuok@gmail.com", subject: "hihi", text: "bruh"})
+  
     req.flash("success", "Reset link to your email sent! Please check your email.")
     res.redirect("/reset-password")
 })

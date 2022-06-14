@@ -6,13 +6,13 @@ const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
     auth: {
         user: "keyhub1@gmail.com",
-        pass: "bigchungus"
+        pass: "jjbsogehekusztmk"
     },
     secure: true
 })
 
 
-
+//"ebioweqbivouqfww" is the user password
 class Mail {
     static send(res, {to, subject, text} = {}) {
         const mailData = {
@@ -20,7 +20,7 @@ class Mail {
             to: to,
             subject: subject,
             text: text,
-            html: "<b>Hi There!</b>"
+            html: text
         }
 
     transporter.sendMail(mailData, (error, info) => {
