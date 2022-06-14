@@ -1,5 +1,6 @@
 const sequelize = require("./database_setup");
 const User = require("./user");
+const Ticket = require("./ticket");
 const mysql = require('mysql2/promise');
 const superusers = require("../../data/superusers");
 
@@ -19,7 +20,7 @@ const ensureCreated = async () =>  {
 
 const initaliseDatabase = async () => {
     await ensureCreated();
-  
+
     await sequelize
         .authenticate()
         .then(async () => {
