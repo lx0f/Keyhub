@@ -4,39 +4,39 @@ const superusers = require("../../data/superusers");
 
 const initaliseDatabase = async () => {
 
-   sequelize
-    .authenticate()
-    .then(() => {
-      sequelize
-        .sync({ alter: true })
-        .then((e) => console.log("Successfully altered"))
-        .catch((e) => {
-          console.log(e);
-          sequelize.sync({ force: true });
+    await sequelize
+        .authenticate()
+        .then(async () => {
+            await sequelize
+                .sync({ alter: true })
+                .then((e) => console.log("Successfully altered"))
+                .catch((e) => {
+                    console.log(e);
+                    sequelize.sync({ force: true });
+                });
+        })
+        .catch((err) => {
+            console.log(err);
+
         });
-    })
-    .catch((err) => {
-      console.log(err);
-      
+
+    Object.entries(superusers).forEach(async ([key, superuser]) => {
+        if (
+            !(
+                (await User.findOne({ where: { email: superuser.email } })) ||
+                (await User.findOne({ where: { username: superuser.username } }))
+            )
+        ) {
+            const user = await User.create({
+                email: superuser.email,
+                username: superuser.username,
+                password: superuser.password,
+                isStaff: superuser.isStaff,
+            });
+        }
     });
 
-  Object.entries(superusers).forEach(async ([key, superuser]) => {
-    if (
-      !(
-        (await User.findOne({ where: { email: superuser.email } })) ||
-        (await User.findOne({ where: { username: superuser.username } }))
-      )
-    ) {
-      const user = await User.create({
-        email: superuser.email,
-        username: superuser.username,
-        password: superuser.password,
-        isStaff: superuser.isStaff,
-      });
-    }
-  });
-
-  //if(User.findOne())
+    //if(User.findOne())
 };
 
 module.exports = initaliseDatabase;
