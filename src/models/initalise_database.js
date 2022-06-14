@@ -1,9 +1,24 @@
 const sequelize = require("./database_setup");
 const User = require("./user");
+const mysql = require('mysql2/promise');
 const superusers = require("../../data/superusers");
 
-const initaliseDatabase = async () => {
+require('dotenv').config();
 
+const ensureCreated = async () =>  {
+    // create if not exist
+    const database =  process.env.DB_NAME
+    const user = process.env.DB_USER
+    const password = process.env.DB_PWD
+    const host= process.env.DB_HOST
+    const port= process.env.DB_PORT
+
+    const connection = await mysql.createConnection({ host, port, user, password });
+    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
+}
+
+const initaliseDatabase = async () => {
+    await ensureCreated();
     await sequelize
         .authenticate()
         .then(async () => {
