@@ -63,7 +63,7 @@ User.init(
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
       defaultValue: "local",
-      isIn: [["local", "oauth"]],
+      isIn: [["local", "oauth", "both"]],
     },
     resetTokenID: {
       //denormalisation
