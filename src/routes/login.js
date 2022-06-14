@@ -78,8 +78,21 @@ loginRouter.route("/reset-password").get(async (req, res) => {
 })
 
 
-loginRouter.route("/reset-password/:id/:uuid").get((req, res) => {
-res.send('hi')
+loginRouter.route("/reset-password/:id/:uuid").get(async (req, res) => {
+const user = await User.findByPk(req.params.id)
+if (req.params.uuid === user.resetTokenID && user.verifyTokenAge()) {
+    return res.render("./customers/page-password-verified-reset", {id : req.params.id, uuid : req.params.id})
+}
+return res.redirect("/reset-password")
+}).post((req, res) => {
+    if(req.body.password === req.body.repeatpassword) {
+        User.update( {password: req.body.password},{where: {id : req.params.id}})
+        req.flash("success", "Password changed!")
+        return res.redirect("/login")
+        
+       
+    }
+    res.flash("error", "Repeat password must be the same as the password")
 })
 
 

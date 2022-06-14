@@ -11,14 +11,17 @@ class User extends Sequelize.Model {
   }
 
   verifyTokenAge() {
-    return moment().unix() - this.getDataValue("resetTokenDate") > 300
+    console.log(moment().unix() - this.getDataValue("resetTokenDate"))
+    console.log(this.getDataValue("resetTokenDate"))
+    console.log(moment().unix())
+    console.log(this.getDataValue("resetTokenID"))
+    return moment().unix() - this.getDataValue("resetTokenDate") < 300
   }
 
   generateResetToken() {
-    console.log("hi")
     this.setDataValue("resetTokenID", uuid());
     this.setDataValue("resetTokenDate", moment().unix());
-
+    this.save()
   }
 }
 
@@ -52,8 +55,9 @@ User.init(
     },
     isStaff: {
       type: Sequelize.DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
+      allowNull: true,
+      defaultValue: null,
+
     },
     authMethod: {
       type: Sequelize.DataTypes.STRING,
@@ -69,8 +73,8 @@ User.init(
     },
     resetTokenDate: {
       type: Sequelize.DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: null,
+      allowNull: false,
+      defaultValue:0,
     },
     updatedAt: {
       type: Sequelize.DataTypes.DATE,
