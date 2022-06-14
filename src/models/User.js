@@ -18,7 +18,7 @@ class User extends Sequelize.Model {
     console.log("hi")
     this.setDataValue("resetTokenID", uuid());
     this.setDataValue("resetTokenDate", moment().unix());
-    
+
   }
 }
 
@@ -51,7 +51,7 @@ User.init(
       },
     },
     isStaff: {
-      type: Sequelize.DataTypes.NUMBER,
+      type: Sequelize.DataTypes.INTEGER,
       allowNull: false,
       defaultValue: 0,
     },
@@ -68,7 +68,7 @@ User.init(
       defaultValue: null,
     },
     resetTokenDate: {
-      type: Sequelize.DataTypes.NUMBER,
+      type: Sequelize.DataTypes.INTEGER,
       allowNull: true,
       defaultValue: null,
     },
