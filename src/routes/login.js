@@ -62,17 +62,25 @@ loginRouter.route("/login").get((req, res) => {
 })
 
 
-loginRouter.route("/reset-password").get((req, res) => {
+loginRouter.route("/reset-password").get(async (req, res) => {
     res.render("./customers/page-reset-password")
 }).post(async (req, res) => {
-    const email = User.findOne({where: {email: req.body.email}})
+    const user = await User.findOne({where: {email: req.body.email}})
+    if(user) {
+        user.generateResetToken()
+        const link = `http://localhost:3000/reset-password/${user.id}/${user.resetTokenID}`
+        Mail.send(res, {to: user.email , subject: "Your Reset Link", text: link})
 
-        Mail.send(res, {to: "declanisaackuok@gmail.com", subject: "hihi", text: "bruh"})
+    }
   
     req.flash("success", "Reset link to your email sent! Please check your email.")
     res.redirect("/reset-password")
 })
 
+
+loginRouter.route("/reset-password/:id/:uuid").get((req, res) => {
+res.send('hi')
+})
 
 
 module.exports = loginRouter;

@@ -2,6 +2,8 @@ const bcrypt = require("bcrypt");
 const Sequelize = require("sequelize");
 const sequelize = require("./database_setup");
 const moment = require("moment");
+const {v4: uuid} = require("uuid");
+
 
 class User extends Sequelize.Model {
   compareHash(value) {
@@ -9,12 +11,14 @@ class User extends Sequelize.Model {
   }
 
   verifyTokenAge() {
-    return moment().format("x") - this.getDataValue("resetTokenDate")  > 3000000
+    return moment().unix() - this.getDataValue("resetTokenDate") > 300
   }
 
   generateResetToken() {
-    this.setDataValue("resetToken", Sequelize.UUIDV4);
-    this.setDataValue("resetTokenDate", `${moment().format("x")}`);
+    console.log("hi")
+    this.setDataValue("resetTokenID", uuid());
+    this.setDataValue("resetTokenDate", moment().unix());
+    
   }
 }
 
