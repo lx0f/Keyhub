@@ -12,8 +12,27 @@
                             </div>
                             <form method="POST" action="/staff/product"> 
                                 <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Test Input</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" name = "test" placeholder="" >
+                                <label for="exampleFormControlInput1" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" name = "name" placeholder="Name" >
+                                </div>
+                                <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Description</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name = "description" placeholder="Enter Description Here"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Category</label>
+                                <br>
+                                <select name="category" class="form-control" id="exampleFormControlInput1">
+                                    <option value="" disabled selected>Choose a Category</option>
+                                    <option value="keyboard">Keyboard</option><!--value is what is sent to the db-->
+                                    <option value="switch">Switch</option> 
+                                    <option value="keycaps">Keycaps</option>
+                                    <option value="others">Others</option>
+                                </select>
+                                </div>
+                                <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Stock</label>
+                                <input type="number" class="form-control" id="exampleFormControlInput1" name = "stock" placeholder="Stock" >
                                 </div>
                                 <hr>
                                 <button class="btn btn-primary btn-user btn-block" style="margin-bottom: 15px; margin-top: 40px;">
@@ -29,3 +48,10 @@
     </div>
 
 
+<!--
+    input format
+                                <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Test Input</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" name = "test" placeholder="" >
+                                </div>
+                                >

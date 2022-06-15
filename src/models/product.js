@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('./database_setup');
 
 const Products = db.define('products',{
+    productID: {type:Sequelize.INTEGER}, //still figuring out
     description: {type : Sequelize.STRING},
     name: {type: Sequelize.STRING},
     brand: {type: Sequelize.STRING},
