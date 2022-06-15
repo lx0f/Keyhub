@@ -45,7 +45,18 @@
                         {{#each tickets}}
                             <tr>
                                 <td>{{this.id}}</td>
-                                <td>{{this.status}}</td>
+                                <td>
+                                    <span class="badge p-2" style="color: white; background-color:
+                                    {{#equals this.status "open"}}
+                                    #34A853
+                                    {{/equals}}
+                                    {{#equals this.status "closed"}}
+                                    #6E53D3
+                                    {{/equals}}
+                                    ;">
+                                    {{this.status}}
+                                    </span>
+                                </td>
                                 <td>{{this.title}}</td>
                                 <td>{{this.description}}</td>
                                 <td>{{this.severity}}</td>
@@ -55,7 +66,7 @@
                                     <a
                                         href="/staff/tickets/{{this.id}}"
                                         class="btn btn-info"
-                                    >Edit</a>
+                                    >View</a>
                                 </td>
                             </tr>
                         {{/each}}

@@ -4,21 +4,18 @@
         #{{ticket.id}}
     </h2>
     <h4 id="meta">
-        <span class="badge"
-        style="color: white;
+        <span class="badge" style="color: white;
 
         {{#equals ticket.status "open" }}
         background: #34A853;
         {{/equals}}
         {{#equals ticket.status "closed" }}
         background: #6E53D3;
-        {{/equals}}
-        "
+        {{/equals}}"
 
         >{{ticket.status}}</span>
-        <a class="link">{{ticket.User.username}}</a>
-        opened this ticket
-        {{dateFormat ticket.createdAt "lll"}}
+        <a class=" link">{{ticket.User.username}}</a>
+            opened this ticket {{dateFormat ticket.createdAt "lll"}}
     </h4>
     <div class="card text-left my-4">
         <p class="card-header">
@@ -29,22 +26,64 @@
             <p class="card-text">{{ticket.description}}</p>
         </div>
     </div>
-    <form method="post" action="/staff/tickets">
-        <div class="d-flex justify-content-end">
-            <input type="hidden" value="PATCH" name="method">
-            <input type="hidden" value="{{ticket.id}}" name="id">
-            {{#equals ticket.status "open"}}
-            <input type="hidden" name="status" value="closed">
-            <button type="submit" class="btn" style="background: #6E53D3; color: white;">
-                Close
-            </button>
+    {{#each comments}}
+    {{#if this.message}}
+    <div class="card text-left my-4">
+        <p class="card-header">
+            <!-- INSERT PROFILE PICTURE -->
+            <a class="link">{{this.User.username}}</a>
+            {{dateFormat this.createdAt "lll"}}
+        </p>
+        <div class="card-body">
+            <p class="card-text">{{this.message}}</p>
+        </div>
+    </div>
+    {{/if}}
+    {{#if this.meta}}
+    <div class="card">
+        <div class="card-header">
+            <span class="badge" style="color: white; background-color:
+            {{#equals this.meta "open"}}
+               #34A853
             {{/equals}}
-            {{#equals ticket.status "closed"}}
-            <input type="hidden" name="status" value="open">
-            <button type="submit" class="btn" style="background: #34A853; color: white;">
-                Reopen
-            </button>
+            {{#equals this.meta "closed"}}
+               #6E53D3
             {{/equals}}
-    </form>
-</div>
+            ;">
+                {{this.meta}}
+            </span>
+            {{this.User.username}} {{this.meta}} this ticket on {{dateFormat this.createdAt "lll"}}
+        </div>
+    </div>
+    {{/if}}
+    {{/each}}
+    <hr>
+    <div class="card text-left my-2">
+        <p class="card-header">
+            <a class="link">{{user.username}}</a>
+        </p>
+        <div class="card-body">
+            <p class="card-text">
+            <form method="post" action="/staff/tickets">
+                <textarea name="message" id="" rows="6" class="form-control my-2" placeholder="Leave a comment" style="min-height: 120px;"></textarea>
+                <input type="hidden" value="PATCH" name="method">
+                <input type="hidden" value="{{ticket.id}}" name="id">
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary mx-2">Comment</button>
+                    {{#equals ticket.status "open"}}
+                    {{!-- <input type="hidden" name="meta" value="closed"> --}}
+                    <button type="submit" name="meta" value="closed" class="btn" style="background: #6E53D3; color: white;">
+                        Close
+                    </button>
+                    {{/equals}}
+                    {{#equals ticket.status "closed"}}
+                    <button type="submit" name="meta" value="open" class="btn" style="background: #34A853; color: white;">
+                        Reopen
+                    </button>
+                    {{/equals}}
+                </div>
+            </form>
+            </p>
+        </div>
+    </div>
 </div>
