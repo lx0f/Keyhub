@@ -3,7 +3,7 @@ const { restart } = require("nodemon");
 const User = require("../models/user");
 const staffRouter = express.Router();
 const manageAccountRoute = require("./manage_accounts")
-
+const FAQrouter = require("./FAQs")
 
 staffRouter.use((req, res, next) => {
   if (req.isUnauthenticated() || !req.user.isStaff) {
@@ -21,7 +21,7 @@ staffRouter.use((req, res, next) => {
 
 
 staffRouter.use("/accounts", manageAccountRoute )
-
+staffRouter.use("/manage-faqs", FAQrouter)
 
 
 staffRouter.route("/").get((req, res) => {
