@@ -22,6 +22,7 @@ staffRouter.use((req, res, next) => {
 
 staffRouter.use("/accounts", manageAccountRoute )
 staffRouter.use("/manage-faqs", FAQrouter)
+//staffRouter.use("/produc",productRouter)
 
 
 staffRouter.route("/").get((req, res) => {
