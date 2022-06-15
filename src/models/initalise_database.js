@@ -2,6 +2,8 @@ const sequelize = require("./database_setup");
 const User = require("./user");
 const mysql = require('mysql2/promise');
 const superusers = require("../../data/superusers");
+const Permission = require("../models/Permissions")
+const Role = require("../models/Role")
 
 require('dotenv').config();
 
@@ -23,6 +25,7 @@ const initaliseDatabase = async () => {
     await sequelize
         .authenticate()
         .then(async () => {
+            Role.belongsToMany(Permission, {through: "RolePermission"})
             await sequelize
                 .sync({ alter: true })
                 .then((e) => console.log("Successfully altered"))
