@@ -1,0 +1,50 @@
+<div class="container">
+    <h2 id="title">
+        <strong style="color: black;">{{ticket.title}}</strong>
+        #{{ticket.id}}
+    </h2>
+    <h4 id="meta">
+        <span class="badge"
+        style="color: white;
+
+        {{#equals ticket.status "open" }}
+        background: #34A853;
+        {{/equals}}
+        {{#equals ticket.status "closed" }}
+        background: #6E53D3;
+        {{/equals}}
+        "
+
+        >{{ticket.status}}</span>
+        <a class="link">{{ticket.User.username}}</a>
+        opened this ticket
+        {{dateFormat ticket.createdAt "lll"}}
+    </h4>
+    <div class="card text-left my-4">
+        <p class="card-header">
+            <!-- INSERT PROFILE PICTURE -->
+            <a class="link">{{ticket.User.username}}</a>
+        </p>
+        <div class="card-body">
+            <p class="card-text">{{ticket.description}}</p>
+        </div>
+    </div>
+    <form method="post" action="/staff/tickets">
+        <div class="d-flex justify-content-end">
+            <input type="hidden" value="PATCH" name="method">
+            <input type="hidden" value="{{ticket.id}}" name="id">
+            {{#equals ticket.status "open"}}
+            <input type="hidden" name="status" value="closed">
+            <button type="submit" class="btn" style="background: #6E53D3; color: white;">
+                Close
+            </button>
+            {{/equals}}
+            {{#equals ticket.status "closed"}}
+            <input type="hidden" name="status" value="open">
+            <button type="submit" class="btn" style="background: #34A853; color: white;">
+                Reopen
+            </button>
+            {{/equals}}
+    </form>
+</div>
+</div>
