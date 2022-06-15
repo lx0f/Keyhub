@@ -4,7 +4,8 @@ const FAQs = require("../models/FAQs")
 const FAQrouter = express.Router()
 
 FAQrouter.get('/', (req, res) => {
-    res.render('./staff/staff-manage-faqs');
+    res.render('./staff/staff-manage-faqs'); 
+ //render test
 });
 
 FAQrouter.post('/', async function (req, res) {
