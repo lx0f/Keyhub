@@ -8,16 +8,19 @@ productRouter.get('/', (req, res) => {
     res.render('./staff/staff-productCreate');
 });
 productRouter.post('/', async function (req, res) {
-    let { name,description, category,stock } = req.body;
-    const uniqueid = await product.count()
+    let { name,description,category,stock,price } = req.body;
+    const productID = await product.count()
     product.create({
-        name,description,category,stock
+        name,description,category,stock,price,productID
         //list of attributes(not finished)
     })
 
     req.flash("success",name," has been successfully added!")
-    req.flash("success",name,description,category,stock,"ID:",uniqueid)
+    req.flash("success",name,description,category,stock,price,"ID:",productID)
     res.redirect("/staff/product")
     });
-
+productRouter.get('/check',async (req,res)=>{
+    const products =  await (await product.findAll()).map((x) => x.dataValues);
+    return res.render("./staff/staff-productCheck",{ products });
+});
 module.exports = productRouter
