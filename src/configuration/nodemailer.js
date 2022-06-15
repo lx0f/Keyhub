@@ -1,5 +1,8 @@
 const { info } = require("flash-messenger/Alert")
 const nodemailer = require("nodemailer")
+const nodemailerHbs = require("nodemailer-express-handlebars")
+const fs = require("fs")
+const path = require("path")
 
 const transporter = nodemailer.createTransport({
     port: 465,
@@ -11,16 +14,23 @@ const transporter = nodemailer.createTransport({
     secure: true
 })
 
+transporter.use("compile", nodemailerHbs({
+    viewPath: path.join(__dirname, "../../views"),
+    extName: ".handlebars",
+    defaultLayout: false
+}))
+
 
 //"ebioweqbivouqfww" is the user password
 class Mail {
-    static send(res, {to, subject, text} = {}) {
+    static send(res, {to, subject, text, template, context} = {}) {
         const mailData = {
             from: "keyhub1@gmail.com",
             to: to,
             subject: subject,
             text: text,
-            html: text
+            template: template,
+            context: context,
         }
 
     transporter.sendMail(mailData, (error, info) => {
