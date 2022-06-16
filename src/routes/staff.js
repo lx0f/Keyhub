@@ -5,11 +5,10 @@ const staffRouter = express.Router();
 const manageAccountRoute = require("./manage_accounts")
 const FAQrouter = require("./FAQs")
 const productRouter = require("./product")
+const enableDebugMode = require("../configuration/settings")
 
 staffRouter.use((req, res, next) => {
-  if (req.isUnauthenticated() || !req.user.isStaff) {
-    return res.redirect("/");
-  }
+  enableDebugMode(false)
   next();
 });
 
