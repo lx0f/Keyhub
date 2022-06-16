@@ -12,6 +12,7 @@
 </style>
 
 <div class="col-md-4">
+	<form action="/staff/product/delete" method="POST">
 		<figure class="card card-product-grid">
 			<figcaption class="info-wrap">
 				<div class="fix-height">
@@ -34,8 +35,7 @@
 						<span class="price">Category: {{this.category}}</span>
 					</div> 
 				</div>	
-                <form action="/staff/product/delete" method="get">
-                <button type="submit" class="btn btn-danger" value="{{this.productID}}">
+                <button type="submit" class="btn btn-danger" name = "productID" value="{{this.productID}}">
                     Delete
                   </button>
                   </form>

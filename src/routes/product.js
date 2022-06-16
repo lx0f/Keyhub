@@ -21,10 +21,13 @@ productRouter.post('/', async function (req, res) {
     res.redirect("/staff/product")
     });
 
-productRouter.get('/delete', async function (req, res) {
-    let { productID } = req.body;
-    console.log("I AM HERE",productID)
+productRouter.post('/delete', async function (req, res) {
+    let { productID,name } = req.body;
+    console.log("I AM HERE",productID,name)
+    req.flash("success", " has been successfully removed.")
     const removeProduct = await Products.destroy({ where: {productID: productID}})
+    const products =  await (await product.findAll()).map((x) => x.dataValues);
+    return res.render("./staff/staff-productCheck",{ products });
 });
 
 productRouter.get('/check',async (req,res)=>{
