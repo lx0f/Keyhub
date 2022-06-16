@@ -11,9 +11,46 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
+                <div class="row filter-wrapper gx-1 mb-1">
+                    <div class="col">
+                        <button class="btn btn-primary w-100 filter-btn" value="">
+                            <i class="fa fa-inbox"></i>
+                            All
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary w-100 filter-btn" value="bug">
+                            <i class="fa fa-trash"></i>
+                            Bugs
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary w-100 filter-btn" value="request">
+                            <i class="fa fa-calendar"></i>
+                            Requests
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary w-100 filter-btn" value="product">
+                            <i class="fa fa-exclamation"></i>
+                            Products
+                        </button>
+                    </div>
+                </div>
+            <div class="filter-wrapper d-flex mb-1">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input filter-checkbox" value="open" id="openCheck">
+                    <label for="openChecked" class="form-check-label">Open</label>
+                </div>
+
+                <div class="form-check mx-2">
+                    <input type="checkbox" class="form-check-input filter-checkbox" value="closed" id="closedCheck">
+                    <label for="closedChecked" class="form-check-label">Closed</label>
+                </div>
+            </div>
                 <table
                     class="table table-bordered"
-                    id="dataTable"
+                    id="ticketDataTable"
                     width="100%"
                     cellspacing="0"
                 >
