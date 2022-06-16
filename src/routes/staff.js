@@ -3,7 +3,7 @@ const { restart } = require("nodemon");
 const User = require("../models/user");
 const staffRouter = express.Router();
 const manageAccountRoute = require("./manage_accounts")
-const FAQrouter = require("./FAQs")
+const FAQrouter = require("./staff_FAQs")
 const productRouter = require("./product")
 const enableDebugMode = require("../configuration/settings")
 

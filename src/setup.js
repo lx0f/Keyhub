@@ -22,7 +22,7 @@ const InitaliseGoogleLogin = require("./authentication/passport_google")
 const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
-const FAQrouter = require("./routes/FAQs")
+const FAQrouter = require("./routes/staff_FAQs")
 
 
 //Initialisation of the app

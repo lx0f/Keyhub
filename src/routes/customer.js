@@ -1,7 +1,7 @@
 const express = require("express");
 const FAQs = require("../models/FAQs");
 const customerRouter = express.Router();
-const FAQrouter = require("./FAQs")
+const customerFAQRouter = require("./customer_FAQ")
 
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -20,10 +20,7 @@ customerRouter.use((req, res, next) => {
   next();
 });
 
-FAQrouter.get('/faqs-cust',async (req, res) => {
-  const faqs = await (await FAQs.findAll()).map((x) => x.dataValues);
-  return res.render("./customers/page-faqs", { faqs });
-  })
+customerRouter.use("/faqs", customerFAQRouter)
 
 customerRouter.route("/logout").get((req, res) => {
   req.logOut();
