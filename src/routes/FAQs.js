@@ -24,6 +24,7 @@ FAQrouter.get('/faqs',async (req, res) => {
     return res.render("./staff/staff-faqs-tables", { faqs });
     })
 
+
 // FAQrouter.get('/updatefaqs/:id', async (req,res) => {
 //     const faqs = await FAQs.findByPk(req.params.id);
 //     console.log(faqs.dataValues)
