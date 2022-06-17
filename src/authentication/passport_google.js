@@ -1,4 +1,4 @@
-/*const GoogleStrategy = require("passport-google-oauth20");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
 const User = require("../models/User");
 
@@ -9,32 +9,41 @@ async function InitaliseGoogleLogin() {
         clientID:
           "70066158066-ea8u4ot65lj1m73i13brakk4sbc4oh6t.apps.googleusercontent.com",
         clientSecret: "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",
-        callbackURL: "http://localhost:3000/login",
+        callbackURL: "http://localhost:3000/login-google/callback",
+        
       },
-      (accessToken, refreshToken, profile, cb) => {
-        User.findOrCreate({
-          where: { username: profile.exp },
+      async (accessToken, refreshToken, profile, done) => {
+      
+       const [user, created] = await User.findOrCreate({
+          where: { email: profile.emails[0].value },
           defaults: {
-            username: profile.name,
+            username: profile.displayName,
             password: null,
             isStaff: 0,
-            email: profile.exp,
-            function(err, user) {
-              return cb(err, user);
-            },
+            email: profile.emails[0].value,
+            authMethod: "oauth"
           },
         });
+
+        if(user.authMethod !== "oauth") {
+          return done(null, false, {message: "An account that is not yours has an account. Please contact an administrator to resolve this dispute."})
+        } else if (created){
+          return done(null, user, {message: "You created your account! Welcome"})
+        }
+        else {
+          return done(null, user, {message: "Welcome!"})
+        }
       }
     )
   );
 
   passport.serializeUser((user, done) => {
-    return done(null, user.id);
+    return done(null, user);
   });
 
-  passport.deserializeUser(async (id, done) => {
-    return done(null, await User.findByPk(id));
+  passport.deserializeUser((user, done) => {
+    return done(null, user);
   });
 }
   
-module.exports = InitaliseGoogleLogin*/
+module.exports = InitaliseGoogleLogin

@@ -3,34 +3,34 @@ const { restart } = require("nodemon");
 const User = require("../models/user");
 const Voucher = require("../models/Voucher");
 const staffRouter = express.Router();
-const manageAccountRoute = require("./manage_accounts")
-const manageVoucher = require("./manage_voucher")
+const manageAccountRoute = require("./manage_accounts");
+const manageVoucher = require("./manage_voucher");
 
+const FAQrouter = require("./staff_FAQs");
+const productRouter = require("./product");
+const enableDebugMode = require("../configuration/settings");
 
 staffRouter.use((req, res, next) => {
-  if (req.isUnauthenticated() || !req.user.isStaff) {
-    return res.redirect("/");
-  }
-  next();
+    enableDebugMode(false);
+    next();
 });
 
 staffRouter.use((req, res, next) => {
-  res.locals.path = req.baseUrl;
-  console.log(req.baseUrl);
+    res.locals.path = req.baseUrl;
+    console.log(req.baseUrl);
 
-  next();
+    next();
 });
 
-
-staffRouter.use("/accounts", manageAccountRoute)
-staffRouter.use("/manage-vouchers", manageVoucher)
-
+staffRouter.use("/accounts", manageAccountRoute);
+staffRouter.use("/manage-vouchers", manageVoucher);
+staffRouter.use("/accounts", manageAccountRoute);
+staffRouter.use("/manage-faqs", FAQrouter);
+staffRouter.use("/product", productRouter);
 
 staffRouter.route("/").get((req, res) => {
-  res.render("./staff/staff-charts");
+    res.render("./staff/staff-charts");
 });
-
-;
 
 // staffRouter.route("/voucher-form").get((req, res) => {
 //   if (req.isUnauthenticated() || !req.user.isStaff) {
@@ -57,27 +57,23 @@ staffRouter.route("/").get((req, res) => {
 //   res.redirect("./staff/voucher/voucher-table");;
 // });
 
+// .delete(async (req, res) => {
+//   await User.destroy({ where: { id: req.body.id } });
+//   req.flash("error", "Account has been deleted");
+//   res.redirect("/staff/accounts");
+// })
+// .patch(async (req, res) => {
+//   const user = await User.findByPk(req.body.id);
+//   user.isStaff = req.body.isStaff || user.isStaff;
+//   user.username = req.body.username || user.username;
+//   user.email = req.body.email || user.email;
+//   if (req.body.password) {
+//     user.password = req.body.password; //unable to use short circuit eval as hashed password
+//   }
 
-
-  
-  // .delete(async (req, res) => {
-  //   await User.destroy({ where: { id: req.body.id } });
-  //   req.flash("error", "Account has been deleted");
-  //   res.redirect("/staff/accounts");
-  // })
-  // .patch(async (req, res) => {
-  //   const user = await User.findByPk(req.body.id);
-  //   user.isStaff = req.body.isStaff || user.isStaff;
-  //   user.username = req.body.username || user.username;
-  //   user.email = req.body.email || user.email;
-  //   if (req.body.password) {
-  //     user.password = req.body.password; //unable to use short circuit eval as hashed password
-  //   }
-
-  //   await user.save();
-  //   req.flash("success", "User updated!");
-  //   res.redirect("/staff/accounts");
-  // });
-
+//   await user.save();
+//   req.flash("success", "User updated!");
+//   res.redirect("/staff/accounts");
+// });
 
 module.exports = staffRouter;
