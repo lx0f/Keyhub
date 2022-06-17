@@ -30,20 +30,10 @@ manageVoucher.get('/deleteVoucher/:id', async function
 (req, res) {
   try {
     let voucher = await Voucher.findByPk(req.params.id);
-    // if (!video) {
-    //   flashMessage(res, 'error', 'Video not found');
-    //   res.redirect('/video/listVideos');
-    //   return;
-    // }
-    // if (req.user.id != video.userId) {
-    //   flashMessage(res, 'error', 'Unauthorised access');
-    //   res.redirect('/voucher/voucher-table');
-    //   return;
-    // }
     let result = await Voucher.destroy({ where: { id: voucher.id } });
     console.log(result + ' video deleted');
     req.flash('success', 'Voucher Deleted');
-    res.redirect('/staff/voucher-table');
+    res.redirect('/staff/manage-vouchers');
     }
     catch (err) {
       console.log(err);
@@ -73,7 +63,7 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
   });
 
   req.flash("success", "Voucher updated!");
-  res.redirect("/staff/voucher-table");
+  res.redirect("/staff/manage-vouchers");
 
 })
 
@@ -97,7 +87,7 @@ else {
   try {
     Voucher.create({ coupon_name: req.body.coupon_name, coupon_value: req.body.coupon_value, coupon_id: req.body.coupon_id,coupon_status: req.body.coupon_status })
     req.flash("success", "Successfully create!")
-    return res.redirect("/staff")
+    return res.redirect("/staff/manage-vouchers")
   } catch(e) {
         req.flash("error", e)
     }
