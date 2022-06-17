@@ -1,7 +1,16 @@
-const Sequelize = require("sequelize")
-const sequelize = new Sequelize.Sequelize({
-    dialect: "sqlite",
-    storage: "data/database.sqlite"
-})
+const Sequelize = require("sequelize");
 
-module.exports = sequelize
+require("dotenv").config();
+
+const sequelize = new Sequelize.Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PWD,
+    {
+        dialect: "mysql",
+        host: process.env.DB_HOST,
+        port: process.env.DB_PORT,
+    }
+);
+
+module.exports = sequelize;

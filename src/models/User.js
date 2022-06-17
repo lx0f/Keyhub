@@ -1,10 +1,27 @@
 const bcrypt = require("bcrypt");
 const Sequelize = require("sequelize");
 const sequelize = require("./database_setup");
+const moment = require("moment");
+const {v4: uuid} = require("uuid");
+
 
 class User extends Sequelize.Model {
   compareHash(value) {
     return bcrypt.compareSync(value, this.getDataValue("password"));
+  }
+
+  verifyTokenAge() {
+    console.log(moment().unix() - this.getDataValue("resetTokenDate"))
+    console.log(this.getDataValue("resetTokenDate"))
+    console.log(moment().unix())
+    console.log(this.getDataValue("resetTokenID"))
+    return moment().unix() - this.getDataValue("resetTokenDate") < 300
+  }
+
+  generateResetToken() {
+    this.setDataValue("resetTokenID", uuid());
+    this.setDataValue("resetTokenDate", moment().unix());
+    this.save()
   }
 }
 
@@ -20,7 +37,6 @@ User.init(
     username: {
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     email: {
       type: Sequelize.DataTypes.STRING,
@@ -30,15 +46,35 @@ User.init(
     password: {
       type: Sequelize.DataTypes.STRING,
       allowNull: true,
-      unique: false,   
+      unique: false,
       set(value) {
-        this.setDataValue("password", bcrypt.hashSync(value, 10) + "");
+        if (value) {
+          this.setDataValue("password", bcrypt.hashSync(value, 10) + "");
+        }
       },
     },
     isStaff: {
-      type: Sequelize.DataTypes.NUMBER,
+      type: Sequelize.DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: null,
+
+    },
+    authMethod: {
+      type: Sequelize.DataTypes.STRING,
       allowNull: false,
-      defaultValue: 0
+      defaultValue: "local",
+      isIn: [["local", "oauth", "both"]],
+    },
+    resetTokenID: {
+      //denormalisation
+      type: Sequelize.DataTypes.UUID,
+      allowNull: true,
+      defaultValue: null,
+    },
+    resetTokenDate: {
+      type: Sequelize.DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue:0,
     },
     updatedAt: {
       type: Sequelize.DataTypes.DATE,
@@ -53,7 +89,7 @@ User.init(
     freezeTableName: true,
     timestamps: true,
     sequelize,
-    modelName: "User"
+    modelName: "User",
   }
 );
 
