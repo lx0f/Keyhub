@@ -16,6 +16,24 @@
 
 <h1 class="display-4">FAQs</h1>
 
+<form>
+  <div class="d-none d-sm-inline-block form-inline navbar-search " style='padding-bottom: 20px;'>
+  <div class="input-group">
+      <input type="text" class="form-control bg-light border-0 small" placeholder="FAQs ID..."
+         aria-label="Search" aria-describedby="basic-addon2">
+     <div class="input-group-append">
+          <button class="btn btn-primary" type="button">
+              <i class="fas fa-search fa-sm"></i>
+          </button>
+     </div>
+  </div>
+  </div>
+  <button type="button" class="btn btn-outline-info">
+    <a href="/staff/manage-faqs">Create FAQs</a>
+  </button>
+</form>
+
+
 {{#each faqs }}
 <div class="card">
   <div class="card-header">Question {{this.id}}: <br>
