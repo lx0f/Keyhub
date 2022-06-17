@@ -4,7 +4,12 @@ const sequelize = require("./database_setup");
 
 
 
-class Voucher extends Sequelize.Model {}
+class Voucher extends Sequelize.Model {
+  // compareStatus(value) {
+  //   if(value)
+  //   return 
+  // }
+}
 
 Voucher.init(
   {
@@ -34,6 +39,9 @@ Voucher.init(
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
       unique: false,
+      // set(value) {
+      //   this.setDataValue("password", bcrypt.hashSync(value, 10) + "");
+      // }
     },
     updatedAt: {
       type: Sequelize.DataTypes.DATE,

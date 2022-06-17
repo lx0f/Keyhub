@@ -40,20 +40,20 @@
                                     </tfoot> --}}
                                     <tbody>
                                         {{#each voucher }}
-                                        <tr>
+                                        <tr >
                                             <td>{{this.id}}</td>
                                             <td>{{this.coupon_id}}</td>
                                             <td>{{this.coupon_name}}</td>
-                                            {{#if this.coupon_status }}
-                                                <td>
-                                                    <h4>
-                                                         <span class="badge badge-success">{{this.coupon_status}}</span>
-                                                    
-                                                    </h4>
-                                                </td>
-                                            {{else}}
+                                            
+                                            <td>
+                                                <h4>
+                                                    <span class="badge" id="{{this.id}}" onload="loadstatus({{this.id}})">{{this.coupon_status}}</span>
+                                                
+                                                </h4>
+                                            </td>
+                                           
                                             <td>hi</td>
-                                            {{/if}}
+                                            
                                             <td>
                                                 <a href="/staff/manage-vouchers/editVoucher/{{id}}" class="btn btn-info">Edit</a>
                                                 <a href="/staff/manage-vouchers/deleteVoucher/{{id}}" class="btn btn-danger">Delete</a>
@@ -76,3 +76,15 @@
 
             <!-- Footer -->
 
+<script>
+    function loadstatus(id){
+        if (document.getElementById(id).innerHTML == "valid")
+   {
+    document.getElementById(id).classList.add("badge-success");
+   }
+   else{
+    document.getElementById(id).classList.add("badge-danger");
+   }
+    }
+   
+</script>
