@@ -20,6 +20,9 @@ Permission.init(
         },
         route: {
             type: Sequelize.DataTypes.STRING,
+        }, enabled: {
+            type: Sequelize.DataTypes.BOOLEAN
+            
         },
         updatedAt: {
             type: Sequelize.DataTypes.DATE,

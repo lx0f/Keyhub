@@ -66,10 +66,10 @@ loginRouter.route("/reset-password").get(async (req, res) => {
     res.render("./customers/page-reset-password")
 }).post(async (req, res) => {
     const user = await User.findOne({where: {email: req.body.email}})
-    if(user && user.authMethod == "local") {
+    if(user  /*&& user.authMethod == "local"*/) {
         user.generateResetToken()
         const link = `http://localhost:3000/reset-password/${user.id}/${user.resetTokenID}`
-        Mail.send(res, {to: user.email , subject: "Your Reset Link", text: link})
+        Mail.send(res, {to: user.email , subject: "Your Reset Link", text: link, template: "./customers/email", context: {link}})
 
     }
   
@@ -83,6 +83,7 @@ const user = await User.findByPk(req.params.id)
 if (req.params.uuid === user.resetTokenID && user.verifyTokenAge()) {
     return res.render("./customers/page-password-verified-reset", {id : req.params.id, uuid : req.params.id})
 }
+req.flash("error", "The token is either invalid or expired! Please reset your password again.")
 return res.redirect("/reset-password")
 }).post((req, res) => {
     if(req.body.password === req.body.repeatpassword) {

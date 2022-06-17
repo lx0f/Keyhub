@@ -22,6 +22,7 @@ const InitaliseGoogleLogin = require("./authentication/passport_google");
 const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
+const FAQrouter = require("./routes/staff_FAQs");
 
 //Initialisation of the app
 const app = express();
@@ -113,6 +114,7 @@ app.use((req, res, next) => {
 app.use("/staff", staffRouter);
 app.use("/", loginRouter);
 app.use("/", customerRouter);
+app.use("/", FAQrouter);
 
 //Export to app.js
 module.exports = app;

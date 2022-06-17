@@ -1,14 +1,22 @@
 const express = require("express");
-const { restart } = require("nodemon");
-const User = require("../models/user");
-const staffRouter = express.Router();
+const enableDebugMode = require("../configuration/settings");
+
 const manageAccountRoute = require("./manage_accounts");
 const manageTicketRoute = require("./manage_tickets");
+const FAQrouter = require("./staff_FAQs");
+const productRouter = require("./product");
+
+const staffRouter = express.Router();
 
 staffRouter.use((req, res, next) => {
     if (req.isUnauthenticated() || !req.user.isStaff) {
         return res.redirect("/");
     }
+    next();
+});
+
+staffRouter.use((req, res, next) => {
+    enableDebugMode(false);
     next();
 });
 
@@ -21,6 +29,10 @@ staffRouter.use((req, res, next) => {
 
 staffRouter.use("/accounts", manageAccountRoute);
 staffRouter.use("/tickets", manageTicketRoute);
+staffRouter.use("/accounts", manageAccountRoute);
+
+staffRouter.use("/manage-faqs", FAQrouter);
+staffRouter.use("/product", productRouter);
 
 staffRouter.route("/").get((req, res) => {
     res.render("./staff/staff-charts");

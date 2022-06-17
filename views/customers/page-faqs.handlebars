@@ -1,0 +1,19 @@
+{{#each faqs}}
+    <div class="container align-items-center justify-content-center " >
+    <div class="accordion" id="accordionPanelsStayOpenExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+        <button  style="background-color: rgba(216, 200, 200, 0.272); color: rgb(126, 39, 39);", class="accordion-button" type="button" data-toggle="collapse" data-target="#demo" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+            Question {{ this.id }}: {{ this.Question }} 
+        </button>
+        </h2>
+        <div id="demo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+        <div class="accordion-body">
+            {{ this.Answer }}      
+        </div>
+        </div>
+    </div> 
+    </div>
+    <br>
+    </div>
+{{/each}}
