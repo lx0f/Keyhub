@@ -1,0 +1,71 @@
+<div class="container">
+	<div class="shadow card card-body ">
+		<form action="/staff/manage-vouchers/editVoucher/{{voucher.id}}" method="POST">
+		
+			<h3 >Update Voucher</h3>
+				
+		<input type="hidden" name="id" value="{{voucher.id}}">	
+			
+			<div class="mb-3">
+				<label for="coupon_id" class="form-label">Coupon Name</label>
+				<input type="text" class="form-control" id="coupon_name" name="coupon_name" value="{{voucher.coupon_name}}" >
+			</div>
+			<div class="mb-3">
+				<label for="coupon_id" class="form-label">Coupon Value</label>
+				<input type="text" class="form-control" id="coupon_value" name="coupon_value" value="{{voucher.coupon_value}}">
+			</div>
+			<div class="mb-3">
+				<label for="coupon_id" class="form-label">Coupon ID</label>
+				<input type="text" class="form-control" id="coupon_id" readonly name="coupon_id"  value="{{voucher.coupon_id}}">
+			</div>
+			<label for="" class="form-label">Status</label>
+			
+			<div class=" btn-group-toggle" data-toggle="buttons">
+				<label class="btn btn-success col-2" id="status_choice_1" onclick="status_choice_1()" >
+					<input type="radio" name="coupon_status" id="coupon_status_1" value="valid" autocomplete="off" checked> Valid
+				</label>
+				
+				<label class="btn col-2" id="status_choice_2" onclick="status_choice_2()" >
+					<input type="radio" name="coupon_status" id="coupon_status_2"  autocomplete="off" value="expired"> Expired
+				</label>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-10 ">
+					<button type="submit" class="btn btn-primary">Update</button>
+				</div>
+				
+				<button type="button" class="col-2 btn btn-primary"> <a href="/staff/voucher-table" style="text-decoration:none; color:white;">Return</a></button>
+			</div>
+			
+		</form>
+	</div>
+</div>
+
+<script>
+    function status_choice_2(){
+        document.getElementById("status_choice_2").classList.add('btn-danger');
+        document.getElementById("coupon_status_2").name = "coupon_status";
+        console.log(document.getElementById("coupon_status_2").name)
+        document.getElementById("status_choice_1").classList.remove('btn-success');
+        document.getElementById("coupon_status_1").name = "";
+        console.log("ii")
+
+    }
+    function status_choice_1(){
+        document.getElementById("status_choice_1").classList.add('btn-success');
+        document.getElementById("coupon_status_1").name = "coupon_status";
+        console.log(document.getElementById("coupon_status_1").name)
+        document.getElementById("status_choice_2").classList.remove('btn-danger');
+        document.getElementById("coupon_status_2").name = "";
+        console.log("ii")
+
+    }
+</script>
+
+<!-- /.container-fluid -->
+
+
+<!-- End of Main Content -->
+
+<!-- Footer -->
