@@ -47,12 +47,12 @@
                                             
                                             <td>
                                                 <h4>
-                                                    <span class="badge" id="{{this.id}}" onload="loadstatus({{this.id}})">{{this.coupon_status}}</span>
+                                                    <span class="badge" id="{{this.id}}">{{this.coupon_status}}</span>
                                                 
                                                 </h4>
                                             </td>
                                            
-                                            <td>hi</td>
+                                            
                                             
                                             <td>
                                                 <a href="/staff/manage-vouchers/editVoucher/{{id}}" class="btn btn-info">Edit</a>
@@ -77,6 +77,9 @@
             <!-- Footer -->
 
 <script>
+    Handlebars.registerHelper("each"{
+        loadstatus(document.getElementById(""))
+});
     function loadstatus(id){
         if (document.getElementById(id).innerHTML == "valid")
    {
