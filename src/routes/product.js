@@ -37,15 +37,22 @@ productRouter.post('/', async function (req, res) {
     });
 
 productRouter.post('/delete', async function (req, res) {
-    let { productID,name } = req.body;
+    let { productID } = req.body;
+    //console.log("PRODUCT ID:",productID)
+    const value = await Products.findOne({where: {productID: productID}})
+    const name = value["name"]
     const removeProduct = await Products.destroy({ where: {productID: productID}})
-    //const products =  await (await product.findAll()).map((x) => x.dataValues);
-    req.flash("success",name, " has been successfully removed.")
+    //console.log("I AM HERE",products)
+    req.flash("success",name," has been successfully removed.")
     res.redirect("/staff/product/check");
 });
 
 productRouter.get('/check',async (req,res)=>{
     const products =  await (await product.findAll()).map((x) => x.dataValues);
     return res.render("./staff/staff-productCheck",{ products });
+});
+
+productRouter.get('/update',async (req,res)=>{
+    let { productID } = req.body;
 });
 module.exports = productRouter
