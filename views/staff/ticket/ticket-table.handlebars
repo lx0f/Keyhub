@@ -1,0 +1,115 @@
+<div class="container-fluid">
+    <div class="d-flex bg-gradient-primary align-items-center p-4 shadow text-white">
+        <div>
+            <h1 class="h3 mb-2">Ticket Management</h1>
+            <span>To see your tickets</span>
+        </div>
+    </div>
+    <div class="card shadow my-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Tickets</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="row filter-wrapper gx-1 mb-1">
+                    <div class="col">
+                        <button class="btn btn-primary w-100 filter-btn" value="">
+                            <i class="fa fa-inbox"></i>
+                            All
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary w-100 filter-btn" value="bug">
+                            <i class="fa fa-trash"></i>
+                            Bugs
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary w-100 filter-btn" value="request">
+                            <i class="fa fa-calendar"></i>
+                            Requests
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary w-100 filter-btn" value="product">
+                            <i class="fa fa-exclamation"></i>
+                            Products
+                        </button>
+                    </div>
+                </div>
+            <div class="filter-wrapper d-flex mb-1">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input filter-checkbox" value="open" id="openCheck">
+                    <label for="openChecked" class="form-check-label">Open</label>
+                </div>
+
+                <div class="form-check mx-2">
+                    <input type="checkbox" class="form-check-input filter-checkbox" value="closed" id="closedCheck">
+                    <label for="closedChecked" class="form-check-label">Closed</label>
+                </div>
+            </div>
+                <table
+                    class="table table-bordered"
+                    id="ticketDataTable"
+                    width="100%"
+                    cellspacing="0"
+                >
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Status</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Severity</th>
+                            <th>Category</th>
+                            <th>Author ID</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Status</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Severity</th>
+                            <th>Category</th>
+                            <th>Author ID</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {{#each tickets}}
+                            <tr>
+                                <td>{{this.id}}</td>
+                                <td>
+                                    <span class="badge p-2" style="color: white; background-color:
+                                    {{#equals this.status "open"}}
+                                    #34A853
+                                    {{/equals}}
+                                    {{#equals this.status "closed"}}
+                                    #6E53D3
+                                    {{/equals}}
+                                    ;">
+                                    {{this.status}}
+                                    </span>
+                                </td>
+                                <td>{{this.title}}</td>
+                                <td>{{this.description}}</td>
+                                <td>{{this.severity}}</td>
+                                <td>{{this.category}}</td>
+                                <td>{{this.authorID}}</td>
+                                <td>
+                                    <a
+                                        href="/staff/tickets/{{this.id}}"
+                                        class="btn btn-info"
+                                    >View</a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
