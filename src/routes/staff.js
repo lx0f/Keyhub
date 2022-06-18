@@ -5,6 +5,7 @@ const staffRouter = express.Router();
 const manageAccountRoute = require("./manage_accounts")
 const FAQrouter = require("./staff_FAQs")
 const productRouter = require("./product")
+const staffpeRouter = require("./staff_pe")
 const enableDebugMode = require("../configuration/settings")
 
 staffRouter.use((req, res, next) => {
@@ -23,7 +24,7 @@ staffRouter.use((req, res, next) => {
 staffRouter.use("/accounts", manageAccountRoute )
 staffRouter.use("/manage-faqs", FAQrouter)
 staffRouter.use("/product", productRouter)
-
+staffRouter.use("/manage-pe", staffpeRouter)
 
 staffRouter.route("/").get((req, res) => {
   res.render("./staff/staff-charts");

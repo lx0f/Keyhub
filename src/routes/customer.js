@@ -1,7 +1,7 @@
 const express = require("express");
-const FAQs = require("../models/FAQs");
 const customerRouter = express.Router();
 const customerFAQRouter = require("./customer_FAQ")
+const customerpeRouter = require("./customer_pe")
 
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -21,6 +21,7 @@ customerRouter.use((req, res, next) => {
 });
 
 customerRouter.use("/faqs", customerFAQRouter)
+customerRouter.use("/createPE", customerpeRouter)
 
 customerRouter.route("/logout").get((req, res) => {
   req.logOut();
