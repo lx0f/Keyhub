@@ -8,7 +8,7 @@ const User = require("../models/User");
 
 manageTicketRoute.get("/", async (req, res) => {
     const tickets = await Ticket.findAll();
-    return res.render("./staff/staff-ticket-tables", { tickets });
+    return res.render("./staff/ticket/ticket-table", { tickets });
 });
 
 manageTicketRoute.patch("/", async (req, res) => {
@@ -132,7 +132,7 @@ manageTicketRoute.get("/:id", async (req, res) => {
         include: { model: User },
     });
     if (ticket) {
-        return res.render("./staff/staff-manage-ticket", {
+        return res.render("./staff/ticket/ticket", {
             ticket,
             comments,
             user,
