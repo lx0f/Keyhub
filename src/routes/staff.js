@@ -1,5 +1,5 @@
 const express = require("express");
-const enableDebugMode = require("../configuration/settings");
+// const enableDebugMode = require("../configuration/settings");
 
 const manageAccountRoute = require("./manage_accounts");
 const manageTicketRoute = require("./manage_tickets");
@@ -28,18 +28,13 @@ staffRouter.use((req, res, next) => {
     console.log(req.baseUrl);
 
 staffRouter.use("/accounts", manageAccountRoute )
+staffRouter.use("/tickets", manageTicketRoute);
 staffRouter.use("/manage-faqs", FAQrouter)
 staffRouter.use("/product", productRouter)
 staffRouter.use("/manage-pe", staffpeRouter)
     next();
 });
 
-staffRouter.use("/accounts", manageAccountRoute);
-staffRouter.use("/tickets", manageTicketRoute);
-staffRouter.use("/accounts", manageAccountRoute);
-
-staffRouter.use("/manage-faqs", FAQrouter);
-staffRouter.use("/product", productRouter);
 
 staffRouter.route("/").get((req, res) => {
     res.render("./staff/staff-charts");
