@@ -46,12 +46,21 @@
                                             <td>{{this.coupon_name}}</td>
                                             
                                             <td>
-                                                <h4>
-                                                    <span class="badge" id="{{this.id}}">{{this.coupon_status}}</span>
+                                                {{#equals this.coupon_status "Valid"}}
+                                                <h5>
+                                                    <span class="badge badge-success" id="{{this.id}}" >{{this.coupon_status}}</span>
                                                 
-                                                </h4>
+                                                </h5>
+                                                {{/equals}}
+                                                {{#equals this.coupon_status "Expired"}}
+                                                <h5>
+                                                    <span class="badge badge-danger" id="{{this.id}}" >{{this.coupon_status}}</span>
+                                                
+                                                </h5>
+                                                {{/equals}}
                                             </td>
                                            
+                                            
                                             
                                             
                                             <td>
@@ -76,10 +85,8 @@
 
             <!-- Footer -->
 
-<script>
-    Handlebars.registerHelper("each"{
-        loadstatus(document.getElementById(""))
-});
+{{!-- <script>
+
     function loadstatus(id){
         if (document.getElementById(id).innerHTML == "valid")
    {
@@ -90,4 +97,4 @@
    }
     }
    
-</script>
+</script> --}}
