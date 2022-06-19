@@ -20,16 +20,8 @@ const manageTicketRoute = require("./manage_tickets");
 const staffpeRouter = require("./staff_pe")
 
 
-const enableDebugMode = require("../configuration/settings")
 
-staffRouter.use((req, res, next) => {
-    if (req.isUnauthenticated() || !req.user.isStaff) {
-        return res.redirect("/");
-    }
-
-    next();
-});
-
+enableDebugMode(false)
 staffRouter.use((req, res, next) => {
     res.locals.path = req.baseUrl;
     console.log(req.baseUrl);
