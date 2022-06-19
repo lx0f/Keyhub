@@ -2,7 +2,7 @@ const express = require("express");
 const enableDebugMode = require("../configuration/settings");
 
 const manageAccountRoute = require("./manage_accounts");
-const manageTicketRoute = require("./manage_tickets");
+const manageTicketRouter = require("./manage_tickets");
 const FAQrouter = require("./staff_FAQs");
 const productRouter = require("./product");
 
@@ -28,7 +28,7 @@ staffRouter.use((req, res, next) => {
 });
 
 staffRouter.use("/accounts", manageAccountRoute);
-staffRouter.use("/tickets", manageTicketRoute);
+staffRouter.use("/tickets", manageTicketRouter);
 staffRouter.use("/accounts", manageAccountRoute);
 
 staffRouter.use("/manage-faqs", FAQrouter);
