@@ -1,0 +1,55 @@
+<div class="container">
+	<div class="shadow card card-body ">
+		<form action="" method="POST">
+		
+			<h3 >New Voucher</h3>
+				
+			
+			
+			<div class="mb-3">
+				<label for="coupon_id" class="form-label">Coupon Name</label>
+				<input type="text" class="form-control" id="coupon_name" name="coupon_name" required>
+			</div>
+			<div class="mb-3">
+				<label for="coupon_id" class="form-label">Coupon Value</label>
+				<input type="text" class="form-control" id="coupon_value" name="coupon_value" required>
+			</div>
+			<div class="mb-3">
+				<label for="coupon_id" class="form-label">Coupon ID</label>
+				<input type="text" class="form-control" id="coupon_id" value="" readonly name="coupon_id" onclick="makeid()">
+			</div>
+			<label for="" class="form-label">Status</label>
+			
+			<div class=" btn-group-toggle" data-toggle="buttons">
+				<label class="btn btn-success col-2" disabled>
+					<input type="radio" name="coupon_status" id="coupon_status" value="valid" autocomplete="off" checked> Valid
+				</label>
+				
+				<label class="btn btn col-2" disabled>
+					<input type="radio" name="options"  autocomplete="off" > Expired
+				</label>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-10 ">
+					<button type="submit" class="btn btn-primary">Create</button>
+				</div>
+				
+				<button type="button" class="col-2 btn btn-primary"> <a href="/staff/voucher-table" style="text-decoration:none; color:white;">Return</a></button>
+			</div>
+			
+		</form>
+	</div>
+</div>
+<script>
+function makeid() {
+	var text = "";
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+	for (var i = 0; i < 5; i++)
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	console.log(text)
+	document.getElementById("coupon_id").value = text;
+}
+</script>

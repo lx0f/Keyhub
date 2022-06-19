@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "app": "nodemon ./src/app.js"
+     
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "connect-flash": "^0.1.1",
+    "ember-truth-helpers": "^3.0.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.1",
     "express": "^4.17.3",
@@ -55,6 +57,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.16"
   }
 }
