@@ -1,0 +1,333 @@
+{{!-- Dear readers,
+As you go through the code, you will find comments like this --}}
+
+    {{!-- Funky formatting below,
+    DONT EDIT OR CHANGE WITHOUT CONSULTING @lx0f AKA LUTH,
+    as the handlebar engine won't render it properly if you're not carefull --}}
+
+{{!-- If you see it, please take extra care not to change anything
+to the best of you abilities.
+Of course when you have to better ask @lx0f first --}}
+
+<div class="container">
+    <h2 id="title">
+        <strong style="color: black;">{{ticket.title}}</strong>
+        #{{ticket.id}}
+    </h2>
+    <h4 id="meta">
+        <span class="badge" style="color: white;
+
+        {{#equals ticket.status "open" }}
+        background: #34A853;
+        {{/equals}}
+        {{#equals ticket.status "closed" }}
+        background: #6E53D3;
+        {{/equals}}"
+
+        >{{ticket.status}}</span>
+        <a class=" link">{{ticket.User.username}}</a>
+        {{#equals ticket.status "open"}}
+            opened this ticket {{dateFormat ticket.createdAt "lll"}}
+        {{/equals}}
+        {{#equals ticket.status "closed"}}
+            closed this ticket {{dateFormat ticket.updatedAt "lll"}}
+        {{/equals}}
+    </h4>
+    <div class="row mt-4">
+        <div class="col-8">
+    <div class="card text-left mb-4">
+        <p class="card-header">
+            <!-- INSERT PROFILE PICTURE -->
+            <a class="link">{{ticket.User.username}}</a>
+        </p>
+        <div class="card-body">
+            <p class="card-text">{{ticket.description}}</p>
+        </div>
+    </div>
+    {{#each comments}}
+    {{#if this.message}}
+    <div class="card text-left my-4">
+        <p class="card-header">
+            <!-- INSERT PROFILE PICTURE -->
+            <a class="link">{{this.User.username}}</a>
+            {{dateFormat this.createdAt "lll"}}
+        </p>
+        <div class="card-body">
+            <p class="card-text">{{this.message}}</p>
+        </div>
+    </div>
+    {{/if}}
+    {{#if this.meta}}
+    <div class="card">
+        <div class="card-header">
+            <span class="badge" style="color: white; background-color:
+            {{#equals this.meta "open"}}
+               #34A853
+            {{/equals}}
+            {{#equals this.meta "closed"}}
+               #6E53D3
+            {{/equals}}
+            ;">
+                {{this.meta}}
+            </span>
+            {{this.User.username}} {{this.meta}} this ticket on {{dateFormat this.createdAt "lll"}}
+        </div>
+    </div>
+    {{/if}}
+    {{/each}}
+    <hr>
+    <div class="card text-left my-2">
+        <p class="card-header">
+            <a class="link">{{user.username}}</a>
+        </p>
+        <div class="card-body">
+            <p class="card-text">
+            <form method="post" action="/staff/tickets">
+                <textarea name="message" id="" rows="6" class="form-control my-2" placeholder="Leave a comment" style="min-height: 120px;"></textarea>
+                <input type="hidden" value="PATCH" name="method">
+                <input type="hidden" value="{{ticket.id}}" name="id">
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary mx-2">Comment</button>
+                    {{#equals ticket.status "open"}}
+                    {{!-- <input type="hidden" name="meta" value="closed"> --}}
+                    <button type="submit" name="meta" value="closed" class="btn" style="background: #6E53D3; color: white;">
+                        Close
+                    </button>
+                    {{/equals}}
+                    {{#equals ticket.status "closed"}}
+                    <button type="submit" name="meta" value="open" class="btn" style="background: #34A853; color: white;">
+                        Reopen
+                    </button>
+                    {{/equals}}
+                </div>
+            </form>
+            </p>
+        </div>
+    </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="assignees">
+                        <a class="link" data-toggle="modal" data-target="#assigneeModal">Assignee</a>
+                        {{#if assignees}}
+                        {{#each assignees}}
+                            <div>{{this.User.username}}</div>
+                        {{/each}}
+                        {{else}}
+                        <div>No staff assigned</div>
+                        {{/if}}
+                    </div>
+                    <hr>
+                    <div class="category">
+                        <a class="link" data-toggle="modal" data-target="#categoryModal">Category</a>
+                        <div>{{ticket.category}}</div>
+                    </div>
+                    <hr>
+                    <div class="severity">
+                        <a class="link" data-toggle="modal" data-target="#severityModal">Severity</a>
+                        <div>{{ticket.severity}}</div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+----------------------------
+---------- MODALS ----------
+----------------------------
+-->
+
+<!-- Assignee Modal -->
+<div class="modal fade" id="assigneeModal" tabindex="-1" role="dialog" aria-labelledby="assigneeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="assigneeModalLabel">Assign Staff</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input class="form-control" type="text" id="userQuery" placeholder="Type or choose user">
+        <hr>
+        <form action="/staff/tickets/reassign/user" method="post" id="assignUser">
+            {{!-- Funky formatting below,
+            DONT EDIT OR CHANGE WITHOUT CONSULTING @lx0f AKA LUTH,
+            as the handlebar engine won't render it properly if you're not carefull --}}
+            <input type="hidden" name="id" value="{{ticket.id}}">
+            {{#if assignees}}
+            {{#each assignees}}
+                <div class="form-check">
+                    <input type="checkbox" name="users" class="form-check-input filter-checkbox" value="{{this.User.id}}" checked="true">
+                    <label class="form-check-label">{{this.User.username}}</label>
+                </div>
+            {{/each}}
+            {{else}}
+            <div>No Assignees</div>
+            {{/if}}
+
+        </form>
+        <hr>
+        <form action="/staff/tickets/assign/user" method="post">
+            <input type="hidden" name="id" value="{{ticket.id}}">
+            <div  class="users list-group" id="users">
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" form="assignUser">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Category Modal --}}
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="categoryModalLabel">Assign Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/staff/tickets/assign/category" method="post" id="assignCategory">
+            <input type="hidden" name="id" value="{{ticket.id}}">
+            <div class="list-group">
+                {{!-- Funky formatting below,
+                DONT EDIT OR CHANGE WITHOUT CONSULTING @lx0f AKA LUTH,
+                as the handlebar engine won't render it properly if you're not carefull --}}
+                <button name="category" value="bug" class="list-group-item list-group-item-action
+                    {{#equals ticket.category "bug"}}
+                    disabled
+                    {{/equals}}
+                    "
+                    {{#equals ticket.category "bug"}}
+                        disabled
+                    {{/equals}}
+                >Bug
+                </button>
+
+                <button name="category" value="request" class="list-group-item list-group-item-action
+                    {{#equals ticket.category "request"}}
+                    disabled
+                    {{/equals}}
+                    "
+                    {{#equals ticket.category "request"}}
+                        disabled
+                    {{/equals}}
+                >Request
+                </button>
+
+                <button name="category" value="product" class="list-group-item list-group-item-action
+                    {{#equals ticket.category "product"}}
+                    disabled
+                    {{/equals}}
+                    "
+                    {{#equals ticket.category "product"}}
+                        disabled
+                    {{/equals}}
+                >Product
+                </button>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Severity Modal --}}
+<div class="modal fade" id="severityModal" tabindex="-1" role="dialog" aria-labelledby="severityModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="severityModalLabel">Assign Severity</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/staff/tickets/assign/severity" method="post" id="assignSeverity">
+            <input type="hidden" name="id" value="{{ticket.id}}">
+            <div class="list-group">
+                {{!-- Funky formatting below,
+                DONT EDIT OR CHANGE WITHOUT CONSULTING @lx0f AKA LUTH,
+                as the handlebar engine won't render it properly if you're not carefull --}}
+                <button name="severity" value="low" class="list-group-item list-group-item-action
+                    {{#equals ticket.severity "low"}}
+                    disabled
+                    {{/equals}}
+                    "
+                    {{#equals ticket.severity "low"}}
+                        disabled
+                    {{/equals}}
+                >Low
+                </button>
+
+                <button name="severity" value="medium" class="list-group-item list-group-item-action
+                    {{#equals ticket.severity "medium"}}
+                    disabled
+                    {{/equals}}
+                    "
+                    {{#equals ticket.severity "medium"}}
+                        disabled
+                    {{/equals}}
+                >Medium
+                </button>
+
+                <button name="severity" value="high" class="list-group-item list-group-item-action
+                    {{#equals ticket.severity "high"}}
+                    disabled
+                    {{/equals}}
+                    "
+                    {{#equals ticket.severity "high"}}
+                        disabled
+                    {{/equals}}
+                >High
+                </button>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    // Logic to get user suggestions in the user
+    // search in assign users modal
+    const input = document.getElementById("userQuery");
+    const usersDiv = document.getElementById("users")
+    var oldUsers;
+    input.addEventListener("keyup", async () => {
+        const query = input.value;
+        const res =  await fetch(`/staff/accounts/users/${query}`);
+        const json = await res.json();
+        const users = json.users;
+        var userList = [];
+
+        users.forEach((user) => {
+            let {id, username} = user;
+            const userSelect = document.createElement('button');
+            userSelect.innerText = username;
+            userSelect.name = "user";
+            userSelect.value = id;
+            userSelect.className = 'list-group-item list-group-item-action';
+            userList.push(userSelect);
+        });
+
+        usersDiv.replaceChildren(...userList)
+        oldUsers = users;
+    });
+</script>

@@ -4,6 +4,7 @@ const flash = require("connect-flash");
 const path = require("path");
 const session = require("express-session");
 const handlebars = require("handlebars");
+const moment = require("moment");
 const { engine } = require("express-handlebars");
 const bodyParser = require("body-parser");
 const {
@@ -21,7 +22,9 @@ const InitaliseGoogleLogin = require("./authentication/passport_google");
 const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
+
 // const voucherRouter = require("./routes/voucher");
+
 
 const FAQrouter = require("./routes/staff_FAQs");
 
@@ -60,6 +63,7 @@ app.use(
     })
 );
 
+
 app.use(
     methodOverride(function (req, res) {
         if (req.body && typeof req.body === "object" && "method" in req.body) {
@@ -71,8 +75,9 @@ app.use(
     })
 );
 
-app.use(flash());
 
+
+app.use(flash());
 app.set("view engine", "handlebars");
 
 app.set("views", path.join(__dirname, "../views"));
@@ -86,6 +91,11 @@ app.engine(
             equals(arg1, arg2, options) {
                 return arg1 == arg2 ? options.fn(this) : options.inverse(this);
             },
+
+            dateFormat(date, option) {
+                return moment(date).format(option);
+            },
+
         },
     })
 );
@@ -113,9 +123,8 @@ app.use((req, res, next) => {
 app.use("/staff", staffRouter);
 app.use("/", loginRouter);
 app.use("/", customerRouter);
-// app.use("/voucher", voucherRouter);
 
-app.use("/", FAQrouter);
+
 
 //Export to app.js
 module.exports = app;

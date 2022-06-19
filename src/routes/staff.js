@@ -1,4 +1,5 @@
 const express = require("express");
+
 const { restart } = require("nodemon");
 const User = require("../models/user");
 const Voucher = require("../models/Voucher");
@@ -10,8 +11,22 @@ const FAQrouter = require("./staff_FAQs");
 const productRouter = require("./product");
 const enableDebugMode = require("../configuration/settings");
 
+
+// const enableDebugMode = require("../configuration/settings");
+
+
+const manageTicketRoute = require("./manage_tickets");
+
+const staffpeRouter = require("./staff_pe")
+
+
+const enableDebugMode = require("../configuration/settings")
+
 staffRouter.use((req, res, next) => {
-    enableDebugMode(false);
+    if (req.isUnauthenticated() || !req.user.isStaff) {
+        return res.redirect("/");
+    }
+
     next();
 });
 
@@ -22,16 +37,22 @@ staffRouter.use((req, res, next) => {
     next();
 });
 
-staffRouter.use("/accounts", manageAccountRoute);
+
+
+
+
+staffRouter.use("/accounts", manageAccountRoute )
+staffRouter.use("/tickets", manageTicketRoute);
+staffRouter.use("/manage-faqs", FAQrouter)
 staffRouter.use("/manage-vouchers", manageVoucher);
-staffRouter.use("/accounts", manageAccountRoute);
-staffRouter.use("/manage-faqs", FAQrouter);
-staffRouter.use("/product", productRouter);
+staffRouter.use("/product", productRouter)
+staffRouter.use("/manage-pe", staffpeRouter)
+
+
+
 
 staffRouter.route("/").get((req, res) => {
     res.render("./staff/staff-charts");
 });
-
-
 
 module.exports = staffRouter;
