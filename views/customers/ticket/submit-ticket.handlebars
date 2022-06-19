@@ -1,0 +1,132 @@
+<section class="mb-3">
+    <div class="h3 text-center mt-5">We appreciate your feedback</div>
+    <div class="container">
+        <form action="/ticket" method="post">
+            <div class="row">
+                <div class="col-10">
+                    <div class="title form-group">
+                        <label for="title">Title</label>
+                        <input
+                            type="text"
+                            name="title"
+                            id="title"
+                            class="form-control"
+                            placeholder="e.g. broken cart"
+                        />
+                    </div>
+                    <div class="description form-group">
+                        <label for="description">Description</label>
+                        <textarea
+                            name="description"
+                            id="description"
+                            cols="30"
+                            rows="10"
+                            style="min-height: 220px;"
+                            class="form-control"
+                            placeholder="e.g. Enter a lengthy paragraph"
+                        ></textarea>
+                        <small>Note: If the issue is regarding a problem with
+                            the website, it will help if steps to recreate the
+                            problem is provided.</small>
+                    </div>
+                    <div class="submit d-flex justify-content-end">
+                        <button type="submit" class="btn btn-dark">Submit Ticket</button>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="category mb-3">
+                        <div>Category</div>
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="category"
+                                id="category1"
+                                value="bug"
+                                checked
+                            />
+                            <label class="form-check-label" for="category1">
+                                Bug
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="category"
+                                id="category2"
+                                value="request"
+                            />
+                            <label class="form-check-label" for="category2">
+                                Request
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="category"
+                                id="category3"
+                                value="product"
+                            />
+                            <label class="form-check-label" for="category3">
+                                Product
+                            </label>
+                        </div>
+                    </div>
+                    <div class="severity">
+                        <div>Severity</div>
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="severity"
+                                id="severity1"
+                                value="low"
+                                checked
+                            />
+                            <label class="form-check-label" for="severity1">
+                                Low
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="severity"
+                                id="severity2"
+                                value="medium"
+                            />
+                            <label class="form-check-label" for="severity2">
+                                Medium
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="severity"
+                                id="severity3"
+                                value="high"
+                            />
+                            <label class="form-check-label" for="severity3">
+                                High
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<footer class="section-footer border-top padding-y">
+    <div class="container">
+        <p class="float-md-right">
+            &copy Copyright 2019 All rights reserved
+        </p>
+        <p>
+            <a href="#">Terms and conditions</a>
+        </p>
+    </div>
+</footer>
