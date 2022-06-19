@@ -11,9 +11,17 @@ function initalisePassportLocal() {
         try {
           const user = await User.findOne({ where: { email } });
           console.log(user)
-          return user?.compareHash(password)
-            ? done(null, user, { message: "You have been logged in" })
-            : done(null, false, { message: "No such account" });
+          if (user?.compareHash(password)) {
+            if(user.disabled) {
+              return done(null, false, {message: "Your account has been disabled!"})
+            }
+            return done(null, user, { message: "You have been logged in" })
+          } else {
+
+            return done(null, false, { message: "No such account" });
+          }
+         
+            
         } catch (e) {
           console.log(e);
         }
