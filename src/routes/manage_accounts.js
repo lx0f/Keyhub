@@ -28,9 +28,15 @@ manageAccountRoute
         res.redirect("/staff/accounts");
     }).post(async (req, res) => {
         const user = await User.findByPk(req.body.id)
-        await user.update({disabled: 1})
+       
+        await user.update({disabled: req.body.disable})
         await user.save()
+        console.log(req.body.disable)
+        if(+req.body.disable) {
         req.flash("error", "User has been disabled!")
+        } else {
+            req.flash("success", "User has been undisabled")
+        }
         res.redirect("/staff/accounts")
     });
 

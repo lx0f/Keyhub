@@ -132,6 +132,13 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+    if(req.isAuthenticated() && req.user.disabled == 1) {
+        req.logOut()
+    }
+    next()
+})
+
 //Routers
 app.use("/staff", staffRouter);
 app.use("/", loginRouter);
