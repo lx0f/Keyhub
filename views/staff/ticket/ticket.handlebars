@@ -40,8 +40,7 @@ Of course when you have to better ask @lx0f first --}}
             <!-- INSERT PROFILE PICTURE -->
             <a class="link">{{ticket.User.username}}</a>
         </p>
-        <div class="card-body">
-            <p class="card-text">{{ticket.description}}</p>
+        <div class="card-body" id="description" data-value="{{mdToHtml ticket.description}}">
         </div>
     </div>
     {{#each comments}}
@@ -303,8 +302,15 @@ Of course when you have to better ask @lx0f first --}}
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/showdown@<version>/dist/showdown.min.js"></script>
+
 
 <script>
+    // Logic to convert html string into actual html
+    const descriptionDiv = document.getElementById("description");
+    var html = descriptionDiv.dataset.value;
+    descriptionDiv.innerHTML = html;
+
     // Logic to get user suggestions in the user
     // search in assign users modal
     const input = document.getElementById("userQuery");

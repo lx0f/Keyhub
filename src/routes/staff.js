@@ -5,7 +5,11 @@ const User = require("../models/user");
 const Voucher = require("../models/Voucher");
 const staffRouter = express.Router();
 const manageAccountRoute = require("./manage_accounts");
+
+const manageTicketRouter = require("./manage_tickets");
+
 const manageVoucher = require("./manage_voucher");
+
 
 const FAQrouter = require("./staff_FAQs");
 const productRouter = require("./product");
@@ -29,6 +33,7 @@ staffRouter.use((req, res, next) => {
     next();
 });
 
+ 
 
 
 
