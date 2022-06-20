@@ -51,6 +51,7 @@
     "passport-local": "^1.0.0",
     "sequelize": "^6.20.1",
     "session": "^0.1.0",
+    "showdown": "^2.1.0",
     "sqlite3": "^5.0.8",
     "uuid": "^8.3.2"
   },
