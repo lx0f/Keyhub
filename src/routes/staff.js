@@ -5,7 +5,11 @@ const User = require("../models/user");
 const Voucher = require("../models/Voucher");
 const staffRouter = express.Router();
 const manageAccountRoute = require("./manage_accounts");
+
+const manageTicketRouter = require("./manage_tickets");
+
 const manageVoucher = require("./manage_voucher");
+
 
 const FAQrouter = require("./staff_FAQs");
 const productRouter = require("./product");
@@ -20,14 +24,9 @@ const manageTicketRoute = require("./manage_tickets");
 const staffpeRouter = require("./staff_pe")
 
 
-staffRouter.use((req, res, next) => {
-    if (req.isUnauthenticated() || !req.user.isStaff) {
-        return res.redirect("/");
-    }
 
-    next();
-});
 
+enableDebugMode(false)
 staffRouter.use((req, res, next) => {
     res.locals.path = req.baseUrl;
     console.log(req.baseUrl);
@@ -35,6 +34,7 @@ staffRouter.use((req, res, next) => {
     next();
 });
 
+ 
 
 
 

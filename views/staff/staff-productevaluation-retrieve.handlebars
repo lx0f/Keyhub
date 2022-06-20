@@ -35,19 +35,22 @@
             <tr>
                 <th>Id</th>
                 <th>Product Name</th>
+                <th>Product Category</th>
                 <th>Product Rating</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Status</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
                 <th colspan="3">Operation</th> 
             </tr>
             </thead>
             <tbody>
+              {{#each product_evaluation}}
+              {{#equals this.ProductCategory "Pre-built Keyboard"}}
                 <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{this.id}}</td>
+                  <td>{{this.ProductName}}</td>
+                  <td>{{this.ProductCategory}}</td>
+                  <td>{{this.ProductRating}}</td>
                   <td></td>
                   
                   <td><p class="badge badge-danger"></p></td>
@@ -136,7 +139,8 @@
                     </div>   
                   </td>
                 </tr>
-                
+                {{/equals}}
+              {{/each}}
             </tbody>
         </table>
         </div>

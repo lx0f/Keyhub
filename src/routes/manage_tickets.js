@@ -1,17 +1,17 @@
 const express = require("express");
-const manageTicketRoute = express.Router();
+const manageTicketRouter = express.Router();
 
 const Ticket = require("../models/Ticket");
 const TicketComment = require("../models/TicketComment");
 const TicketAssignee = require("../models/TicketAssignee");
 const User = require("../models/User");
 
-manageTicketRoute.get("/", async (req, res) => {
+manageTicketRouter.get("/", async (req, res) => {
     const tickets = await Ticket.findAll();
     return res.render("./staff/ticket/ticket-table", { tickets });
 });
 
-manageTicketRoute.patch("/", async (req, res) => {
+manageTicketRouter.patch("/", async (req, res) => {
     const ticket = await Ticket.findByPk(req.body.id);
     const meta = req.body.meta;
     const message = req.body.message;
@@ -28,7 +28,7 @@ manageTicketRoute.patch("/", async (req, res) => {
     res.redirect(`/staff/tickets/${ticket.id}`);
 });
 
-manageTicketRoute.post("/assign/user", async (req, res) => {
+manageTicketRouter.post("/assign/user", async (req, res) => {
     const userID = req.body.user;
     const ticketID = req.body.id;
     console.log(userID);
@@ -50,7 +50,7 @@ manageTicketRoute.post("/assign/user", async (req, res) => {
     return res.redirect(`/staff/tickets/${ticketID}`);
 });
 
-manageTicketRoute.post("/reassign/user", async (req, res) => {
+manageTicketRouter.post("/reassign/user", async (req, res) => {
     const ticket = await Ticket.findByPk(req.body.id);
     const assignees = await TicketAssignee.findAll({
         where: { ticketID: ticket.id },
@@ -102,7 +102,7 @@ manageTicketRoute.post("/reassign/user", async (req, res) => {
     return res.redirect(`/staff/tickets/${ticket.id}`);
 });
 
-manageTicketRoute.post("/assign/category", async (req, res) => {
+manageTicketRouter.post("/assign/category", async (req, res) => {
     const ticketID = req.body.id;
     const category = req.body.category;
     const ticket = await Ticket.findByPk(ticketID);
@@ -110,7 +110,7 @@ manageTicketRoute.post("/assign/category", async (req, res) => {
     return res.redirect(`/staff/tickets/${ticket.id}`);
 });
 
-manageTicketRoute.post("/assign/severity", async (req, res) => {
+manageTicketRouter.post("/assign/severity", async (req, res) => {
     const ticketID = req.body.id;
     const severity = req.body.severity;
     const ticket = await Ticket.findByPk(ticketID);
@@ -118,7 +118,7 @@ manageTicketRoute.post("/assign/severity", async (req, res) => {
     return res.redirect(`/staff/tickets/${ticket.id}`);
 });
 
-manageTicketRoute.get("/:id", async (req, res) => {
+manageTicketRouter.get("/:id", async (req, res) => {
     const id = req.params.id;
     const user = req.user;
     const ticket = await Ticket.findByPk(id, { include: User });
@@ -143,4 +143,4 @@ manageTicketRoute.get("/:id", async (req, res) => {
     return res.redirect("/staff");
 });
 
-module.exports = manageTicketRoute;
+module.exports = manageTicketRouter;

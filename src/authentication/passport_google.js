@@ -31,6 +31,9 @@ async function InitaliseGoogleLogin() {
           return done(null, user, {message: "You created your account! Welcome"})
         }
         else {
+          if(user.disabled) {
+            return done(null, false, {message: "Your account has been disabled!"})
+          }
           return done(null, user, {message: "Welcome!"})
         }
       }

@@ -13,11 +13,11 @@
                             <form method="POST" action="/staff/manage-faqs/updatefaqs/{{faqs.id}}">
                                 <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Question</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" name = "Question" value="{{faqs.Question}}">
+                                <input type="text" class="form-control" id="exampleFormControlInput1" name = "Question" value="{{faqs.Question}}" required>
                                 </div>
                                 <div class="mb-3">
                                 <label for="exampleFormControlTextarea1" class="form-label">Answer</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name = "Answer" >{{faqs.Answer}}</textarea>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name = "Answer" required>{{faqs.Answer}}</textarea>
                                 </div>
                                 <input type="hidden" name="id" value="{{faqs.id}}">
                                 <hr>

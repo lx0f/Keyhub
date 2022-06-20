@@ -13,6 +13,7 @@ const {
 const passport = require("passport");
 const methodOverride = require("method-override");
 const cookieParser = require("cookie-parser");
+const showdown = require("showdown");
 
 //Local Imports
 const initaliseDatabase = require("./models/initalise_database");
@@ -94,6 +95,18 @@ app.engine(
 
             dateFormat(date, option) {
                 return moment(date).format(option);
+            },
+
+            mdToHtml(string) {
+                var converter = new showdown.Converter();
+                return converter.makeHtml(string);
+            },
+            truncate(string, maxlen) {
+                maxlen = parseInt(maxlen);
+                if (string.length > maxlen) {
+                    string = string.substr(0, maxlen) + "...";
+                }
+                return string;
             },
 
         },
