@@ -23,6 +23,10 @@ const InitaliseGoogleLogin = require("./authentication/passport_google");
 const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
+
+// const voucherRouter = require("./routes/voucher");
+
+
 const FAQrouter = require("./routes/staff_FAQs");
 
 //Initialisation of the app
@@ -60,6 +64,7 @@ app.use(
     })
 );
 
+
 app.use(
     methodOverride(function (req, res) {
         if (req.body && typeof req.body === "object" && "method" in req.body) {
@@ -70,6 +75,8 @@ app.use(
         }
     })
 );
+
+
 
 app.use(flash());
 app.set("view engine", "handlebars");
@@ -85,9 +92,11 @@ app.engine(
             equals(arg1, arg2, options) {
                 return arg1 == arg2 ? options.fn(this) : options.inverse(this);
             },
+
             dateFormat(date, option) {
                 return moment(date).format(option);
             },
+
             mdToHtml(string) {
                 var converter = new showdown.Converter();
                 return converter.makeHtml(string);
@@ -99,6 +108,7 @@ app.engine(
                 }
                 return string;
             },
+
         },
     })
 );
@@ -126,7 +136,8 @@ app.use((req, res, next) => {
 app.use("/staff", staffRouter);
 app.use("/", loginRouter);
 app.use("/", customerRouter);
-app.use("/", FAQrouter);
+
+
 
 //Export to app.js
 module.exports = app;

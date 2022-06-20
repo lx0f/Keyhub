@@ -26,12 +26,18 @@ manageAccountRoute
         await user.save();
         req.flash("success", "User updated!");
         res.redirect("/staff/accounts");
+    }).post(async (req, res) => {
+        const user = await User.findByPk(req.body.id)
+        await user.update({disabled: 1})
+        await user.save()
+        req.flash("error", "User has been disabled!")
+        res.redirect("/staff/accounts")
     });
 
 // Author: @lx0f
 // To get staff usernames and id when
 // querying and assigning users to a ticket
-// Refer to route /staff/tickets/:id
+// Refer to route /staff/tickets/:id (API)
 manageAccountRoute.route("/users/:query").get(async (req, res) => {
     const query = req.params.query;
     const users = await User.findAll({

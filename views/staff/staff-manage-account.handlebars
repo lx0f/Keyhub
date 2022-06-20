@@ -49,7 +49,8 @@
                                
                                 
                             </form>
-                     <form style="display:inline-block; width: 470px;">
+                     <form style="display:inline-block; width: 470px;" method="POST" action="/staff/accounts">
+                    <input type="hidden" value="{{user.id}}" name="id">
                          <button class="btn btn-secondary btn-user btn-block" style="max-width: 470px; display: inline-block; margin-left: 10px">Disable {{user.username}}</button>
                      </form>
                         </div>

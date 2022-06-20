@@ -12,13 +12,13 @@
 </style>
 
 <div class="col-md-4">
-	<form action="/staff/product/delete" method="POST">
+	
 		<figure class="card card-product-grid">
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<div class="price-wrap mt-2">
 						<span class="price">Name: {{this.name}}</span>
-					</div> 
+					</div> 	
                     <div class="price-wrap mt-2">
                         <div class="price-wrap mt-2">
 						<span class="price">Product ID: {{this.productID}}</span>
@@ -35,10 +35,17 @@
 						<span class="price">Category: {{this.category}}</span>
 					</div> 
 				</div>	
+				<form action="/staff/product/delete" method="POST">
                 <button type="submit" class="btn btn-danger" name = "productID" value="{{this.productID}}">
                     Delete
                   </button>
-                  </form>
+				  </form>
+				  <form action="/staff/product/update" method="POST">
+				   <button type="submit" class="btn btn-primary" name = "productID" value="{{this.productID}}">
+                    Update
+                  </button>
+				  </form>
+                  
 			</figcaption>
 		</figure>
 	</div> 

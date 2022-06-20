@@ -76,6 +76,11 @@ User.init(
       allowNull: false,
       defaultValue:0,
     },
+    disabled: {
+      type: Sequelize.DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
     updatedAt: {
       type: Sequelize.DataTypes.DATE,
       allowNull: false,
