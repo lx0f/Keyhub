@@ -11,6 +11,14 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create FAQs<h1>
                             </div>
                             <form method="POST" action="/staff/manage-faqs">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Category:</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" name="Category" required>
+                                    <option>Orders & Payment</option>
+                                    <option>Delivery & Shipping</option>
+                                    <option>Warranty, Returns & Refunds</option>
+                                    </select>
+                                </div>
                                 <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Question</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput1" name = "Question" placeholder="" required >
