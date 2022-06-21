@@ -54,16 +54,15 @@
                             <td><p class="badge badge-success"></p></td> --}}
 
                             <td>
-              
-                              {{!-- <form action=""  method="POST"> --}}
-                                
+                              <form action="/staff/manage-pe/deleteproductevaluation/{{this.id}}"  method="GET">
+                      
                                 <!-- Button to Open the Modal -->
                                 <button type="button" title="Delete" class="btn btn-danger " data-toggle="modal" data-target="#myModal_{{this.id}}">
                                   <i class="fas fa-trash-alt"></i>
                                 </button>
                                 
                                 <!-- The Modal -->
-                                <div class="modal" id="myModal_{{this.id}}">
+                                <div class="modal" id="myModal_{{ this.id }}">
                                   <div class="modal-dialog">
                                     <div class="modal-content">
                     
@@ -75,18 +74,19 @@
                     
                                       <!-- Modal body -->
                                       <div class="modal-body">
-                                        Are you sure you want to delete ?
+                                        Are you sure you want to delete {{this.id}}?
                                       </div>
                     
                                       <!-- Modal footer -->
                                       <div class="modal-footer">
-                                        {{!-- <input type="submit" value="Delete" class="btn btn-danger"> --}}
-                                        <button type="button" class="btn btn-danger">
-                                          <a href="/staff/manage-pe/deleteproductevaluation/{{this.id}}">Delete</a>
-                                        </button>
+                                        <input type="submit" value="Delete" class="btn btn-danger">
+                                        
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                       </div>
-                              {{!-- </form> --}}
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
                             </td>
 
                             <td class='col-1'>
