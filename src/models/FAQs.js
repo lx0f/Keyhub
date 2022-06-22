@@ -23,7 +23,7 @@ class FAQs extends Sequelize.Model {
         allowNull: false,
       },
       Answer: {
-        type:Sequelize.STRING,
+        type:Sequelize.STRING(500),
         allowNull:false,
       },
       updatedAt: {
