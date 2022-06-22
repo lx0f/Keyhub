@@ -28,7 +28,7 @@ customerRouter.use((req, res, next) => {
 customerRouter.use("/faqs", customerFAQRouter);
 customerRouter.use("/ticket", customerTicketRouter);
 customerRouter.use("/createPE", customerpeRouter)
-customerRouter.use("/products",customerproductRouter)
+customerRouter.use("/Cproducts",customerproductRouter)
 
 
 customerRouter.route("/logout").get((req, res) => {
