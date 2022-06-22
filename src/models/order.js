@@ -2,19 +2,20 @@ const Sequelize = require('sequelize');
 const sequelize = require('./database_setup');
 const User = require("./User");
 
-class OrderItem extends Sequelize.Model {}
+class Orders extends Sequelize.Model {}
 
-OrderItem.init(
+Orders.init(
     {
         id: {
-            type: Sequelize.DataTypes.INTEGER,
-            autoIncrement: true,
+            type: Sequelize.DataTypes.UUID,
             primaryKey: true,
             unique: true,
             allowNull: false,
+            defaultValue: Sequelize.DataTypes.UUIDV4,
+            autoIncrement: false
         },
-        quantity: {
-            type: Sequelize.DataTypes.INTEGER,
+        status: {
+            type: Sequelize.DataTypes.STRING,
             allowNull: false,
             unique: false,
         },
@@ -25,11 +26,10 @@ OrderItem.init(
         createdAt: true,
         updatedAt: true,
         sequelize,
-        modelName: "OrderItem",
+        modelName: "Orders",
     }
 );
 
-OrderItem.belongsTo(User, { foreignKey: "authorID" });
-User.hasMany(OrderItem, { foreignKey: "authorID" });
+Orders.belongsTo(User);
 
-module.exports = OrderItem;
+module.exports = Orders;
