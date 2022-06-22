@@ -4,15 +4,15 @@ const FAQs = require("../models/FAQs")
 const FAQrouter = express.Router()
 
 FAQrouter.get('/', (req, res) => {
-    res.render('./staff/staff-manage-faqs'); 
+    res.render('./staff/faqs/staff-manage-faqs'); 
  //render test
 });
 
 FAQrouter.post('/', async function (req, res) {
-    let { Question, Answer} = req.body;
+    let { Category,Question, Answer} = req.body;
     console.log(req.body.Answer)
     FAQs.create({
-        Question,Answer
+        Category,Question,Answer
     })
 
     req.flash("success","FAQ has been successfully created")
@@ -20,8 +20,8 @@ FAQrouter.post('/', async function (req, res) {
     });
 
 FAQrouter.get('/faqs',async (req, res) => {
-    const faqs = await (await FAQs.findAll()).map((x) => x.dataValues);
-    return res.render("./staff/staff-faqs-tables", { faqs });
+    const faqs = (await FAQs.findAll()).map((x) => x.dataValues);
+    return res.render("./staff/faqs/staff-faqs-tables", { faqs });
     })
 
 
@@ -33,7 +33,7 @@ FAQrouter.get('/faqs',async (req, res) => {
 FAQrouter.get('/updatefaqs/:id', (req,res) =>{
     FAQs.findByPk(req.params.id)
     .then((faqs) => {
-        res.render('./staff/staff-faqs-updatefaqs', { faqs });
+        res.render('./staff/faqs/staff-faqs-updatefaqs', { faqs });
     })
     .catch(err => console.log(err));
 })
