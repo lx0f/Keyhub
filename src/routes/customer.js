@@ -6,6 +6,7 @@ const customerTicketRouter = require("./customer_tickets");
 
 const customerpeRouter = require("./customer_pe")
 
+const customerproductRouter = require("./customer_product")
 
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -26,8 +27,8 @@ customerRouter.use((req, res, next) => {
 
 customerRouter.use("/faqs", customerFAQRouter);
 customerRouter.use("/ticket", customerTicketRouter);
-
 customerRouter.use("/createPE", customerpeRouter)
+customerRouter.use("/products",customerproductRouter)
 
 
 customerRouter.route("/logout").get((req, res) => {

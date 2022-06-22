@@ -3,7 +3,7 @@ const db = require("../models/database_setup");
 const Products = require("../models/product");
 const productRouter = express.Router()
 const product = require("../models/product")
-
+//const productIDtest = 0
 productRouter.get('/', (req, res) => {
     console.log("Product Render")
     res.render('./staff/staff-productCreate');
@@ -11,8 +11,19 @@ productRouter.get('/', (req, res) => {
 
 productRouter.post('/', async function (req, res) {
     let { name,description,category,stock,price } = req.body;
-    const productID = await product.count()
-    const products =  await (await product.findAll({attributes: ["name"]})).map((x)=>x.dataValues)
+    
+    const products =  await (await product.findAll({attributes: ["name","productID"]})).map((x)=>x.dataValues)
+    productID = 1
+    
+    
+    if (products.length==0) {
+        productID = 1
+    }
+    else{
+        //console.log("ID IS HERE",products[products.length-1]["productID"])
+        productID = products[products.length-1]["productID"] + 1
+        //console.log("AFTER",productID)
+    }
     flag = true
     for (let index = 0; index < products.length; index++) {
         const usedName = products[index]["name"].toUpperCase()
