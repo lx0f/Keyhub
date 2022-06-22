@@ -1,5 +1,9 @@
 const Sequelize = require("sequelize");
 const db = require("./database_setup");
+const Cart =  require("./product");
+const CartItem =  require("./cart_item");
+const Order = require("./order");
+const OrderItem = require("./order_item");
 
 const Products = db.define("products", {
     productID: { type: Sequelize.INTEGER },
@@ -11,5 +15,21 @@ const Products = db.define("products", {
     stock: { type: Sequelize.INTEGER },
     price: { type: Sequelize.FLOAT(2) },
 });
+
+Products.belongsToMany(Cart, {
+    through: {
+      CartItem,
+    },
+    foreignKey: 'ProductId',
+    as: 'carts'
+  })
+
+Products.belongsToMany(Order, {
+    through: {
+        OrderItem,
+    },
+    foreignKey: 'ProductId',
+    as: 'orders'
+})
 
 module.exports = Products;
