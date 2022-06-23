@@ -11,7 +11,7 @@ const CartItem = sequelize.define('CartItem', {
     CartId: {
         type: Sequelize.INTEGER
     },
-    Product_Id:{
+    ProductId:{
         type: Sequelize.INTEGER
     },
     quantity: Sequelize.INTEGER
