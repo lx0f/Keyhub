@@ -6,7 +6,8 @@ const customerTicketRouter = require("./customer_tickets");
 
 const customerpeRouter = require("./customer_pe")
 
-const customerproductRouter = require("./customer_product")
+const customerproductRouter = require("./customer_product");
+const ShoppingCart = require("./shoppingcart");
 
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -29,6 +30,7 @@ customerRouter.use("/faqs", customerFAQRouter);
 customerRouter.use("/ticket", customerTicketRouter);
 customerRouter.use("/createPE", customerpeRouter)
 customerRouter.use("/products",customerproductRouter)
+customerRouter.use("/cart",ShoppingCart)
 
 
 customerRouter.route("/logout").get((req, res) => {

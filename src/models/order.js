@@ -1,40 +1,20 @@
-const Sequelize = require('sequelize');
-const sequelize = require('./database_setup');
+const Sequelize = require("sequelize");
+const sequelize = require("./database_setup");
+const Product = require("./product");
 const User = require("./User");
-const Payment = require("./payment");
-const Products = require('./product');
-const OrderItem = require('./order_item');
 
 class Order extends Sequelize.Model {}
 
 Order.init(
     {
-        UserId: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false,
-        },
-        name: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        phone: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        address: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        sn:{
-            type: Sequelize.DataTypes.STRING,
-        },
-        amount:{
+        id: {
             type: Sequelize.DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+            unique: true,
         },
-        shipping_status:{
-            type: Sequelize.DataTypes.STRING,
-        },
-        payment_status:{
-            type: Sequelize.DataTypes.STRING,
-        }
-    },{
+    },
+    {
         freezeTableName: true,
         timestamps: true,
         sequelize,
@@ -42,14 +22,67 @@ Order.init(
     }
 );
 
-Order.belongsTo(User);
-Order.hasMany(Payment);
-Order.belongsTo(Products,{
-        through: {
-            OrderItem,
-            unique: false,
+class OrderItem extends Sequelize.Model {}
+OrderItem.init(
+    {
+        id: {
+            type: Sequelize.DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+            unique: true,
         },
-        foreignKey: 'OrderId',
-        as: 'orderProducts'
-    })
-module.exports = Order;
+        quantity: Sequelize.DataTypes.INTEGER,
+    },
+    {
+        freezeTableName: true,
+        timestamps: true,
+        sequelize,
+        modelName: "OrderItem",
+    }
+);
+
+class Payment extends Sequelize.Model {}
+
+Payment.init(
+    {
+        id: {
+            type: Sequelize.DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+            unique: true,
+        },
+        Payment_method: {
+            type: Sequelize.STRING,
+        },
+        isSuccess: Sequelize.BOOLEAN,
+        payTime: Sequelize.DATE,
+    },
+    {
+        freezeTableName: true,
+        timestamps: true,
+        sequelize,
+        modelName: "Payment",
+    }
+);
+
+Order.belongsTo(User, { foreignKey: "userID" });
+User.hasMany(Order, { foreignKey: "userID" });
+
+// OrderItem Foreign Keys:
+// OrderId
+// ProductId
+Order.belongsTo(Product, { through: OrderItem });
+// Product.belongsToMany(Order, { through: OrderItem });
+Product.belongsToMany(Order, {
+    through: {
+      OrderItem,
+      unique: false
+    },
+    foreignKey: 'ProductId',
+    as: 'orders'
+});
+// Payment Table
+Order.hasMany(Payment, { foreignKey: "OrderID" });
+Payment.belongsTo(Order, { foreignKey: "OrderID" });
+
+module.exports = { Order, OrderItem, Payment };

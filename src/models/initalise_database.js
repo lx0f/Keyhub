@@ -5,6 +5,7 @@ const mysql = require("mysql2/promise");
 const superusers = require("../../data/superusers");
 const Permission = require("../models/Permissions")
 const Role = require("../models/Role")
+const CartItem = require("../models/cart")
 
 require("dotenv").config();
 

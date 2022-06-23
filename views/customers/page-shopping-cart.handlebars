@@ -28,92 +28,46 @@
 </tr>
 </thead>
 <tbody>
-<tr>
-	<td>
-		<figure class="itemside">
-			<div class="aside"><img src="images/items/1.jpg" class="img-sm"></div>
-			<figcaption class="info">
-				<a href="#" class="title text-dark">Some name of item goes here nice</a>
-				<p class="text-muted small">Size: XL, Color: blue, <br> Brand: Gucci</p>
-			</figcaption>
-		</figure>
-	</td>
-	<td> 
-		<select class="form-control">
-			<option>1</option>
-			<option>2</option>	
-			<option>3</option>	
-			<option>4</option>	
-		</select> 
-	</td>
-	<td> 
-		<div class="price-wrap"> 
-			<var class="price">$1156.00</var> 
-			<small class="text-muted"> $315.20 each </small> 
-		</div> <!-- price-wrap .// -->
-	</td>
-	<td class="text-right"> 
-	<a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a> 
-	<a href="" class="btn btn-light"> Remove</a>
-	</td>
-</tr>
-<tr>
-	<td>
-		<figure class="itemside">
-			<div class="aside"><img src="images/items/2.jpg" class="img-sm"></div>
-			<figcaption class="info">
-				<a href="#" class="title text-dark">Product name  goes here nice</a>
-				<p class="text-muted small">Size: XL, Color: blue, <br> Brand: Gucci</p>
-			</figcaption>
-		</figure>
-	</td>
-	<td> 
-		<select class="form-control">
-			<option>1</option>
-			<option>2</option>	
-			<option>3</option>	
-			<option>4</option>	
-		</select> 
-	</td>
-	<td> 
-		<div class="price-wrap"> 
-			<var class="price">$149.97</var> 
-			<small  class="text-muted"> $75.00 each </small>  
-		</div> <!-- price-wrap .// -->
-	</td>
-	<td class="text-right"> 
-	<a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a> 
-	<a href="" class="btn btn-light btn-round"> Remove</a>
-	</td>
-</tr>
-<tr>
-	<td>
-		<figure class="itemside">
-			<div class="aside"><img src="images/items/3.jpg" class="img-sm"></div>
-			<figcaption class="info">
-				<a href="#" class="title text-dark">Another name of some product goes just here</a>
-				<p class="small text-muted">Size: XL, Color: blue,  Brand: Tissot</p>
-			</figcaption>
-		</figure>
-	</td>
-	<td> 
-		<select class="form-control">
-			<option>1</option>
-			<option>2</option>	
-			<option>3</option>	
-		</select> 
-	</td>
-	<td> 
-		<div class="price-wrap"> 
-			<var class="price">$98.00</var> 
-			<small class="text-muted"> $578.00 each</small> 
-		</div> <!-- price-wrap .// -->
-	</td>
-	<td class="text-right"> 
+{{#each cart.cartProducts}}
+	<tr>
+		<td>
+			<figure class="itemside">
+				<div class="aside"><img src="images/items/1.jpg" class="img-sm"></div>
+				<figcaption class="info">
+					<a href="#" class="title text-dark">{{this.name}}</a>
+					<p class="text-muted small"> IDK <br> Brand: Keyhub</p>
+				</figcaption>
+			</figure>
+		</td>
+		<td> 
+			<select class="form-control">
+				<option>1</option>
+				<option>2</option>	
+				<option>3</option>	
+				<option>4</option>	
+			</select> 
+			 {{!-- <form action="/cartItem/{{this.CartItem.id}}/add" method="POST">
+              <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
+            </form>
+            <span style="margin: 0 20px;">
+              {{this.CartItem.quantity}}
+            </span>
+            <form action="/cartItem/{{this.CartItem.id}}/sub" method="POST">
+              <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
+            </form> --}}
+		</td>
+		<td> 
+			<div class="price-wrap"> 
+				<var class="price">$ {{multiply this.price this.CartItem.quantity}}</var> 
+				<small class="text-muted"> {{this.price}} each</small> 
+			</div> <!-- price-wrap .// -->
+		</td>
+		<td class="text-right"> 
 		<a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a> 
-		<a href="" class="btn btn-light btn-round"> Remove</a>
-	</td>
-</tr>
+		<a href="" class="btn btn-light"> Remove</a>
+		</td>
+	</tr>
+{{/each}}
 </tbody>
 </table>
 
@@ -148,15 +102,15 @@
 			<div class="card-body">
 					<dl class="dlist-align">
 					  <dt>Total price:</dt>
-					  <dd class="text-right">USD 568</dd>
+					  <dd class="text-right">SGD {{totalPrice}}</dd>
 					</dl>
 					<dl class="dlist-align">
 					  <dt>Discount:</dt>
-					  <dd class="text-right">USD 658</dd>
+					  <dd class="text-right">SGD </dd>
 					</dl>
 					<dl class="dlist-align">
 					  <dt>Total:</dt>
-					  <dd class="text-right  h5"><strong>$1,650</strong></dd>
+					  <dd class="text-right  h5"><strong>{{totalPrice}}</strong></dd>
 					</dl>
 					<hr>
 					<p class="text-center mb-3">

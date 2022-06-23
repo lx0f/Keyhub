@@ -5,7 +5,6 @@ const FAQrouter = express.Router()
 
 FAQrouter.get('/', (req, res) => {
     res.render('./staff/faqs/staff-manage-faqs'); 
- //render test
 });
 
 FAQrouter.post('/', async function (req, res) {
