@@ -1,0 +1,89 @@
+
+<!-- ========================= SECTION PAGETOP ========================= -->
+<section class="section-pagetop bg">
+<div class="container">
+	<h2 class="title-page">My account</h2>
+</div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION INTRO END// ========================= -->
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+<div class="container">
+
+<div class="row">
+	<aside class="col-md-3">
+		<ul class="list-group">
+			<a class="list-group-item active" href="#"> Account overview  </a>
+			<a class="list-group-item" href="#"> My Orders </a>
+			<a class="list-group-item" href="#"> My wishlist </a>
+			<a class="list-group-item" href="#"> Return and refunds </a>
+			<a class="list-group-item" href="#">Settings </a>
+			<a class="list-group-item" href="#"> My Selling Items </a>
+			<a class="list-group-item" href="#"> Received orders </a>
+		</ul>
+	</aside> <!-- col.// -->
+	<main class="col-md-9">
+
+		<article class="card mb-3">
+			<div class="card-body">
+				<figure class="icontext">
+					<div class="icon" style="margin-right: 50px;">
+						<img class="rounded-circle img-sm border" src="/images/avatars/avatar3.jpg">
+					</div>
+				
+			</figure>
+			<hr>
+			<div class="text" style="line-height: 25px;">
+				<strong><i class="fa fas fa-user"></i>&nbsp; Username: </strong><br>{{user.username}}<br> <br> 
+				<b> <i class="fa fa-solid fa-envelope"></i>&nbsp;  Email:</b><br>{{user.email}}<br> <br> 
+
+				<p>
+					<i class="fa fas fa-map-marker"></i>&nbsp; <b>Address:</b><br>  
+					None&nbsp 
+				
+				</p>
+			</div>
+			<hr>
+                <form method="POST" action="/account/edit">
+				
+                    <div class="form-group">
+    
+						Username: <input name="username" class="form-control" value="{{user.username}}" placeholder="Enter Username" type="text">
+                    </div> <!-- form-group end.// -->
+            
+                
+                    <div class="form-group">
+                        Email: 	 <input name="email" value="{{user.email}}" class="form-control" placeholder="Enter Email" type="email">
+                        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div> <!-- form-group end.// -->
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+							Password:
+							<input name="password" class="form-control" placeholder="Enter Password" type="password">
+                        </div> <!-- form-group end.// --> 
+                        <div class="form-group col-md-6">
+							Repeat Password:
+							<input name="repeatpassword" class="form-control" placeholder="Enter Repeat Password" type="password">
+                        </div> <!-- form-group end.// -->  
+						
+                    </div>
+					<input type="hidden" value="{{user.id}}" name="id">
+	
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Update Profile</button>
+                    </div> <!-- form-group// -->      
+				</form>
+
+			</div> <!-- card-body .// -->
+		</article> <!-- card.// -->
+
+
+	</main> <!-- col.// -->
+</div>
+
+</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock %}
