@@ -1,31 +1,11 @@
 const express = require("express");
 const Voucher = require("../models/Voucher");
 const manageVoucher = express.Router();
+require('dotenv').config()
+// let sendSmtpEmail = new Sib.SendSmtpEmail();
+// const email = req.query.email;
+// console.log(email)
 
-// manageVoucher
-//   .route("/")
-//   .get(async (req, res) => {
-//     const users = await (await User.findAll()).map((x) => x.dataValues);
-//     return res.render("./staff/staff-tables", { users });
-//   })
-//   .delete(async (req, res) => {
-//     await User.destroy({ where: { id: req.body.id } });
-//     req.flash("error", "Account has been deleted");
-//     res.redirect("/staff/accounts");
-//   })
-//   .patch(async (req, res) => {
-//     const user = await User.findByPk(req.body.id);
-//     user.isStaff = req.body.isStaff || user.isStaff;
-//     user.username = req.body.username || user.username;
-//     user.email = req.body.email || user.email;
-//     if (req.body.password) {
-//       user.password = req.body.password; //unable to use short circuit eval as hashed password
-//     }
-
-//     await user.save();
-//     req.flash("success", "User updated!");
-//     res.redirect("/staff/accounts");
-//   });
 manageVoucher.get('/deleteVoucher/:id', async function
 (req, res) {
   try {
@@ -48,18 +28,28 @@ manageVoucher.get('/editVoucher/:id', (req, res) => {
 });
 
 manageVoucher.post('/editVoucher/:id', async (req, res) => {
-  const id = req.body.id;
   const coupon_id = req.body.coupon_id;
   const coupon_name = req.body.coupon_name;
   const coupon_value = req.body.coupon_value;
   const coupon_status = req.body.coupon_status;
+  const coupon_desc = req.body.coupon_desc;
+  const coupon_qty = req.body.coupon_qty;
+  const start = req.body.start_date;
+  const end = req.body.end_date; 
+  const coupon_type = req.body.coupon_type;
 
-  const voucher = await Voucher.findByPk(id);
+  const voucher = await Voucher.findByPk(req.params.id);
   await voucher.update({
     coupon_id,
     coupon_name,
     coupon_value,
-    coupon_status
+    coupon_status,
+    coupon_desc,
+    coupon_qty,
+    start,
+    end,
+    coupon_type
+
   });
 
   req.flash("success", "Voucher updated!");
@@ -76,16 +66,16 @@ manageVoucher
 
 
 manageVoucher.route("/voucher-form").get((req, res) => {
-if (req.isUnauthenticated() || !req.user.isStaff) {
-  return res.redirect("/");
-}
-else {
+// if (req.isUnauthenticated() || !req.user.isStaff) {
+//   return res.redirect("/");
+// }
+// else {
   res.render("staff/voucher/voucher-form");
-}
+// }
 
 }).post(async (req, res) => {
   try {
-    Voucher.create({ coupon_name: req.body.coupon_name, coupon_value: req.body.coupon_value, coupon_id: req.body.coupon_id,coupon_status: req.body.coupon_status })
+    Voucher.create({ coupon_name: req.body.coupon_name, coupon_value: req.body.coupon_value, coupon_id: req.body.coupon_id,coupon_status: req.body.coupon_status,coupon_qty:req.body.coupon_qty,coupon_desc:req.body.coupon_desc,start:req.body.start_date,end:req.body.end_date,coupon_type:req.body.coupon_type})
     req.flash("success", "Successfully create!")
     return res.redirect("/staff/manage-vouchers")
   } catch(e) {

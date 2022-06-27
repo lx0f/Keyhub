@@ -22,26 +22,51 @@ Voucher.init(
     },
     coupon_id: {
       type: Sequelize.DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
     },
     coupon_name: {
       type: Sequelize.DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: false,
     },
     coupon_value: {
       type: Sequelize.DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       unique: false,
     },
     coupon_status: {
       type: Sequelize.DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: false,
       // set(value) {
       //   this.setDataValue("password", bcrypt.hashSync(value, 10) + "");
       // }
+    },
+    coupon_qty: {
+      type: Sequelize.DataTypes.INTEGER,
+      allowNull: true,
+      unique: false,
+    },
+    coupon_desc: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+    },
+    start: {
+      type: Sequelize.DataTypes.DATE,
+      allowNull: true,
+      unique: false,
+    },
+    end: {
+      type: Sequelize.DataTypes.DATE,
+      allowNull: true,
+      unique: false,
+    },
+     coupon_type: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      unique: false,
     },
     updatedAt: {
       type: Sequelize.DataTypes.DATE,

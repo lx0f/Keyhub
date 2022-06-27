@@ -1,8 +1,13 @@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
 <div class="container">
 	<div class="shadow card card-body ">
 		<form action="" method="POST">
 		
-			<h3 >New Voucher</h3>
+			<h3 >New Coupon</h3>
 				
 			
 			
@@ -10,14 +15,50 @@
 				<label for="coupon_id" class="form-label">Coupon Name</label>
 				<input type="text" class="form-control" id="coupon_name" name="coupon_name" required>
 			</div>
+			 <div class="mb-3">
+				<label for="coupon_desc" class="form-label">Coupon Description</label>
+				<input type="text" class="form-control" id="coupon_desc" name="coupon_desc" required>
+			</div>
 			<div class="mb-3">
 				<label for="coupon_id" class="form-label">Coupon Value</label>
-				<input type="text" class="form-control" id="coupon_value" name="coupon_value" required>
+				<input type="number" class="form-control" id="coupon_value" name="coupon_value" required>
 			</div>
+			<div class="mb-3">
+				<label for="coupon_type">Coupon Type</label>
+				<select class="form-control" id="coupon_type" name="coupon_type">
+					<option value="Cashback">Cashback</option>
+					<option value="Discount">Discount</option>
+				</select>
+			</div>
+						
 			<div class="mb-3">
 				<label for="coupon_id" class="form-label">Coupon ID</label>
 				<input type="text" class="form-control" id="coupon_id" value="" readonly name="coupon_id" onclick="makeid()">
 			</div>
+			<div class="mb-3">
+				<label for="coupon_qty" class="form-label">Coupon Quantity</label>
+				<input type="number" class="form-control" id="coupon_qty" name="coupon_qty" required>
+			</div>
+			{{!-- <div class="mb-3" onclick="getvalue()">
+				<label for="start_date" class="form-label">Start Date</label>
+				<br>
+				<input type="datetime-local" id="start_date" name="start_date" required >
+			</div> --}}
+			<div class="mb-3" id="timedisplay" >
+            <label for="start_date" class="form-label">Start Date</label>
+            
+            <input type="text" id="timepicker" width="234" class="" name="start_date" />
+            </div>
+			<div class="mb-3" id="timedisplay" >
+            <label for="end_date" class="form-label">End Date</label>
+            
+            <input type="text" id="timepicker_2" width="234" class="" name="end_date" />
+            </div>
+			{{!-- <div class="mb-3"  onclick="getvalue()">
+				<label for="end_date" class="form-label">End Date</label>
+				<br>
+				<input type="datetime-local" id="end_date" name="end_date" required>
+			</div> --}}
 			<label for="" class="form-label">Status</label>
 			
 			<div class=" btn-group-toggle" data-toggle="buttons">
@@ -42,6 +83,16 @@
 	</div>
 </div>
 <script>
+	$('#timepicker').datetimepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            footer: true
+        });
+	$('#timepicker_2').datetimepicker({
+		uiLibrary: 'bootstrap4',
+		modal: true,
+		footer: true
+	});
 function makeid() {
 	var text = "";
 	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -51,5 +102,9 @@ function makeid() {
 
 	console.log(text)
 	document.getElementById("coupon_id").value = text;
+}
+function getvalue(){
+	console.log(document.getElementById("start_date").value)
+	console.log(document.getElementById("end_date").value)
 }
 </script>
