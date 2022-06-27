@@ -7,12 +7,15 @@ class Cart extends Sequelize.Model {}
 
 Cart.init(
     {
-        id: {
+        id:{
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             unique: true,
         },
+        UserId:{
+            type: Sequelize.DataTypes.INTEGER,
+        }
     },
     {
         freezeTableName: true,
@@ -34,9 +37,9 @@ CartItem.init(
         CartId: {
             type:Sequelize.DataTypes.INTEGER,
         },
-        // ProductId: {
-        //     type: Sequelize.DataTypes.INTEGER,
-        // },
+        ProductId: {
+            type: Sequelize.DataTypes.INTEGER,
+        },
         quantity: Sequelize.DataTypes.INTEGER,
     },
     {
@@ -47,15 +50,31 @@ CartItem.init(
     }
 );
 
-Cart.belongsTo(User, { foreignKey: "UserID" });
-User.hasOne(Cart, { foreignKey: "UserID" });
+
+Product.belongsToMany(Cart, {
+    through: {
+      model: CartItem,
+      unique: false
+    },
+    foreignKey: 'ProductId',
+    as: 'carts'
+  })
+
+Cart.belongsToMany(Product, {
+    through: {
+      model: CartItem,
+      unique: false
+    },
+    foreignKey: 'CartId',
+    as: 'cartProducts'
+  });
+
+
 
 // Foreign Keys:
 // CartId
 // ProductId
-Cart.belongsToMany(Product, {through: CartItem },
-                    { foreignKey: "CartID" },
-                    {as: 'cartProducts'});
+
 
 // Cart.belongsToMany(Product, {through: CartItem },
 //     { foreignKey: "userID" },
@@ -63,6 +82,7 @@ Cart.belongsToMany(Product, {through: CartItem },
     
 
 // Product.belongsToMany(Cart, { through: CartItem });
+
 Product.belongsToMany(Cart, {
     through: CartItem,unique: false},
     {foreignKey: 'ProductId'},

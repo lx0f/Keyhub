@@ -3,6 +3,7 @@ const ShoppingCart = express.Router()
 const { Cart }  = require("../models/cart")
 const {CartItem} = require("../models/cart")
 const Product = require("../models/product")
+const User = require("../models/User")
 
 // GET Cart
 ShoppingCart.get('/', async (req, res) => {
@@ -12,10 +13,6 @@ ShoppingCart.get('/', async (req, res) => {
             where: { UserId: req.user.id },
             include: "cartProducts"
           })
-          // const cart = await Cart.findOne({
-          //   where: { UserId: req.user.id },
-          //   include: { model: Product },
-          // });
           if (!cart) {
             res.render('./customers/page-shopping-cart')
           }
@@ -62,7 +59,7 @@ ShoppingCart.post('/postcart', async (req, res) =>{
         const [product, created] = await CartItem.findOrCreate({
           where: {
             CartId: cart.id,
-            ProductId: req.body.productId
+            ProductId: req.body.productId,
           },
           defaults: {
             quantity: 1
@@ -80,7 +77,7 @@ ShoppingCart.post('/postcart', async (req, res) =>{
 
         // save cartId in session
         req.session.cartId = cart.id
-        // return res.status(200).redirect('back')
+        return res.redirect('/cart')
       } catch (e) {
         console.log(e)
       }
