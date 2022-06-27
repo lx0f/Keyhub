@@ -1,4 +1,4 @@
-
+<meta http-equiv="refresh">
 
 
 
@@ -40,21 +40,17 @@
 			</figure>
 		</td>
 		<td> 
-			<select class="form-control">
-				<option>1</option>
-				<option>2</option>	
-				<option>3</option>	
-				<option>4</option>	
-			</select> 
-			 {{!-- <form action="/cartItem/{{this.CartItem.id}}/add" method="POST">
-              <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
-            </form>
-            <span style="margin: 0 20px;">
-              {{this.CartItem.quantity}}
-            </span>
-            <form action="/cartItem/{{this.CartItem.id}}/sub" method="POST">
-              <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
-            </form> --}}
+			<div class="d-flex justify-content-center">
+				<form action="/cart/{{this.CartItem.id}}/add" method="POST">
+					<button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
+				</form>
+				<span style="margin: 0 20px;">
+					{{this.CartItem.quantity}}
+				</span>
+				<form action="/cart/{{this.CartItem.id}}/sub" method="POST">
+					<button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
+				</form>
+          	</div>
 		</td>
 		<td> 
 			<div class="price-wrap"> 
@@ -63,8 +59,12 @@
 			</div> <!-- price-wrap .// -->
 		</td>
 		<td class="text-right"> 
-		<a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a> 
-		<a href="" class="btn btn-light"> Remove</a>
+		{{!-- <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>  --}}
+			<form action="/cart/{{this.CartItem.id}}" method="GET">
+				<button type="submit" class="btn btn-link" style="color: red;">
+              		<i class="fas fa-trash"></i>
+            	</button>
+			</form>
 		</td>
 	</tr>
 {{/each}}
