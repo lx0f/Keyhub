@@ -12,6 +12,10 @@ ShoppingCart.get('/', async (req, res) => {
             where: { UserId: req.user.id },
             include: "cartProducts"
           })
+          // const cart = await Cart.findOne({
+          //   where: { UserId: req.user.id },
+          //   include: { model: Product },
+          // });
           if (!cart) {
             res.render('./customers/page-shopping-cart')
           }
@@ -26,7 +30,7 @@ ShoppingCart.get('/', async (req, res) => {
       }
 });
 
-ShoppingCart.post('/', async (req, res) =>{
+ShoppingCart.post('/postcart', async (req, res) =>{
     try {
         // check product has inventory
         const addProduct = await Product.findByPk(req.body.productId)
