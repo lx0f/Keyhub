@@ -3,6 +3,7 @@ const db = require("../models/database_setup");
 const Products = require("../models/product");
 const productRouter = express.Router()
 const product = require("../models/product")
+
 //const productIDtest = 0
 productRouter.get('/', (req, res) => {
     console.log("Product Render")
@@ -12,7 +13,7 @@ productRouter.get('/', (req, res) => {
 productRouter.post('/', async function (req, res) {
     let { name,description,category,stock,price } = req.body;
     
-    const products =  await (await product.findAll({attributes: ["name","productID"]})).map((x)=>x.dataValues)
+    const products =  await (await product.findAll({attributes: ["name","id"]})).map((x)=>x.dataValues)
     productID = 1
     
     
@@ -35,11 +36,11 @@ productRouter.post('/', async function (req, res) {
     }
     if (flag) {
         product.create({
-            name,description,category,stock,price,productID
+            name,description,category,stock,price
             //list of attributes
         })
         req.flash("success",name," has been successfully added!")
-        req.flash("success",name,description,category,stock,price,"ID:",productID)
+        // req.flash("success",name,description,category,stock,price,"ID:",productID)
     }
     else{
         req.flash("error",name," is already a product!")
