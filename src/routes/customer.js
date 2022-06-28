@@ -11,6 +11,7 @@ const ShoppingCart = require("./shoppingcart");
 const CustomerOrder = require("./order");
 const customerManageAccountRouter = require("./customer_manage_account")
 
+
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
       return res.redirect("/login")
@@ -31,12 +32,13 @@ customerRouter.use((req, res, next) => {
 customerRouter.use("/faqs", customerFAQRouter);
 customerRouter.use("/ticket", customerTicketRouter);
 customerRouter.use("/createPE", customerpeRouter)
-customerRouter.use("/products",customerproductRouter)
 customerRouter.use("/cart",ShoppingCart)
 customerRouter.use("/order",CustomerOrder)
 customerRouter.use("/Cproducts",customerproductRouter)
 customerRouter.use("/account", customerManageAccountRouter)
-
+customerRouter.use("/products",customerproductRouter)
+customerRouter.use("/cart",ShoppingCart)
+customerRouter.use("/order",CustomerOrder)
 customerRouter.route("/logout").get((req, res) => {
     req.logOut();
     res.redirect("/login");
