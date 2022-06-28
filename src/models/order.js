@@ -13,6 +13,27 @@ Order.init(
             primaryKey: true,
             unique: true,
         },
+        UserId: {
+            type: Sequelize.DataTypes.INTEGER
+        },
+        name: {
+            type: Sequelize.DataTypes.STRING
+        },
+        phone: {
+            type: Sequelize.DataTypes.STRING
+        },
+        sn: {
+            type: Sequelize.DataTypes.STRING
+        },
+        amount: {
+            type: Sequelize.DataTypes.INTEGER
+        },
+        shipping_status: {
+            type: Sequelize.DataTypes.STRING
+        },
+        payment_status: {
+            type: Sequelize.DataTypes.STRING
+        }
     },
     {
         freezeTableName: true,
@@ -31,7 +52,18 @@ OrderItem.init(
             primaryKey: true,
             unique: true,
         },
-        quantity: Sequelize.DataTypes.INTEGER,
+        OrderId: {
+            type: Sequelize.DataTypes.INTEGER
+        },
+        ProductId: {
+            type: Sequelize.DataTypes.INTEGER
+        },
+        price: {
+            type: Sequelize.DataTypes.INTEGER 
+        },
+        quantity: {
+           type: Sequelize.DataTypes.INTEGER
+        }
     },
     {
         freezeTableName: true,
@@ -51,11 +83,21 @@ Payment.init(
             primaryKey: true,
             unique: true,
         },
-        Payment_method: {
-            type: Sequelize.STRING,
+        OrderId: {
+            type: Sequelize.DataTypes.INTEGER
         },
-        isSuccess: Sequelize.BOOLEAN,
-        payTime: Sequelize.DATE,
+        Payment_method: {
+            type: Sequelize.DataTypes.STRING,
+        },
+        isSuccess: {
+            type: Sequelize.DataTypes.BOOLEAN
+        },
+        failure_message: {
+            type: Sequelize.DataTypes.TEXT
+        },
+        payTime: {
+            type: Sequelize.DataTypes.DATE
+        }
     },
     {
         freezeTableName: true,
@@ -65,24 +107,31 @@ Payment.init(
     }
 );
 
-Order.belongsTo(User, { foreignKey: "userID" });
-User.hasMany(Order, { foreignKey: "userID" });
+// User and order association 
+Order.belongsTo(User);
+User.hasMany(Order);
 
-// OrderItem Foreign Keys:
-// OrderId
-// ProductId
-Order.belongsTo(Product, { through: OrderItem });
-// Product.belongsToMany(Order, { through: OrderItem });
+// Order and Product association
+Order.belongsToMany(Product, {
+    through: {
+      model: OrderItem,
+      unique: false
+    },
+    foreignKey: 'OrderId',
+    as: 'orderProducts'
+})
 Product.belongsToMany(Order, {
     through: {
-      OrderItem,
-      unique: false
+        model: OrderItem,
+        unique: false
     },
     foreignKey: 'ProductId',
     as: 'orders'
-});
-// Payment Table
-Order.hasMany(Payment, { foreignKey: "OrderID" });
-Payment.belongsTo(Order, { foreignKey: "OrderID" });
+})
+
+
+// Order and Payment association
+Order.hasMany(Payment);
+Payment.belongsTo(Order);
 
 module.exports = { Order, OrderItem, Payment };

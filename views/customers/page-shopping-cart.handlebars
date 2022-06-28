@@ -72,8 +72,14 @@
 </table>
 
 <div class="card-body border-top">
-	<a href="#" class="btn btn-primary float-md-right"> Make Purchase <i class="fa fa-chevron-right"></i> </a>
-	<a href="#" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
+	<form action="/order/data" method="POST">
+		<button type="submit" class="btn btn-primary float-md-right">
+			Make Purchase
+			<i class="fa fa-chevron-right"></i>
+		</button>
+	</form>
+	{{!-- <a href="/order/data" class="btn btn-primary float-md-right"> Make Purchase <i class="fa fa-chevron-right"></i> </a> --}}
+	<a href="/" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
 </div>	
 </div> <!-- card.// -->
 
