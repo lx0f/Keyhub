@@ -9,7 +9,7 @@ const manageAccountRoute = require("./manage_accounts");
 const manageTicketRouter = require("./manage_tickets");
 
 const manageVoucher = require("./manage_voucher");
-
+const manageMail = require("./manage_mail");
 
 const FAQrouter = require("./staff_FAQs");
 const productRouter = require("./product");
@@ -44,7 +44,8 @@ staffRouter.use("/tickets", manageTicketRoute);
 staffRouter.use("/manage-faqs", FAQrouter)
 staffRouter.use("/manage-vouchers", manageVoucher);
 staffRouter.use("/product", productRouter)
-staffRouter.use("/manage-pe", staffpeRouter)
+staffRouter.use("/manage-pe", staffpeRouter);
+staffRouter.use("/manage-mail", manageMail);
 
 
 

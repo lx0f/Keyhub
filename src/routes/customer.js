@@ -7,8 +7,10 @@ const customerTicketRouter = require("./customer_tickets");
 const customerpeRouter = require("./customer_pe")
 const customerproductRouter = require("./customer_product")
 const customerManageAccountRouter = require("./customer_manage_account")
+
 const ShoppingCart = require("./shoppingcart");
 const CustomerOrder = require("./order");
+
 
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -33,8 +35,10 @@ customerRouter.use("/createPE", customerpeRouter)
 customerRouter.use("/Cproducts",customerproductRouter)
 customerRouter.use("/account", customerManageAccountRouter)
 
+
 customerRouter.use("/cart",ShoppingCart)
 customerRouter.use("/order",CustomerOrder)
+
 
 
 customerRouter.route("/logout").get((req, res) => {

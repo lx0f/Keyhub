@@ -1,32 +1,66 @@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
 <div class="container">
 	<div class="shadow card card-body ">
 		<form action="/staff/manage-vouchers/editVoucher/{{voucher.id}}" method="POST">
 		
-			<h3 >Update Voucher</h3>
-				
-		<input type="hidden" name="id" value="{{voucher.id}}">	
-			
+			<h3 >Update Coupon</h3>
+	
 			<div class="mb-3">
-				<label for="coupon_id" class="form-label">Coupon Name</label>
-				<input type="text" class="form-control" id="coupon_name" name="coupon_name" value="{{voucher.coupon_name}}" required >
+				<label for="" class="form-label">Voucher Name</label>
+				<input type="text" class="form-control" id="voucher_name" name="voucher_name" value="{{voucher.voucher_name}}" required>
+			</div>
+			 <div class="mb-3">
+				<label for="voucher_desc" class="form-label">Voucher Description</label>
+				<input type="text" class="form-control" id="voucher_desc" name="voucher_desc" value="{{voucher.voucher_desc}}" required>
 			</div>
 			<div class="mb-3">
-				<label for="coupon_id" class="form-label">Coupon Value</label>
-				<input type="text" class="form-control" id="coupon_value" name="coupon_value" value="{{voucher.coupon_value}}" required>
+				<label for="voucher_value" class="form-label">Voucher Value</label>
+				<input type="number" class="form-control" id="voucher_value" name="voucher_value" value="{{voucher.voucher_value}}" required>
 			</div>
 			<div class="mb-3">
-				<label for="coupon_id" class="form-label">Coupon ID</label>
-				<input type="text" class="form-control" id="coupon_id" readonly name="coupon_id"  value="{{voucher.coupon_id}}">
+				<label for="voucher_type">Voucher Type</label>
+				<select class="form-control" id="voucher_type" name="voucher_type">
+					<option value="Cashback">Cashback</option>
+					<option value="Discount">Discount</option>
+				</select>
 			</div>
+						
+			<div class="mb-3">
+				<label for="coupon_code" class="form-label">Voucher Code</label>
+				<input type="text" class="form-control" id="voucher_code" value="{{voucher.voucher_code}}" readonly name="voucher_code" >
+			</div>
+			<div class="mb-3">
+				<input type="hidden" class="form-control" id="voucher_used" name="voucher_used" value="0" required>
+			</div>
+			<div class="mb-3">
+				<label for="total_voucher" class="form-label">Total Voucher</label>
+				<input type="number" class="form-control" id="total_voucher" name="total_voucher" value="{{voucher.total_voucher}}" required>
+			</div>
+			<div class="mb-3" id="timedisplay" >
+				<div class="row">
+					<div class="col-6">
+						<label for="start_date" class="form-label">Start Date</label>
+						<input type="text" id="timepicker"  class="" name="start_date" value="{{voucher.start_date}}"/>
+					</div>
+					<div class="col-6">
+						<label for="days" class="form-label">Period ( Days )</label>
+						<input type="number" class="form-control" id="days" name="days" value="{{voucher.days}}" required>
+					</div>
+				</div>
+            </div>
 			<label for="" class="form-label">Status</label>
 			
 			<div class=" btn-group-toggle" data-toggle="buttons">
 				<label class="btn btn-success col-2" id="status_choice_1" onclick="status_choice_1()" >
-					<input type="radio" name="coupon_status" id="coupon_status_1" value="Valid" autocomplete="off" checked> Valid
+					<input type="radio" name="voucher_status" id="coupon_status_1" value="Active" autocomplete="off" checked> Valid
 				</label>
 				
 				<label class="btn col-2" id="status_choice_2" onclick="status_choice_2()" >
-					<input type="radio" name="coupon_status" id="coupon_status_2"  autocomplete="off" value="Expired"> Expired
+					<input type="radio" name="" id="coupon_status_2"  autocomplete="off" value="Non-Active"> Expired
 				</label>
 			</div>
 			<br>
@@ -43,9 +77,19 @@
 </div>
 
 <script>
+	$('#timepicker').datetimepicker({
+            uiLibrary: 'bootstrap4',
+            modal: true,
+            footer: true
+        });
+	$('#timepicker_2').datetimepicker({
+		uiLibrary: 'bootstrap4',
+		modal: true,
+		footer: true
+	});
     function status_choice_2(){
         document.getElementById("status_choice_2").classList.add('btn-danger');
-        document.getElementById("coupon_status_2").name = "coupon_status";
+        document.getElementById("coupon_status_2").name = "voucher_status";
         console.log(document.getElementById("coupon_status_2").name)
         document.getElementById("status_choice_1").classList.remove('btn-success');
         document.getElementById("coupon_status_1").name = "";
@@ -54,7 +98,7 @@
     }
     function status_choice_1(){
         document.getElementById("status_choice_1").classList.add('btn-success');
-        document.getElementById("coupon_status_1").name = "coupon_status";
+        document.getElementById("coupon_status_1").name = "voucher_status";
         console.log(document.getElementById("coupon_status_1").name)
         document.getElementById("status_choice_2").classList.remove('btn-danger');
         document.getElementById("coupon_status_2").name = "";

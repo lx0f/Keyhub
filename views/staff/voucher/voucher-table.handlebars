@@ -1,78 +1,268 @@
+ <META http-equiv=refresh>
 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Vouchers</h1>
-                    <p class="mb-4">Manage Vouchers</p>
+                    
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Vouchers</h6>
-                            <div class="text-right">
-                                <button type="button" class="btn btn-primary "><a href="/staff/manage-vouchers/voucher-form" style="text-decoration:none; color:white;">Create</a></button>
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-8 col-sm-6">
+                                        <h1 class="h3 mb-2 text-gray-800">Vouchers</h1>
+                                        <p class="mb-4">Manage Vouchers</p>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-primary "><a href="/staff/manage-vouchers/voucher-form" style="text-decoration:none; color:white;">Create</a></button>
+                                    </div>
+                                </div>
                             </div>
+                            
+                           
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Coupon ID</th>
-                                            <th>Name</th>
-                                              <th>Status</th>
-                                            <th>Action</th>
-                                          
-                                    
-                                        </tr>
-                                    </thead>
-                                    {{!-- <tfoot>
-                                        <tr>
-                                        <th>ID</th>
-                                            <th>Username</th>
-                                            <th>Email</th>
-                                                  <th>Permission Level</th>
-                                            <th>Action</th>
-                                      
-                                    
-                                        </tr>
-                                    </tfoot> --}}
-                                    <tbody>
-                                        {{#each voucher }}
-                                        <tr >
-                                            <td>{{this.id}}</td>
-                                            <td>{{this.coupon_id}}</td>
-                                            <td>{{this.coupon_name}}</td>
-                                            
-                                            <td>
-                                                {{#equals this.coupon_status "Valid"}}
-                                                <h5>
-                                                    <span class="badge badge-success" id="{{this.id}}" >{{this.coupon_status}}</span>
+                                
+                                <div class="wrapper">
+                                    <input type="radio" name="slider" checked id="home">
+                                    <input type="radio" name="slider" id="blog">
+                                    <input type="radio" name="slider" id="code">
+                                    <input type="radio" name="slider" id="help">
+                                    <input type="radio" name="slider" id="add1">
+                                    <nav>
+                                        <label for="home" class="home"><i class="fa fa-tags" aria-hidden="true"></i></i>All Vouchers</label>
+                                        <label for="blog" class="blog"><i class="fa fa-check" aria-hidden="true"></i></i>Valid Vouchers</label>
+                                        <label for="code" class="code"><i class="fa fa-times" aria-hidden="true"></i></i>Expired Vouchers</label>
+                                        <label for="help" class="help"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></i>Customers</label>
+                                        <div class="slider"></div>
+                                    </nav>
+                                    <hr>
+                                
+                                <!-- Section of Orders & Payment-->
+                                
+                                
+                                    <section>
+                                        <div class="content content-1">
+                                            <table class="table table-bordered" id="table-1" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Code</th>
+                                                        <th>Period ( Days )</th>
+                                                        <th>Voucher Used</th>
+                                                        <th>Total Voucher</th>
+                                                        <th>Start Date</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    
                                                 
-                                                </h5>
-                                                {{/equals}}
-                                                {{#equals this.coupon_status "Expired"}}
-                                                <h5>
-                                                    <span class="badge badge-danger" id="{{this.id}}" >{{this.coupon_status}}</span>
+                                                    </tr>
+                                                </thead>
+                                    
+                                                <tbody>
+                                                    {{#each voucher }}
+                                                    <tr >
+                                                        <td>{{this.voucher_name}}</td>
+                                                        <td>{{this.voucher_code}}</td>
+                                                        <td>{{this.days}}</td>
+                                                        <td>{{this.voucher_used}}</td>
+                                                        <td>{{this.total_voucher}}</td>
+                                                        <td>{{this.start_date}}</td>
+                                                        <td>
+                                                            {{#equals this.voucher_status "Active"}}
+                                                            <h5>
+                                                                <span class="badge badge-success" id="{{this.id}}" >{{this.voucher_status}}</span>
+                                                            
+                                                            </h5>
+                                                            {{/equals}}
+                                                            {{#equals this.voucher_status "Non-Active"}}
+                                                            <h5>
+                                                                <span class="badge badge-danger" id="{{this.id}}" >{{this.voucher_status}}</span>
+                                                                
+                                                            
+                                                            </h5>
+                                                            {{/equals}}
+                                                        </td>
+                                                    
+                                                        
+                                                        
+                                                        
+                                                        <td>
+                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{this.id}}">
+                                                                 <i class="fa fa-info" aria-hidden="true"></i>
+                                                            </button>
+                                                            <a href="/staff/manage-vouchers/editVoucher/{{id}}" class="btn btn-info"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></a>
+                                                            <a href="/staff/manage-vouchers/deleteVoucher/{{id}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                           <!-- Button trigger modal -->
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="exampleModal{{this.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                {{!-- <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Voucher {{this.coupon_name}}</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div> --}}
+                                                                <div class="modal-body">
+                                                                     <div class="card p-3 mb-2">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div class="d-flex flex-row align-items-center">
+                                                                                <div class="icon"> <i class="bx bxl-mailchimp"></i> </div>
+                                                                                <div class="ms-2 c-details ml-2">
+                                                                                     <h6 class="mb-0">{{this.coupon_name}}</h6><span>{{this.coupon_id}}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="badge"> <span>Cashback</span></div>
+                                                                        </div>
+                                                                        <div class="mt-5">
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                     <h5 class="heading">25% Discount off custom keyboads & prebuilt keyboard</h5>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mt-5">
+                                                                                <div class="progress">
+                                                                                    <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                                </div>
+                                                                                <div class="mt-3"> <span class="text1">32 Used <span class="text2">out of 50 Available</span></span> </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {{!-- <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                </div> --}}
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </td>
+                                                    
+                                                    </tr>
+                                                    {{/each }}
                                                 
-                                                </h5>
-                                                {{/equals}}
-                                            </td>
-                                           
-                                            
-                                            
-                                            
-                                            <td>
-                                                <a href="/staff/manage-vouchers/editVoucher/{{id}}" class="btn btn-info">Edit</a>
-                                                <a href="/staff/manage-vouchers/deleteVoucher/{{id}}" class="btn btn-danger">Delete</a>
-                                            </td>
-                                           
-                                        </tr>
-                                        {{/each }}
-                                     
-                                    </tbody>
-                                </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="content content-2">
+                                             <table class="table table-bordered" id="table-2" width="100%" cellspacing="0">
+                                                 <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Code</th>
+                                                        <th>Period ( Days )</th>
+                                                        <th>Voucher Used</th>
+                                                        <th>Total Voucher</th>
+                                                        <th>Start Date</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                       
+                                                    
+                                                
+                                                    </tr>
+                                                </thead>
+                                    
+                                                <tbody>
+                                                    {{#each voucher }}
+                                                    <tr >
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        
+                                                        <td>
+                                                         
+                                                        </td>
+                                                        <td>
+                                                         
+                                                        </td>
+                                                        
+                                                    
+                                                    </tr>
+                                                    {{/each }}
+                                             </table>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="content content-3">
+                                            <table class="table table-bordered" id="table-3" width="100%" cellspacing="0">
+                                                 <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Code</th>
+                                                        <th>Period ( Days )</th>
+                                                        <th>Voucher Used</th>
+                                                        <th>Total Voucher</th>
+                                                        <th>Start Date</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                       
+                                                    
+                                                
+                                                    </tr>
+                                                </thead>
+                                    
+                                                <tbody>
+                                                    {{#each voucher }}
+                                                    <tr >
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        
+                                                        <td>
+                                                         
+                                                        </td>
+                                                        <td>
+                                                         
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                    {{/each }}
+                                             </table>
+                                        </div>
+                                    </section>
+                                    <section>
+                                        <div class="content content-4">
+                                            <table class="table table-bordered" id="table-4" width="100%" cellspacing="0">
+                                                 <thead>
+                                                    <tr>
+                                                       <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Action</th>
+                                                        
+                                                       
+                                                    
+                                                
+                                                    </tr>
+                                                </thead>
+                                    
+                                                <tbody>
+                                                    {{#each user }}
+                                                        {{#equals this.isStaff "0"}}
+                                                        <tr >
+                                                            <td>{{this.username}}</td>
+                                                            <td>{{this.email}}</td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+                                                                 Voucher List
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        {{/equals}}
+                                                    {{/each }}
+                                             </table>
+                                        </div>
+                                    </section>
+                                    
+                                </div>  
                             </div>
                         </div>
                     </div>
@@ -84,17 +274,177 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
+<style>
+    a:link{ color: white; text-decoration: none;}
 
-{{!-- <script>
-
-    function loadstatus(id){
-        if (document.getElementById(id).innerHTML == "valid")
-   {
-    document.getElementById(id).classList.add("badge-success");
-   }
-   else{
-    document.getElementById(id).classList.add("badge-danger");
-   }
+    ::selection{
+      background: rgba(23, 98, 184, 0.3);
     }
+    .wrapper{
+
+      width: 100%;
+      height: 100%;
+      padding: 25px 30px 30px 30px;
+      border-radius: 5px;
+      background: #fff;
+    
+    }
+    .wrapper header{
+      font-size: 30px;
+      font-weight: 600;
+      padding-bottom: 20px;
+    }
+    .wrapper nav{
+      position: relative;
+      width: 100%;
+      height: 50px;
+      display: flex;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    .wrapper nav label{
+      display: block;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      line-height: 50px;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      color: #0f87d8;
+      font-size: 17px;
+      border-radius: 5px;
+      margin: 0 5px;
+
+      transition: all 0.3s ease;
+    }
+    .wrapper nav label:hover{
+      margin-bottom: 10px;
+      background:#1253a7;
+    }
+    #home:checked ~ nav label.home,
+    #blog:checked ~ nav label.blog,
+    #code:checked ~ nav label.code,
+    #help:checked ~ nav label.help,
+      #about:checked ~ nav label.about{
+      color: #fff;
+    }
+    nav label i{
+      padding-right: 7px;
+    }
+    nav .slider{
+      position: absolute;
+      height: 100%;
+      width: 24%;
+      left: 0;
+      bottom: 0;
+      z-index: 0;
+      border-radius: 5px;
+      background: #175db8;
+      transition: all 0.3s ease;
+    
+    }
+    input[type="radio"]{
+      display: none;
+    }
+    #blog:checked ~ nav .slider{
+      left: 25%;
+    }
+    #code:checked ~ nav .slider{
+      left: 50%;
+    }
+    #help:checked ~ nav .slider{
+      left: 75%;
+    }
+    #about:checked ~ nav .slider{
+      left: 100%;
+    }
+    section .content{
+      display: none;
+      background: #fff;
+    }
+    #home:checked ~ section .content-1,
+    #blog:checked ~ section .content-2,
+    #code:checked ~ section .content-3,
+    #help:checked ~ section .content-4,
+    #about:checked ~ section .content-5{
+      display: block;
+    }
+    section .content .title{
+      font-size: 21px;
+      font-weight: 500;
+      margin: 30px 0 10px 0;
+    }
+    section .content p{
+    text-align: justify;
+    }
+
+    .card {
+    border: none;
+    border-radius: 10px
+}
+
+.c-details span {
+    font-weight: 300;
+    font-size: 13px
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    background-color: #eee;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 39px
+}
+
+.badge span {
+    background-color: #fffbec;
+    width: 60px;
+    height: 25px;
+    padding-bottom: 3px;
+    border-radius: 5px;
+    display: flex;
+    color: #fed85d;
+    justify-content: center;
+    align-items: center
+}
+
+.progress {
+    height: 10px;
+    border-radius: 10px
+}
+
+.progress div {
+    background-color: red
+}
+
+.text1 {
+    font-size: 14px;
+    font-weight: 600
+}
+
+.text2 {
+    color: #a5aec0
+}
+  </style>
+<script>
    
-</script> --}}
+    $(document).ready( function () {
+    $('#table-1').DataTable();
+    $('#table-2').DataTable();
+    $('#table-3').DataTable();
+     $('#table-4').DataTable();
+} );
+  </script>
+{{!-- Background: Dark Purple
+Clothinh: Azuki Tech Jacket
+Ear: Pearl
+Eyes: White
+Face : Round Purple Sunglasses
+Hair: Purple Bangs
+Headgear :
+Mouth:Tatical Knife
+Special : Butterfly --}}

@@ -20,6 +20,7 @@ Permission.init(
         },
         route: {
             type: Sequelize.DataTypes.STRING,
+            
         }, enabled: {
             type: Sequelize.DataTypes.BOOLEAN
             
@@ -31,7 +32,7 @@ Permission.init(
         createdAt: {
             type: Sequelize.DataTypes.DATE,
             allowNull: false,
-        },
+        }
     },
     {
         freezeTableName: true,

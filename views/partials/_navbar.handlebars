@@ -7,7 +7,7 @@
 <div class="row align-items-center">
 	<div class="col-lg-2 col-4">
 		<a href="http://bootstrap-ecommerce.com" class="brand-wrap">
-			<img class="logo" src="images/logo.png">
+			<img class="logo" src="/images/logo.png">
 		</a> <!-- brand-wrap.// -->
 	</div>
 	<div class="col-lg-6 col-sm-12">
@@ -29,7 +29,7 @@
 				<span class="badge badge-pill badge-danger notify">0</span>
 			</div>
 			<div class="widget-header icontext">
-				<a href="#" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
+				<a href="/account" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
 				<div class="text">
 					<span class="text-muted">Welcome {{#if authenticated}} {{user.username}}!{{/if}}</span>
 					{{#if authenticated}} 
@@ -77,25 +77,19 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/products">Products</a>
+          <a class="nav-link" href="/Cproducts/general">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Supermarket</a>
+          <a class="nav-link" href="/Cproducts/keyboards">Keyboards</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Electronics</a>
+          <a class="nav-link" href="/Cproducts/switches">Switches</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Baby &amp Toys</a>
+          <a class="nav-link" href="/Cproducts/keycaps">Keycaps</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Fitness sport</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Clothing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Furnitures</a>
+          <a class="nav-link" href="/Cproducts/others">Others</a>
         </li>
 		{{#if user.isStaff}}
 		<li class="nav-item">

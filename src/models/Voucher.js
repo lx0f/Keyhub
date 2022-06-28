@@ -20,28 +20,58 @@ Voucher.init(
       unique: true,
       allowNull: false,
     },
-    coupon_id: {
+    voucher_code: {
       type: Sequelize.DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: true,
     },
-    coupon_name: {
+    voucher_name: {
       type: Sequelize.DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: false,
     },
-    coupon_value: {
+    voucher_value: {
       type: Sequelize.DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       unique: false,
     },
-    coupon_status: {
+    voucher_status: {
       type: Sequelize.DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       unique: false,
       // set(value) {
       //   this.setDataValue("password", bcrypt.hashSync(value, 10) + "");
       // }
+    },
+    total_voucher: {
+      type: Sequelize.DataTypes.INTEGER,
+      allowNull: true,
+      unique: false,
+    },
+    voucher_used: {
+      type: Sequelize.DataTypes.INTEGER,
+      allowNull: true,
+      unique: false,
+    },
+    voucher_desc: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+    },
+    start_date: {
+      type: Sequelize.DataTypes.DATE,
+      allowNull: true,
+      unique: false,
+    },
+    days: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+    },
+    voucher_type: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      unique: false,
     },
     updatedAt: {
       type: Sequelize.DataTypes.DATE,
