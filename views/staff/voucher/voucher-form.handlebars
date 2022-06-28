@@ -12,68 +12,70 @@
 			
 			
 			<div class="mb-3">
-				<label for="coupon_id" class="form-label">Coupon Name</label>
-				<input type="text" class="form-control" id="coupon_name" name="coupon_name" required>
+				<label for="" class="form-label">Voucher Name</label>
+				<input type="text" class="form-control" id="voucher_name" name="voucher_name" required>
 			</div>
 			 <div class="mb-3">
-				<label for="coupon_desc" class="form-label">Coupon Description</label>
-				<input type="text" class="form-control" id="coupon_desc" name="coupon_desc" required>
+				<label for="voucher_desc" class="form-label">Voucher Description</label>
+				<input type="text" class="form-control" id="voucher_desc" name="voucher_desc" required>
 			</div>
 			<div class="mb-3">
-				<label for="coupon_id" class="form-label">Coupon Value</label>
+				<label for="coupon_id" class="form-label">Voucher Value</label>
 				<input type="number" class="form-control" id="coupon_value" name="coupon_value" required>
 			</div>
 			<div class="mb-3">
-				<label for="coupon_type">Coupon Type</label>
-				<select class="form-control" id="coupon_type" name="coupon_type">
+				<label for="voucher_type">Voucher Type</label>
+				<select class="form-control" id="voucher_type" name="voucher_type">
 					<option value="Cashback">Cashback</option>
 					<option value="Discount">Discount</option>
 				</select>
 			</div>
 						
 			<div class="mb-3">
-				<label for="coupon_id" class="form-label">Coupon ID</label>
-				<input type="text" class="form-control" id="coupon_id" value="" readonly name="coupon_id" onclick="makeid()">
+				<label for="coupon_code" class="form-label">Voucher Code</label>
+				<input type="text" class="form-control" id="voucher_code" value="" readonly name="voucher_code" >
 			</div>
 			<div class="mb-3">
-				<label for="coupon_qty" class="form-label">Coupon Quantity</label>
-				<input type="number" class="form-control" id="coupon_qty" name="coupon_qty" required>
+				<input type="hidden" class="form-control" id="voucher_used" name="voucher_used" value="0" required>
 			</div>
-			{{!-- <div class="mb-3" onclick="getvalue()">
-				<label for="start_date" class="form-label">Start Date</label>
-				<br>
-				<input type="datetime-local" id="start_date" name="start_date" required >
-			</div> --}}
+			<div class="mb-3">
+				<label for="total_voucher" class="form-label">Total Voucher</label>
+				<input type="number" class="form-control" id="total_voucher" name="total_voucher" required>
+			</div>
 			<div class="mb-3" id="timedisplay" >
-            <label for="start_date" class="form-label">Start Date</label>
-            
-            <input type="text" id="timepicker" width="234" class="" name="start_date" />
+				<div class="row">
+					<div class="col-6">
+						<label for="start_date" class="form-label">Start Date</label>
+						<input type="text" id="timepicker"  class="" name="start_date" />
+					</div>
+					<div class="col-6">
+						<label for="days" class="form-label">Period ( Days )</label>
+						<input type="number" class="form-control" id="days" name="days" required>
+					</div>
+				</div>
             </div>
-			<div class="mb-3" id="timedisplay" >
-            <label for="end_date" class="form-label">End Date</label>
+			
+			{{!-- <div class="mb-3" id="timedisplay" >
+            <label for="end_date" class="form-label">Expiry Date</label>
             
             <input type="text" id="timepicker_2" width="234" class="" name="end_date" />
-            </div>
-			{{!-- <div class="mb-3"  onclick="getvalue()">
-				<label for="end_date" class="form-label">End Date</label>
-				<br>
-				<input type="datetime-local" id="end_date" name="end_date" required>
-			</div> --}}
+            </div> --}}
+			
 			<label for="" class="form-label">Status</label>
 			
 			<div class=" btn-group-toggle" data-toggle="buttons">
 				<label class="btn btn-success col-2" disabled>
-					<input type="radio" name="coupon_status" id="coupon_status" value="Valid" autocomplete="off" checked> Valid
+					<input type="radio" name="voucher_status" id="voucher_status" value="Active" autocomplete="off" checked> Active
 				</label>
 				
 				<label class="btn btn col-2" disabled>
-					<input type="radio" name="options"  autocomplete="off" > Expired
+					<input type="radio" name="options"  autocomplete="off" > Non-Active
 				</label>
 			</div>
 			<br>
 			<div class="row">
 				<div class="col-10 ">
-					<button type="submit" class="btn btn-primary">Create</button>
+					<button type="submit" class="btn btn-primary">Create Master Voucher</button>
 				</div>
 				
 				<button type="button" class="col-2 btn btn-primary"> <a href="/staff/manage-vouchers" style="text-decoration:none; color:white;">Return</a></button>
@@ -93,18 +95,14 @@
 		modal: true,
 		footer: true
 	});
-function makeid() {
+
 	var text = "";
 	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-	for (var i = 0; i < 5; i++)
+	for (var i = 0; i < 8; i++)
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 
 	console.log(text)
-	document.getElementById("coupon_id").value = text;
-}
-function getvalue(){
-	console.log(document.getElementById("start_date").value)
-	console.log(document.getElementById("end_date").value)
-}
+	document.getElementById("voucher_code").value = text;
+
 </script>

@@ -40,15 +40,16 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
 
   const voucher = await Voucher.findByPk(req.params.id);
   await voucher.update({
-    coupon_id,
-    coupon_name,
-    coupon_value,
-    coupon_status,
-    coupon_desc,
-    coupon_qty,
-    start,
-    end,
-    coupon_type
+      voucher_name: req.body.voucher_name,
+      voucher_value: req.body.voucher_value,
+      voucher_code: req.body.voucher_code,
+      voucher_status: req.body.voucher_status,
+      total_voucher: req.body.total_voucher,
+      voucher_used: req.body.voucher_used,
+      voucher_desc: req.body.voucher_desc,
+      start_date: req.body.start_date,
+      days: req.body.days,
+      voucher_type: req.body.voucher_type
 
   });
 
@@ -75,8 +76,19 @@ manageVoucher.route("/voucher-form").get((req, res) => {
 
 }).post(async (req, res) => {
   try {
-    Voucher.create({ coupon_name: req.body.coupon_name, coupon_value: req.body.coupon_value, coupon_id: req.body.coupon_id,coupon_status: req.body.coupon_status,coupon_qty:req.body.coupon_qty,coupon_desc:req.body.coupon_desc,start:req.body.start_date,end:req.body.end_date,coupon_type:req.body.coupon_type})
-    req.flash("success", "Successfully create!")
+    Voucher.create({
+      voucher_name: req.body.voucher_name,
+      voucher_value: req.body.voucher_value,
+      voucher_code: req.body.voucher_code,
+      voucher_status: req.body.voucher_status,
+      total_voucher: req.body.total_voucher,
+      voucher_used: req.body.voucher_used,
+      voucher_desc: req.body.voucher_desc,
+      start_date: req.body.start_date,
+      days: req.body.days,
+      voucher_type: req.body.voucher_type
+    })
+    req.flash("success", "Successfully created Master Voucher!")
     return res.redirect("/staff/manage-vouchers")
   } catch(e) {
         req.flash("error", e)

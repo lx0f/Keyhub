@@ -1,3 +1,4 @@
+ <META http-equiv=refresh>
 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
@@ -52,11 +53,14 @@
                                             <table class="table table-bordered" id="table-1" width="100%" cellspacing="0">
                                                 <thead>
                                                     <tr>
-                                                        <th>ID</th>
-                                                        <th>Coupon ID</th>
                                                         <th>Name</th>
+                                                        <th>Code</th>
+                                                        <th>Period ( Days )</th>
+                                                        <th>Voucher Used</th>
+                                                        <th>Total Voucher</th>
+                                                        <th>Start Date</th>
                                                         <th>Status</th>
-                                                        <th>Action</th>
+                                                        <th>Actions</th>
                                                     
                                                 
                                                     </tr>
@@ -65,20 +69,22 @@
                                                 <tbody>
                                                     {{#each voucher }}
                                                     <tr >
-                                                        <td>{{this.id}}</td>
-                                                        <td>{{this.coupon_id}}</td>
-                                                        <td>{{this.coupon_name}}</td>
-                                                        
+                                                        <td>{{this.voucher_name}}</td>
+                                                        <td>{{this.voucher_code}}</td>
+                                                        <td>{{this.days}}</td>
+                                                        <td>{{this.voucher_used}}</td>
+                                                        <td>{{this.total_voucher}}</td>
+                                                        <td>{{this.start_date}}</td>
                                                         <td>
-                                                            {{#equals this.coupon_status "Valid"}}
+                                                            {{#equals this.voucher_status "Active"}}
                                                             <h5>
-                                                                <span class="badge badge-success" id="{{this.id}}" >{{this.coupon_status}}</span>
+                                                                <span class="badge badge-success" id="{{this.id}}" >{{this.voucher_status}}</span>
                                                             
                                                             </h5>
                                                             {{/equals}}
-                                                            {{#equals this.coupon_status "Expired"}}
+                                                            {{#equals this.voucher_status "Non-Active"}}
                                                             <h5>
-                                                                <span class="badge badge-danger" id="{{this.id}}" >{{this.coupon_status}}</span>
+                                                                <span class="badge badge-danger" id="{{this.id}}" >{{this.voucher_status}}</span>
                                                                 
                                                             
                                                             </h5>
