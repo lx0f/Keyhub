@@ -40,7 +40,7 @@
                                         <label for="home" class="home"><i class="fa fa-tags" aria-hidden="true"></i></i>All Vouchers</label>
                                         <label for="blog" class="blog"><i class="fa fa-check" aria-hidden="true"></i></i>Valid Vouchers</label>
                                         <label for="code" class="code"><i class="fa fa-times" aria-hidden="true"></i></i>Expired Vouchers</label>
-                                        <label for="help" class="help"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></i>Pending</label>
+                                        <label for="help" class="help"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></i>Customers</label>
                                         <div class="slider"></div>
                                     </nav>
                                     <hr>
@@ -157,11 +157,14 @@
                                              <table class="table table-bordered" id="table-2" width="100%" cellspacing="0">
                                                  <thead>
                                                     <tr>
-                                                        <th>ID</th>
-                                                        <th>Coupon ID</th>
                                                         <th>Name</th>
+                                                        <th>Code</th>
+                                                        <th>Period ( Days )</th>
+                                                        <th>Voucher Used</th>
+                                                        <th>Total Voucher</th>
+                                                        <th>Start Date</th>
                                                         <th>Status</th>
-                                                        <th>Action</th>
+                                                        <th>Actions</th>
                                                        
                                                     
                                                 
@@ -171,9 +174,9 @@
                                                 <tbody>
                                                     {{#each voucher }}
                                                     <tr >
-                                                        <td>{{this.id}}</td>
-                                                        <td>{{this.coupon_id}}</td>
-                                                        <td>{{this.coupon_name}}</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         
                                                         <td>
                                                          
@@ -193,11 +196,14 @@
                                             <table class="table table-bordered" id="table-3" width="100%" cellspacing="0">
                                                  <thead>
                                                     <tr>
-                                                        <th>ID</th>
-                                                        <th>Coupon ID</th>
                                                         <th>Name</th>
+                                                        <th>Code</th>
+                                                        <th>Period ( Days )</th>
+                                                        <th>Voucher Used</th>
+                                                        <th>Total Voucher</th>
+                                                        <th>Start Date</th>
                                                         <th>Status</th>
-                                                        <th>Action</th>
+                                                        <th>Actions</th>
                                                        
                                                     
                                                 
@@ -207,9 +213,9 @@
                                                 <tbody>
                                                     {{#each voucher }}
                                                     <tr >
-                                                        <td>{{this.id}}</td>
-                                                        <td>{{this.coupon_id}}</td>
-                                                        <td>{{this.coupon_name}}</td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
                                                         
                                                         <td>
                                                          
@@ -228,11 +234,10 @@
                                             <table class="table table-bordered" id="table-4" width="100%" cellspacing="0">
                                                  <thead>
                                                     <tr>
-                                                        <th>ID</th>
-                                                        <th>Coupon ID</th>
-                                                        <th>Name</th>
-                                                        <th>Status</th>
+                                                       <th>Name</th>
+                                                        <th>Email</th>
                                                         <th>Action</th>
+                                                        
                                                        
                                                     
                                                 
@@ -240,22 +245,18 @@
                                                 </thead>
                                     
                                                 <tbody>
-                                                    {{#each voucher }}
-                                                    <tr >
-                                                        <td>{{this.id}}</td>
-                                                        <td>{{this.coupon_id}}</td>
-                                                        <td>{{this.coupon_name}}</td>
-                                                        
-                                                        <td>
-                                                         
-                                                        </td>
-                                                        <td>
-                                                         
-                                                        </td>
-                                                        
-                                                        
-                                                    
-                                                    </tr>
+                                                    {{#each user }}
+                                                        {{#equals this.isStaff "0"}}
+                                                        <tr >
+                                                            <td>{{this.username}}</td>
+                                                            <td>{{this.email}}</td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+                                                                 Voucher List
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        {{/equals}}
                                                     {{/each }}
                                              </table>
                                         </div>

@@ -1,5 +1,6 @@
 const express = require("express");
 const Voucher = require("../models/Voucher");
+const User = require("../models/User");
 const manageVoucher = express.Router();
 require('dotenv').config()
 // let sendSmtpEmail = new Sib.SendSmtpEmail();
@@ -62,7 +63,8 @@ manageVoucher
   .route("/")
   .get(async (req, res) => {
     const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
-    return res.render("./staff/voucher/voucher-table", { voucher });
+    const user = await (await User.findAll()).map((x) => x.dataValues);
+    return res.render("./staff/voucher/voucher-table", { voucher, user });
   })
 
 
