@@ -84,7 +84,7 @@ productRouter.post('/update',async function(req,res){
         stock: stock,
         price: price
     },
-        {where: {id: id}}
+        {where: {id: id}}//change the button value to this.name to use name:id comparison
     )
     //req.flash("success",name," has been updated successfully!")
     //res.render("./staff/staff-productCheck",{ products });
