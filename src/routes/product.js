@@ -1,5 +1,6 @@
 const express = require("express");
 const db = require("../models/database_setup");
+const Product = require("../models/product");
 const Products = require("../models/product");
 const productRouter = express.Router()
 const product = require("../models/product")
@@ -36,7 +37,7 @@ productRouter.post('/', async function (req, res) {
     }
     if (flag) {
         product.create({
-            name,description,category,stock,price
+            productID,name,description,category,stock,price
             //list of attributes
         })
         req.flash("success",name," has been successfully added!")
@@ -51,20 +52,44 @@ productRouter.post('/', async function (req, res) {
 productRouter.post('/delete', async function (req, res) {
     let { productID } = req.body;
     //console.log("PRODUCT ID:",productID)
-    const value = await Products.findOne({where: {productID: productID}})
+    const value = await Products.findOne({where: {id: productID}})
     const name = value["name"]
-    const removeProduct = await Products.destroy({ where: {productID: productID}})
+    const removeProduct = await Products.destroy({ where: {id: productID}})
     //console.log("I AM HERE",products)
     req.flash("success",name," has been successfully removed.")
     res.redirect("/staff/product/check");
 });
 
 productRouter.get('/check',async (req,res)=>{
+    //idk why flashes dont work so this route is used to render the check page with products
     const products =  await (await product.findAll()).map((x) => x.dataValues);
     return res.render("./staff/staff-productCheck",{ products });
 });
 
-productRouter.get('/update',async (req,res)=>{
+productRouter.post('/updateRoute',async function(req,res){
     let { productID } = req.body;
+    const product = await Products.findOne({where:{id:productID}})
+    const allproducts = await (await Products.findAll()).map((x) => x.dataValues);
+    res.render("./staff/staff-productUpdate",{product})
 });
+
+productRouter.post('/update',async function(req,res){
+    let { id,name,description,category,stock,price } = req.body;
+    console.log("I AM HERE",name)
+    const products = await (await Products.findAll()).map((x) => x.dataValues)
+    Product.update({
+        name: name,
+        description: description,
+        category: category,
+        stock: stock,
+        price: price
+    },
+        {where: {id: id}}
+    )
+    //req.flash("success",name," has been updated successfully!")
+    //res.render("./staff/staff-productCheck",{ products });
+    req.flash("success",name," has been successfully updated")
+    res.redirect("/staff/product/check");
+    
+})
 module.exports = productRouter
