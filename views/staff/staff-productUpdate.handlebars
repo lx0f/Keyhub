@@ -1,4 +1,5 @@
 
+
 <div class="container">
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
@@ -13,17 +14,17 @@
                             <form method="POST" action="/staff/product/update"> 
                                 <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" name = "name" placeholder="Name" required>
+                                <input type="text" class="form-control" id="exampleFormControlInput1" name = "name" placeholder="{{product.name}}" required>
                                 </div>
                                 <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Description</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name = "description" placeholder="Enter Description Here" required></textarea>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name = "description" placeholder="{{product.description}}" required></textarea>
                                 </div>
                                 <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Category</label>
                                 <br>
                                 <select name="category" class="form-control" id="exampleFormControlInput1" required>
-                                    <option value="" disabled selected>Choose a Category</option>
+                                    <option value="" id="title"disabled selected>{{product.category}}</option>
                                     <option value="keyboard">Keyboard</option><!--value is what is sent to the db-->
                                     <option value="switch">Switch</option> 
                                     <option value="keycaps">Keycaps</option>
@@ -32,11 +33,11 @@
                                 </div>
                                 <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Stock</label>
-                                <input type="number" class="form-control" id="exampleFormControlInput1" name = "stock" placeholder="Stock" required>
+                                <input type="number" class="form-control" id="exampleFormControlInput1" name = "stock" placeholder="{{product.stock}}" required>
                                 </div>
                                 <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Price</label>
-                                <input type="number" min="0.01" max="9999.99" step="0.01" class="form-control" id="exampleFormControlInput1" name = "price" placeholder="Price" required>
+                                <input type="number" min="0.01" max="9999.99" step="0.01" class="form-control" id="exampleFormControlInput1" name = "price" placeholder="{{product.price}}" required>
                                 </div>
                                 <hr>
                                 <button class="btn btn-primary btn-user btn-block" style="margin-bottom: 15px; margin-top: 40px;" name = "id"value = {{product.id}}>
@@ -50,7 +51,6 @@
         </div>
 
     </div>
-
 
 <!--
     input format
