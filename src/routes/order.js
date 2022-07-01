@@ -49,30 +49,21 @@ const {Cart} = require("../models/cart")
 
 // fillOrderData
 CustomerOrder.get('/data', async (req, res) => {
-    try {
-        const ordersHavingProducts = await Order.findAll({
-          raw: true,
-          nest: true,
-          where: { UserId: req.user.id },
-          include: 'orderProducts'
-        })
-        const orders = await Order.findAll({
-          raw: true,
-          nest: true,
-          where: { UserId: req.user.id }
-        })
-        orders.forEach(order => {
-          order.orderProducts = []
-        })
-        ordersHavingProducts.forEach(product => {
-          const index = orders.findIndex(order => order.id === product.id)
-          if (index === -1) 
-            return orders[index].orderProducts.push(product.orderProducts)
-        })
-        return res.render('orders', { orders })
-    } catch (e) {
-        console.log(e)
+  try {
+    const cart = await Cart.findOne({
+      where: { UserId: req.user.id },
+      include: 'cartProducts'
+    })
+    if (!cart || !cart.cartProducts.length) {
+      req.flash('error', 'Your shopping cart is empty!')
+      return res.redirect('/cart')
     }
+    const cartId = cart.id
+    const amount = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+    return res.render('orderData', { cartId, amount })
+  } catch (e) {
+    console.log(e)
+  }
 });
 
 // Post Order
@@ -104,6 +95,11 @@ CustomerOrder.post('/data', async (req, res) => {
         const order = await Order.create({
           UserId: req.user.id,
           name: req.body.name,
+          // address: req.body.address,
+          // phone: req.body.phone,
+          // amount: req.body.amount,
+          // shipping_status: req.body.shipping_status,
+          // payment_status: req.body.payment_status
           address: req.body.address,
           phone: req.body.phone,
           amount: req.body.amount,
@@ -121,16 +117,16 @@ CustomerOrder.post('/data', async (req, res) => {
         ))
         Promise.all(items)
         // send mail
-        const email = req.user.email
-        const subject = `[TEST] Keyhub Order with Order ID:${order.id} created, Please take time to pay`
-        const status = 'Unshipped / Unpaid'
-        const msg = 'Please click the payment link and pay with a test credit card! Thanks for your cooperation!'
-        sendMail(email, subject, orderMail(order, status, msg))
+        // const email = req.user.email
+        // const subject = `[TEST] Keyhub Order with Order ID:${order.id} created, Please take time to pay`
+        // const status = 'Unshipped / Unpaid'
+        // const msg = 'Please click the payment link and pay with a test credit card! Thanks for your cooperation!'
+        // sendMail(email, subject, orderMail(order, status, msg))
         // clear cart & cartItem
         await cart.destroy()
         // clear cartId in session
         req.session.cartId = ''
-        return res.status(201).redirect(`/order/${order.id}`)
+        return res.redirect('/cart')
     } catch (e) {
     console.log(e)
     }
@@ -146,11 +142,11 @@ CustomerOrder.post('/:id/cancel', async (req, res) => {
         req.flash('error', `OrderId${order.id} cancelled!`)
         return res.status(200).redirect('back')
     } catch (e) {
-    console.log(e)
+      console.log(e)
     }
 });
 
-// newebpayCallback
+// PaymentCallback
 CustomerOrder.post('/newebpay/callback', async (req, res) => {
     try {
         const data = JSON.parse(decryptData(req.body.TradeInfo))
