@@ -44,7 +44,7 @@
                       </thead>
                       <tbody>
                         {{#each products}}
-                        
+                             
                           <tr>
                             <td>{{this.id}}</td>
                             <td>{{this.name}}</td>
@@ -93,11 +93,11 @@
                             </td>
 
                             <td class='col-1'>
-                                  
-                              <button type="button" title="View" class="btn btn-secondary" data-toggle="modal" data-target="#weModal_">
-                                <i class="far fa-eye"></i>
+                                  <form action="/staff/product/updateRoute" method="POST">
+                              <button type="submit" title="View" class="btn btn-secondary" name="productID" value="{{this.id}}">
+                                <i class="fa fa-edit"></i>
                               </button>
-                              
+                              </form>
                               <!-- Modal -->
                               <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby="" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -203,9 +203,11 @@
 
                             <td class='col-1'>
                                   
-                              <button type="button" title="View" class="btn btn-secondary" data-toggle="modal" data-target="#weModal_">
-                                <i class="far fa-eye"></i>
+                               <form action="/staff/product/updateRoute" method="POST">
+                              <button type="submit" title="View" class="btn btn-secondary" name="productID" value="{{this.id}}">
+                                <i class="fa fa-edit"></i>
                               </button>
+                              </form>
                               
                               <!-- Modal -->
                               <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby="" aria-hidden="true">
@@ -312,9 +314,11 @@
 
                             <td class='col-1'>
                                   
-                              <button type="button" title="View" class="btn btn-secondary" data-toggle="modal" data-target="#weModal_{{this.id}}">
-                                <i class="far fa-eye"></i>
+                             <form action="/staff/product/updateRoute" method="POST">
+                              <button type="submit" title="View" class="btn btn-secondary" name="productID" value="{{this.id}}">
+                                <i class="fa fa-edit"></i>
                               </button>
+                              </form>
                               
                               <!-- Modal -->
                               <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby="" aria-hidden="true">
@@ -420,9 +424,11 @@
 
                             <td class='col-1'>
                                   
-                              <button type="button" title="View" class="btn btn-secondary" data-toggle="modal" data-target="#weModal_">
-                                <i class="far fa-eye"></i>
+                             <form action="/staff/product/updateRoute" method="POST">
+                              <button type="submit" title="View" class="btn btn-secondary" name="productID" value="{{this.id}}">
+                                <i class="fa fa-edit"></i>
                               </button>
+                              </form>
                               
                               <!-- Modal -->
                               <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby="" aria-hidden="true">
@@ -528,10 +534,11 @@
 
                             <td class='col-1'>
                                   
-                              <button type="button" title="View" class="btn btn-secondary" data-toggle="modal" data-target="#weModal_">
-                                <i class="far fa-eye"></i>
+                             <form action="/staff/product/updateRoute" method="POST">
+                              <button type="submit" title="View" class="btn btn-secondary" name="productID" value="{{this.id}}">
+                                <i class="fa fa-edit"></i>
                               </button>
-                              
+                              </form>
                               <!-- Modal -->
                               <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby="" aria-hidden="true">
                                 <div class="modal-dialog">

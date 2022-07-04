@@ -71,7 +71,7 @@ productRouter.post('/updateRoute',async function(req,res){
     let { productID } = req.body;
     const product = await Products.findOne({where:{id:productID}})
     const allproducts = await (await Products.findAll()).map((x) => x.dataValues);
-    res.render("./staff/staff-products",{product})
+    res.render("./staff/staff-productUpdate",{product})
 });
 
 productRouter.post('/update',async function(req,res){
