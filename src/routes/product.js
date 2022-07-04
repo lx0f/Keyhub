@@ -46,7 +46,7 @@ productRouter.post('/', async function (req, res) {
     else{
         req.flash("error",name," is already a product!")
     }
-    res.redirect("/staff/product")
+    res.redirect("/staff/product/check");
     });
 
 productRouter.post('/delete', async function (req, res) {
@@ -63,14 +63,15 @@ productRouter.post('/delete', async function (req, res) {
 productRouter.get('/check',async (req,res)=>{
     //idk why flashes dont work so this route is used to render the check page with products
     const products =  await (await product.findAll()).map((x) => x.dataValues);
-    return res.render("./staff/staff-productCheck",{ products });
+    console.log("I AM HERE",products)
+    return res.render("./staff/staff-products",{ products });
 });
 
 productRouter.post('/updateRoute',async function(req,res){
     let { productID } = req.body;
     const product = await Products.findOne({where:{id:productID}})
     const allproducts = await (await Products.findAll()).map((x) => x.dataValues);
-    res.render("./staff/staff-productUpdate",{product})
+    res.render("./staff/staff-products",{product})
 });
 
 productRouter.post('/update',async function(req,res){
