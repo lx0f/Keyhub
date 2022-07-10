@@ -19,36 +19,9 @@ const Product = require("../models/product")
 const {Payment} = require("../models/order")
 const {Cart} = require("../models/cart")
 
-// Get Orders
-// CustomerOrder.get('/', async (req, res) => {
-//     try {
-//         const ordersHavingProducts = await Order.findAll({
-//           raw: true,
-//           nest: true,
-//           where: { UserId: req.user.id },
-//           include: 'orderProducts'
-//         })
-//         const orders = await Order.findAll({
-//           raw: true,
-//           nest: true,
-//           where: { UserId: req.user.id }
-//         })
-//         orders.forEach(order => {
-//           order.orderProducts = []
-//         })
-//         ordersHavingProducts.forEach(product => {
-//           const index = orders.findIndex(order => order.id === product.id)
-//           if (index === -1) return
-//           orders[index].orderProducts.push(product.orderProducts)
-//         })
-//         return res.render('orders', { orders })
-//       } catch (e) {
-//         console.log(e)
-//       }
-// });
 
 // fillOrderData
-CustomerOrder.get('/data', async (req, res) => {
+CustomerOrder.get('/', async (req, res) => {
   try {
     const cart = await Cart.findOne({
       where: { UserId: req.user.id },
@@ -60,7 +33,7 @@ CustomerOrder.get('/data', async (req, res) => {
     }
     const cartId = cart.id
     const amount = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-    return res.render('orderData', { cartId, amount })
+    return res.render('./customers/orderData', { cartId, amount })
   } catch (e) {
     console.log(e)
   }
@@ -128,7 +101,7 @@ CustomerOrder.post('/data', async (req, res) => {
         req.session.cartId = ''
         return res.redirect('/cart')
     } catch (e) {
-    console.log(e)
+      console.log(e)
     }
 });
 
