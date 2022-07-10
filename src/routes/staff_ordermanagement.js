@@ -14,7 +14,7 @@ OrderManagement.get('/', async (req, res) => {
           nest: true,
           include: 'orderProducts'
         })
-        
+        console.log(ordersHavingProducts)
         const orders = await Order.findAll({
           raw: true,
           nest: true,
