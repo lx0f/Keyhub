@@ -112,22 +112,22 @@ Order.belongsTo(User);
 User.hasMany(Order);
 
 // Order and Product association
-// Order.belongsToMany(Product, {
-//     through: {
-//       model: OrderItem,
-//       unique: false
-//     },
-//     foreignKey: 'OrderId',
-//     as: 'products'
-// })
-// Product.belongsToMany(Order, {
-//     through: {
-//         model: OrderItem,
-//         unique: false
-//     },
-//     foreignKey: 'ProductId',
-//     as: 'orders'
-// })
+Order.belongsToMany(Product, {
+    through: {
+      model: OrderItem,
+      unique: false
+    },
+    foreignKey: 'OrderId',
+    as: 'products'
+})
+Product.belongsToMany(Order, {
+    through: {
+        model: OrderItem,
+        unique: false
+    },
+    foreignKey: 'ProductId',
+    as: 'orders'
+})
 Order.hasMany(OrderItem);
 OrderItem.belongsTo(Order);
 

@@ -16,7 +16,7 @@ OrderManagement.get('/', async (req, res) => {
             }
         },
     });
-    console.log(orders)
+    
     return res.render('./staff/ordermanagement/staff-getorders', { orders });
 });
 
