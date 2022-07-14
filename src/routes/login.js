@@ -93,7 +93,7 @@ loginRouter
                 to: user.email,
                 subject: "Your Reset Link",
                 text: link,
-                template: "./customers/email",
+                template: "./customers/email1",
                 context: { link },
             });
         }
