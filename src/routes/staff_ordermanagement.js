@@ -3,18 +3,22 @@ const OrderManagement = express.Router()
 const { Order }  = require("../models/order")
 const { OrderItem } = require("../models/order")
 const Product = require("../models/product")
-const { Payment } = require("../models/order")
-const { Cart } = require("../models/cart")
+const User = require("../models/User")
 
 // Get Orders
 OrderManagement.get('/', async (req, res) => {
     const orders = await Order.findAll({
-        include: {
-            model: OrderItem,
-            include: {
-                model: Product
-            }
-        },
+        include: [
+            {
+                model: OrderItem,
+                include: {
+                    model: Product
+                }
+            },
+            {
+                model: User
+            },
+        ],
     });
     console.log(orders)
     return res.render('./staff/ordermanagement/staff-getorders', { orders });
