@@ -111,7 +111,15 @@ app.engine(
             multiply(a, b) {
                 if (typeof a === 'number' && typeof b === 'number') {
                   return a * b
-                }},
+                }
+            },
+            sum_quantity(array) {
+                s = 0
+                for (i = 0; i < array.length; i++) {
+                    s += array[i].quantity
+                }
+                return s
+            }
 
         },
     })
