@@ -8,6 +8,7 @@ const customerpeRouter = require("./customer_pe")
 
 const customerproductRouter = require("./customer_product")
 const customerManageAccountRouter = require("./customer_manage_account")
+const loyaltyprogram = require("./loyaltyprogram")
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
       return res.redirect("/login")
@@ -30,6 +31,7 @@ customerRouter.use("/ticket", customerTicketRouter);
 customerRouter.use("/createPE", customerpeRouter)
 customerRouter.use("/Cproducts",customerproductRouter)
 customerRouter.use("/account", customerManageAccountRouter)
+customerRouter.use("/loyaltyprogram",loyaltyprogram)
 
 customerRouter.route("/logout").get((req, res) => {
     req.logOut();

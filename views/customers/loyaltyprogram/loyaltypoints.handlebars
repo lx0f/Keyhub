@@ -1,0 +1,43 @@
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    
+    <form action="" method="POST">
+        <input type="text" name="id" placeholder="Referral Code" value="" hidden>
+        <input type="text" name="card" placeholder="Referral Code" value="new" hidden>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+    
+       
+        {{#each User_Card}}
+            
+    
+            <form action="" method="POST">
+                <input type="text" name="card" placeholder="Referral Code" value="current" hidden>
+                <input type="text" name="id" placeholder="Referral Code" value="{{this.id}}" hidden>
+                <button type="submit" class="btn btn-primary">Order</button>
+            </form>
+            <form action="" method="POST">
+                <input type="text" name="card" placeholder="Referral Code" value="buy" hidden>
+                <input type="text" name="id" placeholder="Referral Code" value="{{this.id}}" hidden>
+                <button type="submit" class="btn btn-primary">Buy</button>
+            </form>
+            
+                 <h1>
+                {{this.Active_Points}}
+                {{this.authorID}}
+                
+                <br>
+                {{this.Expired_Points}}
+                <br>
+                {{this.Used_Points}}
+                <br>
+                {{this.Status}}
+                </h1>
+            
+        {{/each}}
+    
+  </div>
+</div>
