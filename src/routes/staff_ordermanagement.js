@@ -9,7 +9,7 @@ const User = require("../models/User")
 const moment = require('moment');
 const cron = require('node-cron');
 
-cron.schedule('*/30 * * * * *', async() => {
+cron.schedule('*/30 * * * * ', async() => {
     console.log('running a task every 30 minute');
     let orders = await Order.findAll({where : {payment_status: 0 }})
     orders.forEach(order => {

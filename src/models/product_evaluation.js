@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('./database_setup');
+const Product = require("./product");
 
 class Pevaluation extends Sequelize.Model {
     
@@ -46,5 +47,6 @@ class Pevaluation extends Sequelize.Model {
       modelName: "Product_Evaluation"
     }
   );
-  
+  Pevaluation.belongsTo(Product);
+  Product.hasMany(Pevaluation)
   module.exports = Pevaluation;
