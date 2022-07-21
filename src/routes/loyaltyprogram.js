@@ -61,38 +61,35 @@ loyaltyprogram.post("/points", async (req, res) => {
                 }
             }
         }
-        else if (req.body.card == "buy") {
-             for (i = 0; i < Card.length; i++){
-                
-                let card_individual = await LoyaltyCard.findByPk(Card[i].id);
+    
+        else if (req.body.card == 'item') {
+            let card_individual = await LoyaltyCard.findByPk(Card[i].id);
                 if (Card[i].id == req.body.id) {
-                   if (Card[i].Active_Points <= 0) {
+                   if (Card[i].Active_Points < req.body.cost) {
                         req.flash("error","Not Enough Points! ")
                         return res.redirect("/loyaltyprogram/points")
                     } else  {
-                       const active_points = parseInt(Card[i].Active_Points) - 100
-                       const used_points = parseInt(Card[i].Used_Points) + 100
+                       const active_points = parseInt(Card[i].Active_Points) - parseInt(req.body.cost)
+                       const used_points = parseInt(Card[i].Used_Points) + parseInt(req.body.cost)
                         if (active_points <= 500) {
                             await card_individual.update({
-                                Active_Points: active_points, Expired_Points: Card[i].Expired_Points, Used_Points: Card[i].Used_Points, Status:"Bronze"
+                                Active_Points: active_points, Expired_Points: Card[i].Expired_Points, Used_Points: used_points, Status:"Bronze"
                             });
                         }
                         else if (active_points > 500 && active_points < 1000) {
                             await card_individual.update({
-                                Active_Points: active_points, Expired_Points: Card[i].Expired_Points, Used_Points: Card[i].Used_Points, Status:"Silver"
+                                Active_Points: active_points, Expired_Points: Card[i].Expired_Points, Used_Points: used_points, Status:"Silver"
                             });
                         }
                         else if (active_points >= 1000) {
                             await card_individual.update({
-                                Active_Points: active_points, Expired_Points: Card[i].Expired_Points, Used_Points: Card[i].Used_Points, Status:"Gold"
+                                Active_Points: active_points, Expired_Points: Card[i].Expired_Points, Used_Points: used_points, Status:"Gold"
                             });
                         }
-                            req.flash("success", 100,"Points Deducterd ! ")
+                            req.flash("success", req.body.cost,"Points Deducterd ! ")
                             return res.redirect("/loyaltyprogram/points")
                     }
                 } 
-                
-            }
         }
     
   } catch(e) {
