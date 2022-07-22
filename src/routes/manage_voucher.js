@@ -29,15 +29,15 @@ manageVoucher.get('/editVoucher/:id', (req, res) => {
 });
 
 manageVoucher.post('/editVoucher/:id', async (req, res) => {
-  const coupon_id = req.body.coupon_id;
-  const coupon_name = req.body.coupon_name;
-  const coupon_value = req.body.coupon_value;
-  const coupon_status = req.body.coupon_status;
-  const coupon_desc = req.body.coupon_desc;
-  const coupon_qty = req.body.coupon_qty;
-  const start = req.body.start_date;
-  const end = req.body.end_date; 
-  const coupon_type = req.body.coupon_type;
+  // const coupon_id = req.body.coupon_id;
+  // const coupon_name = req.body.coupon_name;
+  // const coupon_value = req.body.coupon_value;
+  // const coupon_status = req.body.coupon_status;
+  // const coupon_desc = req.body.coupon_desc;
+  // const coupon_qty = req.body.coupon_qty;
+  // const start = req.body.start_date;
+  // const end = req.body.end_date; 
+  // const coupon_type = req.body.coupon_type;
 
   const voucher = await Voucher.findByPk(req.params.id);
   await voucher.update({
@@ -50,7 +50,10 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
       voucher_desc: req.body.voucher_desc,
       start_date: req.body.start_date,
       days: req.body.days,
-      voucher_type: req.body.voucher_type
+      voucher_type: req.body.voucher_type,
+      voucher_cat: req.body.voucher_cat,
+      usage:req.body.usage,
+      spend:req.body.spend
 
   });
 
@@ -88,7 +91,10 @@ manageVoucher.route("/voucher-form").get((req, res) => {
       voucher_desc: req.body.voucher_desc,
       start_date: req.body.start_date,
       days: req.body.days,
-      voucher_type: req.body.voucher_type
+      voucher_type: req.body.voucher_type,
+      voucher_cat: req.body.voucher_cat,
+      usage:req.body.usage,
+      spend:req.body.spend
     })
     req.flash("success", "Successfully created Master Voucher!")
     return res.redirect("/staff/manage-vouchers")

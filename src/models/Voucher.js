@@ -48,11 +48,6 @@ Voucher.init(
       allowNull: true,
       unique: false,
     },
-    voucher_used: {
-      type: Sequelize.DataTypes.INTEGER,
-      allowNull: true,
-      unique: false,
-    },
     voucher_desc: {
       type: Sequelize.DataTypes.STRING,
       allowNull: true,
@@ -69,6 +64,26 @@ Voucher.init(
       unique: false,
     },
     voucher_type: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+    },
+    voucher_used:{
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+    },
+    voucher_cat:{
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+    },
+    usage:{
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+    },
+    spend:{
       type: Sequelize.DataTypes.STRING,
       allowNull: true,
       unique: false,
