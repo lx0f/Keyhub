@@ -5,10 +5,16 @@
 
 <div class="container">
 	<div class="shadow card card-body ">
+		<div class="row">
+			<div class="col-12 text-center">
+				<div class="btn" id="Customer" onclick="Customer()" >
+					<h3 class="Customer_2" id="Customer_2" name="voucher" value="Customer" checked><strong>{{voucher.voucher_type}}</strong></h3>
+				</div>
+			</div>
+		</div>
 		<form action="/staff/manage-vouchers/editVoucher/{{voucher.id}}" method="POST">
 		
-			<h3 >Update Coupon</h3>
-	
+			
 			<div class="mb-3">
 				<label for="" class="form-label">Voucher Name</label>
 				<input type="text" class="form-control" id="voucher_name" name="voucher_name" value="{{voucher.voucher_name}}" required>
@@ -18,27 +24,44 @@
 				<input type="text" class="form-control" id="voucher_desc" name="voucher_desc" value="{{voucher.voucher_desc}}" required>
 			</div>
 			<div class="mb-3">
-				<label for="voucher_value" class="form-label">Voucher Value</label>
+				<label for="coupon_id" class="form-label">Voucher Value</label>
 				<input type="number" class="form-control" id="voucher_value" name="voucher_value" value="{{voucher.voucher_value}}" required>
+			</div>
+			<div class="mb-3">
+				<label  class="form-label">Min. Spend</label>
+				<input type="number" class="form-control" id="spend" name="spend" value="0" value="{{voucher.spend}}" required>
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Usage per customer</label>
+				<input type="number" class="form-control" id="usage" name="usage" value="1" value="{{voucher.usage}}" required>
 			</div>
 			<div class="mb-3">
 				<label for="voucher_type">Voucher Type</label>
 				<select class="form-control" id="voucher_type" name="voucher_type">
+					<option value="Customer">Customer</option>
+				</select>
+			</div>
+			<div class="mb-3">
+				<label for="voucher_cat">Voucher Category</label>
+				<select class="form-control" id="voucher_cat" name="voucher_cat">
 					<option value="Cashback">Cashback</option>
+					<option value="Free_Shipping">Free Shipping</option>
 					<option value="Discount">Discount</option>
 				</select>
 			</div>
 						
 			<div class="mb-3">
 				<label for="coupon_code" class="form-label">Voucher Code</label>
-				<input type="text" class="form-control" id="voucher_code" value="{{voucher.voucher_code}}" readonly name="voucher_code" >
+				<input type="text" class="form-control" id="customer_voucher_code"  readonly name="voucher_code" value="{{voucher.voucher_code}}">
 			</div>
-			<div class="mb-3">
-				<input type="hidden" class="form-control" id="voucher_used" name="voucher_used" value="0" required>
-			</div>
+			
 			<div class="mb-3">
 				<label for="total_voucher" class="form-label">Total Voucher</label>
 				<input type="number" class="form-control" id="total_voucher" name="total_voucher" value="{{voucher.total_voucher}}" required>
+			</div>
+			<div class="mb-3" hidden>
+				<label for="" class="form-label">Voucher Used</label>
+				<input type="number" class="form-control" id="voucher_used" name="voucher_used" value="0" value="{{voucher.voucher_used}}" required>
 			</div>
 			<div class="mb-3" id="timedisplay" >
 				<div class="row">
@@ -52,25 +75,36 @@
 					</div>
 				</div>
             </div>
-			<label for="" class="form-label">Status</label>
+			
+			{{!-- <div class="mb-3" id="timedisplay" >
+            <label for="end_date" class="form-label">Expiry Date</label>
+            
+            <input type="text" id="timepicker_2" width="234" class="" name="end_date" />
+            </div> --}}
+			
+			<div hidden>
+				<label for="" class="form-label">Status</label>
 			
 			<div class=" btn-group-toggle" data-toggle="buttons">
-				<label class="btn btn-success col-2" id="status_choice_1" onclick="status_choice_1()" >
-					<input type="radio" name="voucher_status" id="coupon_status_1" value="Active" autocomplete="off" checked> Valid
+				<label class="btn btn-success col-2" disabled>
+					<input type="radio" name="voucher_status" id="voucher_status" value="Active" autocomplete="off" checked> Active
 				</label>
 				
-				<label class="btn col-2" id="status_choice_2" onclick="status_choice_2()" >
-					<input type="radio" name="" id="coupon_status_2"  autocomplete="off" value="Non-Active"> Expired
+				<label class="btn btn col-2" disabled>
+					<input type="radio" name="options"  autocomplete="off" > Non-Active
 				</label>
 			</div>
 			<br>
+			</div>
 			<div class="row">
 				<div class="col-10 ">
-					<button type="submit" class="btn btn-primary">Update</button>
+					<button type="submit" class="btn btn-primary">Update Customer Voucher</button>
 				</div>
 				
 				<button type="button" class="col-2 btn btn-primary"> <a href="/staff/manage-vouchers" style="text-decoration:none; color:white;">Return</a></button>
 			</div>
+			
+		
 			
 		</form>
 	</div>
