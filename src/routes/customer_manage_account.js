@@ -1,6 +1,6 @@
 const express = require("express")
 const fs = require('fs');
-const upload = require('../configuration/imageUpload');
+// const upload = require('../configuration/imageUpload');
 const customerManageAccountRouter = express.Router()
 const User = require("../models/User")
 

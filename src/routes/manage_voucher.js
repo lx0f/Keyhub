@@ -1,11 +1,34 @@
 const express = require("express");
 const Voucher = require("../models/Voucher");
 const User = require("../models/User");
+const { CustomerVoucher } = require("../models/CustomerVoucher");
+const { VoucherItem } = require("../models/CustomerVoucher")
 const manageVoucher = express.Router();
 require('dotenv').config()
 // let sendSmtpEmail = new Sib.SendSmtpEmail();
 // const email = req.query.email;
 // console.log(email)
+
+manageVoucher
+  .route("/")
+  .get(async (req, res) => {
+    try {
+      const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
+      const user = await (await User.findAll()).map((x) => x.dataValues);
+      const voucherlist = await CustomerVoucher.findAll({
+        include: ["voucheritem",{ model: User },
+        ],
+      });
+    
+      console.log(voucherlist)
+      
+      res.render("./staff/voucher/voucher-table", {voucherlist,voucher, user});
+    } catch (e) {
+      console.log(e)
+    }
+    
+  })
+
 
 manageVoucher.get('/deleteVoucher/:id', async function
 (req, res) {
@@ -41,6 +64,7 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
 
   const voucher = await Voucher.findByPk(req.params.id);
   await voucher.update({
+     voucher_title: req.body.voucher_title,
       voucher_name: req.body.voucher_name,
       voucher_value: req.body.voucher_value,
       voucher_code: req.body.voucher_code,
@@ -62,15 +86,6 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
 
 })
 
-manageVoucher
-  .route("/")
-  .get(async (req, res) => {
-    const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
-    const user = await (await User.findAll()).map((x) => x.dataValues);
-    return res.render("./staff/voucher/voucher-table", { voucher, user });
-  })
-
-
 manageVoucher.route("/voucher-form").get((req, res) => {
 // if (req.isUnauthenticated() || !req.user.isStaff) {
 //   return res.redirect("/");
@@ -82,6 +97,7 @@ manageVoucher.route("/voucher-form").get((req, res) => {
 }).post(async (req, res) => {
   try {
     Voucher.create({
+      voucher_title: req.body.voucher_title,
       voucher_name: req.body.voucher_name,
       voucher_value: req.body.voucher_value,
       voucher_code: req.body.voucher_code,

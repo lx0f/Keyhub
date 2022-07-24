@@ -20,6 +20,11 @@ Voucher.init(
       unique: true,
       allowNull: false,
     },
+    voucher_title: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      unique: false,
+    },
     voucher_code: {
       type: Sequelize.DataTypes.STRING,
       allowNull: true,
@@ -69,7 +74,7 @@ Voucher.init(
       unique: false,
     },
     voucher_used:{
-      type: Sequelize.DataTypes.STRING,
+      type: Sequelize.DataTypes.INTEGER,
       allowNull: true,
       unique: false,
     },
