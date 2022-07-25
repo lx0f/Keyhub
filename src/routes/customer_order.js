@@ -22,7 +22,7 @@ CustomerOrder.get('/', async (req, res) => {
         where: { UserId: req.user.id }
     });
 
-    return res.render('./customer/orders/page-profile-orders', { orders });
+    return res.render('./customer/orders/page-profile-main', { orders });
 });
 
 module.exports = CustomerOrder

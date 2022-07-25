@@ -1,6 +1,13 @@
 const express = require("express")
 const customerManageAccountRouter = express.Router()
 const User = require("../models/User")
+const { Order }  = require("../models/order")
+const { OrderItem } = require("../models/order")
+const Product = require("../models/product")
+const { Payment } = require("../models/order")
+const { Cart } = require("../models/cart")
+const moment = require('moment');
+const cron = require('node-cron');
 
 customerManageAccountRouter.use((req, res, next) => {
     if (req.isUnauthenticated()) {
@@ -11,8 +18,20 @@ customerManageAccountRouter.use((req, res, next) => {
     next()
 })
 
-customerManageAccountRouter.route("/").get((req, res) => {
-    res.render("./customers/page-profile-main")
+customerManageAccountRouter.route("/").get(async(req, res) => {
+    const orders = await Order.findAll({
+        include: [
+            {
+                model: OrderItem,
+                include: {
+                    model: Product
+                }
+            },
+        ],
+        where: { UserId: req.user.id }
+    });
+    console.log(orders)
+    res.render("./customers/page-profile-main", { orders })
 })
 
 customerManageAccountRouter.route("/edit").get(async (req, res) => {
@@ -33,4 +52,5 @@ customerManageAccountRouter.route("/edit").get(async (req, res) => {
     await user.save()
     return res.redirect("/account")
 })
+
 module.exports = customerManageAccountRouter
