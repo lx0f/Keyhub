@@ -19,13 +19,21 @@ customervoucher.get("/", async (req, res) => {
             const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
             console.log(voucherlist)
             res.render('./customers/customer_voucher/customervoucher', {voucherlist,voucher});
-            
-            
         }
         else {
-            req.flash('error', 'please login as customer first')
-            return res.redirect('/login')   
+            const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
+            res.render('./customers/customer_voucher/customervoucher', {voucher});
         }
+           
+            
+            
+            
+            
+        
+        
+            // req.flash('error', 'please login as customer first')
+            // return res.redirect('/login')   
+        
     
     } catch (e) {
         console.log(e)
@@ -35,7 +43,8 @@ customervoucher.get("/", async (req, res) => {
  // Add customer voucher
 customervoucher.post('/postvoucherlist', async (req,res) =>{
     try {
-        let list = {}
+        if (req.user) {
+            let list = {}
          const [voucherlist] = await CustomerVoucher.findOrCreate({
             where: {
               UserID: req.user.id || 0
@@ -58,7 +67,8 @@ customervoucher.post('/postvoucherlist', async (req,res) =>{
         
         const voucher = await Voucher.findByPk(req.body.voucherID)
         if (req.body.status == "Inactive" || voucher.voucher_used >= voucher.total_voucher) {
-
+           
+          
             req.flash('error', `${req.body.name} Voucher has been fully claimed!`)
             return res.redirect('/CustomerVoucher');
         }
@@ -83,6 +93,12 @@ customervoucher.post('/postvoucherlist', async (req,res) =>{
 
         await item.save()
         return res.redirect('/CustomerVoucher')
+
+        } else {
+             req.flash('error', 'please login as customer first')
+            return res.redirect('/login')   
+        }
+        
         
     } catch (e) {
     console.log(e)

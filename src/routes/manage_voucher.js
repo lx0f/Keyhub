@@ -8,7 +8,11 @@ require('dotenv').config()
 // let sendSmtpEmail = new Sib.SendSmtpEmail();
 // const email = req.query.email;
 // console.log(email)
-
+// WHEN CUSTOMER USE A VOUCHER IT UPDATES USAGE IN VOUCHERITEMS
+//  const voucheritem = await VoucherItem.findByPk(req.body.voucherID)
+//             await voucheritem.update({
+//                 usage: voucheritem.usage += 1
+//             });
 manageVoucher
   .route("/")
   .get(async (req, res) => {
@@ -19,10 +23,11 @@ manageVoucher
         include: ["voucheritem",{ model: User },
         ],
       });
-    
+      const voucheritem = await (await VoucherItem.findAll()).map((x) => x.dataValues)
+     
       console.log(voucherlist)
       
-      res.render("./staff/voucher/voucher-table", {voucherlist,voucher, user});
+      res.render("./staff/voucher/voucher-table", {voucherlist,voucher, user,voucheritem});
     } catch (e) {
       console.log(e)
     }

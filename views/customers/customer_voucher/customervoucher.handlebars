@@ -1,9 +1,21 @@
+
 <div class="container">
+	<div class="header-container">
+		<div class="btn" >
+			<h2 class="header-name">Daily Vouchers</h2>
+		</div>
+		
+
+		<img src="/public/images/logo-white.png" alt="">
+	</div>
     <div class="row">
+		
         {{#each voucher}}
             {{#equals this.voucher_type "Customer" }}
             <div class="col-6" >
                 <div class="courses-container">
+					
+					<span class="top-left tag-2 tag-limited">Limited</span>
 					{{#equals this.voucher_status "Active" }}
 						<span class="top-right tag-2 tag-active">{{this.voucher_status}}</span>
 					{{/equals}}
@@ -14,8 +26,10 @@
                     
                     <div class="course">
                         <div class="course-preview">
+							<br>
                             <h6>{{this.voucher_cat}}</h6>
                             <h4>{{this.voucher_title}}</h4>
+							<br>
                             <a href="#">Terms & Conditions</i></a>
                         </div>
                         <div class="course-info">
@@ -31,13 +45,13 @@
                                 Valid Till: 31.12.2022
                             </p>
                            
-                            {{#equals voucherlist.voucheritem.VoucherId voucher.id}}
+                            {{!-- {{#equals voucherlist.voucheritem.VoucherId voucher.id}}
                             
                                 {{voucherlist.voucheritem.VoucherId}}
                                 <input type="hidden" id="claimed" value="{{voucherlist.voucheritem.id}}">
                                 <button type="submit" class="claimed-button">Claimed <i class="fa-solid fa-check"></i></button>
                             
-                            {{/equals}}
+                            {{/equals}} --}}
                             <form action="/CustomerVoucher/postvoucherlist" method="POST">
 							 	{{#equals this.voucher_status "Active" }}
 									<input type="hidden" name="ststus" value="{{this.voucher_status}}">
@@ -70,6 +84,29 @@
 
 
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+.header-name::before{
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  top: 80px;
+  left: -90px;
+  background-color:grey;
+  transform: scaleX(0.3);
+}
+.header-name{
+	position: relative;
+	color: #0E71EE;
+	padding-top:30px;
+	padding-bottom: 20px;
+	margin-top:5px;
+	
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
 .hidden{
     display: none;
 }
@@ -78,6 +115,18 @@
   top: 8px;
   right: 10px;
 }
+.top-left{
+  position: absolute;
+  top: 30px;
+  right: 415px;
+  height: 20px;
+  width: 160px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+}
+
 
 .tag-2{
   z-index: 2;
@@ -97,6 +146,11 @@
 .tag-inactive {
   background-color:#D22B2B;
 }
+
+.tag-limited {
+  background-color:#EEC20E;
+}
+
 
 .course {
 	background-color: #fff;
@@ -262,5 +316,19 @@
 .floating-text a {
 	color: #FF7500;
 	text-decoration: none;
+}
+@media screen and (max-width: 1199px){
+	.top-left{
+	position: absolute;
+	top: 30px;
+	right: 295px;
+	height: 20px;
+	width: 160px;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+
+}
+
 }
 </style>
