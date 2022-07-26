@@ -95,6 +95,10 @@ User.init(
       type: Sequelize.DataTypes.STRING,
       defaultValue: moment().format("L"),
     
+    }, 
+    imageFilePath: {
+      type: Sequelize.DataTypes.STRING,
+      defaultValue: "uploads/unknownimage.png",
     }
 
   },

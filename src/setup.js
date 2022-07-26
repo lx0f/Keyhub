@@ -133,6 +133,7 @@ app.use((req, res, next) => {
     res.locals.authenticated = req.isAuthenticated();
     res.locals.user = req.user;
     res.locals.method = req.body.method;
+    res.locals.image =  "data:image/png;base64, " + require("fs").readFileSync(`public/${req.user?.imageFilePath ?? 'uploads/unknownimage.png'}`, 'base64');
     next();
 });
 
