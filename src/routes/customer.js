@@ -43,7 +43,6 @@ customerRouter.use("/order", CustomerOrder)
 customerRouter.use("/CustomerVoucher", CustomerVoucher);
 
 
-
 customerRouter.route("/logout").get((req, res) => {
     req.logOut();
     res.redirect("/login");

@@ -3,6 +3,10 @@ const fs = require('fs');
 // const upload = require('../configuration/imageUpload');
 const customerManageAccountRouter = express.Router()
 const User = require("../models/User")
+const { CustomerVoucher } = require("../models/CustomerVoucher");
+const { VoucherItem } = require("../models/CustomerVoucher");
+const Voucher = require("../models/Voucher");
+
 
 customerManageAccountRouter.use((req, res, next) => {
     if (req.isUnauthenticated()) {
@@ -53,5 +57,22 @@ customerManageAccountRouter.route("/edit-image").post(async (req, res) => {
         });
     print('hi')
 })
+
+customerManageAccountRouter.route("/myvouchers").get(async (req, res) => { 
+    const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
+    const voucherlist = await CustomerVoucher.findAll({
+        include: ["voucheritem",{ model: User },
+        ],
+      });
+    console.log(voucherlist)
+    const voucheritem = await (await VoucherItem.findAll()).map((x) => x.dataValues)
+   
+    res.render('./customers/customer_voucher/myvouchers', {voucherlist,voucher,voucheritem});
+     
+     
+    
+})
+
+
 
 module.exports = customerManageAccountRouter

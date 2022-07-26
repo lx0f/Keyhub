@@ -15,6 +15,7 @@ customervoucher.get("/", async (req, res) => {
                 include: "voucheritem"
             
             })
+            
            
             const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
             console.log(voucherlist)
