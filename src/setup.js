@@ -94,6 +94,10 @@ app.engine(
                 return arg1 == arg2 ? options.fn(this) : options.inverse(this);
             },
 
+            notequals(arg1, arg2, options) {
+                return !(arg1 == arg2) ? options.fn(this) : options.inverse(this);
+            },
+
             dateFormat(date, option) {
                 return moment(date).format(option);
             },
