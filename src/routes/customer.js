@@ -11,6 +11,7 @@ const customerManageAccountRouter = require("./customer_manage_account")
 const ShoppingCart = require("./shoppingcart");
 const CustomerOrder = require("./order");
 
+const CustomerVoucher = require("./customer_voucher");
 
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -37,8 +38,9 @@ customerRouter.use("/account", customerManageAccountRouter)
 
 
 customerRouter.use("/cart",ShoppingCart)
-customerRouter.use("/order",CustomerOrder)
+customerRouter.use("/order", CustomerOrder)
 
+customerRouter.use("/CustomerVoucher", CustomerVoucher);
 
 
 customerRouter.route("/logout").get((req, res) => {

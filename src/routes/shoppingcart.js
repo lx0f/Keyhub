@@ -4,6 +4,10 @@ const { Cart }  = require("../models/cart")
 const {CartItem} = require("../models/cart")
 const Product = require("../models/product")
 const User = require("../models/User")
+const { CustomerVoucher } = require("../models/CustomerVoucher");
+const { VoucherItem } = require("../models/CustomerVoucher");
+const Voucher = require("../models/Voucher");
+
 
 // GET Cart
 ShoppingCart.get('/', async (req, res) => {
@@ -103,7 +107,9 @@ ShoppingCart.post('/:productId/add', async (req,res) =>{
         console.log(e)
       }
 });
+// ShoppingCart.post('/:voucherId/add', async (req, res) => { 
 
+// })
 // subCartItem
 ShoppingCart.post('/:productId/sub', async (req,res) =>{
   try {
