@@ -63,10 +63,13 @@
                                                     <div class="progress"></div>
                                                      <span class="progress-text">
                                                         {{#each ../../voucheritem}}
-                                                            {{#equals this.VoucherId ../this.id}}
-                                                                {{this.usage}} / 1 Vouchers Used
-                                                            {{/equals}}
-                                                        {{/each}}
+															{{#equals this.VoucherListId ../../this/id }}
+																{{#equals this.VoucherId ../this.id}}
+																		{{!-- {{#equals this.id }} --}}
+																		{{this.usage}} / 1 Vouchers Used
+																{{/equals}}
+															{{/equals}}
+														{{/each}}
                                                      </span>
                                                    
                                                    
