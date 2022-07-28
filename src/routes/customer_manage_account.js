@@ -53,4 +53,20 @@ customerManageAccountRouter.route("/edit").get(async (req, res) => {
     return res.redirect("/account")
 })
 
+customerManageAccountRouter.get('/orderhistory', async (req, res) => {
+    const orders = await Order.findAll({
+        include: [
+            {
+                model: OrderItem,
+                include: {
+                    model: Product
+                }
+            },
+        ],
+        where: { UserId: req.user.id }
+    });
+
+    return res.render('./customers/orders/page-profile-orders', { orders });
+});
+
 module.exports = customerManageAccountRouter
