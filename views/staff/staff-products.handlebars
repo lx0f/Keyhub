@@ -8,6 +8,8 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Products</h6>
+        <button type="button" class="btn btn-primary "><a href="/staff/product" style="text-decoration:none; color:white;">Add Product</a></button>
+
         <div class="text-right">
             <button type="button" class="btn btn-primary "><a href="/staff/product" style="text-decoration:none; color:white;">Add Product</a></button>
         </div>
@@ -154,7 +156,7 @@
                       </thead>
                       <tbody>
                       {{#each products}}
-                        {{#equals this.category "keyboard"}}x
+                        {{#equals this.category "keyboard"}}
                           <tr>
                             <td>{{this.id}}</td>
                             <td>{{this.name}}</td>

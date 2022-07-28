@@ -5,6 +5,7 @@ const Products = require("../models/product");
 const productRouter = express.Router()
 const product = require("../models/product")
 
+
 //const productIDtest = 0
 productRouter.get('/', (req, res) => {
     console.log("Product Render")
@@ -12,7 +13,7 @@ productRouter.get('/', (req, res) => {
 });
 
 productRouter.post('/', async function (req, res) {
-    let { name,description,category,stock,price } = req.body;
+    let { name,description,category,stock,price,image } = req.body;
     
     const products =  await (await product.findAll({attributes: ["name","id"]})).map((x)=>x.dataValues)
     productID = 1
@@ -37,7 +38,7 @@ productRouter.post('/', async function (req, res) {
     }
     if (flag) {
         product.create({
-            productID,name,description,category,stock,price
+            productID,name,description,category,stock,price,image
             //list of attributes
         })
         req.flash("success",name," has been successfully added!")
@@ -63,14 +64,14 @@ productRouter.post('/delete', async function (req, res) {
 productRouter.get('/check',async (req,res)=>{
     //idk why flashes dont work so this route is used to render the check page with products
     const products =  await (await product.findAll()).map((x) => x.dataValues);
-    console.log("I AM HERE",products)
+    //console.log("I AM HERE",products)
     return res.render("./staff/staff-products",{ products });
 });
 
 productRouter.post('/updateRoute',async function(req,res){
     let { productID } = req.body;
     const product = await Products.findOne({where:{id:productID}})
-    const allproducts = await (await Products.findAll()).map((x) => x.dataValues);
+    //const allproducts = await (await Products.findAll()).map((x) => x.dataValues);
     res.render("./staff/staff-productUpdate",{product})
 });
 
@@ -93,4 +94,4 @@ productRouter.post('/update',async function(req,res){
     res.redirect("/staff/product/check");
     
 })
-module.exports = productRouter
+module.exports = productRouter;

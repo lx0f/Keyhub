@@ -2,6 +2,12 @@ const express = require("express")
 const productRouter = express.Router()
 const product = require("../models/product")
 
+productRouter.post("/desc",async function(req,res){
+    let{productID} = req.body
+    const product = await Products.findOne({where: {id: productID}})
+    return res.render("./customers/description",{ product });
+})
+
 productRouter.route('/general').get(async(req,res)=>{
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = products
