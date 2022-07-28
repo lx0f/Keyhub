@@ -32,7 +32,7 @@ Product.init(
             type: Sequelize.DataTypes.INTEGER,
         },
         image: {
-            type: Sequelize.DataTypes.BLOB('long'),
+            type: Sequelize.DataTypes.BLOB,
         },
     },
     {
