@@ -1,16 +1,4 @@
-// const express = require('express')
-// const router = express.Router()
 
-// const orderController = require('../../controllers/orderController')
-
-// router.get('/', orderController.getOrders)
-// router.get('/data', orderController.fillOrderData)
-// router.post('/data', orderController.postOrder)
-// router.post('/newebpay/callback', orderController.newebpayCallback)
-// router.get('/:id', orderController.getOrder)
-// router.post('/:id/cancel', orderController.cancelOrder)
-
-// module.exports = router
 const express = require("express")
 const CustomerOrder = express.Router()
 const { Order }  = require("../models/order")
@@ -18,6 +6,7 @@ const {OrderItem} = require("../models/order")
 const Product = require("../models/product")
 const {Payment} = require("../models/order")
 const {Cart} = require("../models/cart")
+const moment = require('moment')
 
 
 // fillOrderData
@@ -33,7 +22,7 @@ CustomerOrder.get('/', async (req, res) => {
     }
     const cartId = cart.id
     const amount = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-    return res.render('./customers/orderData', { cartId, amount })
+    return res.render('./customers/page-checkout', { cartId, amount, cart })
   } catch (e) {
     console.log(e)
   }
@@ -67,14 +56,11 @@ CustomerOrder.post('/data', async (req, res) => {
         // create order (cart -> order)
         const order = await Order.create({
           UserId: req.user.id,
-          name: req.body.name,
           // address: req.body.address,
           // phone: req.body.phone,
           // amount: req.body.amount,
           // shipping_status: req.body.shipping_status,
           // payment_status: req.body.payment_status
-          address: req.body.address,
-          phone: req.body.phone,
           amount: req.body.amount,
           shipping_status: req.body.shipping_status,
           payment_status: req.body.payment_status
@@ -99,7 +85,7 @@ CustomerOrder.post('/data', async (req, res) => {
         await cart.destroy()
         // clear cartId in session
         req.session.cartId = ''
-        return res.redirect('/cart')
+        return res.redirect(`/order/payment/${order.id}`)
     } catch (e) {
       console.log(e)
     }
@@ -110,7 +96,7 @@ CustomerOrder.post('/:id/cancel', async (req, res) => {
     try {
         const order = await Order.findByPk(req.params.id)
         await order.update({
-          shipping_status: '-1'
+          order_status: 'Cancelled'
         })
         req.flash('error', `OrderId${order.id} cancelled!`)
         return res.status(200).redirect('back')
@@ -119,40 +105,65 @@ CustomerOrder.post('/:id/cancel', async (req, res) => {
     }
 });
 
-// PaymentCallback
-CustomerOrder.post('/newebpay/callback', async (req, res) => {
+CustomerOrder.get('/payment/:id', async (req, res) => {
+  try {
+    const order = await Order.findByPk(req.params.id)
+    const OrderId = order.id
+    console.log(OrderId)
+    return res.render('./customers/page-payment', { OrderId })
+  } catch (e) {
+    console.log(e)
+  }
+});
+
+// Post Payment
+CustomerOrder.post('/paymentdata/:id', async (req, res) => {
     try {
-        const data = JSON.parse(decryptData(req.body.TradeInfo))
-        console.log('***data***', data)
         // find order
-        const order = await Order.findOne({ where: { sn: data.Result.MerchantOrderNo } })
+        const order = await Order.findByPk(req.params.id)
+        console.log(order)
         // create payment data
         await Payment.create({
           OrderId: order.id,
-          payment_method: data.Result.PaymentMethod ? data.Result.PaymentMethod : data.Result.PaymentType,
-          isSuccess: data.Status === 'SUCCESS' ? true : false,
-          failure_message: data.Message,
-          payTime: data.Result.PayTime
+          payment_method: "VISA",
+          isSuccess: 1,
+          payTime: moment().format("YYYY-MM-DD HH:mm")
         })
-        // flash msg
-        if (data.Status === 'SUCCESS') {
-          // update payment_status
-          await order.update({ payment_status: 1 })
-          // send mail
-          const email = req.user.email
-          const subject = `[TEST]Key Hub OrderID:${order.id} Payment Done!`
-          const status = 'Unshipped / Unpaid'
-          const msg = 'Shipment will be arranged in the near future, please pay attention to the email again!'
-          sendMail(email, subject, payMail(order, status, msg))
-          // flash message
-          req.flash('success', `OrderID:${order.id} Payment Done!`)
-        } else {
-          req.flash('error', `OrderID:${order.id} Payment fail!  [info] ${data.Message}`)
-        }
-        return res.status(200).redirect(`/order/${order.id}`)
+        
+        // update payment_status
+        await order.update({ 
+          payment_status: 1 , 
+        })
+        // send mail
+        // const email = req.user.email
+        // const subject = `[TEST]Key Hub OrderID:${order.id} Payment Done!`
+        // const status = 'Unshipped / Unpaid'
+        // const msg = 'Shipment will be arranged in the near future, please pay attention to the email again!'
+        // sendMail(email, subject, payMail(order, status, msg))
+        // flash message        
+        return res.redirect(`/order/success`)
     } catch (e) {
     console.log(e)
     }
+});
+
+CustomerOrder.get('/success', async (req, res) => {
+  // const orders = await Order.findAll({
+  //     include: [
+  //         {
+  //             model: OrderItem,
+  //             include: {
+  //                 model: Product
+  //             }
+  //         },
+  //         {
+  //             model: User
+  //         },
+  //     ],
+  // });
+
+  return res.render('./customers/page-success');
+
 });
 
 module.exports = CustomerOrder
