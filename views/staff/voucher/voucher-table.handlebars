@@ -289,9 +289,12 @@
                                                                                         <br>
                                                                                          Voucher Name: {{this.voucher_name}}
                                                                                         <br>
-                                                                                         {{#each ../../voucheritem}}
-                                                                                            {{#equals this.VoucherId ../this.id}}
-                                                                                                Usage : {{this.usage}}
+                                                                                        {{#each ../../voucheritem}}
+                                                                                            {{#equals this.VoucherListId ../../this/id }}
+                                                                                                {{#equals this.VoucherId ../this.id}}
+                                                                                                        {{!-- {{#equals this.id }} --}}
+                                                                                                        Usage: {{this.usage}} 
+                                                                                                {{/equals}}
                                                                                             {{/equals}}
                                                                                         {{/each}}
                                                                                         <hr>
