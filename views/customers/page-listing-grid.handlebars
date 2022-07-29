@@ -64,12 +64,13 @@
 	<div class="col-md-4">
 		<figure class="card card-product-grid">
 			<div class="img-wrap"> 
-				<img src="data:image/jpeg;base64,{{this.image}}">
+				<img src="#">
 			</div> <!-- img-wrap.// -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
 					<form action="/Cproducts/desc" method="POST">
-						<button name = "productID" value="{{this.id}}">{{this.name}}</button>
+						{{!-- <button name = "productID" value="{{this.id}}">{{this.name}}</button> --}}
+						<a href="#">{{this.name}}</a>
 					</form> 
 					<div class="price-wrap mt-2"> 
 						<span class="price">${{this.price}}</span>
