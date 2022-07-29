@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 
 transporter.use("compile", nodemailerHbs({
     viewPath: path.join(__dirname, "../../views"),
-    extName: ".handlebars",
+    extName: ".hbs",
     defaultLayout: false
 }))
 

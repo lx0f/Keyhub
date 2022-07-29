@@ -7,4 +7,5 @@ FAQrouter.route("/").get(async (req, res) => {
     return res.render("./customers/page-faqs", { faqs });
 })
 
+
 module.exports = FAQrouter

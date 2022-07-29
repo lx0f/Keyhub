@@ -64,21 +64,27 @@
 	<div class="col-md-4">
 		<figure class="card card-product-grid">
 			<div class="img-wrap"> 
-				
-				<img src="images/items/1.jpg">
-				
+				<img src="#">
 			</div> <!-- img-wrap.// -->
 			<figcaption class="info-wrap">
 				<div class="fix-height">
-					<a href="#" class="title">{{this.name}}</a>
-					<div class="price-wrap mt-2">
+					<form action="/Cproducts/desc" method="POST">
+						{{!-- <button name = "productID" value="{{this.id}}">{{this.name}}</button> --}}
+						<a href="#">{{this.name}}</a>
+					</form> 
+					<div class="price-wrap mt-2"> 
 						<span class="price">${{this.price}}</span>
 					</div> <!-- price-wrap.// -->
 					<div>
 						<span>Category: {{this.category}}</span>
-						</div>
+						</div>						
 				</div>
-				<a href="#" class="btn btn-block btn-primary">Add to cart </a>
+				<div class="btn">
+					<form action="/cart/postcart" method="POST">
+						<input type="hidden" name="productId" value="{{this.id}}">
+						<button type="submit" class="btn btn-outline-info"><i class="fas fa-shopping-cart fa-1x"></i> Add to Cart</button>
+					</form>
+              	</div>
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->

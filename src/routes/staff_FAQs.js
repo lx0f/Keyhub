@@ -5,7 +5,6 @@ const FAQrouter = express.Router()
 
 FAQrouter.get('/', (req, res) => {
     res.render('./staff/faqs/staff-manage-faqs'); 
- //render test
 });
 
 FAQrouter.post('/', async function (req, res) {
@@ -30,6 +29,7 @@ FAQrouter.get('/faqs',async (req, res) => {
 //     console.log(faqs.dataValues)
 //     res.render('./staff/staff-faqs-updatefaqs', {faqs:faqs.dataValues});
 // })
+
 FAQrouter.get('/updatefaqs/:id', (req,res) =>{
     FAQs.findByPk(req.params.id)
     .then((faqs) => {

@@ -1,6 +1,15 @@
 const express = require("express")
+const fs = require('fs');
+ const upload = require('../configuration/imageUpload');
 const customerManageAccountRouter = express.Router()
 const User = require("../models/User")
+
+const { CustomerVoucher } = require("../models/CustomerVoucher");
+const { VoucherItem } = require("../models/CustomerVoucher");
+const Voucher = require("../models/Voucher");
+
+
+const handlebars = require("handlebars")
 
 customerManageAccountRouter.use((req, res, next) => {
     if (req.isUnauthenticated()) {
@@ -12,15 +21,21 @@ customerManageAccountRouter.use((req, res, next) => {
 })
 
 customerManageAccountRouter.route("/").get((req, res) => {
+ 
+    
     res.render("./customers/page-profile-main")
 })
 
 customerManageAccountRouter.route("/edit").get(async (req, res) => {
-    res.render("./customers/page-profile-edit")
+    const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/${req.user.imageFilePath}`, 'base64');
+    res.render("./customers/page-profile-edit", {imageAsBase64})
 }).post(async (req, res) => {
     const user = await User.findByPk(req.body.id)
+
+
     user.username = req.body.username || user.username
     user.email = req.body.email || user.email
+    user.address = req.body.address || user.address
     if(req.body.password) {
         if(req.body.password != req.body.repeatpassword) {
             req.flash("error", "Repeat password must be the same as the password!")
@@ -33,4 +48,49 @@ customerManageAccountRouter.route("/edit").get(async (req, res) => {
     await user.save()
     return res.redirect("/account")
 })
+
+customerManageAccountRouter.route("/edit-image").post(async (req, res) => {
+
+    upload(req, res, async (err) => {
+       
+        if(err || !req.file) {
+            req.flash("error", "Please upload a proper file!")
+       console.log(err)
+            return res.redirect("/account/edit")
+
+        } 
+         else {
+
+            const user = await User.findByPk(req.user.id)
+            user.imageFilePath = `uploads/${req.file.filename}`
+            console.log(req.file.filename)
+            console.log(user.imageFilePath)
+            await user.save()
+            return res.redirect("/account")
+          }
+
+      });
+
+
+
+})
+
+customerManageAccountRouter.route("/myvouchers").get(async (req, res) => { 
+    const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
+    const voucherlist = await CustomerVoucher.findAll({
+        include: ["voucheritem",{ model: User },
+        ],
+      });
+    console.log(voucherlist)
+    const voucheritem = await (await VoucherItem.findAll()).map((x) => x.dataValues)
+   
+    res.render('./customers/customer_voucher/myvouchers', {voucherlist,voucher,voucheritem});
+     
+     
+    
+})
+
+
+
+
 module.exports = customerManageAccountRouter

@@ -1,4 +1,6 @@
 
+ 
+      
         <!-- Begin Page Content -->
                 <div class="container-fluid">
 
@@ -21,7 +23,33 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
+                                        <canvas id="areaChart"></canvas>
+                                    </div>
+                                    <hr>
+                                    Styling for the area chart can be found in the
+                                    <code>/js/demo/chart-area-demo.js</code> file.
+                                </div>
+                            </div>
+                                  <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="areaChartMonth"></canvas>
+                                    </div>
+                                    <hr>
+                                    Styling for the area chart can be found in the
+                                    <code>/js/demo/chart-area-demo.js</code> file.
+                                </div>
+                            </div>
+                                  <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Area Chart</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="areaChartYear"></canvas>
                                     </div>
                                     <hr>
                                     Styling for the area chart can be found in the
@@ -68,3 +96,341 @@
 
                 </div>
                 <!-- /.container-fluid -->
+
+
+     <script>
+        // No Of Users Joined Chart
+// No Of Users Joined Chart
+var getUsersJoinedDatas = $.get('/staff/data/chart-info')
+var ctxUsersJoineds = document.getElementById("areaChart").getContext('2d');
+getUsersJoinedDatas.done(function(data){
+  var NoOfUsers = []
+  var dates = []
+    data.data.forEach(element => {
+      NoOfUsers.push(element["NoOfUsersJoined_sum"])
+      dates.push(element["Dates"])
+        console.log(NoOfUsers)
+        console.log(dates)
+      
+    });
+    console.log(data.data)
+    console.log("hoi")
+
+      var myLineChart = new Chart(ctxUsersJoineds, {
+      type: 'line',
+      data: {
+        labels: dates,
+        datasets: [{
+          label: "Number of Users Joined",
+          lineTension: 0.3,
+          backgroundColor: "rgba(78, 115, 223, 0.05)",
+          borderColor: "rgba(78, 115, 223, 1)",
+          pointRadius: 3,
+          pointBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointBorderColor: "rgba(78, 115, 223, 1)",
+          pointHoverRadius: 3,
+          pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+          pointHitRadius: 10,
+          pointBorderWidth: 2,
+          data: NoOfUsers,
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 10,
+            right: 25,
+            top: 25,
+            bottom: 0
+          }
+        },
+        scales: {
+          xAxes: [{
+            time: {
+              unit: 'date'
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 7
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              padding: 10,
+              // Include a dollar sign in the ticks
+              callback: function(value, index, values) {
+                return number_format(value);
+              }
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          titleMarginBottom: 10,
+          titleFontColor: '#6e707e',
+          titleFontSize: 14,
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          intersect: false,
+          mode: 'index',
+          caretPadding: 10,
+          callbacks: {
+            label: function(tooltipItem, chart) {
+              var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+              return datasetLabel + " "+ number_format(tooltipItem.yLabel);
+            }
+          }
+        }
+      }
+    });
+
+  })
+      </script>
+
+
+
+
+
+
+           <script>
+        // No Of Users Joined Chart
+// No Of Users Joined Chart
+var getUsersJoinedData = $.get('/staff/data/chart-info-month')
+var ctxUsersJoined = document.getElementById("areaChartMonth").getContext('2d');
+getUsersJoinedData.done(function(data){
+  var NoOfUsers = []
+  var dates = []
+    data.data.forEach(element => {
+      NoOfUsers.push(element["NoOfUsersJoined_sum"])
+      dates.push(element["Dates"])
+        console.log(NoOfUsers)
+        console.log(dates)
+      
+    });
+    console.log(data.data)
+    console.log("hoi")
+
+      var myLineChart = new Chart(ctxUsersJoined, {
+      type: 'line',
+      data: {
+        labels: dates,
+        datasets: [{
+          label: "Number of Users Joined",
+          lineTension: 0.3,
+          backgroundColor: "rgba(78, 115, 223, 0.05)",
+          borderColor: "rgba(78, 115, 223, 1)",
+          pointRadius: 3,
+          pointBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointBorderColor: "rgba(78, 115, 223, 1)",
+          pointHoverRadius: 3,
+          pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+          pointHitRadius: 10,
+          pointBorderWidth: 2,
+          data: NoOfUsers,
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 10,
+            right: 25,
+            top: 25,
+            bottom: 0
+          }
+        },
+        scales: {
+          xAxes: [{
+            time: {
+              unit: 'date'
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 7
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              padding: 10,
+              // Include a dollar sign in the ticks
+              callback: function(value, index, values) {
+                return number_format(value);
+              }
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          titleMarginBottom: 10,
+          titleFontColor: '#6e707e',
+          titleFontSize: 14,
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          intersect: false,
+          mode: 'index',
+          caretPadding: 10,
+          callbacks: {
+            label: function(tooltipItem, chart) {
+              var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+              return datasetLabel + " "+ number_format(tooltipItem.yLabel);
+            }
+          }
+        }
+      }
+    });
+
+  })
+      </script>
+
+
+
+
+
+
+           <script>
+        // No Of Users Joined Chart
+// No Of Users Joined Chart
+var getUsersJoinedDatass = $.get('/staff/data/chart-info-year')
+var ctxUsersJoinedss = document.getElementById("areaChartYear").getContext('2d');
+getUsersJoinedDatass.done(function(data){
+  var NoOfUsers = []
+  var dates = []
+    data.data.forEach(element => {
+      NoOfUsers.push(element["NoOfUsersJoined_sum"])
+      dates.push(element["Dates"])
+        console.log(NoOfUsers)
+        console.log(dates)
+      
+    });
+    console.log(data.data)
+    console.log("hoi")
+
+      var myLineChart = new Chart(ctxUsersJoinedss, {
+      type: 'line',
+      data: {
+        labels: dates,
+        datasets: [{
+          label: "Number of Users Joined",
+          lineTension: 0.3,
+          backgroundColor: "rgba(78, 115, 223, 0.05)",
+          borderColor: "rgba(78, 115, 223, 1)",
+          pointRadius: 3,
+          pointBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointBorderColor: "rgba(78, 115, 223, 1)",
+          pointHoverRadius: 3,
+          pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+          pointHitRadius: 10,
+          pointBorderWidth: 2,
+          data: NoOfUsers,
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 10,
+            right: 25,
+            top: 25,
+            bottom: 0
+          }
+        },
+        scales: {
+          xAxes: [{
+            time: {
+              unit: 'date'
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 7
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              padding: 10,
+              // Include a dollar sign in the ticks
+              callback: function(value, index, values) {
+                return number_format(value);
+              }
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          titleMarginBottom: 10,
+          titleFontColor: '#6e707e',
+          titleFontSize: 14,
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          intersect: false,
+          mode: 'index',
+          caretPadding: 10,
+          callbacks: {
+            label: function(tooltipItem, chart) {
+              var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+              return datasetLabel + " "+ number_format(tooltipItem.yLabel);
+            }
+          }
+        }
+      }
+    });
+
+  })
+      </script>

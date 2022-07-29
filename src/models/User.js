@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 const sequelize = require("./database_setup");
 const moment = require("moment");
 const {v4: uuid} = require("uuid");
-
+const { set } = require("../setup");
 
 class User extends Sequelize.Model {
   compareHash(value) {
@@ -11,10 +11,6 @@ class User extends Sequelize.Model {
   }
 
   verifyTokenAge() {
-    console.log(moment().unix() - this.getDataValue("resetTokenDate"))
-    console.log(this.getDataValue("resetTokenDate"))
-    console.log(moment().unix())
-    console.log(this.getDataValue("resetTokenID"))
     return moment().unix() - this.getDataValue("resetTokenDate") < 300
   }
 
@@ -42,6 +38,12 @@ User.init(
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
       unique: true,
+    },
+    image: {
+      type: Sequelize.DataTypes.BLOB,
+      allowNull: true,
+      defaultValue: null,
+
     },
     password: {
       type: Sequelize.DataTypes.STRING,
@@ -88,7 +90,24 @@ User.init(
     createdAt: {
       type: Sequelize.DataTypes.DATE,
       allowNull: false,
+      
+    }, date: {
+      type: Sequelize.DataTypes.STRING,
+      defaultValue: moment().format("L"),
+    
+    }, 
+    imageFilePath: {
+      type: Sequelize.DataTypes.STRING,
+      defaultValue: "uploads/unknownimage.png",
     },
+
+    address: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: true,
+      defaultValue: null
+
+    }
+
   },
   {
     freezeTableName: true,
@@ -97,5 +116,6 @@ User.init(
     modelName: "User",
   }
 );
+
 
 module.exports = User;
