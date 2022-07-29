@@ -1,4 +1,4 @@
-<div class="card" style="width: 18rem;">
+{{!-- <div class="card" style="width: 18rem;">
   <div class="card-body">
     
     
@@ -46,4 +46,51 @@
         {{/each}}
   </div>
   
+</div> --}}
+
+<div class="card loyalty-card" style="width:40rem;" >
+  <div class="card-body">
+    <h5 class="card-title">James Mom</h5>
+    <p class="card-text"><i class="fas fa-user-alt"></i> 24510DHA93</p>
+    <div class="point-card">
+        <h6 class="point-name">Keyhub Points</h6>
+        <h3 class="points" >700</h3>
+    </div>
+    <br>
+    <div class="progress-points">
+        <div class="row">
+            <div class="col-3">
+                <button class="btn btn-secondary" disabled>BASIC</button>
+            </div>
+            <div class="col-9" style="padding-top:5px;">
+                <div class="progress" style="height:8px ;">
+                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <span class="total-points">1000 / 10000</span>
+                <span class="rank">Bronze</span>
+            </div>
+        </div> 
+    </div>
+    <br>
+   
+  </div>
 </div>
+<style>
+    .loyalty-card{
+        margin:auto;
+        margin-top:40px;
+    
+    }
+    .point-card{
+        position: absolute;
+        right:23px;
+        top:16px;
+    }
+    .points{
+        float: right;
+    }
+    .rank{
+        float: right;
+    }
+    
+</style>

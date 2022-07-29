@@ -4,15 +4,20 @@ const LoyaltyCard = require("../models/LoyaltyCard");
 const loyaltyprogram = express.Router();
 
 loyaltyprogram.get("/points", async (req, res) => {
-    let user_id = req.user.id
-    const Card = await (await LoyaltyCard.findAll()).map((x) => x.dataValues);
-    const User_Card = await LoyaltyCard.findAll({ where: { authorID: user_id } });
-    for (i = 0; i < Card.length; i++){
-        if (Card[i].authorID == user_id) {
-            return res.render("./customers/loyaltyprogram/loyaltypoints",{User_Card});
+    try{
+        let user_id = req.user.id
+        const Card = await (await LoyaltyCard.findAll()).map((x) => x.dataValues);
+        const User_Card = await LoyaltyCard.findAll({ where: { authorID: user_id } });
+        for (i = 0; i < Card.length; i++){
+            if (Card[i].authorID == user_id) {
+                return res.render("./customers/loyaltyprogram/loyaltypoints",{User_Card});
+            }
         }
+        return res.render("./customers/loyaltyprogram/loyaltypoints");
+    }catch(e){
+        req.flash('error','error error');
     }
-    return res.render("./customers/loyaltyprogram/loyaltypoints");
+    
     
     
  })
@@ -92,7 +97,7 @@ loyaltyprogram.post("/points", async (req, res) => {
                 } 
         }
     
-  } catch(e) {
+    } catch(e) {
         req.flash("error", e)
     }
 });
