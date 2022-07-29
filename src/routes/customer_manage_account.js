@@ -1,6 +1,6 @@
 const express = require("express")
 const fs = require('fs');
-// const upload = require('../configuration/imageUpload');
+ const upload = require('../configuration/imageUpload');
 const customerManageAccountRouter = express.Router()
 const User = require("../models/User")
 
@@ -35,6 +35,7 @@ customerManageAccountRouter.route("/edit").get(async (req, res) => {
 
     user.username = req.body.username || user.username
     user.email = req.body.email || user.email
+    user.address = req.body.address || user.address
     if(req.body.password) {
         if(req.body.password != req.body.repeatpassword) {
             req.flash("error", "Repeat password must be the same as the password!")

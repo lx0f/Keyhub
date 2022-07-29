@@ -33,21 +33,21 @@
 				
 				<figure class="icontext">
 						<div class="icon">
-							<img class="rounded-circle img-sm border" src="images/avatars/avatar3.jpg">
+							<img class="rounded-circle img-sm border" style="margin-bottom: 150px;"src="{{image}}">
 						</div>
-						<div class="text">
-							<strong> {{user.username}}</strong> <br> 
-							{{user.email}} <br> 
-							<a href="/account/edit">Edit</a>
-						</div>
+							<div class="text" style="line-height: 25px;">
+				<strong><i class="fa fas fa-user"></i>&nbsp; Username: </strong><br>{{user.username}}<br> <br> 
+				<b> <i class="fa fa-solid fa-envelope"></i>&nbsp;  Email:</b><br>{{user.email}}<br> <br> 
+
+				<p>
+					<i class="fa fas fa-map-marker"></i>&nbsp; <b>Address:</b><br>  
+					{{user.address}} 
+				
+				</p>
+			</div>
 				</figure>
 				<hr>
-				<p>
-					<i class="fa fa-map-marker text-muted"></i> &nbsp; My address:  
-					 <br>
-					None
-					<a href="#" class="btn-link"> Edit</a>
-				</p>
+
 
 				
 
