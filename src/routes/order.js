@@ -92,7 +92,7 @@ CustomerOrder.post('/data', async (req, res) => {
 });
 
 // cancelOrder
-CustomerOrder.post('/:id/cancel', async (req, res) => {
+CustomerOrder.get('/cancel/:id', async (req, res) => {
     try {
         const order = await Order.findByPk(req.params.id)
         await order.update({

@@ -62,10 +62,13 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
                     model: Product
                 }
             },
+            {
+                model: Payment
+            }
         ],
         where: { UserId: req.user.id }
     });
-
+  
     return res.render('./customers/orders/page-profile-orders', { orders });
 });
 

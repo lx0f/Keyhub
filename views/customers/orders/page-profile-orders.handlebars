@@ -21,18 +21,24 @@
 	</aside> <!-- col.// -->
 	<main class="col-md-9">
         <h5 class="card-title"> Your orders </h5> 
+    {{#each orders}}
     <!--  ======== item order ======== -->
     <article class="card border-primary mb-4">
     <div class="card-body">
       <header class="d-lg-flex">
         <div class="flex-grow-1">
-          <h6 class="mb-0">Order ID: 8924 <i class="dot"></i>  
-            <span class="text-success"> Shipped</span>
+          <h6 class="mb-0">Order ID: {{this.id}} <i class="dot"></i>  
+            <span class="text-success"> {{this.Payment.delivery_status}} </span>
           </h6>
-          <span class="text-muted">Date: 16 December 2018</span>
+          <span class="text-muted">Date: {{dateFormat this.createdAt 'DD MMM YYYY'}}</span>
         </div>
         <div>
-          <a href="#" class="btn btn-sm btn-outline-danger">Cancel order</a>
+          {{#equals this.order_status null}}
+            <a href="/order/cancel/{{this.id}}" class="btn btn-sm btn-outline-danger">Cancel order</a>
+          {{/equals}}
+          {{#equals this.order_status "Cancelled"}}
+              <a href="/order/cancel/{{this.id}}" class="btn btn-sm btn-outline-danger" style="display:none">Cancel order</a>
+          {{/equals}}
           <a href="#" class="btn btn-sm btn-primary">Track order</a> 
         </div>
       </header>
@@ -58,6 +64,26 @@
         </div> <!-- col.// -->
       </div> <!-- row.// -->
       <hr>
+      <ul class="row">
+        {{#each this.OrderItems}}
+        <li class="col-xl-4  col-lg-6">
+          <figure class="itemside mb-3">
+            <div class="aside">
+              <img width="72" height="72" src="images/items/1.jpg" class="img-sm rounded border">
+            </div>
+            <figcaption class="info">
+              <p class="title">{{this.Product.name}}</p>
+              <strong> {{this.quantity}}x = ${{multiply this.Product.price this.quantity}}.00 </strong>
+              <a href="/createPE/{{this.Product.id}}" class="btn btn-sm btn-outline-info">Give Rating</a>
+            </figcaption>
+          </figure> 
+        </li>
+        {{/each}}
+        
+      </ul>
+    </div> <!-- card-body .// -->
+    </article> <!-- card .// --> 
+  {{/each}}
 	</main> <!-- col.// -->
 </div>
 

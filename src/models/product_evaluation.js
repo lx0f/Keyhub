@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('./database_setup');
 const Product = require("./product");
-
+const User = require("./User")
 class Pevaluation extends Sequelize.Model {
     
   }
@@ -15,13 +15,12 @@ class Pevaluation extends Sequelize.Model {
         unique: true,
         allowNull: false,
       },
-      ProductName:{
-        type: Sequelize.STRING,
-        allowNull: false,
+      UserId:{
+        type: Sequelize.DataTypes.INTEGER,
+
       },
-      ProductCategory: {
-        type:Sequelize.STRING,
-        allowNull:false,
+      ProductId:{
+        type: Sequelize.DataTypes.INTEGER,
       },
       ProductRating: {
         type:Sequelize.INTEGER,
@@ -49,4 +48,6 @@ class Pevaluation extends Sequelize.Model {
   );
   Pevaluation.belongsTo(Product);
   Product.hasMany(Pevaluation)
+  Pevaluation.belongsTo(User)
+  User.hasMany(Pevaluation)
   module.exports = Pevaluation;
