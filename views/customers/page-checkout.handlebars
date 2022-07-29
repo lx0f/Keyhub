@@ -165,6 +165,10 @@
     <p class="lead">Please fill in all your shipping information and confirm all your products are in the cart<br>Thank You !</p>
   </div>
 <form action="/order/data" method="POST">
+	<input type="hidden" name="cartId" value="{{cartId}}">
+	<input type="hidden" name="amount" value="{{amount}}">
+	<input type="hidden" name="shipping_status" value="0">
+	<input type="hidden" name="payment_status" value="0">
   <div class="row">
     <div class="col-md-4 order-md-2 mb-4">
       <h4 class="d-flex justify-content-between align-items-center mb-3">
