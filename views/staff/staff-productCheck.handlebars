@@ -29,7 +29,7 @@
             <tbody>
                 {{#each products}}
                 <tr>
-                  <td>{{ this.productID }}</td>
+                  <td>{{ this.id }}</td>
                   <td>{{ this.name }}</td>
                   <td>{{ this.category }}</td>
                   <td>${{ this.price }}</td>
@@ -41,16 +41,16 @@
                     <form action="/staff/product/delete"  method="POST">
                       
                      
-                      <button type="submit" title="Delete" name = "productID" value = "{{this.productID}}"class="btn btn-danger " >
+                      <button type="submit" title="Delete" name = "productID" value = "{{this.id}}"class="btn btn-danger " >
                         <i class="fas fa-trash-alt"></i>
                       </button>
         
                     </form>
                   </td>
                   <td>
-                    <form action="/staff/product/update"  method="POST">
+                    <form action="/staff/product/updateRoute"  method="POST">
                       <!-- Button to Open the Modal -->
-                      <button type="submit" title="Update" class="btn btn-primary bg-gradient-primary"  name = "productID" value = "{{this.productID}}">
+                      <button type="submit" title="Update" class="btn btn-primary bg-gradient-primary"  name = "productID" value = "{{this.id}}">
                         <i class="fas fa-pen"></i>
                       </button>
                       

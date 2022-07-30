@@ -1,0 +1,30 @@
+<div class="row">
+	{{#each display}}
+	<div class="col-md-4">
+		<figure class="card card-product-grid">
+			<figcaption class="info-wrap">
+				<div class="fix-height">
+					<form action="/Cproduct/desc" method="post">
+					<a href="#">{{this.name}}</a>
+					</form>
+					<div class="price-wrap mt-2"> 
+						<span class="price">${{this.price}}</span>
+					</div> <!-- price-wrap.// -->
+					<div>
+						<span>Category: {{this.category}}</span>
+						</div>	
+                        <div>
+                            <span>Description: {{this.description}}</span>
+                            </div>					
+				</div>
+				<div class="btn">
+					<form action="/cart/postcart" method="POST">
+						<input type="hidden" name="productId" value="{{this.id}}">
+						<button type="submit" class="btn btn-outline-info"><i class="fas fa-shopping-cart fa-1x"></i> Add to Cart</button>
+					</form>
+              	</div>
+			</figcaption>
+		</figure>
+	</div> <!-- col.// -->
+	{{/each}}
+</div> <!-- row end.// -->

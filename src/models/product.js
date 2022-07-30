@@ -31,6 +31,9 @@ Product.init(
         price: {
             type: Sequelize.DataTypes.INTEGER,
         },
+        image: {
+            type: Sequelize.DataTypes.BLOB,
+        },
     },
     {
         freezeTableName: true,

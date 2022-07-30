@@ -11,9 +11,9 @@
 		</a> <!-- brand-wrap.// -->
 	</div>
 	<div class="col-lg-6 col-sm-12">
-		<form action="#" class="search">
+		<form action="/Cproducts/search" class="search" method="POST">
 			<div class="input-group w-100">
-			    <input type="text" class="form-control" placeholder="Search">
+			    <input type="text" class="form-control" name = "search" placeholder="Search">
 			    <div class="input-group-append">
 			      <button class="btn btn-primary" type="submit">
 			        <i class="fa fa-search"></i> Search
@@ -29,7 +29,7 @@
 				<span class="badge badge-pill badge-danger notify">0</span>
 			</div>
 			<div class="widget-header icontext">
-				<a href="/account" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
+				<a href="/account" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i><img style="border-radius:50%; position: relative; bottom: 53px; right: 10px; height: 60px; width: 63px;"src="{{image}}"></a>
 				<div class="text">
 					<span class="text-muted">Welcome {{#if authenticated}} {{user.username}}!{{/if}}</span>
 					{{#if authenticated}} 

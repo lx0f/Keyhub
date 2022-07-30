@@ -1,0 +1,335 @@
+
+<div class="container">
+	<div class="header-container">
+		<div class="btn" >
+			<h2 class="header-name">Daily Vouchers</h2>
+		</div>
+		
+
+		<img src="/public/images/logo-white.png" alt="">
+	</div>
+    <div class="row">
+		
+        {{#each voucher}}
+            {{#equals this.voucher_type "Customer" }}
+            <div class="col-6" >
+                <div class="courses-container">
+					
+					<span class="top-left tag-2 tag-limited">Limited</span>
+					{{#equals this.voucher_status "Active" }}
+						<span class="top-right tag-2 tag-active">{{this.voucher_status}}</span>
+					{{/equals}}
+					{{#equals this.voucher_status "Inactive" }}
+
+						<span class="top-right tag-2 tag-inactive">Fully Redeemed</span>
+					{{/equals}}
+                    
+                    <div class="course">
+                        <div class="course-preview">
+							<br>
+                            <h6>{{this.voucher_cat}}</h6>
+                            <h4>{{this.voucher_title}}</h4>
+							<br>
+                            <a href="#">Terms & Conditions</i></a>
+                        </div>
+                        <div class="course-info">
+                            <div class="progress-container">
+                                <div class="progress"></div>
+                                <span class="progress-text">
+                                   {{this.voucher_used}} / {{this.total_voucher}} Vouchers Claimed
+                                </span>
+                            </div>
+                            <h4>{{this.voucher_name}}</h4>
+                            <h5 >Min. Spend ${{this.spend}}</h5>
+                             <p style="color:grey;font-size: 13px;">
+                                Valid Till: 31.12.2022
+                            </p>
+                           
+                            {{!-- {{#equals voucherlist.voucheritem.VoucherId voucher.id}}
+                            
+                                {{voucherlist.voucheritem.VoucherId}}
+                                <input type="hidden" id="claimed" value="{{voucherlist.voucheritem.id}}">
+                                <button type="submit" class="claimed-button">Claimed <i class="fa-solid fa-check"></i></button>
+                            
+                            {{/equals}} --}}
+                            <form action="/CustomerVoucher/postvoucherlist" method="POST">
+							 	{{#equals this.voucher_status "Active" }}
+									<input type="hidden" name="ststus" value="{{this.voucher_status}}">
+								{{/equals}}
+								{{#equals this.voucher_status "Inactive" }}
+									
+									<input type="hidden" name="status" value="{{this.voucher_status}}">
+								{{/equals}}
+                                <input type="hidden" name="voucherID" value="{{this.id}}">
+                                <input type="hidden" name="name" value="{{this.voucher_title}}">
+                                <input type="hidden" id="claim" value="{{voucher.id}}">
+                                <button type="submit" class="claim-button">Claim</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            {{/equals}}
+		{{/each}}
+            
+        
+    </div>
+</div>
+
+  
+   
+    
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+.header-name::before{
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 2px;
+  top: 80px;
+  left: -90px;
+  background-color:grey;
+  transform: scaleX(0.3);
+}
+.header-name{
+	position: relative;
+	color: #0E71EE;
+	padding-top:30px;
+	padding-bottom: 20px;
+	margin-top:5px;
+	
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.hidden{
+    display: none;
+}
+.top-right{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+.top-left{
+  position: absolute;
+  top: 30px;
+  right: 415px;
+  height: 20px;
+  width: 160px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+}
+
+
+.tag-2{
+  z-index: 2;
+  background: #cccccc;
+  border-radius: 3px;
+  font-size: 10px;
+  margin: 0;
+  color: white;
+  padding: 6px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.tag-active {
+  background-color: #47d4b5;
+}
+
+.tag-inactive {
+  background-color:#D22B2B;
+}
+
+.tag-limited {
+  background-color:#EEC20E;
+}
+
+
+.course {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+	display: flex;
+	max-width: 100%;
+	margin: 20px;
+	overflow: hidden;
+	width: 700px;
+	
+}
+
+.course h6 {
+	opacity: 0.6;
+	margin: 0;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+    font-size:11px;
+}
+
+.course h4 {
+	letter-spacing: 1px;
+	margin: 10px 0;
+    font-size:15px;
+}
+
+.course h5 {
+	letter-spacing: 1px;
+	margin: 10px 0;
+    font-size:13px;
+}
+
+.course-preview {
+	background-color: #2A265F;
+	color: #fff;
+	padding: 30px;
+	max-width: 250px;
+    min-width: 180px;
+}
+
+.course-preview a {
+	color: #fff;
+	display: inline-block;
+	font-size: 12px;
+	opacity: 0.6;
+	margin-top: 30px;
+	text-decoration: none;
+}
+
+.course-info {
+	padding: 30px;
+	position: relative;
+	width: 100%;
+}
+
+.progress-container {
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	text-align: right;
+	width: 150px;
+}
+
+.progress {
+	background-color: #ddd;
+	border-radius: 3px;
+	height: 5px;
+	width: 100%;
+}
+
+.progress::after {
+	border-radius: 3px;
+	background-color: #2A265F;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 5px;
+	width: 66%;
+}
+
+.progress-text {
+	font-size: 10px;
+	opacity: 0.6;
+	letter-spacing: 1px;
+}
+
+.claim-button {
+	background-color:  #3377ff;
+	border: 0;
+	border-radius: 5px;
+	
+	color: #fff;
+	font-size: 12px;
+	padding: 12px 25px;
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	letter-spacing: 1px;
+    transition: ease-in 0.2s;
+}
+.claim-button:hover{
+   
+    box-shadow: 0 3px 4px #0055ff;
+    transition: ease-in 0.3s;
+}
+
+.claimed-button {
+	background-color: grey;
+	border: 0;
+	border-radius: 5px;
+	
+	color: #fff;
+	font-size: 12px;
+	padding: 12px 25px;
+	
+	bottom: 30px;
+	right: 30px;
+	letter-spacing: 1px;
+    transition: ease-in 0.2s;
+}
+
+
+.floating-btn {
+	border-radius: 26.5px;
+	background-color: #001F61;
+	border: 1px solid #001F61;
+	box-shadow: 0 16px 22px -17px #03153B;
+	color: #fff;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 20px;
+	padding: 12px 20px;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 999;
+}
+
+.floating-btn:hover {
+	background-color: #ffffff;
+	color: #001F61;
+}
+
+.floating-btn:focus {
+	outline: none;
+}
+
+.floating-text {
+	background-color: #001F61;
+	border-radius: 10px 10px 0 0;
+	color: #fff;
+	font-family: 'Muli';
+	padding: 7px 15px;
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	z-index: 998;
+}
+
+.floating-text a {
+	color: #FF7500;
+	text-decoration: none;
+}
+@media screen and (max-width: 1199px){
+	.top-left{
+	position: absolute;
+	top: 30px;
+	right: 295px;
+	height: 20px;
+	width: 160px;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+
+}
+
+}
+</style>
