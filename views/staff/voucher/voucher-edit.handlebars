@@ -82,16 +82,16 @@
             <input type="text" id="timepicker_2" width="234" class="" name="end_date" />
             </div> --}}
 			
-			<div hidden>
+			<div >
 				<label for="" class="form-label">Status</label>
 			
 			<div class=" btn-group-toggle" data-toggle="buttons">
-				<label class="btn btn-success col-2" disabled>
+				<label class="btn btn-success col-2" id="button_stats_1" onclick="status_choice_1()">
 					<input type="radio" name="voucher_status" id="voucher_status" value="Active" autocomplete="off" checked> Active
 				</label>
 				
-				<label class="btn btn col-2" disabled>
-					<input type="radio" name="options"  autocomplete="off" > Non-Active
+				<label class="btn col-2" id="button_stats_2" onclick="status_choice_2()" >
+					<input type="radio" name="" id="voucher_status_2" value="Inactive" autocomplete="off" > Non-Active
 				</label>
 			</div>
 			<br>
@@ -122,20 +122,20 @@
 		footer: true
 	});
     function status_choice_2(){
-        document.getElementById("status_choice_2").classList.add('btn-danger');
-        document.getElementById("coupon_status_2").name = "voucher_status";
-        console.log(document.getElementById("coupon_status_2").name)
-        document.getElementById("status_choice_1").classList.remove('btn-success');
-        document.getElementById("coupon_status_1").name = "";
+        document.getElementById("button_stats_2").classList.add('btn-danger');
+        document.getElementById("voucher_status_2").name = "voucher_status";
+        
+        document.getElementById("button_stats_1").classList.remove('btn-success');
+        document.getElementById("voucher_status").name = "";
         console.log("ii")
 
     }
     function status_choice_1(){
-        document.getElementById("status_choice_1").classList.add('btn-success');
-        document.getElementById("coupon_status_1").name = "voucher_status";
-        console.log(document.getElementById("coupon_status_1").name)
-        document.getElementById("status_choice_2").classList.remove('btn-danger');
-        document.getElementById("coupon_status_2").name = "";
+        document.getElementById("button_stats_1").classList.add('btn-success');
+        document.getElementById("voucher_status").name = "voucher_status";
+        
+        document.getElementById("button_stats_2").classList.remove('btn-danger');
+        document.getElementById("voucher_status_2").name = "";
         console.log("ii")
 
     }

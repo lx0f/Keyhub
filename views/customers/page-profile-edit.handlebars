@@ -262,7 +262,7 @@
 
 				<p>
 					<i class="fa fas fa-map-marker"></i>&nbsp; <b>Address:</b><br>  
-					None&nbsp 
+					{{user.address}} 
 				
 				</p>
 			</div>
@@ -280,6 +280,15 @@
                         Email: 	 <input name="email" value="{{user.email}}" class="form-control" placeholder="Enter Email" type="email">
                         <small class="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div> <!-- form-group end.// -->
+
+
+
+                    <div class="form-group">
+                        Address: 	 <input name="address" value="{{user.address}}" class="form-control" placeholder="Enter Email" >
+            
+                    </div> <!-- form-group end.// -->
+
+
                     <div class="form-row">
                         <div class="form-group col-md-6">
 							Password:

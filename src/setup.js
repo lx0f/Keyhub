@@ -28,9 +28,15 @@ const loginRouter = require("./routes/login");
 
 
 const FAQrouter = require("./routes/staff_FAQs");
+const { sum } = require("./models/product");
+const { OrderItem } = require("./models/order");
 
 //Initialisation of the app
 const app = express();
+
+
+
+
 
 //Setup
 
@@ -112,7 +118,14 @@ app.engine(
                 if (typeof a === 'number' && typeof b === 'number') {
                   return a * b
                 }},
-
+            
+            sum_quantity(array) {
+                s = 0
+                for (i = 0; i < array.length; i++) {
+                    s += array[i].quantity
+                }
+                return s
+            },
         },
     })
 );

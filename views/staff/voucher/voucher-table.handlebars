@@ -1,5 +1,4 @@
  <META http-equiv=refresh>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
@@ -56,11 +55,10 @@
                                                     <tr>
                                                         <th>Name</th>
                                                         <th>Code</th>
-                                                        <th>Type</th>
-                                                        
-                                                        <th>Voucher Used</th>
-                                                        <th>Start Date</th>
                                                         <th>Period ( Days )</th>
+                                                        <th>Voucher Used</th>
+                                                        <th>Total Voucher</th>
+                                                        <th>Start Date</th>
                                                         <th>Status</th>
                                                         <th>Actions</th>
                                                     
@@ -71,12 +69,12 @@
                                                 <tbody>
                                                     {{#each voucher }}
                                                     <tr >
-                                                        <td>{{this.voucher_name}}</td>
+                                                        <td>{{this.voucher_title}}</td>
                                                         <td>{{this.voucher_code}}</td>
-                                                        <td>{{this.voucher_type}}</td>
-                                                        <td>{{this.voucher_used}} / {{this.total_voucher}}</td>
-                                                        <td>{{this.start_date}}</td>
                                                         <td>{{this.days}}</td>
+                                                        <td>{{this.voucher_used}}</td>
+                                                        <td>{{this.total_voucher}}</td>
+                                                        <td>{{this.start_date}}</td>
                                                         <td>
                                                             {{#equals this.voucher_status "Active"}}
                                                             <h5>
@@ -84,7 +82,7 @@
                                                             
                                                             </h5>
                                                             {{/equals}}
-                                                            {{#equals this.voucher_status "Non-Active"}}
+                                                            {{#equals this.voucher_status "Inactive"}}
                                                             <h5>
                                                                 <span class="badge badge-danger" id="{{this.id}}" >{{this.voucher_status}}</span>
                                                                 
@@ -100,13 +98,22 @@
                                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{this.id}}">
                                                                  <i class="fa fa-info" aria-hidden="true"></i>
                                                             </button>
-                                                            <div class="modal fade" id="exampleModal{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                            <a href="/staff/manage-vouchers/editVoucher/{{id}}" class="btn btn-info"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></a>
+                                                            <a href="/staff/manage-vouchers/deleteVoucher/{{id}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                           <!-- Button trigger modal -->
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="exampleModal{{this.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                                     <div class="modal-content" >
                                                                         <div class="modal-body">
                                                                             <div class="background-info"></div>
                                                                             <div class="card-header-1">
-                                                                                <span class="top-right tag-2 tag-teal">Active</span>
+                                                                                 {{#equals this.voucher_status "Active"}}
+                                                                                    <span class="top-right tag-2 tag-active">Active</span>
+                                                                                {{/equals}}
+                                                                                {{#equals this.voucher_status "Inactive"}}
+                                                                                    <span class="top-right tag-2 tag-inactive">Fully Redeemed</span>
+                                                                                {{/equals}}
                                                                                 
                                                                                 <img src="https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg" alt="rover" />
                                                                                 <span class="voucher-info">
@@ -125,9 +132,7 @@
                                                                                         </p>
                                                                                     </h6>
                                                                                 </span>
-                                                                            </div>
-                                                                            
-                                                                            <div class="card-body-1">
+                                                                                <div class="card-body-1">
                                                                                 
                                                                                 <h6 style="padding:10px;padding-top:20px;">
                                                                                         <strong>Description</strong> 
@@ -158,9 +163,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <a href="/staff/manage-vouchers/editVoucher/{{id}}" class="btn btn-info"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></a>
-                                                            <a href="/staff/manage-vouchers/deleteVoucher/{{id}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                                            
                                                         </td>
                                                     
                                                     </tr>
@@ -255,34 +257,76 @@
                                                        <th>Name</th>
                                                         <th>Email</th>
                                                         <th>Action</th>
+                                                        
+                                                       
+                                                    
+                                                
                                                     </tr>
                                                 </thead>
                                     
                                                 <tbody>
-                                                    {{#each user }}
-                                                        {{#equals this.isStaff "0"}}
-                                                        <tr >
-                                                            <td>{{this.username}}</td>
-                                                            <td>{{this.email}}</td>
-                                                            <td>
-                                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
-                                                                 Voucher List
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        {{/equals}}
-                                                    {{/each }}
+                                                    {{#each voucherlist}}
+                                                   
+														{{#equals this.User.isStaff "0"}}
+															<tr >
+																
+																<td>{{this.User.username}} 
+																	
+																</td>
+																<td>{{this.User.email}}</td>
+																<td>
+																	<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal2{{this.id}}">
+																		Voucher List
+																	</button>
+                                                                    <div class="modal fade" id="exampleModal2{{this.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                            <div class="modal-content" >
+                                                                                <div class="modal-body">
+                                                                                    {{#if this.voucheritem}}
+                                                                                     {{#each this.voucheritem}}
+                                                                                       
+                                                                                        Voucher Title: {{this.voucher_title}}
+                                                                                        <br>
+                                                                                         Voucher Name: {{this.voucher_name}}
+                                                                                        <br>
+                                                                                        {{#each ../../voucheritem}}
+                                                                                            {{#equals this.VoucherListId ../../this/id }}
+                                                                                                {{#equals this.VoucherId ../this.id}}
+                                                                                                        {{!-- {{#equals this.id }} --}}
+                                                                                                        Usage: {{this.usage}} 
+                                                                                                {{/equals}}
+                                                                                            {{/equals}}
+                                                                                        {{/each}}
+                                                                                        <hr>
+                                                                                    {{/each}}
+                                                                                    {{else}}
+                                                                                    <h6>Customer {{this.User.username}} has yet to claim any vouchers</h6>
+                                                                                    {{/if}}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                   
+																
+																</td>
+															</tr>
+														{{/equals}}
+                                                       
+													{{/each}}
+                                                   
                                              </table>
                                         </div>
                                     </section>
+                                    {{#each voucherlist}}
+                                        
+                                    {{/each}}
                                     
                                 </div>  
                             </div>
                         </div>
                     </div>
 
-
-            </div>
+                </div>
                 <!-- /.container-fluid -->
 
   
@@ -352,8 +396,11 @@
   text-transform: uppercase;
   cursor: pointer;
 }
-.tag-teal {
+.tag-active {
   background-color: #47d4b5;
+}
+.tag-inactive {
+  background-color: #D22B2B;
 }
 .tag-purple {
   background-color: #5e76bf;
@@ -366,28 +413,6 @@
   font-size: 13px;
   margin: 0 0 40px;
 }
-.user {
-  display: flex;
-  margin-top: auto;
-}
-
-.user img {
-  border-radius: 50%;
-  width: 10px;
-  height: 40px;
-  margin-right: 10px;
-}
-.user-info h5 {
-  margin: 0;
-}
-.user-info small {
-  color: #545d7a;
-}
-
-
-
-
-
 
     a:link{ color: white; text-decoration: none;}
 

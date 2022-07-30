@@ -20,6 +20,10 @@
 		</div>
 		<form action="" method="POST" id="Customer_form" class="Customer_form ">
 			<div class="mb-3">
+				<label for="" class="form-label">Voucher Title</label>
+				<input type="text" class="form-control" id="voucher_title" name="voucher_title" required>
+			</div>
+			<div class="mb-3">
 				<label for="" class="form-label">Voucher Name</label>
 				<input type="text" class="form-control" id="voucher_name" name="voucher_name" required>
 			</div>
@@ -110,6 +114,10 @@
 			
 		</form>
 		<form action="" method="POST" id="Master_form" class="Master_form hidden">
+			<div class="mb-3">
+				<label for="" class="form-label">Voucher Title</label>
+				<input type="text" class="form-control" id="voucher_title" name="voucher_title" required>
+			</div>
 			<div class="mb-3">
 				<label for="" class="form-label">Voucher Name</label>
 				<input type="text" class="form-control" id="voucher_name" name="voucher_name" required>
@@ -205,10 +213,10 @@
 .hidden{
 	display:none;
 }
-	.Customer_2{
-		position: relative;
-		color: #2C75B6;
-	}
+.Customer_2{
+	position: relative;
+	color: #2C75B6;
+}
 	.Master_2{
   position: relative;
   color: grey;

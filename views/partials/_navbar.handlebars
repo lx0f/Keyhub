@@ -11,9 +11,9 @@
 		</a> <!-- brand-wrap.// -->
 	</div>
 	<div class="col-lg-6 col-sm-12">
-		<form action="#" class="search">
+		<form action="/Cproducts/search" class="search" method="POST">
 			<div class="input-group w-100">
-			    <input type="text" class="form-control" placeholder="Search">
+			    <input type="text" class="form-control" name = "search" placeholder="Search">
 			    <div class="input-group-append">
 			      <button class="btn btn-primary" type="submit">
 			        <i class="fa fa-search"></i> Search
@@ -66,22 +66,18 @@
     <div class="collapse navbar-collapse" id="main_nav">
       <ul class="navbar-nav">
       	<li class="nav-item dropdown">
-          <a class="nav-link pl-0" data-toggle="dropdown" href="#"><strong> <i class="fa fa-bars"></i> &nbsp  All category</strong></a>
+          <a class="nav-link pl-0" data-toggle="dropdown" href="#">&nbsp  Keyboards</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Foods and Drink</a>
-            <a class="dropdown-item" href="#">Home interior</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Category 1</a>
-            <a class="dropdown-item" href="#">Category 2</a>
-            <a class="dropdown-item" href="#">Category 3</a>
+            <a class="dropdown-item" href="/Cproducts/keyboards">Pre-Built Keyboard</a>
+            <a class="dropdown-item" href="#">Barebone Kit</a>
           </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/Cproducts/general">Products</a>
         </li>
-        <li class="nav-item">
+        {{!-- <li class="nav-item">
           <a class="nav-link" href="/Cproducts/keyboards">Keyboards</a>
-        </li>
+        </li> --}}
         <li class="nav-item">
           <a class="nav-link" href="/Cproducts/switches">Switches</a>
         </li>
@@ -89,7 +85,7 @@
           <a class="nav-link" href="/Cproducts/keycaps">Keycaps</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/Cproducts/others">Others</a>
+          <a class="nav-link" href="/Cproducts/others">Accessories</a>
         </li>
 		{{#if user.isStaff}}
 		<li class="nav-item">
