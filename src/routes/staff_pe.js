@@ -1,11 +1,35 @@
 const express = require("express");
-const Pevaluation = require("../models/product_evaluation")
+const Product = require("../models/product");
+const Pevaluation = require("../models/product_evaluation");
+const User = require("../models/User");
 const PevaluationRouter = express.Router()
 
 PevaluationRouter.get('/productevaluations',async (req, res) => {
-    const product_evaluation = await (await Pevaluation.findAll()).map((x) => x.dataValues);
+    const product_evaluation = await Pevaluation.findAll({
+        include: [
+                    {
+                        model: Product,
+                    },
+                    {
+                        model: User
+                    },
+                ],
+    });
     return res.render("./staff/productevaluation/staff-productevaluation-retrieve", { product_evaluation });
     })
+    // const orders = await Order.findAll({
+    //     include: [
+    //         {
+    //             model: OrderItem,
+    //             include: {
+    //                 model: Product
+    //             }
+    //         },
+    //         {
+    //             model: User
+    //         },
+    //     ],
+    // });
 
 PevaluationRouter.get('/deleteproductevaluation/:id', async function (req, res) {
     try {

@@ -102,7 +102,7 @@ ShoppingCart.post('/:productId/add', async (req,res) =>{
         await product.update({
           quantity: product.quantity + 1
         })
-        return res.redirect('/cart')
+        return res.status(200).redirect('back')
       } catch (e) {
         console.log(e)
       }

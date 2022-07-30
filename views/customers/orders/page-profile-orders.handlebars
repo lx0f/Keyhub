@@ -1,0 +1,106 @@
+<!-- ========================= SECTION PAGETOP ========================= -->
+<section class="section-pagetop bg">
+<div class="container">
+	<h2 class="title-page">My Order History</h2>
+</div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION INTRO END// ========================= -->
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+<div class="container">
+
+<div class="row">
+	<aside class="col-md-3">
+		<ul class="list-group">
+			<a class="list-group-item" href="#"> Account overview  </a>
+			<a class="list-group-item active" href="#"> My Orders </a>
+			<a class="list-group-item" href="#"> Return and refunds </a>
+            <a class="list-group-item" href="#"> My comments </a>
+		</ul>
+	</aside> <!-- col.// -->
+	<main class="col-md-9">
+        <h5 class="card-title"> Your orders </h5> 
+    {{#each orders}}
+    <!--  ======== item order ======== -->
+    <article class="card border-primary mb-4">
+    <div class="card-body">
+      <header class="d-lg-flex">
+        <div class="flex-grow-1">
+          <h6 class="mb-0">Order ID: {{this.id}} <i class="dot"></i>  
+            <span class="text-success"> {{this.Payment.delivery_status}} </span>
+          </h6>
+          <span class="text-muted">Date: {{dateFormat this.createdAt 'DD MMM YYYY'}}</span>
+        </div>
+        <div>
+          {{#equals this.order_status null}}
+            <a href="/order/cancel/{{this.id}}" class="btn btn-sm btn-outline-danger">Cancel order</a>
+          {{/equals}}
+          {{#equals this.order_status "Cancelled"}}
+              <a href="/order/cancel/{{this.id}}" class="btn btn-sm btn-outline-danger" style="display:none">Cancel order</a>
+          {{/equals}}
+          <a href="#" class="btn btn-sm btn-primary">Track order</a> 
+        </div>
+      </header>
+      <hr>
+      <div class="row">
+        <div class="col-lg-4">
+          <p class="mb-0 text-muted">Contact</p>
+          <p class="m-0"> 
+            Mike Johnatan <br>  Phone: 371-295-9131 <br> Email: info@mywebsite.com </p>
+        </div> <!-- col.// -->
+        <div class="col-lg-4 border-start">
+          <p class="mb-0 text-muted">Shipping address</p>
+          <p class="m-0"> United States <br> 
+            3601 Old Capitol Trail, Unit A-7, Suite 170777, Wilmington, DE 19808   </p>
+        </div> <!-- col.// -->
+        <div class="col-lg-4 border-start">
+          <p class="mb-0 text-muted">Payment</p>
+          <p class="m-0">
+            <span class="text-success"> Visa  **** 4216   </span> <br> 
+            Shipping fee:  $56 <br> 
+            Total paid:  $456 
+          </p>
+        </div> <!-- col.// -->
+      </div> <!-- row.// -->
+      <hr>
+      <ul class="row">
+        {{#each this.OrderItems}}
+        <li class="col-xl-4  col-lg-6">
+          <figure class="itemside mb-3">
+            <div class="aside">
+              <img width="72" height="72" src="images/items/1.jpg" class="img-sm rounded border">
+            </div>
+            <figcaption class="info">
+              <p class="title">{{this.Product.name}}</p>
+              <strong> {{this.quantity}}x = ${{multiply this.Product.price this.quantity}}.00 </strong>
+              <a href="/createPE/{{this.Product.id}}" class="btn btn-sm btn-outline-info">Give Rating</a>
+            </figcaption>
+          </figure> 
+        </li>
+        {{/each}}
+        
+      </ul>
+    </div> <!-- card-body .// -->
+    </article> <!-- card .// --> 
+  {{/each}}
+	</main> <!-- col.// -->
+</div>
+
+</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+<!-- ========================= FOOTER ========================= -->
+<footer class="section-footer border-top padding-y">
+	<div class="container">
+		<p class="float-md-right"> 
+			&copy Copyright 2019 All rights reserved
+		</p>
+		<p>
+			<a href="#">Terms and conditions</a>
+		</p>
+	</div><!-- //container -->
+</footer>
+<!-- ========================= FOOTER END // ========================= -->
