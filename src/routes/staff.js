@@ -51,7 +51,7 @@ staffRouter.use("/manage-pe", staffpeRouter);
 staffRouter.use("/manage-orders", OrderManagement);
 // staffRouter.use("/manage-mail", manageMail);
 
-staffRouter.use("/manage-mail", manageMail);
+// staffRouter.use("/manage-mail", manageMail);
 staffRouter.use("/data", dataRouter);
 
 
