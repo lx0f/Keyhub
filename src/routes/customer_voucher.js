@@ -25,16 +25,6 @@ customervoucher.get("/", async (req, res) => {
             const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
             res.render('./customers/customer_voucher/customervoucher', {voucher});
         }
-           
-            
-            
-            
-            
-        
-        
-            // req.flash('error', 'please login as customer first')
-            // return res.redirect('/login')   
-        
     
     } catch (e) {
         console.log(e)
@@ -54,7 +44,7 @@ customervoucher.post('/postvoucherlist', async (req,res) =>{
         list = voucherlist
         
         
-        // find items in the cart or not
+        // find items in voucher list
         const [item, created] = await VoucherItem.findOrCreate({
           where: {
             VoucherListId:voucherlist.id,
@@ -64,7 +54,7 @@ customervoucher.post('/postvoucherlist', async (req,res) =>{
             usage: 0
           }
         })
-        // update inventory data
+        // update voucher data
         
         const voucher = await Voucher.findByPk(req.body.voucherID)
         if (req.body.status == "Inactive" || voucher.voucher_used >= voucher.total_voucher) {

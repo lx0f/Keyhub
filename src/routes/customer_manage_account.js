@@ -7,6 +7,7 @@ const User = require("../models/User")
 const { CustomerVoucher } = require("../models/CustomerVoucher");
 const { VoucherItem } = require("../models/CustomerVoucher");
 const Voucher = require("../models/Voucher");
+const LoyaltyCard = require("../models/LoyaltyCard");
 
 
 const handlebars = require("handlebars")
@@ -89,6 +90,18 @@ customerManageAccountRouter.route("/myvouchers").get(async (req, res) => {
      
     
 })
+
+customerManageAccountRouter.route("/loyaltyprogram").get(async (req, res) => {
+    let user_id = req.user.id
+    const Card = await (await LoyaltyCard.findAll()).map((x) => x.dataValues);
+    const User_Card = await LoyaltyCard.findAll({ where: { authorID: user_id } });
+    for (i = 0; i < Card.length; i++){
+        if (Card[i].authorID == user_id) {
+            return res.render("./customers/loyaltyprogram/loyaltyprogram",{User_Card});
+        }
+    }
+    return res.render("./customers/loyaltyprogram/loyaltyprogram");
+});
 
 
 
