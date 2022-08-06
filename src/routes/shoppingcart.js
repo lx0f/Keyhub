@@ -25,8 +25,10 @@ ShoppingCart.get('/', async (req, res) => {
 
           const applyvoucher = await ApplyVoucher.findOne({ where: { UserId: req.user.id } });
           if (!applyvoucher) {
+
             const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-            res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice })
+            let discount_price = totalPrice
+            res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice,discount_price })
           } else {
               const voucher = await Voucher.findOne({
               where: { id:applyvoucher.VoucherId }
