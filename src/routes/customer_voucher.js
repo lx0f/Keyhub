@@ -50,7 +50,8 @@ customervoucher.post('/postvoucherlist', async (req,res) =>{
             VoucherListId:voucherlist.id,
             VoucherId:req.body.voucherID,
           },
-          defaults: {
+            defaults: {
+            Type:"Daily",
             usage: 0
           }
         })

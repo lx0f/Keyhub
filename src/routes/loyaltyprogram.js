@@ -17,7 +17,9 @@ loyaltyprogram.get("/signup", async (req, res) => {
                 if (Card[i].authorID == user_id) {
                     return res.render("./customers/loyaltyprogram/signup", { User_Card });
                 }
+                
             }
+            return res.render("./customers/loyaltyprogram/signup");
         }
         else {
             return res.render("./customers/loyaltyprogram/signup");
@@ -38,9 +40,9 @@ loyaltyprogram.post("/signup", async (req, res) => {
                 return res.redirect("/account/loyaltyprogram");
             } else {
                 
-                await LoyaltyCard.create({ authorID: req.user.id,Active_Points: 0, Expired_Points: 0, Used_Points: 0,Status:"Bronze" });
-                req.flash("success", "Card Created! ")
-                return res.redirect("/loyaltyprogram/signup")
+                await LoyaltyCard.create({ authorID: req.user.id,Active_Points: 0, Expired_Points: 0, Used_Points: 0,Status:"Bronze",Total_Points:0});
+                req.flash("success", "Thank you for signing up!")
+                return res.redirect("/account/loyaltyprogram")
             }
         } else {
             return res.redirect('/login')
@@ -100,7 +102,8 @@ loyaltyprogram.post('/redeem', async (req,res) =>{
             VoucherListId:voucherlist.id,
             VoucherId:req.body.voucherID,
           },
-          defaults: {
+        defaults: {
+            Type:"Reward",
             usage: 0
           }
         })
@@ -124,23 +127,23 @@ loyaltyprogram.post('/redeem', async (req,res) =>{
            
             if (User_Card.Active_Points < req.body.redeem) {
                 req.flash("error","Not Enough Points! ")
-                return res.redirect("/account/loyaltyprogram")
+                return res.redirect("/loyaltyprogram/redeem")
             } else  {
                 const active_points = parseInt(User_Card.Active_Points) - parseInt(req.body.redeem)
                 const used_points = parseInt(User_Card.Used_Points) + parseInt(req.body.redeem)
                 if (active_points+used_points <= 500) {
                     await User_Card.update({
-                        Active_Points: active_points, Expired_Points: User_Card.Expired_Points, Used_Points: used_points, Status:"Bronze"
+                        Active_Points: active_points, Expired_Points: User_Card.Expired_Points, Used_Points: used_points,Total_Points:active_points+used_points,Status:"Bronze"
                     });
                 }
                 else if (active_points+used_points > 500 && active_points+used_points < 1000) {
                     await User_Card.update({
-                        Active_Points: active_points, Expired_Points: User_Card.Expired_Points, Used_Points: used_points, Status:"Silver"
+                        Active_Points: active_points, Expired_Points: User_Card.Expired_Points, Used_Points: used_points,Total_Points:active_points+used_points, Status:"Silver"
                     });
                 }
                 else if (active_points+used_points >= 1000) {
                     await User_Card.update({
-                        Active_Points: active_points, Expired_Points: User_Card.Expired_Points, Used_Points: used_points, Status:"Gold"
+                        Active_Points: active_points, Expired_Points: User_Card.Expired_Points, Used_Points: used_points,Total_Points:active_points+used_points, Status:"Gold"
                     });
                 }
                 await voucher.update({

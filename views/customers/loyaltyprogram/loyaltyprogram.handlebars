@@ -14,16 +14,36 @@
                     <a class="list-group-item active" href="#"> Loyalty Program</a>
                 </ul>
             </aside> <!-- col.// -->
+            {{#if User_Card}}
             <div class="col-md-9">
               <div class="card loyalty-card card-face">
                 <div class="card-header header" >
                   <span style="color:white ;" >Welcome Back, </span> 
                   <h4 style="color: white;">TAY ZHE YIN
                     <i class="fa-regular fa-bell" style="float:right;padding-left:15px;"></i> 
-                    <i type="button" class="fa-solid fa-clock-rotate-left dropright" style="float:right ;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i type="button" class="fa-solid fa-clock-rotate-left " style="float:right ;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <br>
-                      <div class="dropdown-menu" style="margin-top:10px;">
-                       
+                      <div class="dropdown-menu" style="position:relative;width:200px;">
+                      
+                       {{#each voucherlist}}
+                          {{#if this.voucheritem}}
+                            {{#equals this.UserID ../user.id}}
+                              {{#each this.voucheritem}}
+                                {{#each ../../voucheritem}}
+                                  {{#equals this.VoucherListId ../../this/id }}
+                                    {{#equals this.VoucherId ../this.id}}
+                                        {{#equals this.Type "Reward"}}
+                                          <span>{{../this.voucher_title}}</span>
+                                          <span class="float-right">27/02/2022</span>
+                                      {{/equals}}
+                                    {{/equals}}
+                                  {{/equals}}
+                                {{/each}}
+                              {{/each}}
+                            {{/equals}}
+                          {{/if}}
+                        {{/each}}
+                     
                       </div>
                     </i>
                   </h4>
@@ -114,12 +134,49 @@
                           </span> 
                         </div>
                         <div class="progression" >
-                          <span >Next Level : Platinum</span>
+                          {{#each User_Card}}
+                            {{#equals this.Status "Gold"}}
+                             
+                                <span >Next Level : Coming Soon</span>
+                              
+                            {{/equals}}
+                            {{#equals this.Status "Silver"}}
+                              
+                                <span >Next Level : Gold</span>
+                             
+                            {{/equals}}
+                            {{#equals this.Status "Bronze"}}
+                            
+                                <span >Next Level : Silver</span>
+                             
+                            {{/equals}}
+                        
+                          {{/each}}
+                          
                           
                           <div class="progress" style="height:7px;" >
                             <div class="progress-bar" role="progressbar" style="width:90%;background-color:#2ebf91;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                           </div>
-                          <span >9000 / 10000</span>
+                          {{#each User_Card}}
+                            {{#equals this.Status "Gold"}}
+                             
+                                <span >{{this.Total_Points}} / --</span>
+                              
+                            {{/equals}}
+                            {{#equals this.Status "Silver"}}
+                              
+                                <span >{{this.Total_Points}} / 1000</span>
+                             
+                            {{/equals}}
+                            {{#equals this.Status "Bronze"}}
+                            
+                                <span >{{this.Total_Points}} / 500</span>
+                             
+                            {{/equals}}
+                              
+                     
+                          {{/each}}
+                          
                         </div>
                       </div>
                       <button class="btn">
@@ -140,6 +197,13 @@
                   
             </div>
         </div>
+        {{else}}
+        <span>Please signup for the Rewards Program </span>
+        <span> <a href="/loyaltyprogram/signup">
+           Here!
+          </a>
+        </span>
+        {{/if }}
     </div>
 </section>
 <style>

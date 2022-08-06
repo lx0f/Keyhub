@@ -34,6 +34,11 @@ LoyaltyCard.init(
       type: Sequelize.DataTypes.INTEGER,
       allowNull: true,
       unique: false,
+    },
+    Total_Points: {
+      type: Sequelize.DataTypes.INTEGER,
+      allowNull: true,
+      unique: false,
         },
      Status: {
       type: Sequelize.DataTypes.STRING,

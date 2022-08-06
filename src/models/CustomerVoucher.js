@@ -41,6 +41,9 @@ VoucherItem.init(
         VoucherId: {
             type:Sequelize.DataTypes.INTEGER,
         },
+        Type: {
+            type:Sequelize.DataTypes.STRING,
+        },
         usage: Sequelize.DataTypes.INTEGER,
     },
     {
