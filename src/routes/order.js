@@ -5,7 +5,9 @@ const { Order }  = require("../models/order")
 const {OrderItem} = require("../models/order")
 const Product = require("../models/product")
 const {Payment} = require("../models/order")
-const {Cart} = require("../models/cart")
+const { Cart } = require("../models/cart")
+const ApplyVoucher = require("../models/ApplyVoucher");
+const Voucher = require("../models/Voucher");
 const moment = require('moment')
 
 
@@ -21,8 +23,30 @@ CustomerOrder.get('/', async (req, res) => {
       return res.redirect('/cart')
     }
     const cartId = cart.id
-    const amount = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-    return res.render('./customers/page-checkout', { cartId, amount, cart })
+    const applyvoucher = await ApplyVoucher.findOne({ where: { UserId: req.user.id } });
+    if (!applyvoucher) {
+      const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+      let discount_price = totalPrice
+      res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, discount_price })
+    } else {
+        const voucher = await Voucher.findOne({
+        where: { id:applyvoucher.VoucherId }
+        });
+        const discount = voucher.voucher_value
+        const code = voucher.voucher_code
+        if (applyvoucher.VoucherId == voucher.id) {
+          let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+          let discount_price = totalPrice - discount
+          if (discount_price < 0) {
+            discount_price = 0
+          }
+          res.render('./customers/page-checkout', { cartId,cart: cart.toJSON(), totalPrice,discount,code,discount_price })
+        } else {
+          const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+          res.render('./customers/page-checkout', { cartId,cart: cart.toJSON(), totalPrice })
+        }
+    }
+    
   } catch (e) {
     console.log(e)
   }
@@ -35,7 +59,7 @@ CustomerOrder.post('/data', async (req, res) => {
         const cart = await Cart.findByPk(req.body.cartId, {
           include: 'cartProducts'
         })
-        console.log(cart.cartProducts)
+        
         for (const product of cart.cartProducts) {
           if (product.stock < product.CartItem.quantity) {
             req.flash('error', `Product Id:${product.id} only left with ${product.stock}, Please reselect quantity!`)
