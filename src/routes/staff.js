@@ -14,6 +14,9 @@ const manageMail = require("./manage_mail");
 const FAQrouter = require("./staff_FAQs");
 const productRouter = require("./product");
 const enableDebugMode = require("../configuration/settings");
+const OrderManagement = require("./staff_ordermanagement");
+
+
 const dataRouter = require("./data")
 
 
@@ -45,7 +48,10 @@ staffRouter.use("/manage-faqs", FAQrouter)
 staffRouter.use("/manage-vouchers", manageVoucher);
 staffRouter.use("/product", productRouter)
 staffRouter.use("/manage-pe", staffpeRouter);
-staffRouter.use("/manage-mail", manageMail);
+staffRouter.use("/manage-orders", OrderManagement);
+// staffRouter.use("/manage-mail", manageMail);
+
+// staffRouter.use("/manage-mail", manageMail);
 staffRouter.use("/data", dataRouter);
 
 

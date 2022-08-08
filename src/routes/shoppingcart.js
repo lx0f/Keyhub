@@ -7,6 +7,7 @@ const User = require("../models/User")
 const { CustomerVoucher } = require("../models/CustomerVoucher");
 const { VoucherItem } = require("../models/CustomerVoucher");
 const Voucher = require("../models/Voucher");
+const ApplyVoucher = require("../models/ApplyVoucher");
 
 
 // GET Cart
@@ -20,8 +21,65 @@ ShoppingCart.get('/', async (req, res) => {
           if (!cart) {
             res.render('./customers/page-shopping-cart')
           }
-          const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-          res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice })
+          // Apply Voucher
+
+          const applyvoucher = await ApplyVoucher.findOne({ where: { UserId: req.user.id } });
+          const cartitem = await (await CartItem.findAll({ where: { CartId: cart.id } })).map((x) => x.dataValues);
+          let shipping = 5
+          let no_discount = 0
+          if (cartitem.length > 0)
+          {
+            
+            if (!applyvoucher) {
+
+              const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+              
+              let discount_price = totalPrice + shipping
+              
+              console.log(no_discount)
+              res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice,discount_price, no_discount,shipping })
+            } else {
+                const voucher = await Voucher.findOne({
+                where: { id:applyvoucher.VoucherId }
+                });
+                if (voucher.voucher_cat == "Discount") {
+                  const discount = voucher.voucher_value
+                  const code = voucher.voucher_code
+                  
+                  if (applyvoucher.VoucherId == voucher.id) {
+                    let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+                    let discount_price = totalPrice - discount + shipping
+                    if (discount_price < 0) {
+                      discount_price = 0
+                    }
+                    res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice, discount, code, discount_price,shipping })
+                  }
+                }
+                else if (voucher.voucher_cat == "Cashback") {
+                  const cashback = voucher.voucher_value
+                  const code = voucher.voucher_code
+                  
+                  const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0 + shipping
+                  
+                  res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice, cashback, code,shipping })
+                } else {
+                  const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0 + shipping
+                  let no_discount = 0
+                  console.log(no_discount)
+                  res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice,no_discount,shipping })
+                }
+            }
+          }
+          else {
+            const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+            shipping = 0
+            let discount_price = totalPrice 
+            console.log(no_discount)
+            res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice,no_discount,discount_price,shipping })
+          }
+          
+          
+          
         } else {
           req.flash('error', 'please login as customer first')
           return res.redirect('/login')
@@ -102,7 +160,7 @@ ShoppingCart.post('/:productId/add', async (req,res) =>{
         await product.update({
           quantity: product.quantity + 1
         })
-        return res.redirect('/cart')
+        return res.status(200).redirect('back')
       } catch (e) {
         console.log(e)
       }
@@ -138,5 +196,134 @@ ShoppingCart.get('/:productId', async (req,res) =>{
         // return next(e)
       }
 })
+// Apply Voucher
+ShoppingCart.post('/applyvoucher', async (req, res) => {
+  try {
+   
+    // Apply Voucher
+    let previous_code = req.body.previous_code
+    let code = req.body.voucher_code
+    const voucher = await Voucher.findOne({
+      where: { voucher_code: code }
+    });
+    console.log(voucher);
+    if (!previous_code) {
+      if (voucher) {
+        if (voucher.voucher_type == "Customer") {
+          const voucherlist = await CustomerVoucher.findOne({
+            where: { UserID: req.user.id },
+          });
+          if (voucherlist) {
+            const item = await VoucherItem.findOne({
+              where: {
+                VoucherListId: voucherlist.id,
+                VoucherId: voucher.id
+              }
+            })
+            if (item) {
+              ApplyVoucher.create({
+                VoucherId: voucher.id,
+                UserId: req.user.id
+              })
+            }
+            else {
+              req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+              return res.redirect('/cart')
+            }
+          } else {
+            req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+            return res.redirect('/cart')
+          }
+          
+        }
+        else {
+          ApplyVoucher.create({
+            VoucherId: voucher.id,
+            UserId: req.user.id
+          })
+        }
+      } else {
+        req.flash("error", "Please use a valid code!")
+        return res.redirect('/cart')
+      }
+      
+      
+    } else {
+      if (voucher) {
+        const old_voucher = await Voucher.findOne({
+        where: { voucher_code: previous_code }
+        });
+        const removevoucher = await ApplyVoucher.findOne({
+          where: { VoucherId: old_voucher.id , UserId: req.user.id }
+        })
+        await removevoucher.destroy()
+        if (voucher.voucher_type == "Customer")
+        {
+          const voucherlist = await CustomerVoucher.findOne({
+            where: { UserID: req.user.id },
+          });
+          if (voucherlist) {
+            const item = await VoucherItem.findOne({
+            where: {
+              VoucherListId:voucherlist.id,
+              VoucherId:voucher.id
+            }
+            })
+            if (item) {
+              ApplyVoucher.create({
+              VoucherId: voucher.id,
+              UserId: req.user.id
+            })
+            }
+            else {
+              req.flash("error", "You have yet to redeem " + voucher.voucher_title )
+              return res.redirect('/cart')
+            }
+          } else {
+            req.flash("error", "You have yet to redeem " + voucher.voucher_title )
+            return res.redirect('/cart')
+          }
+        }
+        else {
+          if (!voucher) {
+            req.flash("error", "Please use a valid code!")
+            return res.redirect('/cart')
+          } else {
+            ApplyVoucher.create({
+              VoucherId: voucher.id,
+              UserId: req.user.id
+            })
+          }
+        }
+      } else {
+        req.flash("error","Please use a valid code!")
+        }
+        
+    }
+   
+  
+    return res.redirect('/cart')
+    
+   
+  
+  } catch (e) {
+    console.log(e);
+    }
+});
 
+// Remove Voucher
+ShoppingCart.post('/removevoucher/:vouchercode', async (req, res) => { 
+   // find cart
+    let code = req.params.vouchercode
+    const voucher = await Voucher.findOne({
+      where: { voucher_code: code }
+    });
+  const removevoucher = await ApplyVoucher.findOne({
+    where: { VoucherId: voucher.id , UserId: req.user.id }
+  })
+    await removevoucher.destroy()
+    
+    return res.redirect('/cart')
+
+})
 module.exports = ShoppingCart

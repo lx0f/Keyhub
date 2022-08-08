@@ -41,7 +41,7 @@
                       </thead>
                       <tbody>
                         {{#each product_evaluation}}
-                        {{#equals this.ProductCategory "Pre-built Keyboard"}}
+                        {{#equals this.Product.category "keyboard"}}
                           <tr>
                             <td>{{this.id}}</td>
                             <td>{{this.ProductName}}</td>

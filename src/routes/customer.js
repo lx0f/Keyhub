@@ -10,6 +10,7 @@ const customerManageAccountRouter = require("./customer_manage_account");
 
 const ShoppingCart = require("./shoppingcart");
 const CustomerOrder = require("./order");
+const Policies = require("./policies")
 
 const CustomerVoucher = require("./customer_voucher");
 const loyaltyprogram = require("./loyaltyprogram");
@@ -39,8 +40,12 @@ customerRouter.use("/account", customerManageAccountRouter)
 
 customerRouter.use("/loyaltyprogram",loyaltyprogram)
 
+
+customerRouter.use("/policies",Policies)
+
 customerRouter.use("/cart", ShoppingCart);
 customerRouter.use("/order", CustomerOrder);
+
 
 customerRouter.use("/CustomerVoucher", CustomerVoucher);
 

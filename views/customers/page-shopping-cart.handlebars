@@ -72,13 +72,13 @@
 </table>
 
 <div class="card-body border-top">
-	<form action="/order/data" method="POST">
+	<form action="/order" method="GET">
 		<button type="submit" class="btn btn-primary float-md-right">
 			Make Purchase
 			<i class="fa fa-chevron-right"></i>
 		</button>
 	</form>
-	{{!-- <a href="/order/data" class="btn btn-primary float-md-right"> Make Purchase <i class="fa fa-chevron-right"></i> </a> --}}
+	{{!-- <a href="/order" class="btn btn-primary float-md-right"> Make Purchase <i class="fa fa-chevron-right"></i> </a> --}}
 	<a href="/" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
 </div>	
 </div> <!-- card.// -->
@@ -91,32 +91,70 @@
 	<aside class="col-md-3">
 		<div class="card mb-3">
 			<div class="card-body">
-			<form>
+			
 				<div class="form-group">
 					<label>Have coupon?</label>
-					<div class="input-group">
-						<input type="text" class="form-control" name="" placeholder="Coupon code">
-						<span class="input-group-append"> 
-							<button class="btn btn-primary">Apply</button>
-						</span>
-					</div>
+					<form action="/cart/applyvoucher" method="POST">
+						{{#if code}}
+							<input type="text" class="form-control" value="{{code}}" name="previous_code" placeholder="Coupon code" hidden>
+						{{/if}}
+						<div class="input-group">
+							<input type="text" class="form-control" name="voucher_code" placeholder="Coupon code">
+							<span class="input-group-append"> 
+								<button type="submit" class="btn btn-primary">Apply</button>
+							</span>
+						</div>
+					</form>
+					
 				</div>
-			</form>
+			
 			</div> <!-- card-body.// -->
 		</div>  <!-- card .// -->
 		<div class="card">
 			<div class="card-body">
 					<dl class="dlist-align">
-					  <dt>Total price:</dt>
-					  <dd class="text-right">SGD {{totalPrice}}</dd>
+					  <dt>Sub-Total:</dt>
+					  <dd class="text-right"><strong>${{totalPrice}}</strong></dd>
 					</dl>
 					<dl class="dlist-align">
+					  
+					  {{#if discount}}
 					  <dt>Discount:</dt>
-					  <dd class="text-right">SGD </dd>
+					  <dd class="text-right">$<strong>{{discount}}</strong> </dd>
+					  {{/if}}
+					  {{#if cashback}}
+					  <dt>Cashback:</dt>
+					  <dd class="text-right">+ <strong>{{cashback}}</strong> <i class="fa-solid fa-coins"></i></dd>
+					  {{/if}}
+					  {{#equals no_discount 0}}
+					  
+					  <dt>Discount:</dt>
+					  <dd class="text-right">$<strong>{{no_discount}}</strong></dd>
+					  {{/equals}}
+
 					</dl>
+					{{#if code}}
 					<dl class="dlist-align">
+					  <dt>Code Applied:</dt>
+					  <dd class="text-right"><strong>{{code}}</strong> </dd>
+						<form action="/cart/removevoucher/{{code}}" method="POST">
+							<button type="submit" class="btn btn-danger">Remove</button>
+						</form>
+					</dl>
+					{{/if}}
+					<dl class="dlist-align">
+						<dt>Shipping:</dt>
+						<dd class="text-right"><strong>${{shipping}}</strong></dd>
+					</dl>
+					<hr>
+					<dl class="dlist-align">
+					{{#if cashback}}
 					  <dt>Total:</dt>
-					  <dd class="text-right  h5"><strong>{{totalPrice}}</strong></dd>
+					  <dd class="text-right  h5">$<strong>{{totalPrice}}</strong></dd>
+					{{else}}
+					  <dt>Total:</dt>
+					  <dd class="text-right  h5">$<strong>{{discount_price}}</strong></dd>
+					{{/if}}
 					</dl>
 					<hr>
 					<p class="text-center mb-3">
