@@ -91,32 +91,51 @@
 	<aside class="col-md-3">
 		<div class="card mb-3">
 			<div class="card-body">
-			<form>
+			
 				<div class="form-group">
 					<label>Have coupon?</label>
-					<div class="input-group">
-						<input type="text" class="form-control" name="" placeholder="Coupon code">
-						<span class="input-group-append"> 
-							<button class="btn btn-primary">Apply</button>
-						</span>
-					</div>
+					<form action="/cart/applyvoucher" method="POST">
+						{{#if code}}
+							<input type="text" class="form-control" value="{{code}}" name="previous_code" placeholder="Coupon code" hidden>
+						{{/if}}
+						<div class="input-group">
+							<input type="text" class="form-control" name="voucher_code" placeholder="Coupon code">
+							<span class="input-group-append"> 
+								<button type="submit" class="btn btn-primary">Apply</button>
+							</span>
+						</div>
+					</form>
+					
 				</div>
-			</form>
+			
 			</div> <!-- card-body.// -->
 		</div>  <!-- card .// -->
 		<div class="card">
 			<div class="card-body">
 					<dl class="dlist-align">
-					  <dt>Total price:</dt>
+					  <dt>Sub-Total:</dt>
 					  <dd class="text-right">SGD {{totalPrice}}</dd>
 					</dl>
 					<dl class="dlist-align">
 					  <dt>Discount:</dt>
-					  <dd class="text-right">SGD </dd>
+					  {{#if discount}}
+					  <dd class="text-right">SGD <strong>{{discount}}</strong> </dd>
+					  {{else}}
+					  <dd class="text-right">SGD <strong>0</strong> </dd>
+					  {{/if}}
 					</dl>
+					{{#if code}}
+					<dl class="dlist-align">
+					  <dt>Code Applied:</dt>
+					  <dd class="text-right"><strong>{{code}}</strong> </dd>
+						<form action="/cart/removevoucher/{{code}}" method="POST">
+							<button type="submit" class="btn btn-danger">Remove</button>
+						</form>
+					</dl>
+					{{/if}}
 					<dl class="dlist-align">
 					  <dt>Total:</dt>
-					  <dd class="text-right  h5"><strong>{{totalPrice}}</strong></dd>
+					  <dd class="text-right  h5"><strong>{{discount_price}}</strong></dd>
 					</dl>
 					<hr>
 					<p class="text-center mb-3">
