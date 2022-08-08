@@ -117,12 +117,21 @@
 					  <dd class="text-right">SGD {{totalPrice}}</dd>
 					</dl>
 					<dl class="dlist-align">
-					  <dt>Discount:</dt>
+					  
 					  {{#if discount}}
+					  <dt>Discount:</dt>
 					  <dd class="text-right">SGD <strong>{{discount}}</strong> </dd>
-					  {{else}}
-					  <dd class="text-right">SGD <strong>0</strong> </dd>
 					  {{/if}}
+					  {{#if cashback}}
+					  <dt>Cashback:</dt>
+					  <dd class="text-right">+ <strong>{{cashback}}</strong> <i class="fa-solid fa-coins"></i></dd>
+					  {{/if}}
+					  {{#equals no_discount 0}}
+					  
+					  <dt>Discount:</dt>
+					  <dd class="text-right">SGD <strong>{{no_discount}}</strong></dd>
+					  {{/equals}}
+
 					</dl>
 					{{#if code}}
 					<dl class="dlist-align">
@@ -134,8 +143,18 @@
 					</dl>
 					{{/if}}
 					<dl class="dlist-align">
+						<dt>Shipping:</dt>
+						<dd class="text-right">SGD <strong> {{shipping}}</strong></dd>
+					</dl>
+					<hr>
+					<dl class="dlist-align">
+					{{#if cashback}}
+					  <dt>Total:</dt>
+					  <dd class="text-right  h5"><strong>{{totalPrice}}</strong></dd>
+					{{else}}
 					  <dt>Total:</dt>
 					  <dd class="text-right  h5"><strong>{{discount_price}}</strong></dd>
+					{{/if}}
 					</dl>
 					<hr>
 					<p class="text-center mb-3">

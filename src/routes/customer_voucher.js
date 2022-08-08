@@ -25,16 +25,6 @@ customervoucher.get("/", async (req, res) => {
             const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
             res.render('./customers/customer_voucher/customervoucher', {voucher});
         }
-           
-            
-            
-            
-            
-        
-        
-            // req.flash('error', 'please login as customer first')
-            // return res.redirect('/login')   
-        
     
     } catch (e) {
         console.log(e)

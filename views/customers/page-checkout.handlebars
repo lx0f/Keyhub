@@ -249,10 +249,15 @@
 			
 			{{#if discount}}
 			Discount: <strong style="float:right;">- ${{discount}}</strong>
-			{{else}}
-			Discount: <strong style="float:right;">- $0.00</strong>
 			{{/if}}
+			{{#if cashback}}
+			Cashback: <strong style="float:right;">+ <strong>{{cashback}}</strong> <i class="fa-solid fa-coins"></i></strong>
+			{{/if}}
+			{{#equals no_discount 0}}
+			Discount: <strong style="float:right;">- $0.00</strong>
+			{{/equals}}
 			<br>
+
 			Shipping Fee: <strong style="float:right;">Free</strong>
 			<hr>
 			Grand Total: <strong style="float:right;">${{discount_price}}</strong>

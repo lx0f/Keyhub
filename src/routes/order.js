@@ -32,19 +32,30 @@ CustomerOrder.get('/', async (req, res) => {
         const voucher = await Voucher.findOne({
         where: { id:applyvoucher.VoucherId }
         });
-        const discount = voucher.voucher_value
-        const code = voucher.voucher_code
-        if (applyvoucher.VoucherId == voucher.id) {
-          let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-          let discount_price = totalPrice - discount
-          if (discount_price < 0) {
-            discount_price = 0
+        if (voucher.voucher_cat == "Discount") {
+          const discount = voucher.voucher_value
+          const code = voucher.voucher_code
+          if (applyvoucher.VoucherId == voucher.id) {
+            let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+            let discount_price = totalPrice - discount
+            if (discount_price < 0) {
+              discount_price = 0
+            }
+            res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, discount, code, discount_price })
           }
-          res.render('./customers/page-checkout', { cartId,cart: cart.toJSON(), totalPrice,discount,code,discount_price })
-        } else {
+        }
+        else if (voucher.voucher_cat == "Cashback") {
+          const cashback = voucher.voucher_value
+          const code = voucher.voucher_code
+          const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+          let discount_price = totalPrice
+          res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, cashback, code,discount_price })
+        }
+        else {
           const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
           res.render('./customers/page-checkout', { cartId,cart: cart.toJSON(), totalPrice })
         }
+      
     }
     
   } catch (e) {
