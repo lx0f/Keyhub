@@ -97,4 +97,7 @@ productRouter.get('/others', async(req,res)=>{
     const items = await display.length
     res.render("./customers/page-listing-grid",{display,items});
 })
+productRouter.get('/detail', async(req,res)=>{
+    res.render("./customers/page-product-large")
+})
 module.exports = productRouter
