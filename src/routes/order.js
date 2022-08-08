@@ -24,10 +24,11 @@ CustomerOrder.get('/', async (req, res) => {
     }
     const cartId = cart.id
     const applyvoucher = await ApplyVoucher.findOne({ where: { UserId: req.user.id } });
+    let shipping = 5
     if (!applyvoucher) {
       const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
       let discount_price = totalPrice
-      res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, discount_price })
+      res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, discount_price,shipping })
     } else {
         const voucher = await Voucher.findOne({
         where: { id:applyvoucher.VoucherId }
@@ -41,7 +42,7 @@ CustomerOrder.get('/', async (req, res) => {
             if (discount_price < 0) {
               discount_price = 0
             }
-            res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, discount, code, discount_price })
+            res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, discount, code, discount_price,shipping })
           }
         }
         else if (voucher.voucher_cat == "Cashback") {
@@ -49,11 +50,11 @@ CustomerOrder.get('/', async (req, res) => {
           const code = voucher.voucher_code
           const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
           let discount_price = totalPrice
-          res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, cashback, code,discount_price })
+          res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, cashback, code,discount_price,shipping })
         }
         else {
           const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-          res.render('./customers/page-checkout', { cartId,cart: cart.toJSON(), totalPrice })
+          res.render('./customers/page-checkout', { cartId,cart: cart.toJSON(), totalPrice,shipping })
         }
       
     }

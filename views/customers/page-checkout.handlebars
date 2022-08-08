@@ -257,8 +257,10 @@
 			Discount: <strong style="float:right;">- $0.00</strong>
 			{{/equals}}
 			<br>
-
-			Shipping Fee: <strong style="float:right;">Free</strong>
+			{{#if shipping}}
+			Shipping Fee: <strong style="float:right;">$5</strong>
+			{{/if}}
+			
 			<hr>
 			Grand Total: <strong style="float:right;">${{discount_price}}</strong>
 		</div>

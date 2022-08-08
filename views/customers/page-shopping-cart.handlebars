@@ -114,13 +114,13 @@
 			<div class="card-body">
 					<dl class="dlist-align">
 					  <dt>Sub-Total:</dt>
-					  <dd class="text-right">SGD {{totalPrice}}</dd>
+					  <dd class="text-right"><strong>${{totalPrice}}</strong></dd>
 					</dl>
 					<dl class="dlist-align">
 					  
 					  {{#if discount}}
 					  <dt>Discount:</dt>
-					  <dd class="text-right">SGD <strong>{{discount}}</strong> </dd>
+					  <dd class="text-right">$<strong>{{discount}}</strong> </dd>
 					  {{/if}}
 					  {{#if cashback}}
 					  <dt>Cashback:</dt>
@@ -129,7 +129,7 @@
 					  {{#equals no_discount 0}}
 					  
 					  <dt>Discount:</dt>
-					  <dd class="text-right">SGD <strong>{{no_discount}}</strong></dd>
+					  <dd class="text-right">$<strong>{{no_discount}}</strong></dd>
 					  {{/equals}}
 
 					</dl>
@@ -144,16 +144,16 @@
 					{{/if}}
 					<dl class="dlist-align">
 						<dt>Shipping:</dt>
-						<dd class="text-right">SGD <strong> {{shipping}}</strong></dd>
+						<dd class="text-right"><strong>${{shipping}}</strong></dd>
 					</dl>
 					<hr>
 					<dl class="dlist-align">
 					{{#if cashback}}
 					  <dt>Total:</dt>
-					  <dd class="text-right  h5"><strong>{{totalPrice}}</strong></dd>
+					  <dd class="text-right  h5">$<strong>{{totalPrice}}</strong></dd>
 					{{else}}
 					  <dt>Total:</dt>
-					  <dd class="text-right  h5"><strong>{{discount_price}}</strong></dd>
+					  <dd class="text-right  h5">$<strong>{{discount_price}}</strong></dd>
 					{{/if}}
 					</dl>
 					<hr>
