@@ -177,15 +177,46 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
     });
     console.log(voucher);
     if (!previous_code) {
-      if (!voucher) {
-        req.flash("error", "Voucher " + code + " is currently unavailable!")
-        return res.redirect('/cart')
+      if (voucher) {
+        if (voucher.voucher_type == "Customer") {
+          const voucherlist = await CustomerVoucher.findOne({
+            where: { UserID: req.user.id },
+          });
+          if (voucherlist) {
+            const item = await VoucherItem.findOne({
+              where: {
+                VoucherListId: voucherlist.id,
+                VoucherId: voucher.id
+              }
+            })
+            if (item) {
+              ApplyVoucher.create({
+                VoucherId: voucher.id,
+                UserId: req.user.id
+              })
+            }
+            else {
+              req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+              return res.redirect('/cart')
+            }
+          } else {
+            req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+            return res.redirect('/cart')
+          }
+          
+        }
+        else {
+          ApplyVoucher.create({
+            VoucherId: voucher.id,
+            UserId: req.user.id
+          })
+        }
       } else {
-        ApplyVoucher.create({
-          VoucherId: voucher.id,
-          UserId: req.user.id
-        })
+        req.flash("error", "Please use a valid code!")
+        return res.redirect('/cart')
       }
+      
+      
     } else {
       if (voucher) {
           const old_voucher = await Voucher.findOne({
@@ -195,10 +226,45 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
             where: { VoucherId: old_voucher.id , UserId: req.user.id }
           })
           await removevoucher.destroy()
-          ApplyVoucher.create({
-            VoucherId: voucher.id,
-            UserId: req.user.id
-          })
+          if (voucher.voucher_type == "Customer")
+          {
+            const voucherlist = await CustomerVoucher.findOne({
+              where: { UserID: req.user.id },
+            });
+            if (voucherlist) {
+              const item = await VoucherItem.findOne({
+              where: {
+                VoucherListId:voucherlist.id,
+                VoucherId:voucher.id
+              }
+              })
+              if (item) {
+                ApplyVoucher.create({
+                VoucherId: voucher.id,
+                UserId: req.user.id
+              })
+              }
+              else {
+                req.flash("error", "You have yet to redeem " + voucher.voucher_title )
+                return res.redirect('/cart')
+              }
+            } else {
+              req.flash("error", "You have yet to redeem " + voucher.voucher_title )
+              return res.redirect('/cart')
+            }
+            
+          }
+          else {
+            if (!voucher) {
+              req.flash("error", "Please use a valid code!")
+              return res.redirect('/cart')
+            } else {
+              ApplyVoucher.create({
+                VoucherId: voucher.id,
+                UserId: req.user.id
+              })
+            }
+          }
       } else {
         req.flash("error","Please use a valid code!")
         }
