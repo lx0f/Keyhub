@@ -24,6 +24,7 @@ const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
 
+
 // const voucherRouter = require("./routes/voucher");
 
 
@@ -52,6 +53,9 @@ app.use(
     })
 );
 
+
+
+
 app.use(cookieParser());
 
 app.use(passport.session());
@@ -62,13 +66,6 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(
-    session({
-        secret: "keyhub",
-        resave: false,
-        saveUninitialized: true,
-    })
-);
 
 
 app.use(
@@ -120,8 +117,8 @@ app.engine(
                 }},
             
             sum_quantity(array) {
-                s = 0
-                for (i = 0; i < array.length; i++) {
+                var s = 0
+                for (var i = 0; i < array.length; i++) {
                     s += array[i].quantity
                 }
                 return s
