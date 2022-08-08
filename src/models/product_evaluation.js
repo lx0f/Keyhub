@@ -37,7 +37,19 @@ class Pevaluation extends Sequelize.Model {
       createdAt: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false,
-      }
+      },
+      imageFilePath1: {
+        type: Sequelize.DataTypes.STRING,
+        defaultValue: "uploads/unknownimage.png",
+      },
+      imageFilePath2: {
+        type: Sequelize.DataTypes.STRING,
+        defaultValue: "uploads/unknownimage.png",
+      },
+      imageFilePath3: {
+        type: Sequelize.DataTypes.STRING,
+        defaultValue: "uploads/unknownimage.png",
+      },
     },
     {
       freezeTableName: true,
