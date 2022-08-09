@@ -30,9 +30,10 @@
     </div> <!-- thumbs-wrap.// -->
   </article> <!-- gallery-wrap .end// -->
 </aside>
+{{#each products}}
 <main class="col-lg-6">
   <article class="ps-lg-3">
-    <h4 class="title text-dark">Quality Men's Hoodie for Winter, Men's Fashion <br> Casual Hoodie </h4>
+    <h4 class="title text-dark">{{this.name}} <br> Casual Hoodie </h4>
     <div class="rating-wrap my-3">
       <ul class="rating-stars">
         <li style="width:80%" class="stars-active"> <img src="images/misc/stars-active.svg" alt=""> </li>
@@ -336,7 +337,7 @@
 <!-- =================== COMPONENT REVIEW .// ================== -->
 
 <!-- =================== COMPONENT REVIEW ====================== -->
-
+{{/each}}
 
 <br><br>
 

@@ -97,7 +97,13 @@ productRouter.get('/others', async(req,res)=>{
     const items = await display.length
     res.render("./customers/page-listing-grid",{display,items});
 })
-productRouter.get('/detail', async(req,res)=>{
-    res.render("./customers/page-product-large")
+productRouter.get('/detail/:id', async(req,res)=>{
+    try{
+        const products = await product.findByPk(req.params.id)
+        
+        res.render("./customers/page-product-large",{ products });
+    }catch(e){
+        console.log(e)
+    }
 })
 module.exports = productRouter
