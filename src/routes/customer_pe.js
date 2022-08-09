@@ -10,7 +10,7 @@ PevaluationRouter.get('/:id', async (req, res) => {
         const product = await Product.findByPk(req.params.id)
         const ProductId = product.id
         console.log(ProductId)
-        res.render('./customers/page-product-evaluation',{ ProductId });
+        res.render('./customers/page-product-evaluation',{ ProductId,  product});
 
     }catch(e){
         console.log(e)

@@ -5,6 +5,19 @@
     Thank you for giving us feedbacks
   </p>
   <br>
+
+<div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Product Information</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Product Name: {{product.name}} </li>
+    <li class="list-group-item">Product Category: {{product.category}}</li>
+  </ul>
+</div>
+<br>
+
 <form method="POST" action="/createPE/{{ProductId}}" enctype="multipart/form-data">
   <div class="form-group">
     {{!-- <Input class="uploadProfileInput" type="file" name="myImage" id="newProfilePhoto" accept="image/*" style="opacity: 0;" /> --}}
@@ -20,21 +33,6 @@
   </div>
  
   <div class="form-group">
-    <label for="exampleFormControlInput1">Product Name: </label>
-    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Please enter a product Name" name="ProductName" required>
-  </div>
-  <div class="form-group">
-    <label for="productcategory">Category:</label>
-    <select class="form-control" id="productcategory" name="ProductCategory" required>
-      <option>Pre-built Keyboard</option>
-      <option>Bare Bone Kit</option>
-      <option>Key Cap</option>
-      <option>Switches</option>
-      <option>Accessories</option>
-    </select>
-  </div>
-
-  <div class="form-group">
     <label for="exampleFormControlSelect1">Rating:</label>
     <select class="form-control" id="exampleFormControlSelect1" name="ProductRating" required>
       <option>1</option>
@@ -43,7 +41,37 @@
       <option>4</option>
       <option>5</option>
     </select>
-  </div>
+    {{!-- <div class="stars-wrapper">
+        <input id="one-star-rating-2" type="radio" name="reviewRating" value="1">
+        <label for="one-star-rating-2">1 Star</label>
+        <input id="two-star-rating-2" type="radio" name="reviewRating" value="2">
+        <label for="two-star-rating-2">2 Stars</label>
+        <input id="three-star-rating-2" type="radio" name="reviewRating" value="3">
+        <label for="three-star-rating-2" >3 Stars</label>
+        <input id="four-star-rating-2" type="radio" name="reviewRating" value="4">
+        <label for="four-star-rating-2">4 Stars</label>
+        <input id="five-star-rating-2" type="radio" name="reviewRating" value="5">
+        <label for="five-star-rating-2">5 Stars</label>
+        <div class="stars-display">
+          <svg viewBox="0 0 20 20" width="30" height="30">
+            <use href="#star-icon"></use>
+          </svg>
+          <svg viewBox="0 0 20 20" width="30" height="30">
+            <use href="#star-icon"></use>
+          </svg>
+          <svg viewBox="0 0 20 20" width="30" height="30">
+            <use href="#star-icon"></use>
+          </svg>
+          <svg viewBox="0 0 20 20" width="30" height="30">
+            <use href="#star-icon"></use>
+          </svg>
+          <svg viewBox="0 0 20 20" width="30" height="30">
+            <use href="#star-icon"></use>
+          </svg>
+        </div>
+    </fieldset>
+  </div> --}}
+
   <div class="form-group">
     <label for="exampleFormControlTextarea1">Comments:</label>
     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="ProductRemarks" required></textarea>
