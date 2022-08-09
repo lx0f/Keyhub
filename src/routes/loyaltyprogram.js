@@ -125,26 +125,22 @@ loyaltyprogram.post('/redeem', async (req,res) =>{
         
         
         // find items in voucher list
-        const [item, created] = await VoucherItem.findOrCreate({
+        const item = await VoucherItem.findOne({
           where: {
             VoucherListId:voucherlist.id,
             VoucherId:req.body.voucherID,
           },
-        defaults: {
-            Type:"Reward",
-            usage: 0
-          }
         })
+        const voucher = await Voucher.findByPk(req.body.voucherID)
         // update voucher data
         
-        const voucher = await Voucher.findByPk(req.body.voucherID)
         if (req.body.status == "Inactive" || voucher.voucher_used >= voucher.total_voucher) {
-           
+            
           
             req.flash('error', `${voucher.voucher_title} Voucher has been fully redeemed!`)
             return res.redirect('/loyaltyprogram/redeem');
         }
-        if (!created) {
+        if (item) {
           
             req.flash('error', `${voucher.voucher_title} Voucher has been already been redeemed`)
             return res.redirect('/loyaltyprogram/redeem');
@@ -152,11 +148,12 @@ loyaltyprogram.post('/redeem', async (req,res) =>{
         }
         else{
             const User_Card = await LoyaltyCard.findOne({ where: { authorID: req.user.id }})
-           
+            
             if (User_Card.Active_Points < req.body.redeem) {
                 req.flash("error","Not Enough Points! ")
                 return res.redirect("/loyaltyprogram/redeem")
-            } else  {
+            } else {
+                const item = await VoucherItem.create({VoucherListId:voucherlist.id,VoucherId:req.body.voucherID, Type:"Reward",usage: 0})
                 const active_points = parseInt(User_Card.Active_Points) - parseInt(req.body.redeem)
                 const used_points = parseInt(User_Card.Used_Points) + parseInt(req.body.redeem)
                 if (active_points+used_points <= 500) {
@@ -221,8 +218,8 @@ loyaltyprogram.post('/redeemables/:id', async (req, res) => {
         });
         console.log(voucher.id)
         const redeem = await Redeemables.findOne({ where: { VoucherId: voucher.id } })
-        console.log(redeem.VoucherId)
-        if (redeem.VoucherId != undefined)
+        
+        if (redeem != undefined)
         {
             req.flash("error","Reward has already been added")
              return res.redirect('/staff/manage-vouchers')
