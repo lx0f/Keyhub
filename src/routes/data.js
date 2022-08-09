@@ -103,20 +103,20 @@ dataRouter.get('/chart-info', async (req, res) => {
   
     let data = [];
     let cols = ["Dates","NoOfUsersJoined"];
-  
+    data.push(["01/2022", 1])
+    data.push(["01/2022", 1])
+    data.push(["01/2022", 1])
+    data.push(["01/2022", 5])
   
     usersJoined.forEach(element => {
-      let rawData = [element.date.split("/")[1], 1];
+      let rawData = [element.date.split("/")[1] + "/" + element.date.split("/")[2], 1];
 
 
       data.push(rawData)
     
       
     });
-    data.push(["01", 1])
-    data.push(["01", 1])
-    data.push(["01", 1])
-    data.push(["01", 5])
+
     const df = new dfd.DataFrame(data,{columns:["Dates","NoOfUsersJoined"]})
     const group_df = df.groupby(["Dates"]).sum()
     console.log(group_df)
