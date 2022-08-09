@@ -2,8 +2,11 @@ const express = require("express");
 const db = require("../models/database_setup");
 const User = require("../models/User");
 const passport = require("passport");
-const Mail = require("../configuration/nodemailer");
+const { Mail, transporter } = require("../configuration/nodemailer");
 const loginRouter = express.Router();
+var handlebars = require("handlebars");
+const { callbackPromise } = require("nodemailer/lib/shared");
+const path = require('path')
 
 /*loginRouter.use((req, res, next) => {
     if (req.isAuthenticated()) {
@@ -89,11 +92,12 @@ loginRouter
         if (user /*&& user.authMethod == "local"*/) {
             user.generateResetToken();
             const link = `http://localhost:3000/reset-password/${user.id}/${user.resetTokenID}`;
-            Mail.send(res, {
-                to: user.email,
+
+     
+            Mail.Send({
+                email_recipient: user.email,
                 subject: "Your Reset Link",
-                text: link,
-                template: "./customers/email1",
+                template_path: "../../views/customers/email1.html",
                 context: { link },
             });
         }
