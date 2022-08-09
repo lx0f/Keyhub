@@ -99,9 +99,9 @@ productRouter.get('/others', async(req,res)=>{
 })
 productRouter.get('/detail/:id', async(req,res)=>{
     try{
-        const products = await product.findByPk(req.params.id)
+        const productdetail = await product.findByPk(req.params.id)
         
-        res.render("./customers/page-product-large",{ products });
+        res.render("./customers/page-product-large",{ productdetail });
     }catch(e){
         console.log(e)
     }
