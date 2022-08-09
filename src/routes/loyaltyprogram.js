@@ -4,6 +4,8 @@ const LoyaltyCard = require("../models/LoyaltyCard");
 const { CustomerVoucher } = require("../models/CustomerVoucher");
 const { VoucherItem } = require("../models/CustomerVoucher");
 const Voucher = require("../models/Voucher");
+const  Redeemables  = require("../models/Redeemables");
+// const { RedeemVoucher }  = require("../models/Redeemables");
 const loyaltyprogram = express.Router();
 
 loyaltyprogram.get("/signup", async (req, res) => {
@@ -59,19 +61,22 @@ loyaltyprogram.get("/redeem", async (req, res) => {
         if (req.user) {
             let user_id = req.user.id
             const User_Card = await LoyaltyCard.findAll({ where: { authorID: user_id } });
-            
+            const Redeemable_items = await (await Redeemables.findAll()).map((x) => x.dataValues);
+         
             const voucherlist = await CustomerVoucher.findAll({
                 include: ["voucheritem",{ model: User },
                 ],
             });
             
             const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
+            const voucheritem = await (await VoucherItem.findAll()).map((x) => x.dataValues);
             
-            return res.render("./customers/loyaltyprogram/redeem",{User_Card,voucherlist, voucher });
+            return res.render("./customers/loyaltyprogram/redeem",{User_Card,voucherlist, voucher,Redeemable_items,voucheritem });
             
             
         }
         else {
+            
             const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
             res.render('./customers/loyaltyprogram/redeem', { voucher });
         }
@@ -173,4 +178,34 @@ loyaltyprogram.post('/redeem', async (req,res) =>{
     console.log(e)
     }
 });
+loyaltyprogram.post('/redeemables/:id', async (req, res) => {
+    try {
+ 
+        // const [item, created] = await RedeemableVoucher.findOrCreate({
+        //     where: {
+        //         VoucherId: req.params.id,
+        //     },
+        //     defaults: {
+        //         Price:req.body.reward_price
+        //     }
+        // })
+
+        let voucher_id = req.params.id
+        let price = req.body.reward_price
+        const voucher = await Voucher.findOne({
+        where: { id: voucher_id }
+        });
+        Redeemables.create(
+            {
+                VoucherId: voucher.id,
+                Price: price,
+            }
+        )
+    //  await item.save()
+    return res.redirect('/staff/manage-vouchers')
+    } catch (e) {
+        console.log(e)
+    }
+    
+ })
 module.exports = loyaltyprogram;

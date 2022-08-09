@@ -98,8 +98,38 @@
                                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{this.id}}">
                                                                  <i class="fa fa-info" aria-hidden="true"></i>
                                                             </button>
+
                                                             <a href="/staff/manage-vouchers/editVoucher/{{id}}" class="btn btn-info"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></a>
                                                             <a href="/staff/manage-vouchers/deleteVoucher/{{id}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2{{id}}">
+                                                                Add to Rewards
+                                                            </button>
+                                                             <div class="modal fade" id="exampleModal2{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                    <div class="modal-content" >
+                                                                        <div class="modal-body">
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <form action="/loyaltyprogram/redeemables/{{id}}" method="POST">
+                                                                                        <h4>Redeemable Rewards</h4>
+                                                                                        <hr>
+                        
+                                                                                        <div class="mb-3">
+                                                                                            <label for="" class="form-label">Voucher Title</label>
+                                                                                            <input type="text" class="form-control" id="voucher_title" name="voucher_title" value="{{this.voucher_title}}" disabled>
+                                                                                        </div>
+                                                                                        <div class="mb-3">
+                                                                                            <label for="" class="form-label">Reward Price</label>
+                                                                                            <input type="number" class="form-control" id="reward_price" name="reward_price" value="" required>
+                                                                                        </div>
+                                                                                        <button type="submit" class="btn btn-primary"> Add to Rewards </button>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                            <!-- Button trigger modal -->
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="exampleModal{{this.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
