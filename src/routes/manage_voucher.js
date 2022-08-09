@@ -117,7 +117,7 @@ manageVoucher.route("/voucher-form").get((req, res) => {
       usage:req.body.usage,
       spend:req.body.spend
     })
-    req.flash("success", "Successfully created Master Voucher!")
+    req.flash("success", "Successfully created Voucher!")
     return res.redirect("/staff/manage-vouchers")
   } catch(e) {
         req.flash("error", e)

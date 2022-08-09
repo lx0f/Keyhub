@@ -45,7 +45,11 @@ LoyaltyCard.init(
       allowNull: true,
       unique: false,
         },
-   
+    Activation: {
+      type: Sequelize.DataTypes.STRING,
+      allowNull: false,
+      unique: false,
+        },
     updatedAt: {
       type: Sequelize.DataTypes.DATE,
       allowNull: false,

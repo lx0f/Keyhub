@@ -101,9 +101,11 @@
 
                                                             <a href="/staff/manage-vouchers/editVoucher/{{id}}" class="btn btn-info"><i class="fa fa-mouse-pointer" aria-hidden="true"></i></a>
                                                             <a href="/staff/manage-vouchers/deleteVoucher/{{id}}" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                            {{#equals this.voucher_type "Customer"}}
                                                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal2{{id}}">
                                                                 Add to Rewards
                                                             </button>
+                                                            {{/equals}}
                                                              <div class="modal fade" id="exampleModal2{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                                     <div class="modal-content" >

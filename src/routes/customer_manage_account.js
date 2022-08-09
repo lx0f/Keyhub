@@ -133,16 +133,22 @@ customerManageAccountRouter.route("/myvouchers").get(async (req, res) => {
 customerManageAccountRouter.route("/loyaltyprogram").get(async (req, res) => {
     if (req.user) {
         let user_id = req.user.id
-  
+        
         const User_Card = await LoyaltyCard.findAll({ where: { authorID: user_id } });
-        let total_points = User_Card.Active_Points + User_Card.Used_Points
-        const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
-        const voucherlist = await CustomerVoucher.findAll({
-            include: ["voucheritem",{ model: User },
-            ],
-        });
-        const voucheritem = await (await VoucherItem.findAll()).map((x) => x.dataValues)
-        return res.render("./customers/loyaltyprogram/loyaltyprogram",{User_Card,total_points,voucher,voucherlist,voucheritem});
+        if (User_Card) {
+            let total_points = User_Card.Active_Points + User_Card.Used_Points
+            const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
+            const voucherlist = await CustomerVoucher.findAll({
+                include: ["voucheritem",{ model: User },
+                ],
+            });
+            const voucheritem = await (await VoucherItem.findAll()).map((x) => x.dataValues)
+            return res.render("./customers/loyaltyprogram/loyaltyprogram",{User_Card,total_points,voucher,voucherlist,voucheritem});
+        } else {
+            return res.render("./customers/loyaltyprogram/loyaltyprogram");
+        }
+       
+        
     } else {
         return res.render("./customers/loyaltyprogram/loyaltyprogram");
     }

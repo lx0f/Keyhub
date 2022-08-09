@@ -17,12 +17,18 @@ customervoucher.get("/", async (req, res) => {
             })
             
            
-            const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
+            const voucher = await (await Voucher.findAll({where:{voucher_type:"Master"}})).map((x) => x.dataValues);
             console.log(voucherlist)
+            if (!voucher) {
+                 res.render('./customers/customer_voucher/customervoucher');
+            }
             res.render('./customers/customer_voucher/customervoucher', {voucherlist,voucher});
         }
         else {
-            const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
+            const voucher = await (await Voucher.findAll({ where: { voucher_type: "Master" } })).map((x) => x.dataValues);
+            if (!voucher) {
+                res.render('./customers/customer_voucher/customervoucher');
+            }
             res.render('./customers/customer_voucher/customervoucher', {voucher});
         }
     
@@ -61,12 +67,12 @@ customervoucher.post('/postvoucherlist', async (req,res) =>{
         if (req.body.status == "Inactive" || voucher.voucher_used >= voucher.total_voucher) {
            
           
-            req.flash('error', `${req.body.name} Voucher has been fully claimed!`)
+            req.flash('error', `${voucher.voucher_title} Voucher has been fully claimed!`)
             return res.redirect('/CustomerVoucher');
         }
         else if (!created) {
           
-            req.flash('error', `${req.body.name} Voucher has been already been claimed`)
+            req.flash('error', `${voucher.voucher_title} Voucher has been already been claimed`)
             return res.redirect('/CustomerVoucher');
           
         }

@@ -5,23 +5,21 @@ const { CustomerVoucher } = require("../models/CustomerVoucher");
 const { VoucherItem } = require("../models/CustomerVoucher");
 const Voucher = require("../models/Voucher");
 const  Redeemables  = require("../models/Redeemables");
-// const { RedeemVoucher }  = require("../models/Redeemables");
+const { Mail, transporter } = require("../configuration/nodemailer");
 const loyaltyprogram = express.Router();
 
 loyaltyprogram.get("/signup", async (req, res) => {
     try {
         if (req.user) {
             const user_id = req.user.id
-       
-            const Card = await (await LoyaltyCard.findAll()).map((x) => x.dataValues);
+            
             const User_Card = await LoyaltyCard.findAll({ where: { authorID: user_id } });
-            for (i = 0; i < Card.length; i++) {
-                if (Card[i].authorID == user_id) {
-                    return res.render("./customers/loyaltyprogram/signup", { User_Card });
-                }
-                
+            if (User_Card) {
+                return res.render("./customers/loyaltyprogram/signup", { User_Card });
+            } else {
+                return res.render("./customers/loyaltyprogram/signup");
             }
-            return res.render("./customers/loyaltyprogram/signup");
+ 
         }
         else {
             return res.render("./customers/loyaltyprogram/signup");
@@ -41,10 +39,21 @@ loyaltyprogram.post("/signup", async (req, res) => {
             if (await LoyaltyCard.findOne({ where: { authorID: user_id }})) {
                 return res.redirect("/account/loyaltyprogram");
             } else {
-                
-                await LoyaltyCard.create({ authorID: req.user.id,Active_Points: 0, Expired_Points: 0, Used_Points: 0,Status:"Bronze",Total_Points:0});
-                req.flash("success", "Thank you for signing up!")
+                await LoyaltyCard.create({Active_Points:0,Expired_Points:0,Used_Points:0,Total_Points:0,Status:"Bronze",authorID:user_id,Activation:"Off"})
+                const link = `http://localhost:3000/loyaltyprogram/confirmation/${req.user.id}`;
+
+     
+                Mail.Send({
+                    email_recipient: req.user.email,
+                    subject: "Your Confirmation Link",
+                    template_path: "../../views/customers/loyaltyprogram/confirmation.html",
+                    context: { link },
+                });
+                // await LoyaltyCard.create({ authorID: req.user.id,Active_Points: 0, Expired_Points: 0, Used_Points: 0,Status:"Bronze",Total_Points:0});
+                req.flash("success", "Please click on the confirmation in the email of user"+req.user.email)
                 return res.redirect("/account/loyaltyprogram")
+
+                
             }
         } else {
             return res.redirect('/login')
@@ -55,7 +64,21 @@ loyaltyprogram.post("/signup", async (req, res) => {
         req.flash('error','error error');
     }
 
- })
+})
+loyaltyprogram.get("/confirmation/:id", async (req, res) => { 
+    const user = await User.findByPk(req.params.id);
+    if (await LoyaltyCard.findOne({ where: { authorID: user.id,Activation:"On" }})) {
+        
+        return res.render("./customers/loyaltyprogram/thankyou");
+    } else {
+        
+        const User_Card = await LoyaltyCard.findOne({ where: { authorID: user.id } });
+        await User_Card.update({Activation: "On" })
+        return res.render("./customers/loyaltyprogram/thankyou");
+    }
+})
+
+
 loyaltyprogram.get("/redeem", async (req, res) => {
     try {
         if (req.user) {
@@ -191,18 +214,32 @@ loyaltyprogram.post('/redeemables/:id', async (req, res) => {
         // })
 
         let voucher_id = req.params.id
+        console.log(voucher_id)
         let price = req.body.reward_price
         const voucher = await Voucher.findOne({
         where: { id: voucher_id }
         });
-        Redeemables.create(
+        console.log(voucher.id)
+        const redeem = await Redeemables.findOne({ where: { VoucherId: voucher.id } })
+        console.log(redeem.VoucherId)
+        if (redeem.VoucherId != undefined)
+        {
+            req.flash("error","Reward has already been added")
+             return res.redirect('/staff/manage-vouchers')
+        }
+        else {
+            Redeemables.create(
             {
                 VoucherId: voucher.id,
                 Price: price,
             }
-        )
+            )
+            req.flash("success","Sucessfully added Reward"+voucher.voucher_title)
+            return res.redirect('/staff/manage-vouchers')
+        }
+       
     //  await item.save()
-    return res.redirect('/staff/manage-vouchers')
+    
     } catch (e) {
         console.log(e)
     }
