@@ -202,11 +202,21 @@
             </div>
             {{/equals}}
             {{#equals this.Activation "Off"}}
-            <h3 style="margin:auto ;"> Please check your email to activate your Rewards Program  !</h3>
+            <div class="col-md-9">
+              <h3 style="margin:auto ;margin-left:100px;margin-top:100px;"> Please check your email to activate your Rewards Program!</h3>
+            </div>
             {{/equals}}
           {{/each}}
         {{else}}
-          <h3 style="margin:auto ;"> Sign up for the Rewards Program for amazing Products & Vouchers !</h3>
+        <div class="col-md-9" style="text-align:center;">
+           <h3 style="margin:auto ;margin-top:100px;"> Sign up for the Rewards Program for amazing Rewards!</h3>
+           <br>
+           <button class="btn btn-primary" style="margin:auto;">
+            <a href="/loyaltyprogram/signup" style="color:white;">
+            Sign up Now !
+            </a>
+           </button>
+        </div>
         {{/if }}
     </div>
 </section>
