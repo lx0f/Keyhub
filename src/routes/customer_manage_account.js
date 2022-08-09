@@ -40,22 +40,33 @@ customerManageAccountRouter.route("/edit").get(async (req, res) => {
     const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/${req.user.imageFilePath}`, 'base64');
     res.render("./customers/page-profile-edit", {imageAsBase64})
 }).post(async (req, res) => {
-    const user = await User.findByPk(req.body.id)
+   
 
+    upload(req, res, async (err) => {
+        const user = await User.findByPk(req.body.id)
+        if(!(err || !req.file)) {
+            user.imageFilePath = `uploads/${req.file.filename}`
 
-    user.username = req.body.username || user.username
-    user.email = req.body.email || user.email
-    user.address = req.body.address || user.address
-    if(req.body.password) {
-        if(req.body.password != req.body.repeatpassword) {
-            req.flash("error", "Repeat password must be the same as the password!")
-        } else {
-            user.password = req.body.password
+        } 
+        
+        user.username = req.body.username || user.username
+        user.email = req.body.email || user.email
+        user.address = req.body.address || user.address
+        if(req.body.password) {
+            if(req.body.password != req.body.repeatpassword) {
+                req.flash("error", "Repeat password must be the same as the password!")
+            } else {
+                user.password = req.body.password
+               
+            }
            
         }
-       
-    }
-    await user.save()
+        await user.save()
+
+      });
+
+
+  
     return res.redirect("/account")
 })
 
