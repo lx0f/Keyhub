@@ -142,10 +142,18 @@
 						</form>
 					</dl>
 					{{/if}}
+					{{#equals shipping 0}}
+					<dl class="dlist-align">
+						<dt>Shipping:</dt>
+						<dd class="text-right"><strong>FREE</strong></dd>
+					</dl>
+					{{/equals}}
+					{{#equals shipping 5}}
 					<dl class="dlist-align">
 						<dt>Shipping:</dt>
 						<dd class="text-right"><strong>${{shipping}}</strong></dd>
 					</dl>
+					{{/equals}}
 					<hr>
 					<dl class="dlist-align">
 					{{#if cashback}}

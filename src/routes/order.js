@@ -8,6 +8,7 @@ const {Payment} = require("../models/order")
 const { Cart } = require("../models/cart")
 const ApplyVoucher = require("../models/ApplyVoucher");
 const Voucher = require("../models/Voucher");
+const LoyaltyCard = require("../models/LoyaltyCard");
 const moment = require('moment')
 
 
@@ -27,8 +28,15 @@ CustomerOrder.get('/', async (req, res) => {
     let shipping = 5
     let no_discount = 0
     if (!applyvoucher) {
-      const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+      let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+      
+      if (discount_price > 250) {
+        shipping = 0
+      }
       let discount_price = totalPrice + shipping
+       if (discount_price < 0) {
+        discount_price = 0
+      }
       res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, discount_price,shipping,no_discount })
     } else {
         const voucher = await Voucher.findOne({
@@ -39,8 +47,12 @@ CustomerOrder.get('/', async (req, res) => {
           const code = voucher.voucher_code
           if (applyvoucher.VoucherId == voucher.id) {
             let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-            let discount_price = totalPrice - discount + shipping
-            if (discount_price < 0) {
+            
+            if (totalPrice > 250) {
+              shipping = 0
+            }
+           let discount_price = totalPrice + shipping - discount
+             if (discount_price < 0) {
               discount_price = 0
             }
             res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, discount, code, discount_price,shipping })
@@ -49,9 +61,13 @@ CustomerOrder.get('/', async (req, res) => {
         else if (voucher.voucher_cat == "Cashback") {
           const cashback = voucher.voucher_value
           const code = voucher.voucher_code
-          const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+          let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+          
+          if (totalPrice > 250) {
+            shipping = 0
+          }
           let discount_price = totalPrice + shipping
-            if (discount_price < 0) {
+           if (discount_price < 0) {
               discount_price = 0
             }
           res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, cashback, code,discount_price,shipping })
@@ -72,7 +88,8 @@ CustomerOrder.get('/', async (req, res) => {
 // Post Order
 CustomerOrder.post('/data', async (req, res) => {
   try {
-      const applyvoucher = await ApplyVoucher.findOne({ where: { UserId: req.user.id } });
+    
+    
         // check all products have inventory
        const cart = await Cart.findOne({
         where: { UserId: req.user.id },
@@ -106,8 +123,15 @@ CustomerOrder.post('/data', async (req, res) => {
           // payment_status: req.body.payment_status
           amount: req.body.amount,
           discount: req.body.discount,
+          shipping_fee:req.body.shipping,
           shipping_status: req.body.shipping_status,
           payment_status: req.body.payment_status
+        })
+        const User_Card = await LoyaltyCard.findOne({ where: { authorID: req.user.id } })
+        let New_Points = User_Card.Active_Points + parseInt(req.body.cashback)
+        let Total_New_Points = New_Points + User_Card.Used_Points
+        await User_Card.update({
+          Active_Points:New_Points,Total_Points:Total_New_Points
         })
         // create orderItem (cartItem -> orderItem)
         const items = Array.from({ length: cart.cartProducts.length }).map((_, i) => (

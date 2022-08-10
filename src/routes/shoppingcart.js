@@ -37,7 +37,9 @@ ShoppingCart.get('/', async (req, res) => {
               
               let discount_price = totalPrice + shipping
               
-              console.log(no_discount)
+               if (discount_price > 250) {
+                  shipping = 0
+                }
               res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice,discount_price, no_discount,shipping })
             } else {
                 const voucher = await Voucher.findOne({
@@ -53,6 +55,9 @@ ShoppingCart.get('/', async (req, res) => {
                     if (discount_price < 0) {
                       discount_price = 0
                     }
+                     if (discount_price > 250) {
+                      shipping = 0
+                    }
                     res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice, discount, code, discount_price,shipping })
                   }
                 }
@@ -61,12 +66,17 @@ ShoppingCart.get('/', async (req, res) => {
                   const code = voucher.voucher_code
                   
                   const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0 + shipping
-                  
+                  let discount_price = totalPrice
+                   if (discount_price > 250) {
+                    shipping = 0
+                  }
                   res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice, cashback, code,shipping })
                 } else {
                   const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0 + shipping
                   let no_discount = 0
-                  console.log(no_discount)
+                   if (discount_price > 250) {
+              shipping = 0
+            }
                   res.render('./customers/page-shopping-cart', { cart: cart.toJSON(), totalPrice,no_discount,shipping })
                 }
             }
@@ -212,7 +222,34 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
     console.log(voucher);
     if (!previous_code) {
       if (voucher) {
-        if (voucher.voucher_type == "Customer") {
+        if (voucher.voucher_type == "Master") {
+          const voucherlist = await CustomerVoucher.findOne({
+            where: { UserID: req.user.id },
+          });
+          if (voucherlist) {
+            const item = await VoucherItem.findOne({
+              where: {
+                VoucherListId: voucherlist.id,
+                VoucherId: voucher.id
+              }
+            })
+            if (item) {
+              ApplyVoucher.create({
+                VoucherId: voucher.id,
+                UserId: req.user.id
+              })
+            }
+            else {
+              req.flash("error", "You have yet to claim " + voucher.voucher_title)
+              return res.redirect('/cart')
+            }
+          } else {
+            req.flash("error", "You have yet to claim " + voucher.voucher_title)
+            return res.redirect('/cart')
+          }
+          
+        }
+        else {
           const voucherlist = await CustomerVoucher.findOne({
             where: { UserID: req.user.id },
           });
@@ -237,13 +274,6 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
             req.flash("error", "You have yet to redeem " + voucher.voucher_title)
             return res.redirect('/cart')
           }
-          
-        }
-        else {
-          ApplyVoucher.create({
-            VoucherId: voucher.id,
-            UserId: req.user.id
-          })
         }
       } else {
         req.flash("error", "Please use a valid code!")
@@ -260,7 +290,7 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
           where: { VoucherId: old_voucher.id , UserId: req.user.id }
         })
         await removevoucher.destroy()
-        if (voucher.voucher_type == "Customer")
+        if (voucher.voucher_type == "Master")
         {
           const voucherlist = await CustomerVoucher.findOne({
             where: { UserID: req.user.id },
@@ -292,10 +322,30 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
             req.flash("error", "Please use a valid code!")
             return res.redirect('/cart')
           } else {
-            ApplyVoucher.create({
-              VoucherId: voucher.id,
-              UserId: req.user.id
+            const voucherlist = await CustomerVoucher.findOne({
+            where: { UserID: req.user.id },
+          });
+          if (voucherlist) {
+            const item = await VoucherItem.findOne({
+              where: {
+                VoucherListId: voucherlist.id,
+                VoucherId: voucher.id
+              }
             })
+            if (item) {
+              ApplyVoucher.create({
+                VoucherId: voucher.id,
+                UserId: req.user.id
+              })
+            }
+            else {
+              req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+              return res.redirect('/cart')
+            }
+          } else {
+            req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+            return res.redirect('/cart')
+          }
           }
         }
       } else {

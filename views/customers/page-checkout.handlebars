@@ -247,19 +247,27 @@
 			{{#if discount}}
 			Discount: <strong style="float:right;">- ${{discount}}</strong>
 			<input type="hidden" name="discount" value="{{discount}}">
+			<input type="hidden" name="cashback" value="0">
 			{{/if}}
 			{{#if cashback}}
 			Cashback: <strong style="float:right;">+ <strong>{{cashback}}</strong> <i class="fa-solid fa-coins"></i></strong>
 			<input type="hidden" name="discount" value="0">
+			<input type="hidden" name="cashback" value="{{cashback}}">
 			{{/if}}
 			{{#equals no_discount 0}}
 			Discount: <strong style="float:right;">- $0.00</strong>
 			<input type="hidden" name="discount" value="0">
+			<input type="hidden" name="cashback" value="0">
 			{{/equals}}
 			<br>
-			{{#if shipping}}
+			{{#equals shipping 0}}
+			Shipping Fee: <strong style="float:right;">FREE</strong>
+			<input type="hidden" name="shipping" value="0">
+			{{/equals}}
+			{{#equals shipping 5}}
 			Shipping Fee: <strong style="float:right;">$5</strong>
-			{{/if}}
+			<input type="hidden" name="shipping" value="5">
+			{{/equals}}
 			
 			<hr>
 			Grand Total: <strong style="float:right;">${{discount_price}}</strong>
