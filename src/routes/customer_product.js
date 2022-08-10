@@ -1,6 +1,9 @@
 const express = require("express")
+const { findAll } = require("../models/product")
 const productRouter = express.Router()
 const product = require("../models/product")
+const Pevaluation = require("../models/product_evaluation")
+const User = require("../models/User")
 
 productRouter.post("/desc",async function(req,res){
     let{productID} = req.body
@@ -97,11 +100,49 @@ productRouter.get('/others', async(req,res)=>{
     const items = await display.length
     res.render("./customers/page-listing-grid",{display,items});
 })
+
+// Edited by JJ
 productRouter.get('/detail/:id', async(req,res)=>{
     try{
         const productdetail = await product.findByPk(req.params.id)
-        
-        res.render("./customers/page-product-large",{ productdetail });
+        const review = await Pevaluation.findAll({
+            where: {ProductId: req.params.id},
+            include: User
+        })
+        const fivestar = []
+        const fourstar = []
+        const threestar = []
+        const twostar = []
+        const onestar = []
+        for (let index = 0; index < review.length; index++) {
+            if (review[index]["ProductRating"]==5){
+                fivestar.push(review[index])
+            }
+            else if (review[index]["ProductRating"]==4){
+                fourstar.push(review[index])
+            }
+            else if (review[index]["ProductRating"]==3){
+                threestar.push(review[index])
+            }
+            else if (review[index]["ProductRating"]==2){
+                twostar.push(review[index])
+            }
+            else if (review[index]["ProductRating"]==1){
+                onestar.push(review[index])
+            }
+        }
+        const count5 = fivestar.length
+        const count4 = fourstar.length
+        const count3 = threestar.length
+        const count2 = twostar.length
+        const count1 = onestar.length
+
+        const count = review.length
+
+        const average = (count5 * 5 + count4 * 4 + count3 * 3 + count2 * 2 + count1 * 1) / count
+        // console.log(average)
+        // console.log(onestar)
+        res.render("./customers/page-product-large",{ productdetail, review, count, count1, count2, count3, count4,count5, average});
     }catch(e){
         console.log(e)
     }

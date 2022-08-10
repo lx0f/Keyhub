@@ -75,13 +75,6 @@ CustomerOrder.post('/data', async (req, res) => {
           })
         ))
         Promise.all(items)
-        // send mail
-        // const email = req.user.email
-        // const subject = `[TEST] Keyhub Order with Order ID:${order.id} created, Please take time to pay`
-        // const status = 'Unshipped / Unpaid'
-        // const msg = 'Please click the payment link and pay with a test credit card! Thanks for your cooperation!'
-        // sendMail(email, subject, orderMail(order, status, msg))
-        // clear cart & cartItem
         await cart.destroy()
         // clear cartId in session
         req.session.cartId = ''

@@ -7,6 +7,7 @@ const User = require("../models/User")
 const { CustomerVoucher } = require("../models/CustomerVoucher");
 const { VoucherItem } = require("../models/CustomerVoucher");
 const Voucher = require("../models/Voucher");
+const { count } = require("../models/product")
 
 
 // GET Cart
@@ -86,6 +87,21 @@ ShoppingCart.post('/postcart', async (req, res) =>{
         console.log(e)
       }
 });
+
+// ShoppingCart.get('/', async (req, res) =>{
+//   try {
+//     const cart = await Cart.findOne({
+//       where: { UserId: req.user.id },
+//       include: "cartProducts"
+//     })
+    
+//     const cartcount = cart.cartProducts.length
+//     res.render('./customers/page-shopping-cart',{cartcount})
+    
+//   }catch (e) {
+//     console.log(e)
+//   }
+// });
 
 // Add Cart Item
 ShoppingCart.post('/:productId/add', async (req,res) =>{

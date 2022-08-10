@@ -50,6 +50,7 @@ class Pevaluation extends Sequelize.Model {
         type: Sequelize.DataTypes.STRING,
         defaultValue: "uploads/unknownimage.png",
       },
+      
     },
     {
       freezeTableName: true,
@@ -58,8 +59,11 @@ class Pevaluation extends Sequelize.Model {
       modelName: "Product_Evaluation"
     }
   );
+  
   Pevaluation.belongsTo(Product);
   Product.hasMany(Pevaluation)
+
   Pevaluation.belongsTo(User)
   User.hasMany(Pevaluation)
+
   module.exports = Pevaluation;

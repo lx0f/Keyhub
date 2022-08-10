@@ -3,6 +3,7 @@ const Pevaluation = require("../models/product_evaluation")
 const PevaluationRouter = express.Router()
 const Product = require("../models/product")
 const fs = require('fs');
+const {Order} = require("../models/order")
 const upload = require('../configuration/imageUpload');
 
 PevaluationRouter.get('/:id', async (req, res) => {
@@ -51,7 +52,6 @@ PevaluationRouter.post('/:id', async function (req, res) {
 
     upload(req, res, async (err) => {
 
-            // Pevaluation.imageFilePath = `uploads/${req.file.filename}`
             Pevaluation.create({
                 ProductId: req.params.id,
                 UserId: req.user.id,
@@ -61,13 +61,6 @@ PevaluationRouter.post('/:id', async function (req, res) {
             })
             req.flash("success","Your Product evaluation sent susscessfully, Thank you")
             res.redirect("/")
-        
-        // Pevaluation.ProductId = req.params.id,
-        // Pevaluation.UserId = req.user.id,
-        // Pevaluation.ProductRating = req.body.ProductRating,
-        // Pevaluation.ProductRemarks = req.body.ProductRemarks,
-        
-        // await Pevaluation.save()
         
     })});
     
