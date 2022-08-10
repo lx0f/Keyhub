@@ -27,115 +27,123 @@
 	
 	
     <div class="row">
+		
 		{{#if voucher}}
-			{{#each voucher}}
-			
-			 {{#each ../Redeemable_items}}
-			 
-				{{#equals ../this.id this.VoucherId}}
-				<div class="col-6" >
-					<div class="courses-container">
-						
-						<span class="top-left tag-2 tag-limited">Limited</span>
-						{{#each ../../voucherlist}}
+			{{#if ../Redeemable_items}}
+				{{#each voucher}}
+				
+				{{#each ../Redeemable_items}}
+				
+					{{#equals ../this.id this.VoucherId}}
+					<div class="col-6" >
+						<div class="courses-container">
 							
+							<span class="top-left tag-2 tag-limited">Limited</span>
+							{{#each ../../voucherlist}}
 								
-							{{#each ../../../voucheritem}}
-							
-								{{#equals this.VoucherListId ../this.id }}
-									{{#equals this.VoucherId ../../../this.id}}
-										<span class="top-right tag-2 tag-inactive">Redeemed</span>	
-									{{/equals}}
-								{{/equals}}
-							{{/each}}
-							
-						
-						{{/each}}
-						{{!-- {{#equals ../this.voucher_status "Active" }}
-							<span class="top-right tag-2 tag-active">Not Redeemed</span>
-						{{/equals}}
-						{{#equals ../this.voucher_status "Inactive" }}
-
-							<span class="top-right tag-2 tag-inactive">Redeemed</span>
-						{{/equals}} --}}
-						
-						<div class="course">
-							<div class="course-preview">
-								<br>
-								<h6>{{../this.voucher_cat}}</h6>
-								<h4>{{../this.voucher_title}}</h4>
-								<br>
-								<a href="#">Terms & Conditions</i></a>
-							</div>
-							<div class="course-info">
-								{{!-- <div class="progress-container">
-									<div class="progress"></div>
-									<span class="progress-text">
-									{{this.voucher_used}} / {{this.total_voucher}} Vouchers Claimed
-									</span>
-								</div> --}}
-								<h4>{{../this.voucher_name}}</h4>
-								<h5 >Min. Spend ${{this.spend}}</h5>
-								<p style="color:grey;font-size: 13px;">
-									Valid Till: 31.12.2022
-								</p>
-							
-								{{!-- {{#equals voucherlist.voucheritem.VoucherId voucher.id}}
-								
-									{{voucherlist.voucheritem.VoucherId}}
-									<input type="hidden" id="claimed" value="{{voucherlist.voucheritem.id}}">
-									<button type="submit" class="claimed-button">Claimed <i class="fa-solid fa-check"></i></button>
-								
-								{{/equals}} --}}
-								<form action="/loyaltyprogram/redeem" method="POST">
-								{{#equals ../this.voucher_status "Active" }}
-									<input type="hidden" name="status" value="{{this.voucher_status}}">
-								{{/equals}}
-								{{#equals ../this.voucher_status "Inactive" }}
 									
-									<input type="hidden" name="status" value="{{this.voucher_status}}">
-								{{/equals}}
-								<input type="hidden" name="voucherID" value="{{../this.id}}">
-								<input type="hidden" name="redeem" id="" value="{{this.Price}}">
-								<button type="submit" class="btn claim-button" ><i class="fa-solid fa-coins"></i> {{this.Price}}</button>
-								</form>
-							
+								{{#each ../../../voucheritem}}
 								
-
-								
-								
-								{{!-- {{#each ../voucherlist}}
-									{{#equals this.UserID ../../user.id}}
-										{{#if this.voucheritem}}
-											{{#each this.voucheritem}}
-												{{#equals this.id ../../this.id}}
-												
-													<button class="btn btn-secondary">Redeemed</button>
-												{{/equals}}
-											{{/each}}
-										{{else}}
-											<form action="/loyaltyprogram/redeem" method="POST">
-											{{#equals this.voucher_status "Active" }}
-												<input type="hidden" name="status" value="{{this.voucher_status}}">
-											{{/equals}}
-											{{#equals this.voucher_status "Inactive" }}
-												
-												<input type="hidden" name="status" value="{{this.voucher_status}}">
-											{{/equals}}
-											<input type="hidden" name="voucherID" value="{{this.id}}">
-											<input type="hidden" name="redeem" id="" value="700">
-											<button type="submit" class="btn claim-button" ><i class="fa-solid fa-coins"></i> &nbsp  700</button>
-											</form>
-										{{/if}}
+									{{#equals this.VoucherListId ../this.id }}
+										{{#equals this.VoucherId ../../../this.id}}
+											<span class="top-right tag-2 tag-inactive">Redeemed</span>	
+										{{/equals}}
 									{{/equals}}
-								{{/each}} --}}
+								{{/each}}
+								
+							
+							{{/each}}
+							{{!-- {{#equals ../this.voucher_status "Active" }}
+								<span class="top-right tag-2 tag-active">Not Redeemed</span>
+							{{/equals}}
+							{{#equals ../this.voucher_status "Inactive" }}
+
+								<span class="top-right tag-2 tag-inactive">Redeemed</span>
+							{{/equals}} --}}
+							
+							<div class="course">
+								<div class="course-preview">
+									<br>
+									<h6>{{../this.voucher_cat}}</h6>
+									<h4>{{../this.voucher_title}}</h4>
+									<br>
+									<a href="#">Terms & Conditions</i></a>
+								</div>
+								<div class="course-info">
+									{{!-- <div class="progress-container">
+										<div class="progress"></div>
+										<span class="progress-text">
+										{{this.voucher_used}} / {{this.total_voucher}} Vouchers Claimed
+										</span>
+									</div> --}}
+									<h4>{{../this.voucher_name}}</h4>
+									<h5 >Min. Spend ${{this.spend}}</h5>
+									<p style="color:grey;font-size: 13px;">
+										Valid Till: 31.12.2022
+									</p>
+								
+									{{!-- {{#equals voucherlist.voucheritem.VoucherId voucher.id}}
+									
+										{{voucherlist.voucheritem.VoucherId}}
+										<input type="hidden" id="claimed" value="{{voucherlist.voucheritem.id}}">
+										<button type="submit" class="claimed-button">Claimed <i class="fa-solid fa-check"></i></button>
+									
+									{{/equals}} --}}
+									<form action="/loyaltyprogram/redeem" method="POST">
+									{{#equals ../this.voucher_status "Active" }}
+										<input type="hidden" name="status" value="{{this.voucher_status}}">
+									{{/equals}}
+									{{#equals ../this.voucher_status "Inactive" }}
+										
+										<input type="hidden" name="status" value="{{this.voucher_status}}">
+									{{/equals}}
+									<input type="hidden" name="voucherID" value="{{../this.id}}">
+									<input type="hidden" name="redeem" id="" value="{{this.Price}}">
+									<button type="submit" class="btn claim-button" ><i class="fa-solid fa-coins"></i> {{this.Price}}</button>
+									</form>
+								
+									
+
+									
+									
+									{{!-- {{#each ../voucherlist}}
+										{{#equals this.UserID ../../user.id}}
+											{{#if this.voucheritem}}
+												{{#each this.voucheritem}}
+													{{#equals this.id ../../this.id}}
+													
+														<button class="btn btn-secondary">Redeemed</button>
+													{{/equals}}
+												{{/each}}
+											{{else}}
+												<form action="/loyaltyprogram/redeem" method="POST">
+												{{#equals this.voucher_status "Active" }}
+													<input type="hidden" name="status" value="{{this.voucher_status}}">
+												{{/equals}}
+												{{#equals this.voucher_status "Inactive" }}
+													
+													<input type="hidden" name="status" value="{{this.voucher_status}}">
+												{{/equals}}
+												<input type="hidden" name="voucherID" value="{{this.id}}">
+												<input type="hidden" name="redeem" id="" value="700">
+												<button type="submit" class="btn claim-button" ><i class="fa-solid fa-coins"></i> &nbsp  700</button>
+												</form>
+											{{/if}}
+										{{/equals}}
+									{{/each}} --}}
+								</div>
 							</div>
-						</div>
-					</div>   
-				</div>
-				{{/equals}}
+						</div>   
+					</div>
+					{{/equals}}
+					{{/each}}
 				{{/each}}
-			{{/each}}
+			{{else}}
+				<h1 style="margin:auto;margin-top:250px;">More rewards coming soon !</h1>
+			{{/if}}
+				
+			
+			
 		{{else}}
 			<h1 style="margin:auto;margin-top:250px;">More rewards coming soon !</h1>
 		{{/if}}

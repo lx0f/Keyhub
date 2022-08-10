@@ -165,10 +165,7 @@
     <p class="lead">Please fill in all your shipping information and confirm all your products are in the cart<br>Thank You !</p>
   </div>
 <form action="/order/data" method="POST">
-	<input type="hidden" name="cartId" value="{{cartId}}">
-	<input type="hidden" name="amount" value="{{amount}}">
-	<input type="hidden" name="shipping_status" value="0">
-	<input type="hidden" name="payment_status" value="0">
+	
   <div class="row">
     <div class="col-md-4 order-md-2 mb-4">
       <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -249,12 +246,15 @@
 			
 			{{#if discount}}
 			Discount: <strong style="float:right;">- ${{discount}}</strong>
+			<input type="hidden" name="discount" value="{{discount}}">
 			{{/if}}
 			{{#if cashback}}
 			Cashback: <strong style="float:right;">+ <strong>{{cashback}}</strong> <i class="fa-solid fa-coins"></i></strong>
+			<input type="hidden" name="discount" value="0">
 			{{/if}}
 			{{#equals no_discount 0}}
 			Discount: <strong style="float:right;">- $0.00</strong>
+			<input type="hidden" name="discount" value="0">
 			{{/equals}}
 			<br>
 			{{#if shipping}}
@@ -268,6 +268,11 @@
 	<br>
      
 	  <br>
+	<input type="hidden" name="cartId" value="{{cartId}}">
+	<input type="hidden" name="amount" value="{{discount_price}}">
+	
+	<input type="hidden" name="shipping_status" value="0">
+	<input type="hidden" name="payment_status" value="0">
 	  <button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
     </div>
     <div class="col-md-8 order-md-1">
