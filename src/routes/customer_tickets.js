@@ -12,10 +12,8 @@ ticketRouter.get("/", async (req, res) => {
 
 ticketRouter.post("/", async (req, res) => {
     const authorID = req.user.id;
-    const title = req.body.title;
-    const description = req.body.description;
-    const category = req.body.category;
-    const severity = req.body.severity;
+    let { title, description,
+        category, severity } = req.body;
 
     await Ticket.create({
         authorID,
