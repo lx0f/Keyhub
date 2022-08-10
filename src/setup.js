@@ -115,7 +115,7 @@ app.engine(
                 if (typeof a === 'number' && typeof b === 'number') {
                   return a * b
                 }},
-            
+
             sum_quantity(array) {
                 var s = 0
                 for (var i = 0; i < array.length; i++) {
@@ -123,6 +123,17 @@ app.engine(
                 }
                 return s
             },
+            quillDeltaToHtml(delta) {
+                var QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
+
+                var deltaOps = JSON.parse(delta).ops;
+                var cfg = {};
+
+                var converter = new QuillDeltaToHtmlConverter(deltaOps, cfg);
+
+                var html = converter.convert();
+                return html;
+            }
         },
     })
 );

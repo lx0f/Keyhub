@@ -15,7 +15,7 @@ TicketComment.init(
             allowNull: false,
         },
         message: {
-            type: Sequelize.DataTypes.STRING,
+            type: Sequelize.DataTypes.STRING(1000),
             allowNull: true,
         },
         meta: {
