@@ -84,7 +84,7 @@ loyaltyprogram.get("/redeem", async (req, res) => {
         if (req.user) {
             let user_id = req.user.id
             const User_Card = await LoyaltyCard.findAll({ where: { authorID: user_id } });
-            const Redeemable_items = await (await Redeemables.findAll()).map((x) => x.dataValues);
+            const Redeemable_items =  (await Redeemables.findAll()).map((x) => x.dataValues);
          
             const voucherlist = await CustomerVoucher.findAll({
                 include: ["voucheritem",{ model: User },
