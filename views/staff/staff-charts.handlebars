@@ -60,22 +60,180 @@ body
   border:none!important;
   color:#39bcd3!important;
 }
+
+
+
+.whitebutton {
+    margin: 20px auto;
+    padding: 20px 0;
+    width: 200px;
+}
+
+.whitebutton a {
+    background: #fff;
+    color: #666;
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: 'Arial',Verdana,sans-serif;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+  
+    width: 200px;
+    position: relative;
+    z-index: 2;
+}
+
+.whitebutton a:before {
+    content: '\f019';
+    font-family: FontAwesome;
+    font-weight: normal;
+    padding: 5px;
+    margin-left: -12px;
+    margin-right: 6px;
+}
+
+.whitebutton span {
+    background: #100;
+    color: #fff;
+    display: block;
+    font-size: 12px;
+    font-family: 'Arial', Verdana,sans-serif;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 200px;
+    z-index: 1;
+
+    font-weight: bold;
+}
+
+.whitebutton .up {
+    background: #e25734;
+    margin: -25px auto;
+    opacity: 0;
+    border-radius: 0 0 5px 5px;
+    transform: translate(0,-50px);
+    transition: 350ms;
+}
+
+.whitebutton .down {
+    margin: -30px auto;
+    opacity: 0;
+    border-radius: 5px 5px 0 0;
+    transform: translate(0,-50px);
+    transition: 350ms;
+}
+
+.whitebutton .down:before {
+    content:'\f14a';
+    font-family: FontAwesome;
+    font-weight: normal;
+    margin-right: 6px;
+    color: #aaa;
+}
+
+.whitebutton:hover .up {
+    opacity: 1;
+    transform: translate(0,0);
+}
+
+.whitebutton:hover .down {
+    opacity: 1;
+    transform: translate(0,-90px);
+}
+
+.whitebuttondemo {
+    margin: 20px auto;
+    padding: 20px 0;
+    width: 200px;
+}
+
+.whitebuttondemo a {
+    background: #e25734;
+    color: #fff;
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+    font-family:'Arial',Verdana,sans-serif;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+
+    width: 200px;
+    position: relative;
+    z-index: 2;
+    transition: 350ms;
+}
+
+.whitebuttondemo a:before {
+    content:'\f004';
+    font-family: FontAwesome;
+    font-weight: normal;
+    padding: 8px;
+    margin-left: -12px;
+    margin-right: 6px;
+}
+
+.whitebuttondemo a:hover {
+    color: #fff;
+}
+
+.whitebuttondemo span {
+    background: #444;
+    color: #fff;
+    display: block;
+    font-size: 12px;
+    font-family: 'Arial', Verdana,sans-serif;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 200px;
+    z-index: 1;
+
+    font-weight: bold;
+}
+
+.whitebuttondemo .up {
+    background: #444;
+    margin: -25px auto;
+    opacity: 0;
+    border-radius: 0 0 10px 10px;
+    transform: translate(0,-50px);
+    transition: 350ms;
+}
+
+.whitebuttondemo:hover .up {
+    opacity: 1;
+    transform: translate(0,0);
+}
 </style>
       
+
+
         <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Charts</h1>
-                    <p class="mb-4">Chart.js is a third party plugin that is used to generate the charts in this theme.
-                        The charts below have been customized - for further customization options, please visit the <a
-                            target="_blank" href="https://www.chartjs.org/docs/latest/">official Chart.js
-                            documentation</a>.</p>
-
-                    <!-- Content Row -->
+                              <!-- Content Row -->
+                    <div class="whitebutton" style="position: relative; padding: 30px;float: right; right: 50px; bottom: 90px;">
+                 
+<a href="/generate/chart">Download Report</a><br>
+<span class="up">click to Download</span><br>
+<span class="down">1.6MB .rar</span></div>
+ 
                     <div class="row">
 
                         <div class="col-xl-8 col-lg-7">
+
+
+
+<link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'/>
 
 
 
@@ -227,12 +385,12 @@ getUsersJoinedDatas.done(function(data){
     data.data.forEach(element => {
       NoOfUsers.push(element["NoOfUsersJoined_sum"])
       dates.push(element["Dates"])
-        console.log(NoOfUsers)
-        console.log(dates)
+       
       
     });
-    console.log(data.data)
-    console.log("hoi")
+
+    console.log(NoOfUsers)
+    console.log(dates)
 
       var myLineChart = new Chart(ctxUsersJoineds, {
       type: 'line',
@@ -345,7 +503,8 @@ getUsersJoinedData.done(function(data){
         console.log(dates)
       
     });
-    console.log(data.data)
+    console.log(dates)
+    console.log(NoOfUsers)
     console.log("hoi")
 
       var myLineChart = new Chart(ctxUsersJoined, {
@@ -353,7 +512,7 @@ getUsersJoinedData.done(function(data){
       data: {
         labels: dates,
         datasets: [{
-          label: "Number of Users Joined",
+          label: "Number of Users Joined Daily",
           lineTension: 0.3,
           backgroundColor: "rgba(78, 115, 223, 0.05)",
           borderColor: "rgba(78, 115, 223, 1)",

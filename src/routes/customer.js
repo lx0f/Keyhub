@@ -14,6 +14,8 @@ const Policies = require("./policies")
 
 const CustomerVoucher = require("./customer_voucher");
 
+const generateRouter = require("./generate")
+
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
       return res.redirect("/login")
@@ -36,7 +38,7 @@ customerRouter.use("/createPE", customerpeRouter);
 customerRouter.use("/Cproducts", customerproductRouter);
 customerRouter.use("/account", customerManageAccountRouter);
 
-
+customerRouter.use("/generate", generateRouter)
 customerRouter.use("/policies",Policies)
 
 customerRouter.use("/cart", ShoppingCart);
