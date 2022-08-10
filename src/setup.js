@@ -129,13 +129,7 @@ app.engine(
                 return s
             }
 
-            sum_quantity(array) {
-                var s = 0
-                for (var i = 0; i < array.length; i++) {
-                    s += array[i].quantity
-                }
-                return s
-            },
+          ,
             quillDeltaToHtml(delta) {
                 var QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
 
