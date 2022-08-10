@@ -19,6 +19,9 @@ Order.init(
         amount: {
             type: Sequelize.DataTypes.INTEGER
         },
+        discount: {
+            type: Sequelize.DataTypes.INTEGER
+        },
         shipping_status: {
             type: Sequelize.DataTypes.STRING
         },

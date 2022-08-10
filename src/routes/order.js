@@ -25,10 +25,11 @@ CustomerOrder.get('/', async (req, res) => {
     const cartId = cart.id
     const applyvoucher = await ApplyVoucher.findOne({ where: { UserId: req.user.id } });
     let shipping = 5
+    let no_discount = 0
     if (!applyvoucher) {
       const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-      let discount_price = totalPrice
-      res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, discount_price,shipping })
+      let discount_price = totalPrice + shipping
+      res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, discount_price,shipping,no_discount })
     } else {
         const voucher = await Voucher.findOne({
         where: { id:applyvoucher.VoucherId }
@@ -38,7 +39,7 @@ CustomerOrder.get('/', async (req, res) => {
           const code = voucher.voucher_code
           if (applyvoucher.VoucherId == voucher.id) {
             let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-            let discount_price = totalPrice - discount
+            let discount_price = totalPrice - discount + shipping
             if (discount_price < 0) {
               discount_price = 0
             }
@@ -49,11 +50,15 @@ CustomerOrder.get('/', async (req, res) => {
           const cashback = voucher.voucher_value
           const code = voucher.voucher_code
           const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-          let discount_price = totalPrice
+          let discount_price = totalPrice + shipping
+            if (discount_price < 0) {
+              discount_price = 0
+            }
           res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, cashback, code,discount_price,shipping })
         }
         else {
           const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+           
           res.render('./customers/page-checkout', { cartId,cart: cart.toJSON(), totalPrice,shipping })
         }
       
@@ -66,12 +71,14 @@ CustomerOrder.get('/', async (req, res) => {
 
 // Post Order
 CustomerOrder.post('/data', async (req, res) => {
-    try {
+  try {
+      const applyvoucher = await ApplyVoucher.findOne({ where: { UserId: req.user.id } });
         // check all products have inventory
-        const cart = await Cart.findByPk(req.body.cartId, {
+       const cart = await Cart.findOne({
+        where: { UserId: req.user.id },
           include: 'cartProducts'
         })
-        
+      
         for (const product of cart.cartProducts) {
           if (product.stock < product.CartItem.quantity) {
             req.flash('error', `Product Id:${product.id} only left with ${product.stock}, Please reselect quantity!`)
@@ -98,6 +105,7 @@ CustomerOrder.post('/data', async (req, res) => {
           // shipping_status: req.body.shipping_status,
           // payment_status: req.body.payment_status
           amount: req.body.amount,
+          discount: req.body.discount,
           shipping_status: req.body.shipping_status,
           payment_status: req.body.payment_status
         })
