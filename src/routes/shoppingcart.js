@@ -13,7 +13,8 @@ const ApplyVoucher = require("../models/ApplyVoucher");
 // GET Cart
 ShoppingCart.get('/', async (req, res) => {
     try {
-        if (req.user) {
+      if (req.user) {
+          
           const cart = await Cart.findOne({
             where: { UserId: req.user.id },
             include: "cartProducts"
@@ -90,7 +91,8 @@ ShoppingCart.get('/', async (req, res) => {
 });
 
 ShoppingCart.post('/postcart', async (req, res) =>{
-    try {
+  try {
+        
         // check product has inventory
         const addProduct = await Product.findByPk(req.body.productId)
         if (addProduct.stock === 0) {
@@ -116,7 +118,8 @@ ShoppingCart.post('/postcart', async (req, res) =>{
             }
           })
           cart = userCart
-        }
+      }
+        
         // find items in the cart or not
         const [product, created] = await CartItem.findOrCreate({
           where: {

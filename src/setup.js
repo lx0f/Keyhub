@@ -31,7 +31,7 @@ const loginRouter = require("./routes/login");
 const FAQrouter = require("./routes/staff_FAQs");
 const { sum } = require("./models/product");
 const { OrderItem } = require("./models/order");
-
+const { Cart ,CartItem }  = require("./models/cart")
 //Initialisation of the app
 const app = express();
 
@@ -143,7 +143,10 @@ app.use((req, res, next) => {
     res.locals.authenticated = req.isAuthenticated();
     res.locals.user = req.user;
     res.locals.method = req.body.method;
-    res.locals.image =  "data:image/png;base64, " + require("fs").readFileSync(`public/${req.user?.imageFilePath ?? 'uploads/unknownimage.png'}`, 'base64');
+    res.locals.image = "data:image/png;base64, " + require("fs").readFileSync(`public/${req.user?.imageFilePath ?? 'uploads/unknownimage.png'}`, 'base64');
+
+    res.locals.cartcount = 120
+    
     next();
 });
 
