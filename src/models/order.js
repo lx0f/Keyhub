@@ -16,15 +16,6 @@ Order.init(
         UserId: {
             type: Sequelize.DataTypes.INTEGER
         },
-        name: {
-            type: Sequelize.DataTypes.STRING
-        },
-        phone: {
-            type: Sequelize.DataTypes.STRING
-        },
-        sn: {
-            type: Sequelize.DataTypes.STRING
-        },
         amount: {
             type: Sequelize.DataTypes.INTEGER
         },
@@ -32,6 +23,9 @@ Order.init(
             type: Sequelize.DataTypes.STRING
         },
         payment_status: {
+            type: Sequelize.DataTypes.STRING
+        },
+        order_status:{
             type: Sequelize.DataTypes.STRING
         }
     },
@@ -92,9 +86,6 @@ Payment.init(
         isSuccess: {
             type: Sequelize.DataTypes.BOOLEAN
         },
-        failure_message: {
-            type: Sequelize.DataTypes.TEXT
-        },
         payTime: {
             type: Sequelize.DataTypes.DATE
         }
@@ -112,22 +103,22 @@ Order.belongsTo(User);
 User.hasMany(Order);
 
 // Order and Product association
-// Order.belongsToMany(Product, {
-//     through: {
-//       model: OrderItem,
-//       unique: false
-//     },
-//     foreignKey: 'OrderId',
-//     as: 'products'
-// })
-// Product.belongsToMany(Order, {
-//     through: {
-//         model: OrderItem,
-//         unique: false
-//     },
-//     foreignKey: 'ProductId',
-//     as: 'orders'
-// })
+Order.belongsToMany(Product, {
+    through: {
+      model: OrderItem,
+      unique: false
+    },
+    foreignKey: 'OrderId',
+    as: 'products'
+})
+Product.belongsToMany(Order, {
+    through: {
+        model: OrderItem,
+        unique: false
+    },
+    foreignKey: 'ProductId',
+    as: 'orders'
+})
 Order.hasMany(OrderItem);
 OrderItem.belongsTo(Order);
 

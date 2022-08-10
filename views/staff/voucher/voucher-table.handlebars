@@ -69,7 +69,7 @@
                                                 <tbody>
                                                     {{#each voucher }}
                                                     <tr >
-                                                        <td>{{this.voucher_name}}</td>
+                                                        <td>{{this.voucher_title}}</td>
                                                         <td>{{this.voucher_code}}</td>
                                                         <td>{{this.days}}</td>
                                                         <td>{{this.voucher_used}}</td>
@@ -82,7 +82,7 @@
                                                             
                                                             </h5>
                                                             {{/equals}}
-                                                            {{#equals this.voucher_status "Non-Active"}}
+                                                            {{#equals this.voucher_status "Inactive"}}
                                                             <h5>
                                                                 <span class="badge badge-danger" id="{{this.id}}" >{{this.voucher_status}}</span>
                                                                 
@@ -103,45 +103,65 @@
                                                            <!-- Button trigger modal -->
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="exampleModal{{this.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-centered">
-                                                                <div class="modal-content">
-                                                                {{!-- <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Voucher {{this.coupon_name}}</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div> --}}
-                                                                <div class="modal-body">
-                                                                     <div class="card p-3 mb-2">
-                                                                        <div class="d-flex justify-content-between">
-                                                                            <div class="d-flex flex-row align-items-center">
-                                                                                <div class="icon"> <i class="bx bxl-mailchimp"></i> </div>
-                                                                                <div class="ms-2 c-details ml-2">
-                                                                                     <h6 class="mb-0">{{this.coupon_name}}</h6><span>{{this.coupon_id}}</span>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="badge"> <span>Cashback</span></div>
-                                                                        </div>
-                                                                        <div class="mt-5">
-                                                                            <div class="card">
-                                                                                <div class="card-body">
-                                                                                     <h5 class="heading">25% Discount off custom keyboads & prebuilt keyboard</h5>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="mt-5">
-                                                                                <div class="progress">
-                                                                                    <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                                </div>
-                                                                                <div class="mt-3"> <span class="text1">32 Used <span class="text2">out of 50 Available</span></span> </div>
+                                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                    <div class="modal-content" >
+                                                                        <div class="modal-body">
+                                                                            <div class="background-info"></div>
+                                                                            <div class="card-header-1">
+                                                                                 {{#equals this.voucher_status "Active"}}
+                                                                                    <span class="top-right tag-2 tag-active">Active</span>
+                                                                                {{/equals}}
+                                                                                {{#equals this.voucher_status "Inactive"}}
+                                                                                    <span class="top-right tag-2 tag-inactive">Fully Redeemed</span>
+                                                                                {{/equals}}
+                                                                                
+                                                                                <img src="https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg" alt="rover" />
+                                                                                <span class="voucher-info">
+                                                                                    <h6 style="padding:10px;padding-top:20px;">
+                                                                                        $10OFF
+                                                                                        <br >
+                                                                                        <br>
+                                                                                            Min. Spend $100
+                                                                                        <br >
+                                                                                        <br>
+                                                                                        <span class="tag">First Purchase Only</span>
+                                                                                        <br>
+                                                                                        <br>
+                                                                                        <p style="color:grey;font-size: 13px;">
+                                                                                            Valid Till: 31.12.2022
+                                                                                        </p>
+                                                                                    </h6>
+                                                                                </span>
+                                                                                <div class="card-body-1">
+                                                                                
+                                                                                <h6 style="padding:10px;padding-top:20px;">
+                                                                                        <strong>Description</strong> 
+                                                                                        <br>
+                                                                                        First come first served. Act fast before voucher is used up!
+                                                                                        $10 OFF
+                                                                                        <br >
+                                                                                        <br>
+                                                                                        <strong>Valid Time</strong> 
+                                                                                        <br>
+                                                                                        20.12.2022 - 31.12.2022 
+                                                                                        <br >
+                                                                                        <br>
+                                                                                            <strong>Product</strong> 
+                                                                                            <br>
+                                                                                            Applicable to all products. Except keycaps
+                                                                                        <br>
+                                                                                        <br>
+                                                                                        <strong>More Info</strong> 
+                                                                                        <br>
+                                                                                        Applicable to all users. Enjoy $10 OFF with no min spend.
+                                                                                        Valid from 20.12.2022 - 31.12.2022.
+                                                                                        Limited Redeemptions only !
+                                                                                    
+                                                                                    </h6>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                {{!-- <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                </div> --}}
-                                                                </div>
-                                                            </div>
                                                             </div>
                                                         </td>
                                                     
@@ -245,22 +265,61 @@
                                                 </thead>
                                     
                                                 <tbody>
-                                                    {{#each user }}
-                                                        {{#equals this.isStaff "0"}}
-                                                        <tr >
-                                                            <td>{{this.username}}</td>
-                                                            <td>{{this.email}}</td>
-                                                            <td>
-                                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
-                                                                 Voucher List
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        {{/equals}}
-                                                    {{/each }}
+                                                    {{#each voucherlist}}
+                                                   
+														{{#equals this.User.isStaff "0"}}
+															<tr >
+																
+																<td>{{this.User.username}} 
+																	
+																</td>
+																<td>{{this.User.email}}</td>
+																<td>
+																	<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal2{{this.id}}">
+																		Voucher List
+																	</button>
+                                                                    <div class="modal fade" id="exampleModal2{{this.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                            <div class="modal-content" >
+                                                                                <div class="modal-body">
+                                                                                    {{#if this.voucheritem}}
+                                                                                     {{#each this.voucheritem}}
+                                                                                       
+                                                                                        Voucher Title: {{this.voucher_title}}
+                                                                                        <br>
+                                                                                         Voucher Name: {{this.voucher_name}}
+                                                                                        <br>
+                                                                                        {{#each ../../voucheritem}}
+                                                                                            {{#equals this.VoucherListId ../../this/id }}
+                                                                                                {{#equals this.VoucherId ../this.id}}
+                                                                                                        {{!-- {{#equals this.id }} --}}
+                                                                                                        Usage: {{this.usage}} 
+                                                                                                {{/equals}}
+                                                                                            {{/equals}}
+                                                                                        {{/each}}
+                                                                                        <hr>
+                                                                                    {{/each}}
+                                                                                    {{else}}
+                                                                                    <h6>Customer {{this.User.username}} has yet to claim any vouchers</h6>
+                                                                                    {{/if}}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                   
+																
+																</td>
+															</tr>
+														{{/equals}}
+                                                       
+													{{/each}}
+                                                   
                                              </table>
                                         </div>
                                     </section>
+                                    {{#each voucherlist}}
+                                        
+                                    {{/each}}
                                     
                                 </div>  
                             </div>
@@ -275,6 +334,86 @@
 
             <!-- Footer -->
 <style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+
+.top-right{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+.background-info{
+  position:absolute;
+  top: 0;
+  right: 0;
+  height: 180px;
+  width: 498px;
+  z-index: 0;
+  background-image: linear-gradient(to right top, #2a9dda, #3798d8, #4294d5, #4b8fd2, #548ace, #7a87d1, #9c83ce, #b97fc6, #ea7eae, #ff898c, #ffa26b, #eec15a);
+}
+.voucher-info{
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color:white ;
+  height: 200px;
+  width: 300px;
+}
+.card-header-1 img {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 1px ;
+}
+.card-body-1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 125px;
+}
+
+.tag {
+  border-radius: 2px;
+  font-size: 12px;
+  margin: 0;
+  color: red;
+  border-color: red;
+  border: solid 1px;
+  padding: 2px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.tag-2{
+  z-index: 2;
+  background: #cccccc;
+  border-radius: 3px;
+  font-size: 10px;
+  margin: 0;
+  color: white;
+  padding: 6px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.tag-active {
+  background-color: #47d4b5;
+}
+.tag-inactive {
+  background-color: #D22B2B;
+}
+.tag-purple {
+  background-color: #5e76bf;
+}
+.tag-pink {
+  background-color: #cd5b9f;
+}
+
+.card-body p {
+  font-size: 13px;
+  margin: 0 0 40px;
+}
+
     a:link{ color: white; text-decoration: none;}
 
     ::selection{

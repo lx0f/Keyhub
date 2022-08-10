@@ -25,13 +25,20 @@ const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
 const chatbotRouter = require("./routes/Chatbot");
 
+
 // const voucherRouter = require("./routes/voucher");
 
 
 const FAQrouter = require("./routes/staff_FAQs");
+const { sum } = require("./models/product");
+const { OrderItem } = require("./models/order");
 
 //Initialisation of the app
 const app = express();
+
+
+
+
 
 //Setup
 
@@ -47,6 +54,9 @@ app.use(
     })
 );
 
+
+
+
 app.use(cookieParser());
 
 app.use(passport.session());
@@ -57,13 +67,6 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(
-    session({
-        secret: "keyhub",
-        resave: false,
-        saveUninitialized: true,
-    })
-);
 
 
 app.use(
@@ -126,6 +129,24 @@ app.engine(
                 return s
             }
 
+            sum_quantity(array) {
+                var s = 0
+                for (var i = 0; i < array.length; i++) {
+                    s += array[i].quantity
+                }
+                return s
+            },
+            quillDeltaToHtml(delta) {
+                var QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
+
+                var deltaOps = JSON.parse(delta).ops;
+                var cfg = {};
+
+                var converter = new QuillDeltaToHtmlConverter(deltaOps, cfg);
+
+                var html = converter.convert();
+                return html;
+            }
         },
     })
 );
@@ -146,6 +167,7 @@ app.use((req, res, next) => {
     res.locals.authenticated = req.isAuthenticated();
     res.locals.user = req.user;
     res.locals.method = req.body.method;
+    res.locals.image =  "data:image/png;base64, " + require("fs").readFileSync(`public/${req.user?.imageFilePath ?? 'uploads/unknownimage.png'}`, 'base64');
     next();
 });
 

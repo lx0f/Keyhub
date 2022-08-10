@@ -1,0 +1,380 @@
+<!-- ============== SECTION PAGETOP ============== -->
+{{!-- <section class="bg-primary padding-y-sm">
+<div class="container">
+	<ol class="breadcrumb ondark steps">
+        <li class="breadcrumb-item"> <a href="#">1. Home</a>  </li>
+        <li class="breadcrumb-item"> <a href="#">2. Shopping cart</a>  </li>
+        <li class="breadcrumb-item active"> 3. Order info  </li>
+        <li class="breadcrumb-item"> 4. Payment   </li>
+      </ol>
+</div> <!-- container //  -->
+</section> --}}
+<!-- ============== SECTION PAGETOP END// ============== -->
+
+
+
+<!-- ============== SECTION ============== -->
+{{!-- <section class="padding-y bg-light">
+<div class="container">
+
+
+<div class="row">
+	<main class="col-xl-8 col-lg-8">
+
+		<!-- ============== COMPONENT CHECKOUT =============== -->			
+		<article class="card">
+			<div class="content-body">
+
+					<h5 class="card-title"> Shipping info </h5> 
+                    <form action="/order/data" method="POST">
+					<div class="row mb-3">
+						<div class="col-lg-4 mb-3">
+							<div class="box box-check">
+								<label class="form-check">
+									<input class="form-check-input" type="radio" name="dostavka" checked>
+									<b class="border-oncheck"></b>
+									<span class="form-check-label">
+										 Express delivery  <br>
+										<small class="text-muted">3-4 days via Fedex </small>
+									</span>
+								</label>
+							</div>
+						</div> <!-- col end.// -->
+						<div class="col-lg-4 mb-3">
+							<div class="box box-check">
+								<label class="form-check">
+									<input class="form-check-input" type="radio" name="dostavka">
+									<b class="border-oncheck"></b>
+									<span class="form-check-label">
+										Post office <br>
+										<small class="text-muted">20-30 days via post</small>
+									</span>
+								</label>
+							</div>
+						</div> <!-- col end.// -->
+					</div> <!-- row end.// -->
+
+					<div class="row">
+						<div class="col-sm-8 mb-3">
+							<label for="" class="form-label">Address</label>
+							<input type="text" class="form-control"  placeholder="Type here">
+						</div> <!-- col end.// -->
+
+						<div class="col-sm-4 mb-3">
+							<label for="" class="form-label">City*</label>
+							<select class="form-select" id="city*" aria-label="City*">
+								<option value="1">Singapore</option>
+							</select>
+						</div> <!-- col end.// -->
+
+						<div class="col-sm-4 mb-3">
+							<label for="" class="form-label">House</label>
+							<input type="text" class="form-control"  placeholder="Type here">
+						</div> <!-- col end.// -->
+
+						<div class="col-sm-4 col-6 mb-3">
+							<label for="" class="form-label">Postal code</label>
+							<input type="text" class="form-control"  placeholder="">
+						</div> <!-- col end.// -->
+		 
+						<div class="col-sm-4 col-6 mb-3">
+							<label for="" class="form-label">Zip</label>
+							<input type="text" class="form-control"  placeholder="">
+						</div> <!-- col end.// -->
+					</div> <!-- row.// -->
+
+					<label class="form-check mb-4">
+					  <input class="form-check-input" type="checkbox" value="">
+					  <span class="form-check-label"> Save this address </span>
+					</label>
+
+					<div class="mb-4">
+						<label for="" class="form-label">Message to seller</label>
+						<textarea class="form-control"></textarea>	
+					</div> <!-- col end.// -->
+                    <input type="hidden" name="cartId" value="{{cartId}}">
+                    <input type="hidden" name="amount" value="{{amount}}">
+                    <input type="hidden" name="shipping_status" value="0">
+                    <input type="hidden" name="payment_status" value="0">
+					<div class="float-end">
+						<button class="btn btn-light" >Cancel</button>
+						<button class="btn btn-success">Continue</button>
+					</div>
+				</form>	
+			</div> <!-- card-body end.// -->
+		</article> <!-- card end.// -->
+		<!-- ============== COMPONENT CHECKOUT .// =============== -->
+
+	</main> <!-- col.// -->
+	<aside class="col-xl-4 col-lg-4">
+		<!-- ============== COMPONENT SUMMARY =============== -->
+		<article class="ms-lg-4 mt-4 mt-lg-0" style="max-width: 320px">
+				<h6 class="card-title">Summary</h6>
+				
+				<dl class="dlist-align">
+				  <dt>Total price:</dt>
+				  <dd class="text-end"> ${{amount}}</dd>
+				</dl>
+				<dl class="dlist-align">
+				  <dt>Discount:</dt>
+				  <dd class="text-end text-danger"> - $0.00 </dd>
+				</dl>
+				<dl class="dlist-align">
+				  <dt>Shipping cost:</dt>
+				  <dd class="text-end"> + $0.00 </dd>
+				</dl>
+				<hr>
+				<dl class="dlist-align">
+				  <dt> Total: </dt>
+				  <dd class="text-end"> <strong class="text-dark">${{amount}}</strong> </dd>
+				</dl>
+
+				<div class="input-group my-4">
+					<input type="text" class="form-control" name="" placeholder="Promo code">
+					<button class="btn btn-light text-primary">Apply</button>
+				</div>
+
+				<hr>
+				<h6 class="mb-4">Items in cart</h6>
+                {{#each cart.cartProducts}}
+				<figure class="itemside align-items-center mb-4">
+					<div class="aside">
+						<b class="badge bg-secondary rounded-pill">{{this.CartItem.quantity}}</b>
+						<img src="images/items/7.jpg" class="img-sm rounded border">
+					</div>
+					<figcaption class="info">
+						<a href="#" class="title">{{this.name}} <br> {{this.category}}</a>
+						<div class="price text-muted">{{multiply this.price this.CartItem.quantity}}</div> <!-- price .// -->
+					</figcaption>
+				</figure>
+                {{/each}}
+		</article> 
+		<!-- ============== COMPONENT SUMMARY .// =============== -->
+	</aside> <!-- col.// -->
+</div> <!-- row.// -->
+
+<br><br>
+
+</div> <!-- container .//  --> --}}
+</section> 
+
+  <div class="container">
+  <div class="py-5 text-center">
+    
+    <h2>Shipping Form</h2>
+    <p class="lead">Please fill in all your shipping information and confirm all your products are in the cart<br>Thank You !</p>
+  </div>
+<form action="/order/data" method="POST">
+	<input type="hidden" name="cartId" value="{{cartId}}">
+	<input type="hidden" name="amount" value="{{amount}}">
+	<input type="hidden" name="shipping_status" value="0">
+	<input type="hidden" name="payment_status" value="0">
+  <div class="row">
+    <div class="col-md-4 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">Cart</span>
+        <span class="badge badge-secondary badge-pill">1</span>
+      </h4>
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+            <h6 class="my-0">Your products</h6>
+            
+          </div>
+          
+        </li>
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          {{#each cart.cartProducts}}
+				<figure class="itemside align-items-center mb-4">
+					<div class="aside">
+						{{!-- <div class="badge bg-secondary rounded-pill">{{this.CartItem.quantity}}</div> --}}
+						<img src="images/items/7.jpg" class="img-sm rounded border">
+						
+					</div>
+					<figcaption class="info">
+						<a href="#" class="title">{{this.name}} <br> {{this.category}}</a>
+						<div class="price text-muted">${{multiply this.price this.CartItem.quantity}}
+							
+						</div> <!-- price .// -->
+						
+					</figcaption>
+					<br>
+					<strong class="" style="float:right;padding-left:30px;">X {{this.CartItem.quantity}}</strong>
+				</figure>
+            {{/each}}
+			
+        </li>
+		<br>
+		
+			
+			{{!-- <div >Discount: <strong style="padding-left:200px;">- 0.00</strong> </div>
+			<div >Shipping Fee: <strong style="padding-left:200px;">Free</strong> </div>
+			<div >Grand Total: <strong style="padding-left:200px;">${{amount}}</strong> </div> --}}
+			
+			
+			
+		
+			{{!-- <dl class="dlist-align">
+				  <dt>Total price:</dt>
+				  <dd class="text-end"> ${{amount}}</dd>
+				</dl>
+				<dl class="dlist-align">
+				  <dt>Discount:</dt>
+				  <dd class="text-end text-danger"> - $0.00 </dd>
+				</dl>
+				<dl class="dlist-align">
+				  <dt>Shipping cost:</dt>
+				  <dd class="text-end"> + $0.00 </dd>
+				</dl>
+				<hr>
+				<dl class="dlist-align">
+				  <dt> Total: </dt>
+				  <dd class="text-end"> <strong class="text-dark">${{amount}}</strong> </dd>
+				</dl>
+	 --}}
+       
+        
+		
+    </ul>
+	
+	<h4 class="d-flex justify-content-between align-items-center mb-3">
+		<span class="text-muted">Summary</span>
+	</h4>
+	<div class="card">
+		
+		
+		<div class="card-body">
+			Sub-total: <strong style="float:right;">${{totalPrice}}</strong>
+			<br>
+			
+			{{#if discount}}
+			Discount: <strong style="float:right;">- ${{discount}}</strong>
+			{{else}}
+			Discount: <strong style="float:right;">- $0.00</strong>
+			{{/if}}
+			<br>
+			Shipping Fee: <strong style="float:right;">Free</strong>
+			<hr>
+			Grand Total: <strong style="float:right;">${{discount_price}}</strong>
+		</div>
+	</div>
+	<br>
+     
+	  <br>
+	  <button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+    </div>
+    <div class="col-md-8 order-md-1">
+      <h4 class="mb-3">Shipping Info</h4>
+	  <div class="row mb-3">
+		<div class="col-lg-6 mb-3">
+			<div class="box box-check">
+				<label class="form-check">
+					<input class="form-check-input" type="radio" name="dostavka" checked>
+					<b class="border-oncheck"></b>
+					<span class="form-check-label">
+							Express delivery  <br>
+						<small class="text-muted">3-4 days via Fedex </small>
+					</span>
+				</label>
+			</div>
+		</div> <!-- col end.// -->
+		<div class="col-lg-6 mb-3">
+			<div class="box box-check">
+				<label class="form-check">
+					<input class="form-check-input" type="radio" name="dostavka">
+					<b class="border-oncheck"></b>
+					<span class="form-check-label">
+						Post office <br>
+						<small class="text-muted">20-30 days via post</small>
+					</span>
+				</label>
+			</div>
+		</div> <!-- col end.// -->
+	</div>
+      <form class="needs-validation" novalidate>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="firstName">First name</label>
+            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="lastName">Last name</label>
+            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+        </div>
+
+       
+
+        <div class="mb-3">
+          <label for="email">Email <span class="text-muted">(Optional)</span></label>
+          <input type="email" class="form-control" id="email" placeholder="you@example.com">
+          <div class="invalid-feedback">
+            Please enter a valid email address for shipping updates.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="address">Address</label>
+          <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+          <div class="invalid-feedback">
+            Please enter your shipping address.
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 mb-3">
+            <label for="country">Country</label>
+            <select class="custom-select d-block w-100" id="country" required>
+              <option value="">Choose...</option>
+              <option>United States</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid country.
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <label for="state">State</label>
+            <select class="custom-select d-block w-100" id="state" required>
+              <option value="">Choose...</option>
+              <option>California</option>
+            </select>
+            <div class="invalid-feedback">
+              Please provide a valid state.
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="zip">Zip</label>
+            <input type="text" class="form-control" id="zip" placeholder="" required>
+            <div class="invalid-feedback">
+              Zip code required.
+            </div>
+          </div>
+        </div>
+        <hr class="mb-4">
+		<div class="row">
+			<div class="col-7">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="same-address">
+					<label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+				</div>
+			</div>
+			<div class="col-5">
+				<div class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input" id="save-info">
+					<label class="custom-control-label" for="save-info">Save this information for next time</label>
+				</div>
+			</div>
+		</div>
+      </form>
+    </div>
+  </div>
+</form>
+  <br><br><br><br>
+
+ 
+</div>
