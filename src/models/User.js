@@ -27,7 +27,7 @@ User.init(
       type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      unique: true,
+      unique: 'id',
       allowNull: false,
     },
     username: {
@@ -37,7 +37,7 @@ User.init(
     email: {
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: 'email',
     },
     image: {
       type: Sequelize.DataTypes.BLOB,
@@ -48,7 +48,7 @@ User.init(
     password: {
       type: Sequelize.DataTypes.STRING,
       allowNull: true,
-      unique: false,
+      unique: 'password',
       set(value) {
         if (value) {
           this.setDataValue("password", bcrypt.hashSync(value, 10) + "");

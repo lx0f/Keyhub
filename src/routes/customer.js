@@ -13,7 +13,7 @@ const CustomerOrder = require("./order");
 const Policies = require("./policies")
 
 const CustomerVoucher = require("./customer_voucher");
-
+const communityRouter = require("./community")
 const generateRouter = require("./generate")
 
 /*customerRouter.use((req, res, next) => {
@@ -44,7 +44,7 @@ customerRouter.use("/policies",Policies)
 customerRouter.use("/cart", ShoppingCart);
 customerRouter.use("/order", CustomerOrder);
 
-
+customerRouter.use("/community", communityRouter)
 customerRouter.use("/CustomerVoucher", CustomerVoucher);
 
 customerRouter.route("/logout").get((req, res) => {

@@ -56,6 +56,7 @@ staffRouter.use("/data", dataRouter);
 
 
 staffRouter.route("/").get((req, res) => {
+    
     res.render("./staff/staff-charts");
 });
 
