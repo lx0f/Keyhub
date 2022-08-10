@@ -5,7 +5,6 @@ const Ticket = require("../models/Ticket");
 const TicketComment = require("../models/TicketComment");
 const TicketAssignee = require("../models/TicketAssignee");
 const User = require("../models/User");
-
 manageTicketRouter.get("/", async (req, res) => {
     const tickets = await Ticket.findAll();
     return res.render("./staff/ticket/ticket-table", { tickets });
