@@ -23,6 +23,7 @@ const InitaliseGoogleLogin = require("./authentication/passport_google");
 const customerRouter = require("./routes/customer");
 const staffRouter = require("./routes/staff");
 const loginRouter = require("./routes/login");
+const chatbotRouter = require("./routes/Chatbot");
 
 
 // const voucherRouter = require("./routes/voucher");
@@ -96,6 +97,10 @@ app.engine(
                 return arg1 == arg2 ? options.fn(this) : options.inverse(this);
             },
 
+            notequals(arg1, arg2, options) {
+                return !(arg1 == arg2) ? options.fn(this) : options.inverse(this);
+            },
+
             dateFormat(date, option) {
                 return moment(date).format(option);
             },
@@ -114,7 +119,15 @@ app.engine(
             multiply(a, b) {
                 if (typeof a === 'number' && typeof b === 'number') {
                   return a * b
-                }},
+                }
+            },
+            sum_quantity(array) {
+                s = 0
+                for (i = 0; i < array.length; i++) {
+                    s += array[i].quantity
+                }
+                return s
+            }
 
             sum_quantity(array) {
                 var s = 0
@@ -169,7 +182,7 @@ app.use((req, res, next) => {
 app.use("/staff", staffRouter);
 app.use("/", loginRouter);
 app.use("/", customerRouter);
-
+app.use("/chatbot", chatbotRouter);
 
 
 //Export to app.js
