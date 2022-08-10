@@ -5,4 +5,8 @@ communityRouter.route("/").get((req, res) => {
    
 })
 
+communityRouter.route("/chat").get((req, res) => {
+    res.render("./customers/page-community-chat")
+})
+
 module.exports = communityRouter
