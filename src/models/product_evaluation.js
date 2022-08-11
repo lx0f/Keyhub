@@ -1,13 +1,9 @@
 const Sequelize = require('sequelize');
 const sequelize = require('./database_setup');
 
-const Product = require("./product");
-const User = require("./User")
-class Pevaluation extends Sequelize.Model {
-    
-  }
-  
-
+const Product = require('./product');
+const User = require('./User');
+class Pevaluation extends Sequelize.Model {}
 
 Pevaluation.init(
     {

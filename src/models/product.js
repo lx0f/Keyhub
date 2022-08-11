@@ -9,8 +9,7 @@ Product.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: 
-            'id',
+            unique: 'id',
             allowNull: false,
         },
         name: {
@@ -38,7 +37,7 @@ Product.init(
         image: {
             type: Sequelize.DataTypes.STRING,
             allowNull: true,
-            defaultValue: null
+            defaultValue: null,
         },
     },
     {

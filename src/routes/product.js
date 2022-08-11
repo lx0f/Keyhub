@@ -1,4 +1,3 @@
-
 const express = require('express');
 const db = require('../models/database_setup');
 const Product = require('../models/product');
@@ -15,7 +14,6 @@ productRouter.get('/', (req, res) => {
 });
 
 productRouter.post('/', async function (req, res) {
-
     let { name, description, category, stock, price, colour, image } = req.body;
     //const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/uploads/${image}`, 'base64');
     const products = await (
@@ -28,14 +26,12 @@ productRouter.post('/', async function (req, res) {
     if (products.length == 0) {
         productID = 1;
     } else {
-
         //console.log("ID IS HERE",products[products.length-1]["productID"])
         productID = products[products.length - 1]['productID'] + 1;
         //console.log("AFTER",productID)
     }
     flag = true;
     for (let index = 0; index < products.length; index++) {
-
         const usedName = products[index]['name'].toUpperCase();
         console.log(products[index]['colour']);
         const usedColour = products[index]['colour'].toUpperCase();

@@ -9,8 +9,6 @@ class Voucher extends Sequelize.Model {
 }
 
 Voucher.init(
-
-
     {
         id: {
             type: Sequelize.DataTypes.INTEGER,
@@ -99,9 +97,7 @@ Voucher.init(
         createdAt: {
             type: Sequelize.DataTypes.DATE,
             allowNull: false,
-
-        }, 
-    
+        },
     },
     {
         freezeTableName: true,

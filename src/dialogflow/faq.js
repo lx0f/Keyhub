@@ -10,7 +10,7 @@ async function exportFAQDocument(path) {
     }
     var dir = path.split('/');
     dir.pop();
-    dir = dir.join("/");
+    dir = dir.join('/');
     console.log('DIR', dir);
     if (!fs.existsSync(path)) {
         fs.mkdirSync(dir);

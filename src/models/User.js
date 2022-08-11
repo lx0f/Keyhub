@@ -113,7 +113,6 @@ User.init(
         timestamps: true,
         sequelize,
         modelName: 'User',
-
     }
 );
 
