@@ -1,10 +1,10 @@
-const Sequelize = require("sequelize");
-const sequelize = require("./database_setup");
+const Sequelize = require('sequelize');
+const sequelize = require('./database_setup');
 
 class Product extends Sequelize.Model {}
 
 Product.init(
-    {   
+    {
         id: {
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
@@ -39,7 +39,7 @@ Product.init(
         freezeTableName: true,
         timestamps: true,
         sequelize,
-        modelName: "Product",
+        modelName: 'Product',
     }
 );
 

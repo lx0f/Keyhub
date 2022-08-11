@@ -1,7 +1,5 @@
 const dialogflow = require('@google-cloud/dialogflow').v2beta1;
-const {
-    KnowledgeBasesClient,
-    DocumentsClient } = dialogflow;
+const { KnowledgeBasesClient, DocumentsClient } = dialogflow;
 
 async function createKnowledgeBase(projectId, displayName, credentials) {
     // const projectId = 'ID of GCP project associated with your Dialogflow agent';
@@ -12,15 +10,12 @@ async function createKnowledgeBase(projectId, displayName, credentials) {
         displayName: displayName,
     };
     const [existingKnowledgeBases] = await client.listKnowledgeBases({
-        parent: `projects/${projectId}`
+        parent: `projects/${projectId}`,
     });
 
-    if (existingKnowledgeBases.length > 0)
-    {
+    if (existingKnowledgeBases.length > 0) {
         return existingKnowledgeBases[0].name;
-    }
-    else
-    {
+    } else {
         const [result] = await client.createKnowledgeBase({
             parent: formattedParent,
             knowledgeBase: knowledgeBase,
@@ -48,13 +43,12 @@ async function addOrUpdateDocumentToKnowledgeBase(
     // projects/*/knowledgeBases/*
     const client = new DocumentsClient({
         projectId: projectId,
-        credentials: credentials
+        credentials: credentials,
     });
 
     const fs = require('fs');
     const content = fs.readFileSync(documentPath);
-    if (content.byteLength == 0)
-    {
+    if (content.byteLength == 0) {
         return null;
     }
     const request = {
@@ -67,9 +61,10 @@ async function addOrUpdateDocumentToKnowledgeBase(
             mimeType: mimeType,
         },
     };
-    const [result] = await client.listDocuments({ parent: knowledgeBaseFullName });
-    if (result.length > 0)
-    {
+    const [result] = await client.listDocuments({
+        parent: knowledgeBaseFullName,
+    });
+    if (result.length > 0) {
         const name = result[0].name;
         const [operation] = await client.deleteDocument({ name });
         const [response] = await operation.promise();

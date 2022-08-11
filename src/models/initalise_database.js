@@ -1,13 +1,13 @@
-const sequelize = require("./database_setup");
-const User = require("./user");
-const Ticket = require("./ticket");
-const mysql = require("mysql2/promise");
-const superusers = require("../../data/superusers");
-const Permission = require("../models/Permissions")
-const Role = require("../models/Role")
-const CartItem = require("../models/cart")
+const sequelize = require('./database_setup');
+const User = require('./user');
+const Ticket = require('./ticket');
+const mysql = require('mysql2/promise');
+const superusers = require('../../data/superusers');
+const Permission = require('../models/Permissions');
+const Role = require('../models/Role');
+const CartItem = require('../models/cart');
 
-require("dotenv").config();
+require('dotenv').config();
 
 const ensureCreated = async () => {
     // create if not exist
@@ -32,10 +32,10 @@ const initaliseDatabase = async () => {
     await sequelize
         .authenticate()
         .then(async () => {
-            Role.belongsToMany(Permission, {through: "RolePermission"})
+            Role.belongsToMany(Permission, { through: 'RolePermission' });
             await sequelize
                 .sync({ alter: true })
-                .then((e) => console.log("Successfully altered"))
+                .then((e) => console.log('Successfully altered'))
                 .catch((e) => {
                     console.log(e);
                     sequelize.sync({ force: true });
@@ -62,10 +62,10 @@ const initaliseDatabase = async () => {
             });
             // @lx0f - for experimenting
             await Ticket.create({
-                title: "hello this is ticket",
-                description: "this is the super mega ultra description",
-                severity: "high",
-                category: "bug",
+                title: 'hello this is ticket',
+                description: 'this is the super mega ultra description',
+                severity: 'high',
+                category: 'bug',
                 authorID: user.id,
             });
         }

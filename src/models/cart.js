@@ -1,27 +1,27 @@
-const Sequelize = require("sequelize");
-const sequelize = require("./database_setup");
-const Product = require("./product");
-const User = require("./User");
+const Sequelize = require('sequelize');
+const sequelize = require('./database_setup');
+const Product = require('./product');
+const User = require('./User');
 
 class Cart extends Sequelize.Model {}
 
 Cart.init(
     {
-        id:{
+        id: {
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             unique: true,
         },
-        UserId:{
+        UserId: {
             type: Sequelize.DataTypes.INTEGER,
-        }
+        },
     },
     {
         freezeTableName: true,
         timestamps: true,
         sequelize,
-        modelName: "Cart",
+        modelName: 'Cart',
     }
 );
 
@@ -35,7 +35,7 @@ CartItem.init(
             unique: true,
         },
         CartId: {
-            type:Sequelize.DataTypes.INTEGER,
+            type: Sequelize.DataTypes.INTEGER,
         },
         ProductId: {
             type: Sequelize.DataTypes.INTEGER,
@@ -46,46 +46,46 @@ CartItem.init(
         freezeTableName: true,
         timestamps: true,
         sequelize,
-        modelName: "CartItem",
+        modelName: 'CartItem',
     }
 );
 
-
 Product.belongsToMany(Cart, {
     through: {
-      model: CartItem,
-      unique: false
+        model: CartItem,
+        unique: false,
     },
     foreignKey: 'ProductId',
-    as: 'carts'
-  })
+    as: 'carts',
+});
 
 Cart.belongsToMany(Product, {
     through: {
-      model: CartItem,
-      unique: false
+        model: CartItem,
+        unique: false,
     },
     foreignKey: 'CartId',
-    as: 'cartProducts'
-  });
-
-
+    as: 'cartProducts',
+});
 
 // Foreign Keys:
 // CartId
 // ProductId
 
-
 // Cart.belongsToMany(Product, {through: CartItem },
 //     { foreignKey: "userID" },
 //     {as: 'cartProducts'});
-    
 
 // Product.belongsToMany(Cart, { through: CartItem });
 
-Product.belongsToMany(Cart, {
-    through: CartItem,unique: false},
-    {foreignKey: 'ProductId'},
-    {as: 'carts'});
+Product.belongsToMany(
+    Cart,
+    {
+        through: CartItem,
+        unique: false,
+    },
+    { foreignKey: 'ProductId' },
+    { as: 'carts' }
+);
 
 module.exports = { Cart, CartItem };
