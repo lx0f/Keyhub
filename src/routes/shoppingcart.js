@@ -219,143 +219,175 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
     const voucher = await Voucher.findOne({
       where: { voucher_code: code }
     });
-    console.log(voucher);
-    if (!previous_code) {
-      if (voucher) {
-        if (voucher.voucher_type == "Master") {
-          const voucherlist = await CustomerVoucher.findOne({
-            where: { UserID: req.user.id },
-          });
-          if (voucherlist) {
-            const item = await VoucherItem.findOne({
-              where: {
-                VoucherListId: voucherlist.id,
-                VoucherId: voucher.id
-              }
+    if (voucher) {
+      const voucherlist = await CustomerVoucher.findOne({
+      where: { UserID: req.user.id },
+      });
+      const voucheritem = await VoucherItem.findOne({
+        where: { VoucherId:voucher.id ,VoucherListId:voucherlist.id }
+      });
+      if (voucheritem) {
+        if (previous_code) {
+            const old_voucher = await Voucher.findOne({
+              where: { voucher_code: previous_code }
+            });
+            const removevoucher = await ApplyVoucher.findOne({
+              where: { VoucherId: old_voucher.id, UserId: req.user.id }
             })
-            if (item) {
-              ApplyVoucher.create({
-                VoucherId: voucher.id,
-                UserId: req.user.id
-              })
-            }
-            else {
-              req.flash("error", "You have yet to claim " + voucher.voucher_title)
-              return res.redirect('/cart')
-            }
-          } else {
-            req.flash("error", "You have yet to claim " + voucher.voucher_title)
-            return res.redirect('/cart')
-          }
-          
-        }
-        else {
-          const voucherlist = await CustomerVoucher.findOne({
-            where: { UserID: req.user.id },
-          });
-          if (voucherlist) {
-            const item = await VoucherItem.findOne({
-              where: {
-                VoucherListId: voucherlist.id,
-                VoucherId: voucher.id
-              }
-            })
-            if (item) {
-              ApplyVoucher.create({
-                VoucherId: voucher.id,
-                UserId: req.user.id
-              })
-            }
-            else {
-              req.flash("error", "You have yet to redeem " + voucher.voucher_title)
-              return res.redirect('/cart')
-            }
-          } else {
-            req.flash("error", "You have yet to redeem " + voucher.voucher_title)
-            return res.redirect('/cart')
-          }
-        }
-      } else {
-        req.flash("error", "Please use a valid code!")
-        return res.redirect('/cart')
-      }
-      
-      
-    } else {
-      if (voucher) {
-        const old_voucher = await Voucher.findOne({
-        where: { voucher_code: previous_code }
-        });
-        const removevoucher = await ApplyVoucher.findOne({
-          where: { VoucherId: old_voucher.id , UserId: req.user.id }
-        })
-        await removevoucher.destroy()
-        if (voucher.voucher_type == "Master")
-        {
-          const voucherlist = await CustomerVoucher.findOne({
-            where: { UserID: req.user.id },
-          });
-          if (voucherlist) {
-            const item = await VoucherItem.findOne({
-            where: {
-              VoucherListId:voucherlist.id,
-              VoucherId:voucher.id
-            }
-            })
-            if (item) {
-              ApplyVoucher.create({
+            await removevoucher.destroy()
+            ApplyVoucher.create({
               VoucherId: voucher.id,
               UserId: req.user.id
             })
-            }
-            else {
-              req.flash("error", "You have yet to redeem " + voucher.voucher_title )
-              return res.redirect('/cart')
-            }
-          } else {
-            req.flash("error", "You have yet to redeem " + voucher.voucher_title )
-            return res.redirect('/cart')
-          }
-        }
-        else {
-          if (!voucher) {
-            req.flash("error", "Please use a valid code!")
-            return res.redirect('/cart')
-          } else {
-            const voucherlist = await CustomerVoucher.findOne({
-            where: { UserID: req.user.id },
-          });
-          if (voucherlist) {
-            const item = await VoucherItem.findOne({
-              where: {
-                VoucherListId: voucherlist.id,
-                VoucherId: voucher.id
-              }
-            })
-            if (item) {
-              ApplyVoucher.create({
-                VoucherId: voucher.id,
-                UserId: req.user.id
-              })
-            }
-            else {
-              req.flash("error", "You have yet to redeem " + voucher.voucher_title)
-              return res.redirect('/cart')
-            }
-          } else {
-            req.flash("error", "You have yet to redeem " + voucher.voucher_title)
-            return res.redirect('/cart')
-          }
-          }
+        } else {
+          ApplyVoucher.create({
+            VoucherId: voucher.id,
+            UserId: req.user.id
+          })
+          req.flash("success","Voucher Applied!")
         }
       } else {
-        req.flash("error","Please use a valid code!")
-        }
-        
+        req.flash("error","Please use a valid code")
+      }
+    } else {
+      req.flash("error","Please use a valid code")
     }
+    return res.redirect("/cart")
+    
+     
+    // if (voucheritem) {
+    //   if (voucheritem.usage <= 0){
+    //     if (!previous_code) {
+    //       if (voucher) {
+    //         if (voucher.voucher_type == "Master") {
+    //           if (voucherlist) {
+    //             const item = await VoucherItem.findOne({
+    //               where: {
+    //                 VoucherListId: voucherlist.id,
+    //                 VoucherId: voucher.id
+    //               }
+    //             })
+    //             if (item) {
+    //               ApplyVoucher.create({
+    //                 VoucherId: voucher.id,
+    //                 UserId: req.user.id
+    //               })
+    //             }
+    //             else {
+    //               req.flash("error", "You have yet to claim " + voucher.voucher_title)
+    //               return res.redirect('/cart')
+    //             }
+    //           } else {
+    //             req.flash("error", "You have yet to claim " + voucher.voucher_title)
+    //             return res.redirect('/cart')
+    //           }
+              
+    //         }
+    //         else {
+    //           if (voucherlist) {
+    //             const item = await VoucherItem.findOne({
+    //               where: {
+    //                 VoucherListId: voucherlist.id,
+    //                 VoucherId: voucher.id
+    //               }
+    //             })
+    //             if (item) {
+    //               ApplyVoucher.create({
+    //                 VoucherId: voucher.id,
+    //                 UserId: req.user.id
+    //               })
+    //             }
+    //             else {
+    //               req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+    //               return res.redirect('/cart')
+    //             }
+    //           } else {
+    //             req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+    //             return res.redirect('/cart')
+    //           }
+    //         }
+    //       } else {
+    //         req.flash("error", "Please use a valid code!")
+    //         return res.redirect('/cart')
+    //       }
+        
+        
+    //     } else {
+    //       if (voucher) {
+    //         const old_voucher = await Voucher.findOne({
+    //           where: { voucher_code: previous_code }
+    //         });
+    //         const removevoucher = await ApplyVoucher.findOne({
+    //           where: { VoucherId: old_voucher.id, UserId: req.user.id }
+    //         })
+    //         await removevoucher.destroy()
+    //         if (voucher.voucher_type == "Master") {
+    //           if (voucherlist) {
+    //             const item = await VoucherItem.findOne({
+    //               where: {
+    //                 VoucherListId: voucherlist.id,
+    //                 VoucherId: voucher.id
+    //               }
+    //             })
+    //             if (item) {
+    //               ApplyVoucher.create({
+    //                 VoucherId: voucher.id,
+    //                 UserId: req.user.id
+    //               })
+    //             }
+    //             else {
+    //               req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+    //               return res.redirect('/cart')
+    //             }
+    //           } else {
+    //             req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+    //             return res.redirect('/cart')
+    //           }
+    //         }
+    //         else {
+    //           if (!voucher) {
+    //             req.flash("error", "Please use a valid code!")
+    //             return res.redirect('/cart')
+    //           } else {
+    //             if (voucherlist) {
+    //               const item = await VoucherItem.findOne({
+    //                 where: {
+    //                   VoucherListId: voucherlist.id,
+    //                   VoucherId: voucher.id
+    //                 }
+    //               })
+    //               if (item) {
+    //                 ApplyVoucher.create({
+    //                   VoucherId: voucher.id,
+    //                   UserId: req.user.id
+    //                 })
+    //               }
+    //               else {
+    //                 req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+    //                 return res.redirect('/cart')
+    //               }
+    //             } else {
+    //               req.flash("error", "You have yet to redeem " + voucher.voucher_title)
+    //               return res.redirect('/cart')
+    //             }
+    //           }
+    //         }
+    //       } else {
+    //         req.flash("error", "Please use a valid code!")
+    //       }
+            
+    //     }
+    // }
+    // else {
+    //   req.flash("error","Voucher has already been used !")
+    // }
+    // } else {
+    // req.flash("error","Voucher has not been claimed or redeemed !")
+    // }
+    
    
   
-    return res.redirect('/cart')
+    // return res.redirect('/cart')
     
    
   
