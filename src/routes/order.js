@@ -123,24 +123,16 @@ CustomerOrder.post('/data', async (req, res) => {
             payment_status: req.body.payment_status,
         });
         // create orderItem (cartItem -> orderItem)
-        const items = Array.from({ length: cart.cartProducts.length }).map(
-            (_, i) =>
-                OrderItem.create({
-                    OrderId: order.id,
-                    ProductId: cart.cartProducts[i].id,
-                    price: cart.cartProducts[i].price,
-                    quantity: cart.cartProducts[i].CartItem.quantity,
-                })
-        );
-        Promise.all(items);
-        // send mail
-        // const email = req.user.email
-        // const subject = `[TEST] Keyhub Order with Order ID:${order.id} created, Please take time to pay`
-        // const status = 'Unshipped / Unpaid'
-        // const msg = 'Please click the payment link and pay with a test credit card! Thanks for your cooperation!'
-        // sendMail(email, subject, orderMail(order, status, msg))
-        // clear cart & cartItem
-        await cart.destroy();
+        const items = Array.from({ length: cart.cartProducts.length }).map((_, i) => (
+          OrderItem.create({
+            OrderId: order.id,
+            ProductId: cart.cartProducts[i].id,
+            price: cart.cartProducts[i].price,
+            quantity: cart.cartProducts[i].CartItem.quantity
+          })
+        ))
+        Promise.all(items)
+        await cart.destroy()
         // clear cartId in session
         req.session.cartId = '';
         return res.redirect(`/order/payment/${order.id}`);
@@ -150,18 +142,18 @@ CustomerOrder.post('/data', async (req, res) => {
 });
 
 // cancelOrder
-CustomerOrder.get('/cancel/:id', async (req, res) => {
-    try {
-        const order = await Order.findByPk(req.params.id);
-        await order.update({
-            order_status: 'Cancelled',
-        });
-        req.flash('error', `OrderId${order.id} cancelled!`);
-        return res.status(200).redirect('back');
-    } catch (e) {
-        console.log(e);
-    }
-});
+// CustomerOrder.get('/cancel/:id', async (req, res) => {
+//     try {
+//         const order = await Order.findByPk(req.params.id)
+//         await order.update({
+//           order_status: 'Cancelled'
+//         })
+//         req.flash('error', `OrderId${order.id} cancelled!`)
+//         return res.status(200).redirect('back')
+//     } catch (e) {
+//       console.log(e)
+//     }
+// });
 
 CustomerOrder.get('/payment/:id', async (req, res) => {
     try {

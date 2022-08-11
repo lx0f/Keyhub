@@ -146,6 +146,21 @@ ShoppingCart.post('/postcart', async (req, res) => {
     }
 });
 
+// ShoppingCart.get('/', async (req, res) =>{
+//   try {
+//     const cart = await Cart.findOne({
+//       where: { UserId: req.user.id },
+//       include: "cartProducts"
+//     })
+    
+//     const cartcount = cart.cartProducts.length
+//     res.render('./customers/page-shopping-cart',{cartcount})
+    
+//   }catch (e) {
+//     console.log(e)
+//   }
+// });
+
 // Add Cart Item
 ShoppingCart.post('/:productId/add', async (req, res) => {
     try {

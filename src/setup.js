@@ -33,8 +33,10 @@ const chatbotRouter = require('./routes/Chatbot');
 
 const FAQrouter = require('./routes/staff_FAQs');
 const { sum } = require('./models/product');
-const { OrderItem } = require('./models/order');
+const { OrderItem, Order } = require('./models/order');
 const { isObject } = require('util');
+const { Cart, CartItem } = require("./models/cart");
+const { sign } = require("crypto");
 
 //Initialisation of the app
 const app = express();
@@ -135,6 +137,13 @@ app.engine(
                 var html = converter.convert();
                 return html;
             },
+            convert(num){
+                num = num / 5 * 100
+                return num
+            },
+            percentage(a,b){
+                return a / b * 100
+            }
         },
     })
 );
@@ -147,14 +156,31 @@ initalisePassportLocal();
 initalisePassportAnonymous();
 InitaliseGoogleLogin();
 
+async function getUserCartCount(UserId) {
+    const cart = await Cart.findOne({ where: { UserId } });
+    if (cart){
+        const cartItems = await CartItem.findAll({ where: { CartId: cart.id } });
+        var count = 0;
+        cartItems.forEach(item => count += item.quantity)
+    }
+    else{
+        count = 0
+    }
+    return count;
+}
+
 //Global variables (middleware)
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     res.locals.error = req.flash('error');
     res.locals.info = req.flash('info');
     res.locals.success = req.flash('success');
     res.locals.authenticated = req.isAuthenticated();
     res.locals.user = req.user;
     res.locals.method = req.body.method;
+    res.locals.cartcount = req.isAuthenticated() 
+        ? await getUserCartCount(req.user.id)
+        : 0;
+    
     res.locals.image =
         'data:image/png;base64, ' +
         require('fs').readFileSync(
