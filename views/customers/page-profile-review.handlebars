@@ -1,0 +1,81 @@
+<!-- ========================= SECTION PAGETOP ========================= -->
+<section class="section-pagetop bg">
+<div class="container">
+	<h2 class="title-page">My Order History</h2>
+</div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION INTRO END// ========================= -->
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+<div class="container">
+
+<div class="row">
+	<aside class="col-md-3">
+		<ul class="list-group">
+			<a class="list-group-item" href="/account"> Account overview  </a>
+			<a class="list-group-item" href="/account/orderhistroy"> My Orders </a>
+			<a class="list-group-item" href="#"> Return and refunds </a>
+            <a class="list-group-item active" href=""> My Comments </a>
+		</ul>
+	</aside> <!-- col.// -->
+	<main class="col-md-9">
+        <h5 class="card-title"> Your Reviews </h5> 
+        <!-- =================== COMPONENT REVIEW ====================== -->
+        <div class="row" style="margin:auto;">
+            <aside class="col-lg-9">
+                <div class="card mb-4" style="height:605px ;">
+                    <div class="card-body">
+                        <div class="scroll" style="overflow-y:auto;height:450px;">
+                            {{#each reviews}}
+                            <blockquote class="border-bottom">
+                                <div class="icontext">
+                                    {{!-- <img src="/uploads/myImage-1660035606378.jpg" class="img-xs icon rounded-circle"> --}}
+                                    <img src="/{{this.User.imageFilePath}}" class="img-xs icon rounded-circle">
+                                    <div class="text">
+                                        <h6 class="mb-0"> {{this.User.username}} </h6>
+                                        <div class="rating-wrap">
+                                            <ul class="rating-stars">
+                                                <li style="width:{{convert this.ProductRating}}%" class="stars-active">
+                                                    <img src="/images/misc/stars-active.svg" alt="">
+                                                </li>
+                                                <li> <img src="/images/misc/starts-disable.svg" alt=""> </li>
+                                            </ul>
+                                            <b class="dot"></b>
+                                            <small class="label-rating text-muted"> Commented on  {{dateFormat this.createdAt 'DD MMM YYYY'}}</small>
+                                        </div>
+                                    </div>
+                                </div> <!-- icontext.// -->
+                                <div class="mt-3">
+                                    <p>
+                                        {{this.ProductRemarks}}
+                                    </p>
+                                </div>
+                            </blockquote>
+                            <br>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+	</main> <!-- col.// -->
+</div>
+
+</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+<!-- ========================= FOOTER ========================= -->
+<footer class="section-footer border-top padding-y">
+	<div class="container">
+		<p class="float-md-right"> 
+			&copy Copyright 2019 All rights reserved
+		</p>
+		<p>
+			<a href="#">Terms and conditions</a>
+		</p>
+	</div><!-- //container -->
+</footer>
+<!-- ========================= FOOTER END // ========================= -->
