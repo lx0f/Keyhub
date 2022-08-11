@@ -178,6 +178,8 @@ app.use("/", loginRouter);
 app.use("/", customerRouter);
 app.use("/chatbot", chatbotRouter);
 
+const dialogflowSync = require('./dialogflow/setup')
+dialogflowSync();
 
 //Export to app.js
 module.exports = app;
