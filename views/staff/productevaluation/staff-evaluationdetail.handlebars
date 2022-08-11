@@ -24,35 +24,66 @@
 				<div class="scroll" style="overflow-y:scroll;height:450px; overflow-x: hidden;">
 					{{#each review}}
 					<blockquote class="border-bottom">
-						
 							<div class="row">
 								<div class="col-1 d-flex justify-content-center " >
 									<img src="/{{this.User.imageFilePath}}" class="img-xs icon rounded-circle" style="width:50px ;height:50px;">
 								</div>
 								<div class="col-11">
-									
-										
 										<div class="rating-wrap" >
 											<div class="rating-stars" style="list-style: none;">
 												<div><h6 class="mb-0"> {{this.User.username}} </h6></div>
 												<div style="width:{{convert this.ProductRating}}%" class="stars-active">
-													<img src="/images/misc/stars-active.svg" alt="" style="z-index:2;"> <small class="label-rating text-muted" style="padding-left:10px;"> Purchased on  {{dateFormat this.createdAt 'DD MMM YYYY'}}</small>
-												</div>
+													<img src="/images/misc/stars-active.svg" alt="" style="z-index:2;"> <small class="label-rating text-muted" style="padding-left:10px;"> Commented on  {{dateFormat this.createdAt 'DD MMM YYYY'}}</small>
+                                                    <div style="padding-right:30px ;">
+                                                        <form action="/staff/manage-pe/deleteproductevaluation/{{this.id}}" method="get">
+                                                            <button class="btn btn-light btn-sm float-right " title="Delete" type = "button" data-toggle="modal" data-target="#deleteModal_{{this.id}}"> <i class="fa fa-trash"></i> </button>
+                                                             <!-- The Modal -->
+                                                            <div class="modal" id="deleteModal_{{ this.id }}">
+                                                                <div class="modal-dialog" >
+                                                                    <div class="modal-content">
+                                        
+                                                                        <!-- Modal Header -->
+                                                                        <div class="modal-header">
+                                                                        <h4 class="modal-title">Confirmation</h4>
+                                                                        <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                                                        </div>
+                                        
+                                                                        <!-- Modal body -->
+                                                                        <div class="modal-body">
+                                                                            Are you sure you want to approve Review ID {{this.Order.id}}?
+                                                                        </div>
+                                        
+                                                                        <!-- Modal footer -->
+                                                                        <div class="modal-footer">
+                                                                        <input type="submit" value="Delete" class="btn btn-danger">
+                                                                        
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                
+
+                                                <br>
+                                                <div class="image-container">
+                                                    <img src="/{{this.imageFilePath1}}" alt="uploaded image" style="width: 100px; height: 100px">
+
+                                                </div>
+                                                <br>
 												<p>
 													{{this.ProductRemarks}}
-													
 												</p>
 												
 												{{!-- <li> <img src="/images/misc/starts-disable.svg" alt=""  style="z-index:1;"> </li> --}}
-											</div>
-											
-											
+											</div>	
 										</div>
-									
 								</div>
 							
 							{{!-- <img src="/uploads/myImage-1660035606378.jpg" class="img-xs icon rounded-circle"> --}}
-						</div> <!-- icontext.// -->
+						    </div> <!-- icontext.// -->
 						
 					</blockquote>
 					<br>
@@ -97,7 +128,7 @@
 					
 					<table class="table table-borderless table-sm">
 						<tr valign="middle">
-							<td width="50"> 5 <i class="fa-solid fa-star"></i></td>
+							<td width="60"> 5 star</i></td>
 							<td style="vertical-align:middle ;"> 
 								<div class="progress" style="height: 10px;" >
 								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count5 count}}%;" aria-valuenow="25" aria-valuemax="100" ></div>
@@ -106,7 +137,7 @@
 							<td width="60"> {{percentage count5 count}} % </td>
 						</tr>
 						<tr valign="middle">
-							<td> 4 <i class="fa-solid fa-star"></i> </td>
+							<td> 4 star</i> </td>
 							<td style="vertical-align:middle ;"> 
 								<div class="progress" style="height: 10px;">
 								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count4 count}}%;" aria-valuenow="80" aria-valuemax="100"></div>
@@ -115,7 +146,7 @@
 							<td> {{percentage count4 count}} % </td>
 						</tr>
 						<tr valign="middle">
-							<td> 3 <i class="fa-solid fa-star"></i></td>
+							<td> 3 star</i></td>
 							<td style="vertical-align:middle ;"> 
 								<div class="progress" style="height: 10px;">
 								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count3 count}} %;" aria-valuenow="35" aria-valuemax="100"></div>
@@ -124,7 +155,7 @@
 							<td> {{percentage count3 count}} % </td>
 						</tr>
 						<tr valign="middle">
-							<td> 2 <i class="fa-solid fa-star"></i> </td>
+							<td> 2 star</i> </td>
 							<td style="vertical-align:middle ;"> 
 								<div class="progress" style="height: 10px;">
 								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count2 count}}%;" aria-valuenow="13" aria-valuemax="100"></div>
@@ -133,7 +164,7 @@
 							<td> {{percentage count2 count}} % </td>
 						</tr>
 						<tr valign="middle">
-							<td> 1 <i class="fa-solid fa-star"></i> </td>
+							<td> 1 star</i> </td>
 							<td style="vertical-align:middle ;"> 
 								<div class="progress" style="height: 10px;">
 								<div class="progress-bar bg-warning" role="progressbar" style="width:{{percentage count1 count}}%;" aria-valuenow="5" aria-valuemax="100"></div>
