@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
-const sequelize = require("./database_setup");
-const Ticket = require("./Ticket");
-const User = require("./User");
+const Sequelize = require('sequelize');
+const sequelize = require('./database_setup');
+const Ticket = require('./Ticket');
+const User = require('./User');
 
 class TicketComment extends Sequelize.Model {}
 
@@ -21,7 +21,7 @@ TicketComment.init(
         meta: {
             type: Sequelize.DataTypes.STRING,
             allowNull: true,
-            validate: { isIn: [["open", "closed"]] },
+            validate: { isIn: [['open', 'closed']] },
         },
         updatedAt: {
             type: Sequelize.DataTypes.DATE,
@@ -38,14 +38,14 @@ TicketComment.init(
         createdAt: true,
         updatedAt: true,
         sequelize,
-        modelName: "TicketComment",
+        modelName: 'TicketComment',
     }
 );
 
-TicketComment.belongsTo(User, { foreignKey: "authorID" });
-User.hasMany(Ticket, { foreignKey: "authorID" });
+TicketComment.belongsTo(User, { foreignKey: 'authorID' });
+User.hasMany(Ticket, { foreignKey: 'authorID' });
 
-TicketComment.belongsTo(Ticket, { foreignKey: "ticketID" });
-Ticket.hasMany(TicketComment, { foreignKey: "ticketID" });
+TicketComment.belongsTo(Ticket, { foreignKey: 'ticketID' });
+Ticket.hasMany(TicketComment, { foreignKey: 'ticketID' });
 
 module.exports = TicketComment;

@@ -1,47 +1,41 @@
-const Sequelize = require("sequelize");
-const sequelize = require("./database_setup");
-const Voucher = require("./Voucher");
-const User = require("./User");
-
+const Sequelize = require('sequelize');
+const sequelize = require('./database_setup');
+const Voucher = require('./Voucher');
+const User = require('./User');
 
 class ApplyVoucher extends Sequelize.Model {}
 
 ApplyVoucher.init(
     {
-        id:{
+        id: {
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             unique: 'id',
         },
-        VoucherId:{
+        VoucherId: {
             type: Sequelize.DataTypes.INTEGER,
         },
         UserId: {
             type: Sequelize.DataTypes.STRING,
-        }
+        },
     },
     {
         freezeTableName: true,
         timestamps: true,
         sequelize,
-        modelName: "ApplyVoucher",
+        modelName: 'ApplyVoucher',
     }
 );
 
-
-
-
 ApplyVoucher.belongsTo(Voucher, {
-   
     foreignKey: 'VoucherId',
-    as:"voucher"
-   
-  })
+    as: 'voucher',
+});
 
 Voucher.hasMany(ApplyVoucher, {
     foreignKey: 'ApplyVoucherId',
-    as: 'applyvoucher'
+    as: 'applyvoucher',
 });
-  
+
 module.exports = ApplyVoucher;
