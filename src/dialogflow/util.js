@@ -25,8 +25,6 @@ async function createKnowledgeBase(projectId, displayName, credentials) {
             parent: formattedParent,
             knowledgeBase: knowledgeBase,
         });
-        console.log(`Name: ${result.name}`);
-        console.log(`displayName: ${result.displayName}`);
         return result.name;
     }
 }
@@ -79,13 +77,6 @@ async function addOrUpdateDocumentToKnowledgeBase(
 
     const [operation] = await client.createDocument(request);
     const [response] = await operation.promise();
-
-    console.log('Document created');
-    console.log(`Content URI...${response.contentUri}`);
-    console.log(`displayName...${response.displayName}`);
-    console.log(`mimeType...${response.mimeType}`);
-    console.log(`name...${response.name}`);
-    console.log(`source...${response.source}`);
 }
 
 module.exports = {
