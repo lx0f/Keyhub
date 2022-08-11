@@ -8,6 +8,7 @@ const {Payment} = require("../models/order")
 const { Cart } = require("../models/cart")
 const ApplyVoucher = require("../models/ApplyVoucher");
 const Voucher = require("../models/Voucher");
+const { CustomerVoucher, VoucherItem } = require("../models/CustomerVoucher");
 const LoyaltyCard = require("../models/LoyaltyCard");
 const moment = require('moment')
 
@@ -138,6 +139,15 @@ CustomerOrder.post('/data', async (req, res) => {
             await User_Card.update({
               Active_Points:New_Points,Total_Points:Total_New_Points
             }) 
+        }
+        const applyvoucher = await ApplyVoucher.findOne({ where: { UserId: req.user.id } });
+        const voucheritem = await VoucherItem.findOne({
+            where: { VoucherId:applyvoucher.VoucherId }
+        });
+        if (applyvoucher)
+        {
+          await voucheritem.update({ usage: voucheritem.usage + 1 })
+          await applyvoucher.destroy()
         }
         
         // create orderItem (cartItem -> orderItem)

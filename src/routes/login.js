@@ -3,6 +3,7 @@ const db = require("../models/database_setup");
 const User = require("../models/User");
 const passport = require("passport");
 const { Mail, transporter } = require("../configuration/nodemailer");
+const { CustomerVoucher } = require("../models/CustomerVoucher");
 const loginRouter = express.Router();
 var handlebars = require("handlebars");
 const { callbackPromise } = require("nodemailer/lib/shared");
@@ -42,6 +43,12 @@ loginRouter
                 password: req.body.password,
                 isStaff: false,
             });
+            const Find_User = await User.findOne({ where: { email: req.body.email } })
+            await CustomerVoucher.findOrCreate({
+            where: {
+              UserID: Find_User.id || 0
+            }
+         })
             req.flash("success", "Successfully registered!");
             return res.redirect("/login");
         } catch (e) {
