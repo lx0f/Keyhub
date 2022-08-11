@@ -16,6 +16,9 @@ Order.init(
         UserId: {
             type: Sequelize.DataTypes.INTEGER
         },
+        subtotal: {
+            type: Sequelize.DataTypes.INTEGER
+        },
         amount: {
             type: Sequelize.DataTypes.INTEGER
         },
