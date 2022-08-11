@@ -11,7 +11,7 @@ Order.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         UserId: {
             type: Sequelize.DataTypes.INTEGER
@@ -44,7 +44,7 @@ OrderItem.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         OrderId: {
             type: Sequelize.DataTypes.INTEGER
@@ -75,7 +75,7 @@ Payment.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         OrderId: {
             type: Sequelize.DataTypes.INTEGER

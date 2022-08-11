@@ -17,7 +17,7 @@ Voucher.init(
       type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      unique: true,
+      unique: 'id',
       allowNull: false,
     },
     voucher_title: {
@@ -28,7 +28,7 @@ Voucher.init(
     voucher_code: {
       type: Sequelize.DataTypes.STRING,
       allowNull: true,
-      unique: true,
+      unique: 'voucher_code',
     },
     voucher_name: {
       type: Sequelize.DataTypes.STRING,

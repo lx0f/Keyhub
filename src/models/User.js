@@ -106,6 +106,10 @@ User.init(
       allowNull: true,
       defaultValue: null
 
+    },
+    currentRoom: {
+      type: Sequelize.DataTypes.STRING,
+      defaultValue: ""
     }
 
   },

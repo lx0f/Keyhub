@@ -12,7 +12,7 @@ CustomerVoucher.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         UserID:{
             type: Sequelize.DataTypes.INTEGER,
@@ -33,7 +33,7 @@ VoucherItem.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         VoucherListId: {
             type:Sequelize.DataTypes.INTEGER,

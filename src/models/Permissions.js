@@ -10,7 +10,7 @@ Permission.init(
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
             allowNull: false,
-            unique: true,
+            unique: 'id',
         },
 
         name: {

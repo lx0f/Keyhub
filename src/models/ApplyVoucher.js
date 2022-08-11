@@ -12,7 +12,7 @@ ApplyVoucher.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         VoucherId:{
             type: Sequelize.DataTypes.INTEGER,
