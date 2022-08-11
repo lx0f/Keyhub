@@ -1,4 +1,5 @@
 const express = require("express")
+const { NONE } = require("sequelize")
 const productRouter = express.Router()
 const product = require("../models/product")
 
@@ -40,7 +41,13 @@ productRouter.post("/search",async function(req,res){
 productRouter.route('/general').get(async(req,res)=>{
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = products
-    const items = await display.length
+    var items = await display.length
+    if (items==1){
+        items = items.toString() + " product"
+    }
+    else{
+        items = items.toString() + " products"
+    }
     const search = null
     //var image
     return res.render("./customers/page-listing-grid",{display,items,search});
@@ -50,12 +57,18 @@ productRouter.get('/pre', async(req,res)=>{
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = []
     for (let index = 0; index < products.length; index++) {
-        if (products[index]["category"]=="pre"){
+        if (products[index]["category"]=="Pre-Built Keyboard"){
             display.push(products[index])
         }
         
     }
-    const items = await display.length
+    var items = await display.length
+    if (items==1){
+        items = items.toString() + " product"
+    }
+    else{
+        items = items.toString() + " products"
+    }
     res.render("./customers/page-listing-grid",{display,items});
 })
 
@@ -63,12 +76,18 @@ productRouter.get('/bare', async(req,res)=>{
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = []
     for (let index = 0; index < products.length; index++) {
-        if (products[index]["category"]=="barebones"){
+        if (products[index]["category"]=="Barebones Kit"){
             display.push(products[index])
         }
         
     }
-    const items = await display.length
+    var items = await display.length
+    if (items==1){
+        items = items.toString() + " product"
+    }
+    else{
+        items = items.toString() + " products"
+    }
     res.render("./customers/page-listing-grid",{display,items});
 })
 
@@ -76,12 +95,18 @@ productRouter.get('/switches', async(req,res)=>{
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = []
     for (let index = 0; index < products.length; index++) {
-        if (products[index]["category"]=="switch"){
+        if (products[index]["category"]=="Switches"){
             display.push(products[index])
         }
         
     }
-    const items = await display.length
+    var items = await display.length
+    if (items==1){
+        items = items.toString() + " product"
+    }
+    else{
+        items = items.toString() + " products"
+    }
     res.render("./customers/page-listing-grid",{display,items});
 })
 
@@ -89,12 +114,18 @@ productRouter.get('/keycaps', async(req,res)=>{
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = []
     for (let index = 0; index < products.length; index++) {
-        if (products[index]["category"]=="keycaps"){
+        if (products[index]["category"]=="Keycap"){
             display.push(products[index])
         }
         
     }
-    const items = await display.length
+    var items = await display.length
+    if (items==1){
+        items = items.toString() + " product"
+    }
+    else{
+        items = items.toString() + " products"
+    }
     res.render("./customers/page-listing-grid",{display,items});
 })
 
@@ -102,12 +133,18 @@ productRouter.get('/others', async(req,res)=>{
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = []
     for (let index = 0; index < products.length; index++) {
-        if (products[index]["category"]=="others"){
+        if (products[index]["category"]=="Accessories"){
             display.push(products[index])
         }
         
     }
-    const items = await display.length
+    var items = await display.length
+    if (items==1){
+        items = items.toString() + " product"
+    }
+    else{
+        items = items.toString() + " products"
+    }
     res.render("./customers/page-listing-grid",{display,items});
 })
 

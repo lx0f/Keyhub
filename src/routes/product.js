@@ -32,7 +32,7 @@ productRouter.post('/', async function (req, res) {
         const usedName = products[index]["name"].toUpperCase()
         console.log(products[index]["colour"])
         const usedColour = products[index]["colour"].toUpperCase()
-        if (products[index]["category"]=="pre" || products[index]["category"]=="barebones") {
+        if (products[index]["category"]=="Pre-Built Keyboard" || products[index]["category"]=="Barebones Kit") {
             
         
             if (usedName==name.toUpperCase() && usedColour==colour.toUpperCase()){
