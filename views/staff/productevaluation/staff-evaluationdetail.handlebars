@@ -5,9 +5,9 @@
 
 <!-- =================== COMPONENT REVIEW ====================== -->
 <div class="row" style="margin:auto;">
-	<aside class="col-lg-9">
-		<div class="card mb-4" style="height:530px ;">
-			<div class="card-body">
+	<aside class="col-lg-9 " >
+		<div class="card mb-4" style="height:605px ;">
+			<div class="card-body" style="width: 100%;">
 				<div class="row">
 					<div class="col-10">
 						<h4 class="card-title">Reviews  </h4>
@@ -21,7 +21,7 @@
 				<hr>
 				<br>
 				
-				<div class="scroll" style="overflow-y:auto;height:450px;">
+				<div class="scroll" style="overflow-y:scroll;height:450px; overflow-x: hidden;">
 					{{#each review}}
 					<blockquote class="border-bottom">
 						
@@ -36,11 +36,11 @@
 											<div class="rating-stars" style="list-style: none;">
 												<div><h6 class="mb-0"> {{this.User.username}} </h6></div>
 												<div style="width:{{convert this.ProductRating}}%" class="stars-active">
-													<img src="/images/misc/stars-active.svg" alt="" style="z-index:2;">
+													<img src="/images/misc/stars-active.svg" alt="" style="z-index:2;"> <small class="label-rating text-muted" style="padding-left:10px;"> Purchased on  {{dateFormat this.createdAt 'DD MMM YYYY'}}</small>
 												</div>
 												<p>
 													{{this.ProductRemarks}}
-													<small class="label-rating text-muted" style="float:right;"> Purchased on  {{dateFormat this.createdAt 'DD MMM YYYY'}}</small>
+													
 												</p>
 												
 												{{!-- <li> <img src="/images/misc/starts-disable.svg" alt=""  style="z-index:1;"> </li> --}}
@@ -63,7 +63,7 @@
 	</aside>
 	
 		<aside class="col-lg-3" >
-			<article class="card" style="width:100%;height:530px;">
+			<article class="card" style="width:100%;height:605px;">
 				<div class="card-body">
 					
 					{{!-- <div class="total-rating">
@@ -158,9 +158,9 @@
 	/* width of the entire scrollbar */
 	}
 	.scroll::-webkit-scrollbar-thumb {
-  background-color: #F3F3F3;    /* color of the scroll thumb */
-  border-radius: 20px;  
-  height:40px;     /* roundness of the scroll thumb */
-   /* creates padding around scroll thumb */
-}
+	background-color: #F3F3F3;    /* color of the scroll thumb */
+	border-radius: 20px;  
+	height:40px;     /* roundness of the scroll thumb */
+	/* creates padding around scroll thumb */
+	}
 </style>
