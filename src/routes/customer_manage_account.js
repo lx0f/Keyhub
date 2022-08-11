@@ -78,6 +78,9 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
     return res.render('./customers/orders/page-profile-orders', { orders });
 });
 
+
+// Have to consider the delivery status of the order see if cancel !!!
+
 customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
     const order = await Order.findOne({
         include: [
@@ -89,7 +92,6 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
             },{
                 model: Cancelrequest
             }
-            
         ],
         where: { Id: req.params.id }
     });
@@ -98,7 +100,6 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
             OrderId: order.id
         }
     })
-    console.log(cancelrequest)
     if (cancelrequest.length > 0){
         req.flash("info","Your cancel request is in the progress, please check your email for new updates")
         res.redirect("/account/orderhistory")

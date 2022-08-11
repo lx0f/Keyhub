@@ -46,6 +46,7 @@ OrderManagement.get('/', async (req, res) => {
 });
 
 // Approved cancel request
+// Have to consider the delivery status of the order see if cancel
 OrderManagement.get('/cancelorder/:id', async function (req, res) {
     try {
         let request = await Cancelrequest.findOne({
@@ -63,6 +64,8 @@ OrderManagement.get('/cancelorder/:id', async function (req, res) {
         }
         else{
             let result = await Cancelrequest.update({status: "Approved"},{ where: { id: request.id } });
+            let o =  await Order.update({order_status: "Cancelled"},{where : {id: req.params.id }});
+
             req.flash("success", "Order Cancellation " + " is Approved!");
             res.redirect('/staff/manage-orders/cancelrequests');
         }
@@ -93,7 +96,6 @@ OrderManagement.get('/rejectcancelorder/:id', async function (req, res) {
             let result = await Cancelrequest.update({status: "Rejected"},{ where: { id: request.id } });
             req.flash("success", "Order Cancellation " + " is Rejected!");
             res.redirect('/staff/manage-orders/cancelrequests');
-            
         }
     }
     catch (err) {
