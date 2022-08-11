@@ -1,6 +1,8 @@
 const express = require("express");
 const chatbotRouter = express.Router();
 const Ticket = require('../models/Ticket');
+const serviceAccount = require("../../keyhub-dialogflow-service-account.json");
+const { SessionsClient } = require("@google-cloud/dialogflow").v2beta1;
 
 async function createTicket(req, queryResult) {
     const { title, description, severity, category } = queryResult.parameters.fields;
@@ -20,8 +22,6 @@ chatbotRouter.get("/test", async (req, res) => {
 
 // user must be logged in to interact with the chatbot
 chatbotRouter.get("/:query", async (req, res) => {
-    const serviceAccount = require("../../keyhub-dialogflow-service-account.json");
-    const { SessionsClient } = require("@google-cloud/dialogflow");
     const projectId = "keyhub-357302";
     const sessionId = req.sessionID;
     const sessionClient = new SessionsClient({ credentials: serviceAccount });

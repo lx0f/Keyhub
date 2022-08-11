@@ -11,6 +11,7 @@ async function dialogflowSync() {
 
     // FAQ
     let documentPath = `${__dirname}/docs/FAQ.csv`;
+    console.log('PATH', documentPath);
     await exportFAQDocument(documentPath);
     await syncFAQDialogflow(
         projectId,

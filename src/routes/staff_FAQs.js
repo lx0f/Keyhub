@@ -2,9 +2,9 @@ const express = require("express");
 const db = require("../models/database_setup")
 const FAQs = require("../models/FAQs")
 const FAQrouter = express.Router()
-
+const dialogflowSync = require('../dialogflow/setup');
 FAQrouter.get('/', (req, res) => {
-    res.render('./staff/faqs/staff-manage-faqs'); 
+    res.render('./staff/faqs/staff-manage-faqs');
 });
 
 FAQrouter.post('/', async function (req, res) {
@@ -13,7 +13,7 @@ FAQrouter.post('/', async function (req, res) {
     FAQs.create({
         Category,Question,Answer
     })
-
+    await dialogflowSync();
     req.flash("success","FAQ has been successfully created")
     res.redirect("/staff/manage-faqs/faqs")
     });
@@ -54,12 +54,13 @@ FAQrouter.get('/updatefaqs/:id', (req,res) =>{
 //     res.redirect("/staff/manage-faqs/faqs");
 //   });
 
-FAQrouter.post('/updatefaqs/:id', (req,res)=>{
+FAQrouter.post('/updatefaqs/:id', async (req,res)=>{
     let Question = req.body.Question;
     let Answer = req.body.Answer;
     FAQs.update(
         {Question,Answer},{ where: {id:req.params.id}}
     )
+    await dialogflowSync();
     req.flash("success", "FAQ updated!");
     res.redirect("/staff/manage-faqs/faqs");
 })
@@ -73,6 +74,7 @@ FAQrouter.get('/deletefaqs/:id', async function (req, res) {
             return;
         }
         let result = await FAQs.destroy({ where: { id: faqs.id } });
+        await dialogflowSync();
         req.flash("success", "FAQ" + result + " is deleted!");
         res.redirect('/staff/manage-faqs/faqs');
     }
