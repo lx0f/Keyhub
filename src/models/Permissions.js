@@ -16,7 +16,7 @@ Permission.init(
         name: {
             type: Sequelize.DataTypes.STRING,
             allowNull: false,
-            unique: true,
+            unique: 'name',
         },
         route: {
             type: Sequelize.DataTypes.STRING,
