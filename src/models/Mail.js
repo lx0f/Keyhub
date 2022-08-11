@@ -51,7 +51,9 @@ Mail.init(
       type: Sequelize.DataTypes.DATE,
       allowNull: false,
 
-    },   {
+    },
+  },
+    {
         freezeTableName: true,
         timestamps: true,
         sequelize,
