@@ -32,8 +32,13 @@ Product.init(
         price: {
             type: Sequelize.DataTypes.INTEGER,
         },
+        colour: {
+            type: Sequelize.DataTypes.STRING,
+        },
         image: {
-            type: Sequelize.DataTypes.BLOB,
+            type: Sequelize.DataTypes.STRING,
+            allowNull: true,
+            defaultValue: null
         },
     },
     {

@@ -4,7 +4,7 @@ const Product = require("../models/product");
 const Products = require("../models/product");
 const productRouter = express.Router()
 const product = require("../models/product")
-
+const fs = require('fs');
 
 //const productIDtest = 0
 productRouter.get('/', (req, res) => {
@@ -13,9 +13,9 @@ productRouter.get('/', (req, res) => {
 });
 
 productRouter.post('/', async function (req, res) {
-    let { name,description,category,stock,price,image } = req.body;
-    
-    const products =  await (await product.findAll({attributes: ["name","id"]})).map((x)=>x.dataValues)
+    let { name,description,category,stock,price,colour,image } = req.body;
+    //const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/uploads/${image}`, 'base64');
+    const products =  await (await product.findAll({attributes: ["name","id","colour","category"]})).map((x)=>x.dataValues)
     productID = 1
     
     
@@ -30,15 +30,24 @@ productRouter.post('/', async function (req, res) {
     flag = true
     for (let index = 0; index < products.length; index++) {
         const usedName = products[index]["name"].toUpperCase()
-        
-        if (usedName.toUpperCase()==name.toUpperCase()){
-            flag = false
+        console.log(products[index]["colour"])
+        const usedColour = products[index]["colour"].toUpperCase()
+        if (products[index]["category"]=="Pre-Built Keyboard" || products[index]["category"]=="Barebones Kit") {
             
+        
+            if (usedName==name.toUpperCase() && usedColour==colour.toUpperCase()){
+                flag = false
+                
+            }
+        }
+        else if (usedName==name.toUpperCase()) {
+            flag = false
         }
     }
     if (flag) {
+        console.log(image)
         product.create({
-            productID,name,description,category,stock,price,image
+            productID,name,description,category,stock,price,colour,image
             //list of attributes
         })
         req.flash("success",name," has been successfully added!")
@@ -76,7 +85,7 @@ productRouter.post('/updateRoute',async function(req,res){
 });
 
 productRouter.post('/update',async function(req,res){
-    let { id,name,description,category,stock,price } = req.body;
+    let { id,name,description,category,stock,price,colour,image } = req.body;
     console.log("I AM HERE",name)
     const products = await (await Products.findAll()).map((x) => x.dataValues)
     Product.update({
@@ -84,7 +93,9 @@ productRouter.post('/update',async function(req,res){
         description: description,
         category: category,
         stock: stock,
-        price: price
+        price: price,
+        colour: colour,
+        image: image
     },
         {where: {id: id}}//change the button value to this.name to use name:id comparison
     )   
