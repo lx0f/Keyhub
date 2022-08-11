@@ -1,31 +1,30 @@
-const Sequelize = require("sequelize");
-const sequelize = require("./database_setup");
-const Voucher = require("./Voucher");
-const User = require("./User");
+const Sequelize = require('sequelize');
+const sequelize = require('./database_setup');
+const Voucher = require('./Voucher');
+const User = require('./User');
 
-class CustomerVoucher extends Sequelize.Model { }
-
+class CustomerVoucher extends Sequelize.Model {}
 
 CustomerVoucher.init(
     {
-        id:{
+        id: {
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
-        UserID:{
+        UserID: {
             type: Sequelize.DataTypes.INTEGER,
-        }
+        },
     },
     {
         freezeTableName: true,
         timestamps: true,
         sequelize,
-        modelName: "CustomerVoucher",
+        modelName: 'CustomerVoucher',
     }
 );
-class VoucherItem extends Sequelize.Model { }
+class VoucherItem extends Sequelize.Model {}
 
 VoucherItem.init(
     {
@@ -33,13 +32,13 @@ VoucherItem.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         VoucherListId: {
-            type:Sequelize.DataTypes.INTEGER,
+            type: Sequelize.DataTypes.INTEGER,
         },
         VoucherId: {
-            type:Sequelize.DataTypes.INTEGER,
+            type: Sequelize.DataTypes.INTEGER,
         },
         usage: Sequelize.DataTypes.INTEGER,
     },
@@ -47,36 +46,34 @@ VoucherItem.init(
         freezeTableName: true,
         timestamps: true,
         sequelize,
-        modelName: "VoucherItem",
+        modelName: 'VoucherItem',
     }
 );
 
-
-Voucher.belongsToMany(CustomerVoucher, {through: {
-      model: VoucherItem,
-      unique: false
-},
+Voucher.belongsToMany(CustomerVoucher, {
+    through: {
+        model: VoucherItem,
+        unique: false,
+    },
     foreignKey: 'VoucherId',
-    as:"voucherlist"
-    
-})
+    as: 'voucherlist',
+});
 CustomerVoucher.belongsToMany(Voucher, {
-     through: {
-      model: VoucherItem,
-      unique: false
+    through: {
+        model: VoucherItem,
+        unique: false,
     },
     foreignKey: 'VoucherListId',
-    as: 'voucheritem'
-})
+    as: 'voucheritem',
+});
 
-CustomerVoucher.belongsTo(User, { foreignKey: "UserID" });
-User.hasOne(CustomerVoucher, { foreignKey: "UserID" });
+CustomerVoucher.belongsTo(User, { foreignKey: 'UserID' });
+User.hasOne(CustomerVoucher, { foreignKey: 'UserID' });
 
 CustomerVoucher.hasMany(VoucherItem);
 VoucherItem.belongsTo(CustomerVoucher);
 
 Voucher.hasMany(VoucherItem);
-VoucherItem.belongsTo(Voucher)
+VoucherItem.belongsTo(Voucher);
 
-module.exports = {CustomerVoucher, VoucherItem};
-
+module.exports = { CustomerVoucher, VoucherItem };

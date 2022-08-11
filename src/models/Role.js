@@ -1,5 +1,5 @@
-const sequelize = require("./database_setup");
-const Sequelize = require("sequelize");
+const sequelize = require('./database_setup');
+const Sequelize = require('sequelize');
 
 class Role extends Sequelize.Model {}
 
@@ -30,4 +30,4 @@ Role.init(
     }
 );
 
-module.exports = Role
+module.exports = Role;

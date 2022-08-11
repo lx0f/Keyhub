@@ -1,12 +1,11 @@
 const Sequelize = require('sequelize');
 const sequelize = require('./database_setup');
-const Product = require("./product");
-const User = require("./User")
-class Pevaluation extends Sequelize.Model {
-    
-  }
-  
-  Pevaluation.init(
+
+const Product = require('./product');
+const User = require('./User');
+class Pevaluation extends Sequelize.Model {}
+
+Pevaluation.init(
     {
       id: {
         type: Sequelize.DataTypes.INTEGER,
@@ -53,10 +52,10 @@ class Pevaluation extends Sequelize.Model {
       
     },
     {
-      freezeTableName: true,
-      timestamps: true,
-      sequelize,
-      modelName: "Product_Evaluation"
+        freezeTableName: true,
+        timestamps: true,
+        sequelize,
+        modelName: 'Product_Evaluation',
     }
   );
   

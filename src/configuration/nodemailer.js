@@ -1,46 +1,65 @@
-const { info } = require("flash-messenger/Alert")
-const nodemailer = require("nodemailer")
-const nodemailerHbs = require("nodemailer-express-handlebars")
-const fs = require("fs")
-const path = require("path")
+const { info } = require('flash-messenger/Alert');
+const nodemailer = require('nodemailer');
+const nodemailerHbs = require('nodemailer-express-handlebars');
+const fs = require('fs');
+const path = require('path');
+const handlebars = require('handlebars');
 
 const transporter = nodemailer.createTransport({
     port: 465,
-    host: "smtp.gmail.com",
+    host: 'smtp.gmail.com',
     auth: {
-        user: "keyhub1@gmail.com",
-        pass: "jjbsogehekusztmk"
+        user: 'keyhub1@gmail.com',
+        pass: 'jjbsogehekusztmk',
     },
-    secure: true
-})
+    secure: true,
+});
 
-transporter.use("compile", nodemailerHbs({
+/*transporter.use("compile", nodemailerHbs({
     viewPath: path.join(__dirname, "../../views"),
     extName: ".hbs",
     defaultLayout: false
-}))
-
+}))*/
 
 //"ebioweqbivouqfww" is the user password
 class Mail {
-    static send(res, {to, subject, text, template, context} = {}) {
-        const mailData = {
-            from: "keyhub1@gmail.com",
-            to: to,
-            subject: subject,
-            text: text,
-            template: template,
-            context: context,
-        }
+    static readHTMLFile(path, callback) {
+        fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
+            if (err) {
+                callback(err);
+                throw err;
+            } else {
+                callback(null, html);
+            }
+        });
+    }
 
-    transporter.sendMail(mailData, (error, info) => {
-        if (error) {
-            return console.log(error)
-        }
-        res.status(200).send({message: "Mail sent", message_id: info.messageId})
-    })
- 
+    static Send({ subject, email_recipient, template_path, context } = {}) {
+        const file = fs.readFile(
+            path.join(__dirname, template_path),
+            { encoding: 'utf-8' },
+            (err, html) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    const template = handlebars.compile(html);
+                    const contexts = template(context);
+                    const mailOptions = {
+                        from: 'keyhub1@gmail.com',
+                        to: email_recipient,
+                        subject,
+                        html: contexts,
+                    };
+
+                    transporter.sendMail(mailOptions, (error, response) => {
+                        if (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+            }
+        );
     }
 }
 
-module.exports = Mail
+module.exports = { Mail, transporter };

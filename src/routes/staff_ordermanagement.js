@@ -1,28 +1,36 @@
-const express = require("express")
-const OrderManagement = express.Router()
-const { Order }  = require("../models/order")
-const { OrderItem } = require("../models/order")
+const express = require('express');
+const OrderManagement = express.Router();
+const { Order } = require('../models/order');
+const { OrderItem } = require('../models/order');
 const { Cancelrequest } = require("../models/order")
-const Product = require("../models/product")
-const { Payment } = require("../models/order")
-const { Cart } = require("../models/cart")
-const User = require("../models/User")
+const Product = require('../models/product');
+
+const User = require('../models/User');
+
+const { Payment } = require('../models/order');
+const { Cart } = require('../models/cart');
+
 const moment = require('moment');
 const cron = require('node-cron');
 
-cron.schedule('*/15 * * * * ', async() => {
+cron.schedule('*/15 * * * * ', async () => {
     console.log('running a task every 15 minute');
-    let orders = await Order.findAll({where : {payment_status: 0 && order_status != 'Cancelled' }})
-    orders.forEach(order => {
-        var createAt = moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss')
-        console.log(createAt)
-        var now = moment().format('YYYY-MM-DD HH:mm:ss')
-        console.log(now)
-        var minute = moment(now).diff(moment(createAt),'minutes');
-        console.log(minute)
-        if (minute > 30){
-            Order.update({order_status: "Cancelled"},{where : {id: order.id }});
-            console.log("Hello");
+    let orders = await Order.findAll({
+        where: { payment_status: 0 && order_status != 'Cancelled' },
+    });
+    orders.forEach((order) => {
+        var createAt = moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss');
+        console.log(createAt);
+        var now = moment().format('YYYY-MM-DD HH:mm:ss');
+        console.log(now);
+        var minute = moment(now).diff(moment(createAt), 'minutes');
+        console.log(minute);
+        if (minute > 30) {
+            Order.update(
+                { order_status: 'Cancelled' },
+                { where: { id: order.id } }
+            );
+            console.log('Hello');
         }
     });
 });
@@ -34,11 +42,11 @@ OrderManagement.get('/', async (req, res) => {
             {
                 model: OrderItem,
                 include: {
-                    model: Product
-                }
+                    model: Product,
+                },
             },
             {
-                model: User
+                model: User,
             },
         ],
     });
@@ -131,5 +139,4 @@ OrderManagement.get('/cancelrequests', async function (req, res) {
     }
 });
 
-
-module.exports = OrderManagement
+module.exports = OrderManagement;

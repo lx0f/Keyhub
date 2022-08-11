@@ -1,8 +1,8 @@
-const express = require("express");
-const Product = require("../models/product");
-const Pevaluation = require("../models/product_evaluation");
-const User = require("../models/User");
-const PevaluationRouter = express.Router()
+const express = require('express');
+const Product = require('../models/product');
+const Pevaluation = require('../models/product_evaluation');
+const User = require('../models/User');
+const PevaluationRouter = express.Router();
 
 PevaluationRouter.get('/productevaluations',async (req, res) => {
     const products = await Product.findAll({

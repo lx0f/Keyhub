@@ -87,13 +87,18 @@
 		
 		
 		<div class="card-body">
-			Sub-total: <strong style="float:right;">${{amount}}</strong>
+			Sub-total: <strong style="float:right;">${{totalPrice}}</strong>
 			<br>
+			
+			{{#if discount}}
+			Discount: <strong style="float:right;">- ${{discount}}</strong>
+			{{else}}
 			Discount: <strong style="float:right;">- $0.00</strong>
+			{{/if}}
 			<br>
 			Shipping Fee: <strong style="float:right;">Free</strong>
 			<hr>
-			Grand Total: <strong style="float:right;">${{amount}}</strong>
+			Grand Total: <strong style="float:right;">${{discount_price}}</strong>
 		</div>
 	</div>
 	<br>
