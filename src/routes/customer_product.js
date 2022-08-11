@@ -46,11 +46,24 @@ productRouter.route('/general').get(async(req,res)=>{
     return res.render("./customers/page-listing-grid",{display,items,search});
 })
 
-productRouter.get('/keyboards', async(req,res)=>{
+productRouter.get('/pre', async(req,res)=>{
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = []
     for (let index = 0; index < products.length; index++) {
-        if (products[index]["category"]=="keyboard"){
+        if (products[index]["category"]=="pre"){
+            display.push(products[index])
+        }
+        
+    }
+    const items = await display.length
+    res.render("./customers/page-listing-grid",{display,items});
+})
+
+productRouter.get('/bare', async(req,res)=>{
+    const products = await (await product.findAll()).map((x) => x.dataValues);
+    const display = []
+    for (let index = 0; index < products.length; index++) {
+        if (products[index]["category"]=="barebones"){
             display.push(products[index])
         }
         

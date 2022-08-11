@@ -21,8 +21,8 @@
               <input type="radio" name="slider" id="help">
               <input type="radio" name="slider" id="add1">
               <nav>
-                <label for="home" class="home"><i class="fa fa-keyboard"></i>All Products</label>
-                <label for="blog" class="blog"><i class="fa fa-keyboard"></i>Keyboards</label>
+                <label for="home" class="home"><i class="fa fa-keyboard"></i>Pre-Built Keyboards</label>
+                <label for="blog" class="blog"><i class="fa fa-keyboard"></i>Barebones Kits</label>
                 <label for="code" class="code"><i class="fa fa-stop"></i>Keycaps</label>
                 <label for="help" class="help"><img src="../../../public/images/icons/keycap.png" alt="">Switches</label>
                 <label for="add1" class="add1"><i class="fas fa-accessory"></i>Others</label>
@@ -36,7 +36,7 @@
                       <tr>
                           <th>Id</th>
                           <th>Product Name</th>
-                          <th>Product Category</th>
+                          <th>Product Colour</th>
                           <th>Product Stock</th>
                           <th>Product Price</th>
                           <th colspan="2">Operation</th>  
@@ -44,11 +44,11 @@
                       </thead>
                       <tbody>
                         {{#each products}}
-                             
+                             {{#equals this.category "pre"}}
                           <tr>
                             <td>{{this.id}}</td>
                             <td>{{this.name}}</td>
-                            <td>{{this.category}}</td>
+                            <td>{{this.colour}}</td>
                             <td>{{this.stock}}</td>
                             <td>{{this.price}}</td>
                             
@@ -131,6 +131,7 @@
                               </div>   
                             </td>
                           </tr>
+                         {{/equals}}
                          
                         {{/each}}
                       </tbody>
@@ -146,7 +147,7 @@
                       <tr>
                           <th>Id</th>
                           <th>Product Name</th>
-                          <th>Product Category</th>
+                          <th>Product Colour</th>
                           <th>Product Stock</th>
                           <th>Product Price</th>
                           <th colspan="2">Operation</th> 
@@ -154,15 +155,14 @@
                       </thead>
                       <tbody>
                       {{#each products}}
-                        {{#equals this.category "keyboard"}}
+                        {{#equals this.category "barebones"}}
                           <tr>
                             <td>{{this.id}}</td>
                             <td>{{this.name}}</td>
-                            <td>{{this.category}}</td>
+                            <td>{{this.colour}}</td>
                             <td>{{this.stock}}</td>
                             <td>{{this.price}}</td>
                             <td>
-              
                               {{!-- <form action=""  method="POST"> --}}
                                 
                                 <!-- Button to Open the Modal -->

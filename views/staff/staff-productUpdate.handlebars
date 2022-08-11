@@ -39,6 +39,16 @@
                                 <label for="exampleFormControlInput1" class="form-label">Price</label>
                                 <input type="number" min="0.01" max="9999.99" step="0.01" class="form-control" id="exampleFormControlInput1" name = "price" placeholder="{{product.price}}" required>
                                 </div>
+                                <div>
+                                    <label for="exampleFormControlInput1" class="form-label">Colour</label>
+                                    <br>
+                                    <select name="colour" class="form-control" id="exampleFormControlInput1" required>
+                                    <option value="" disabled selected>Choose a Colour</option>
+                                    <option value="red">Red</option>
+                                    <option value="green">Green</option>
+                                    <option value="blue">Blue</option>
+                                </select>
+                                </div>
                                  <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Image</label>
                                 <input type="file" class="form-control" id="exampleFormControlInput1" name="image" accept="image/png,image/jpeg,image/jpg,image/gif" placeholder="Choose Image File">

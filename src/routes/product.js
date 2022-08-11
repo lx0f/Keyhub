@@ -13,9 +13,9 @@ productRouter.get('/', (req, res) => {
 });
 
 productRouter.post('/', async function (req, res) {
-    let { name,description,category,stock,price,image } = req.body;
+    let { name,description,category,stock,price,colour,image } = req.body;
     
-    const products =  await (await product.findAll({attributes: ["name","id"]})).map((x)=>x.dataValues)
+    const products =  await (await product.findAll({attributes: ["name","id","colour","category"]})).map((x)=>x.dataValues)
     productID = 1
     
     
@@ -30,15 +30,22 @@ productRouter.post('/', async function (req, res) {
     flag = true
     for (let index = 0; index < products.length; index++) {
         const usedName = products[index]["name"].toUpperCase()
-        
-        if (usedName.toUpperCase()==name.toUpperCase()){
-            flag = false
+        const usedColour = products[index]["colour"].toUpperCase()
+        if (products[index]["category"]=="pre" || products[index]["category"]=="barebones") {
             
+        
+            if (usedName==name.toUpperCase() && usedColour==colour.toUpperCase()){
+                flag = false
+                
+            }
+        }
+        else if (usedName==name.toUpperCase()) {
+            flag = false
         }
     }
     if (flag) {
         product.create({
-            productID,name,description,category,stock,price,image
+            productID,name,description,category,stock,price,colour,image
             //list of attributes
         })
         req.flash("success",name," has been successfully added!")
@@ -76,7 +83,7 @@ productRouter.post('/updateRoute',async function(req,res){
 });
 
 productRouter.post('/update',async function(req,res){
-    let { id,name,description,category,stock,price } = req.body;
+    let { id,name,description,category,stock,price,colour } = req.body;
     console.log("I AM HERE",name)
     const products = await (await Products.findAll()).map((x) => x.dataValues)
     Product.update({
@@ -84,7 +91,8 @@ productRouter.post('/update',async function(req,res){
         description: description,
         category: category,
         stock: stock,
-        price: price
+        price: price,
+        colour: colour
     },
         {where: {id: id}}//change the button value to this.name to use name:id comparison
     )   
