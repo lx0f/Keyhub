@@ -98,20 +98,10 @@ communityRouter.route('/chat/:room').get(async (req, res) => {
             );
             numClients[room]--;
             io.emit('disconnected');
-            console.log('Tsfoiefjoifwef');
-            console.log('Tsfoiefjoifwef');
-            console.log('Tsfoiefjoifwef');
-            console.log('Tsfoiefjoifwef');
-            console.log('Tsfoiefjoifwef');
+         
         });
     });
-    console.log(numClients[room]);
-    console.log(numClients[room]);
-    console.log(numClients);
-    console.log(numClients);
-    console.log(numClients);
-    console.log(numClients);
-    console.log(numClients);
+ 
 
     res.render('./customers/page-community-chat', {
         username: req.user.username,
@@ -131,6 +121,9 @@ communityRouter.route('/chat/create-room').post(async (req, res) => {
     res.redirect('/community/chat');
 });
 
+communityRouter.route("/chat/delete-room").post(async (req,res) => {})
+communityRouter.route("/chat/update-room").post(async (req, res) => {})
+
 communityRouter.route('/chat').get(async (req, res) => {
     const all_rooms = (await Room.findAll()).map((x) => x.dataValues.name);
     console.log(await Room.count());
@@ -138,15 +131,7 @@ communityRouter.route('/chat').get(async (req, res) => {
         const a = Room.build({ name: 'Main' });
         await a.save();
         console.log(a);
-        console.log(a);
-        console.log(a);
-        console.log('sduofhuidsihfdsuhfuidshfuidshfuidsf');
-        console.log('sduofhuidsihfdsuhfuidshfuidshfuidsf');
-        console.log('sduofhuidsihfdsuhfuidshfuidshfuidsf');
-        console.log('sduofhuidsihfdsuhfuidshfuidshfuidsf');
-        console.log('sduofhuidsihfdsuhfuidshfuidshfuidsf');
-        console.log('sduofhuidsihfdsuhfuidshfuidshfuidsf');
-        console.log('sduofhuidsihfdsuhfuidshfuidshfuidsf');
+    
     }
     console.log(all_rooms);
 

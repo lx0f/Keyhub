@@ -13,7 +13,8 @@ async function exportFAQDocument(path) {
     dir = dir.join('/');
     console.log('DIR', dir);
     if (!fs.existsSync(path)) {
-        fs.mkdirSync(dir);
+        console.log("Bruh crash")
+        fs.mkdirSync(dir, {recursive: true});
     }
     fs.writeFileSync(path, '');
     faqs.forEach((faq) => {

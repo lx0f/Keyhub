@@ -54,14 +54,7 @@ dataRouter.get('/chart-info', async (req, res) => {
     console.log(dates);
     console.log(NoOfUsers);
 
-    console.log('hoi');
-    console.log(df2);
-    console.log('a');
-    console.log('a');
-    console.log('a');
-    console.log('a');
-    console.log('a');
-    console.log('a');
+
 
     const myChart = new chartJsImg();
 
@@ -160,14 +153,7 @@ dataRouter.get('/chart-info-year', async (req, res) => {
         columns: ['Dates', 'NoOfUsersJoined'],
     });
     const group_df = df.groupby(['Dates']).sum();
-    console.log(group_df);
-    console.log('F');
-    console.log('F');
-    console.log('F');
-    console.log('F');
-    console.log('F');
-    console.log('F');
-
+ 
     const df2 = dfd.toJSON(group_df, { format: 'json' });
 
     var NoOfUsers = [];
@@ -179,14 +165,7 @@ dataRouter.get('/chart-info-year', async (req, res) => {
     console.log(dates);
     console.log(NoOfUsers);
 
-    console.log('hoi');
-    console.log(df2);
-    console.log('a');
-    console.log('a');
-    console.log('a');
-    console.log('a');
-    console.log('a');
-    console.log('a');
+
 
     const myChart = new chartJsImg();
 
