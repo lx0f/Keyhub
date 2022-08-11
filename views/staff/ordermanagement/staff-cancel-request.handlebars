@@ -36,7 +36,7 @@
                                 {{#equals this.status "null" }}
                                     <td><p class="badge badge-info">NULL</p></td>
                                 {{/equals}}
-                                {{#equals this.status "rejected" }}
+                                {{#equals this.status "Rejected" }}
                                     <td><p class="badge badge-danger">Rejected</p></td>
                                 {{/equals}}
                                 {{#equals this.status "Approved" }}
@@ -46,7 +46,7 @@
                                 <td>
                                     <div class="row">
                                         <div class="col-4">
-                                            <form action="/order/cancel/{{this.id}}" method="get">
+                                            <form action="/staff/manage-orders/rejectcancelorder/{{this.id}}" method="get">
                                                 <!-- delete button -->
                                                 <button type="button" title="Reject" class="btn btn-danger " data-toggle="modal" data-target="#rejectModal_{{this.id}}">
                                                     <i class="fa fa-ban"></i>
@@ -80,7 +80,7 @@
                                             </form>
                                         </div>
                                         <div class="col-4">
-                                            <form action="/order/cancel/{{this.id}}" method="get">
+                                            <form action="/staff/manage-orders/cancelorder/{{this.id}}" method="get">
                                                 <!-- delete button -->
                                                 <button type="button" title="Approve" class="btn btn-success " data-toggle="modal" data-target="#approvedModal_{{this.id}}">
                                                     <i class="fa fa-check"></i>
@@ -99,12 +99,12 @@
                             
                                                             <!-- Modal body -->
                                                             <div class="modal-body">
-                                                            Are you sure you want to reject Order ID {{this.Order.id}}?
+                                                            Are you sure you want to approve Order ID {{this.Order.id}}?
                                                             </div>
                             
                                                             <!-- Modal footer -->
                                                             <div class="modal-footer">
-                                                            <input type="submit" value="Delete" class="btn btn-primary">
+                                                            <input type="submit" value="Yes" class="btn btn-primary">
                                                             
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                                             </div>

@@ -86,13 +86,21 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
                 include: {
                     model: Product
                 }
-            },
+            },{
+                model: Cancelrequest
+            }
             
         ],
         where: { Id: req.params.id }
-
     });
-    return res.render('./customers/orders/page-cancel-request',{order});
+    if (order.Cancelrequest.length != 0){
+        req.flash("success","Your cancel request is in the progress, please check your email for new updates")
+        res.redirect("/account/orderhistory")
+    }
+    else{
+        return res.render('./customers/orders/page-cancel-request',{order});
+
+    }
 });
 
 customerManageAccountRouter.post('/cancelorderform/:id', async (req, res) => {

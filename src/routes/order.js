@@ -85,18 +85,18 @@ CustomerOrder.post('/data', async (req, res) => {
 });
 
 // cancelOrder
-CustomerOrder.get('/cancel/:id', async (req, res) => {
-    try {
-        const order = await Order.findByPk(req.params.id)
-        await order.update({
-          order_status: 'Cancelled'
-        })
-        req.flash('error', `OrderId${order.id} cancelled!`)
-        return res.status(200).redirect('back')
-    } catch (e) {
-      console.log(e)
-    }
-});
+// CustomerOrder.get('/cancel/:id', async (req, res) => {
+//     try {
+//         const order = await Order.findByPk(req.params.id)
+//         await order.update({
+//           order_status: 'Cancelled'
+//         })
+//         req.flash('error', `OrderId${order.id} cancelled!`)
+//         return res.status(200).redirect('back')
+//     } catch (e) {
+//       console.log(e)
+//     }
+// });
 
 CustomerOrder.get('/payment/:id', async (req, res) => {
   try {

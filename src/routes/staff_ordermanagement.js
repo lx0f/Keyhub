@@ -57,9 +57,15 @@ OrderManagement.get('/cancelorder/:id', async function (req, res) {
             res.redirect('/staff/manage_order/cancelrequests');
             return;
         }
-        let result = await Cancelrequest.update({status: "Approved"},{ where: { id: request.id } });
-        req.flash("success", "Order Cancellation " + " is Approved!");
-        res.redirect('/staff/manage-orders/cancelrequests');
+        if(request.status != "null" ){
+            req.flash("error", " You have already rejected or approved it" );
+            res.redirect('/staff/manage-orders/cancelrequests');
+        }
+        else{
+            let result = await Cancelrequest.update({status: "Approved"},{ where: { id: request.id } });
+            req.flash("success", "Order Cancellation " + " is Approved!");
+            res.redirect('/staff/manage-orders/cancelrequests');
+        }
     }
     catch (err) {
         console.log(err);
@@ -69,7 +75,7 @@ OrderManagement.get('/cancelorder/:id', async function (req, res) {
 // Reject Cancel Request
 OrderManagement.get('/rejectcancelorder/:id', async function (req, res) {
     try {
-        let request = await Cancelrequest.findOne({
+        const request = await Cancelrequest.findOne({
             where: {OrderId: req.params.id}
         });
 
@@ -78,9 +84,17 @@ OrderManagement.get('/rejectcancelorder/:id', async function (req, res) {
             res.redirect('/staff/manage_order/cancelrequests');
             return;
         }
-        let result = await Cancelrequest.update({status: "Rejected"},{ where: { id: request.id } });
-        req.flash("success", "Order Cancellation " + " is Rejected!");
-        res.redirect('/staff/manage-orders/cancelrequests');
+        console.log(request.status)
+        if(request.status != "null" ){
+            req.flash("error", " You have already rejected or approved it" );
+            res.redirect('/staff/manage-orders/cancelrequests');
+        }
+        else{
+            let result = await Cancelrequest.update({status: "Rejected"},{ where: { id: request.id } });
+            req.flash("success", "Order Cancellation " + " is Rejected!");
+            res.redirect('/staff/manage-orders/cancelrequests');
+            
+        }
     }
     catch (err) {
         console.log(err);
