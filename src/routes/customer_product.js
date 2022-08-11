@@ -1,5 +1,4 @@
 const express = require("express")
-const { findAll } = require("../models/product")
 const productRouter = express.Router()
 const product = require("../models/product")
 const Pevaluation = require("../models/product_evaluation")
@@ -101,7 +100,7 @@ productRouter.get('/others', async(req,res)=>{
     res.render("./customers/page-listing-grid",{display,items});
 })
 
-// Edited by JJ
+
 productRouter.get('/detail/:id', async(req,res)=>{
     try{
         const productdetail = await product.findByPk(req.params.id)
@@ -136,12 +135,9 @@ productRouter.get('/detail/:id', async(req,res)=>{
         const count3 = threestar.length
         const count2 = twostar.length
         const count1 = onestar.length
-
         const count = review.length
 
         const average = (count5 * 5 + count4 * 4 + count3 * 3 + count2 * 2 + count1 * 1) / count
-        // console.log(average)
-        // console.log(onestar)
         res.render("./customers/page-product-large",{ productdetail, review, count, count1, count2, count3, count4,count5, average});
     }catch(e){
         console.log(e)
