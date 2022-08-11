@@ -22,17 +22,22 @@ cron.schedule('*/1 * * * * ', async () => {
   console.log(vouchers)
   vouchers.forEach(voucher => {
     var startAt = moment(voucher.start_date).format('YYYY-MM-DD HH:mm:ss')
-    console.log(voucher.createdAt)
+    // console.log(voucher.createdAt)
     var enddate = moment(startAt).add(voucher.days, 'days').format('YYYY-MM-DD HH:mm:ss')
     var now = moment().format('YYYY-MM-DD HH:mm:ss')
-    console.log(enddate)
-    console.log(startAt)
-    console.log("done");
+    // console.log(enddate)
+    // console.log(startAt)
+    // console.log("done");
     if (now >= startAt) {
       console.log("waiting")
       console.log(now)
-      Voucher.update({ voucher_status: "Inactive" },{where : {id: voucher.id }});
-      console.log("updated")
+      const find_voucher =  Voucher.findOne({ where: { id: voucher.id, voucher_status: "Active" } })
+      if (find_voucher) {
+        Voucher.update({ voucher_status: "Inactive" },{where : {id: voucher.id }});
+        console.log("updated")
+      } else {
+        console.log("no update needed")
+      }
     }
   });
   

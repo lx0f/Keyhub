@@ -214,7 +214,7 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
       const voucheritem = await VoucherItem.findOne({
         where: { VoucherId:voucher.id ,VoucherListId:voucherlist.id }
       });
-      if (voucheritem) {
+      if (voucheritem && voucher.voucher_status == "Active") {
         
         const cart = await Cart.findOne({
           where: { UserId: req.user.id },
@@ -247,7 +247,7 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
           req.flash("error","Please spend $"+difference+" more to apply voucher")
         }
       } else {
-        req.flash("error","Please use a valid code")
+        req.flash("error","Code has expired / Code is invalid")
       }
     } else {
       req.flash("error","Please use a valid code")
