@@ -203,7 +203,8 @@ a {
         <h3><i class="fas fa-comments"></i> Room Name:</h3>
    
 	   {{#each all_rooms}}
-	   <a href="/community/chat/{{this}}"> <h2 style="color:white" id="room-name">{{this}}</h2> </a>
+	   <a href="/community/chat/{{this}}"> <h2 style="color:white; max-width: 340px" id="room-name">{{this}}<button style="display:inline-block;margin-left: 220px; background-color:#1f1f20; border:#1f1f20" ><i class="fa fa-refresh" style="color: white"aria-hidden="true"></i></button>
+<button style="display:inline-block;background-color:#1f1f20; border:#1f1f20"><i class="fa fa-trash" aria-hidden="true" style="margin-left: 5px; color:white;"></i></button></h2> </a>
 	   {{/each}}
 <!-- Button trigger modal -->
 {{#equals user.isStaff 1}}
