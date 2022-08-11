@@ -4,7 +4,7 @@ const Product = require("../models/product");
 const Products = require("../models/product");
 const productRouter = express.Router()
 const product = require("../models/product")
-
+const fs = require('fs');
 
 //const productIDtest = 0
 productRouter.get('/', (req, res) => {
@@ -14,7 +14,7 @@ productRouter.get('/', (req, res) => {
 
 productRouter.post('/', async function (req, res) {
     let { name,description,category,stock,price,colour,image } = req.body;
-    
+    //const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/uploads/${image}`, 'base64');
     const products =  await (await product.findAll({attributes: ["name","id","colour","category"]})).map((x)=>x.dataValues)
     productID = 1
     
@@ -30,6 +30,7 @@ productRouter.post('/', async function (req, res) {
     flag = true
     for (let index = 0; index < products.length; index++) {
         const usedName = products[index]["name"].toUpperCase()
+        console.log(products[index]["colour"])
         const usedColour = products[index]["colour"].toUpperCase()
         if (products[index]["category"]=="pre" || products[index]["category"]=="barebones") {
             
@@ -44,6 +45,7 @@ productRouter.post('/', async function (req, res) {
         }
     }
     if (flag) {
+        console.log(image)
         product.create({
             productID,name,description,category,stock,price,colour,image
             //list of attributes

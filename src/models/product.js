@@ -35,7 +35,9 @@ Product.init(
             type: Sequelize.DataTypes.STRING,
         },
         image: {
-            type: Sequelize.DataTypes.BLOB,
+            type: Sequelize.DataTypes.STRING,
+            allowNull: true,
+            defaultValue: null
         },
     },
     {
