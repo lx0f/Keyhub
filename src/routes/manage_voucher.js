@@ -4,6 +4,8 @@ const User = require("../models/User");
 const { CustomerVoucher } = require("../models/CustomerVoucher");
 const { VoucherItem } = require("../models/CustomerVoucher")
 const manageVoucher = express.Router();
+const cron = require('node-cron');
+const moment = require('moment');
 require('dotenv').config()
 // let sendSmtpEmail = new Sib.SendSmtpEmail();
 // const email = req.query.email;
@@ -13,6 +15,43 @@ require('dotenv').config()
 //             await voucheritem.update({
 //                 usage: voucheritem.usage += 1
 //             });
+
+cron.schedule('*/1 * * * * ', async () => {
+  console.log('running a task every 1 minute');
+  const vouchers = (await Voucher.findAll()).map((x) => x.dataValues);
+  console.log(vouchers)
+  vouchers.forEach(voucher => {
+    var startAt = moment(voucher.start_date).format('YYYY-MM-DD HH:mm:ss')
+    console.log(voucher.createdAt)
+    var enddate = moment(startAt).add(voucher.days, 'days').format('YYYY-MM-DD HH:mm:ss')
+    var now = moment().format('YYYY-MM-DD HH:mm:ss')
+    console.log(enddate)
+    console.log(startAt)
+    console.log("done");
+    if (now >= startAt) {
+      console.log("waiting")
+      console.log(now)
+      Voucher.update({ voucher_status: "Inactive" },{where : {id: voucher.id }});
+      console.log("updated")
+    }
+  });
+  
+});
+  
+  // vouchers.forEach(voucher => {
+  //       var startAt = moment(voucher.start_date).format('YYYY-MM-DD HH:mm:ss')
+  //       console.log(voucher.createdAt)
+  //       var enddate = moment(startAt).add(voucher.days, 'days').format('YYYY-MM-DD HH:mm:ss')
+  //       var now = moment().format('YYYY-MM-DD HH:mm:ss')
+  //       console.log(enddate)
+  //       console.log("done");
+  //       if (now >= startAt){
+  //           Voucher.update({voucher_status: "InActive"});
+  //           console.log("updated")
+  //       }
+  // });
+
+
 manageVoucher
   .route("/")
   .get(async (req, res) => {
