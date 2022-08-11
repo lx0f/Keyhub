@@ -1,7 +1,9 @@
+
 const express = require('express');
 const { NONE } = require('sequelize');
 const productRouter = express.Router();
 const product = require('../models/product');
+
 
 productRouter.post('/desc', async function (req, res) {
     let { productID } = req.body;
@@ -45,14 +47,17 @@ productRouter.post('/search', async function (req, res) {
 
 productRouter.route('/general').get(async (req, res) => {
     const products = await (await product.findAll()).map((x) => x.dataValues);
-    const display = products;
-    var items = await display.length;
-    if (items == 1) {
-        items = items.toString() + ' product';
-    } else {
-        items = items.toString() + ' products';
+
+    const display = products
+    var items = await display.length
+    if (items==1){
+        items = items.toString() + " product"
     }
-    const search = null;
+    else{
+        items = items.toString() + " products"
+    }
+    const search = null
+
     //var image
     return res.render('./customers/page-listing-grid', {
         display,
@@ -61,31 +66,60 @@ productRouter.route('/general').get(async (req, res) => {
     });
 });
 
-productRouter.get('/pre', async (req, res) => {
+
+productRouter.get('/pre', async(req,res)=>{
+
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
+
         if (products[index]['category'] == 'Pre-Built Keyboard') {
             display.push(products[index]);
+
         }
     }
-    var items = await display.length;
-    if (items == 1) {
-        items = items.toString() + ' product';
-    } else {
-        items = items.toString() + ' products';
+
+    var items = await display.length
+    if (items==1){
+        items = items.toString() + " product"
     }
-    res.render('./customers/page-listing-grid', { display, items });
-});
+    else{
+        items = items.toString() + " products"
+    }
+    res.render("./customers/page-listing-grid",{display,items});
+})
+
+productRouter.get('/bare', async(req,res)=>{
+    const products = await (await product.findAll()).map((x) => x.dataValues);
+    const display = []
+    for (let index = 0; index < products.length; index++) {
+        if (products[index]["category"]=="Barebones Kit"){
+            display.push(products[index])
+        }
+        
+    }
+    var items = await display.length
+    if (items==1){
+        items = items.toString() + " product"
+    }
+    else{
+        items = items.toString() + " products"
+    }
+    res.render("./customers/page-listing-grid",{display,items});
+})
+
 
 productRouter.get('/bare', async (req, res) => {
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
+
         if (products[index]['category'] == 'Barebones Kit') {
             display.push(products[index]);
+
         }
     }
+
     var items = await display.length;
     if (items == 1) {
         items = items.toString() + ' product';
@@ -94,15 +128,19 @@ productRouter.get('/bare', async (req, res) => {
     }
     res.render('./customers/page-listing-grid', { display, items });
 });
+
 
 productRouter.get('/switches', async (req, res) => {
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
+
         if (products[index]['category'] == 'Switches') {
             display.push(products[index]);
+
         }
     }
+
     var items = await display.length;
     if (items == 1) {
         items = items.toString() + ' product';
@@ -112,14 +150,18 @@ productRouter.get('/switches', async (req, res) => {
     res.render('./customers/page-listing-grid', { display, items });
 });
 
+
 productRouter.get('/keycaps', async (req, res) => {
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
+
         if (products[index]['category'] == 'Keycap') {
             display.push(products[index]);
+
         }
     }
+
     var items = await display.length;
     if (items == 1) {
         items = items.toString() + ' product';
@@ -200,3 +242,4 @@ productRouter.get('/detail/:id', async (req, res) => {
     }
 });
 module.exports = productRouter;
+

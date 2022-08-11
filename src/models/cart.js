@@ -11,7 +11,7 @@ Cart.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         UserId: {
             type: Sequelize.DataTypes.INTEGER,
@@ -32,7 +32,7 @@ CartItem.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         CartId: {
             type: Sequelize.DataTypes.INTEGER,

@@ -1,9 +1,11 @@
+
 const express = require('express');
 const db = require('../models/database_setup');
 const Product = require('../models/product');
 const Products = require('../models/product');
 const productRouter = express.Router();
 const product = require('../models/product');
+
 const fs = require('fs');
 
 //const productIDtest = 0
@@ -13,6 +15,7 @@ productRouter.get('/', (req, res) => {
 });
 
 productRouter.post('/', async function (req, res) {
+
     let { name, description, category, stock, price, colour, image } = req.body;
     //const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/uploads/${image}`, 'base64');
     const products = await (
@@ -25,12 +28,14 @@ productRouter.post('/', async function (req, res) {
     if (products.length == 0) {
         productID = 1;
     } else {
+
         //console.log("ID IS HERE",products[products.length-1]["productID"])
         productID = products[products.length - 1]['productID'] + 1;
         //console.log("AFTER",productID)
     }
     flag = true;
     for (let index = 0; index < products.length; index++) {
+
         const usedName = products[index]['name'].toUpperCase();
         console.log(products[index]['colour']);
         const usedColour = products[index]['colour'].toUpperCase();
@@ -59,6 +64,7 @@ productRouter.post('/', async function (req, res) {
             price,
             colour,
             image,
+
             //list of attributes
         });
         req.flash('success', name, ' has been successfully added!');
@@ -111,6 +117,7 @@ productRouter.post('/update', async function (req, res) {
         },
         { where: { id: id } } //change the button value to this.name to use name:id comparison
     );
+
     //req.flash("success",name," has been updated successfully!")
     //res.render("./staff/staff-productCheck",{ products });
     req.flash('success', name, ' has been successfully updated');

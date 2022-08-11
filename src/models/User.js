@@ -107,11 +107,13 @@ User.init(
             defaultValue: null,
         },
     },
+
     {
         freezeTableName: true,
         timestamps: true,
         sequelize,
         modelName: 'User',
+
     }
 );
 

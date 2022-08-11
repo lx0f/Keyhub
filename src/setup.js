@@ -9,11 +9,16 @@ const { engine } = require('express-handlebars');
 const bodyParser = require('body-parser');
 const {
     allowInsecurePrototypeAccess,
-} = require('@handlebars/allow-prototype-access');
-const passport = require('passport');
-const methodOverride = require('method-override');
-const cookieParser = require('cookie-parser');
-const showdown = require('showdown');
+
+} = require("@handlebars/allow-prototype-access");
+const passport = require("passport");
+const methodOverride = require("method-override");
+const cookieParser = require("cookie-parser");
+const showdown = require("showdown");
+const http = require("http")
+const socketio = require("socket.io")
+const User = require("./models/User")
+const userMessage = require("./Utilities")
 
 //Local Imports
 const initaliseDatabase = require('./models/initalise_database');
@@ -27,12 +32,16 @@ const chatbotRouter = require('./routes/Chatbot');
 
 // const voucherRouter = require("./routes/voucher");
 
-const FAQrouter = require('./routes/staff_FAQs');
-const { sum } = require('./models/product');
-const { OrderItem } = require('./models/order');
+
+const FAQrouter = require("./routes/staff_FAQs");
+const { sum } = require("./models/product");
+const { OrderItem } = require("./models/order");
+const { isObject } = require("util");
+
 
 //Initialisation of the app
 const app = express();
+
 
 //Setup
 
@@ -176,4 +185,4 @@ const dialogflowSync = require('./dialogflow/setup');
 dialogflowSync();
 
 //Export to app.js
-module.exports = app;
+module.exports = {app};

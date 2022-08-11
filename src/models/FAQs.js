@@ -5,33 +5,35 @@ class FAQs extends Sequelize.Model {}
 
 FAQs.init(
     {
-        id: {
-            type: Sequelize.DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            unique: true,
-            allowNull: false,
-        },
-        Category: {
-            type: Sequelize.STRING,
-            allowNull: false,
-        },
-        Question: {
-            type: Sequelize.STRING,
-            allowNull: false,
-        },
-        Answer: {
-            type: Sequelize.STRING(500),
-            allowNull: false,
-        },
-        updatedAt: {
-            type: Sequelize.DataTypes.DATE,
-            allowNull: false,
-        },
-        createdAt: {
-            type: Sequelize.DataTypes.DATE,
-            allowNull: false,
-        },
+
+      id: {
+        type: Sequelize.DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        unique: 'id',
+        allowNull: false,
+      },
+      Category:{
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      Question:{
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      Answer: {
+        type:Sequelize.STRING(500),
+        allowNull:false,
+      },
+      updatedAt: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: false,
+      },
+      createdAt: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: false,
+      }
+
     },
     {
         freezeTableName: true,
