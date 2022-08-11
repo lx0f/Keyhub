@@ -48,29 +48,63 @@
                                         <div class="col-4">
                                             <form action="/order/cancel/{{this.id}}" method="get">
                                                 <!-- delete button -->
-                                                <button type="button" title="Delete" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal_{{this.id}}">
-                                                    <i class="fas fa-trash-alt"></i>
+                                                <button type="button" title="Reject" class="btn btn-danger " data-toggle="modal" data-target="#rejectModal_{{this.id}}">
+                                                    <i class="fa fa-ban"></i>
                                                 </button>
 
                                                 <!-- The Modal -->
-                                                <div class="modal" id="deleteModal_{{ this.id }}">
+                                                <div class="modal" id="rejectModal_{{ this.id }}">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                             
                                                             <!-- Modal Header -->
                                                             <div class="modal-header">
-                                                            <h4 class="modal-title">Cancel Confirmation</h4>
+                                                            <h4 class="modal-title">Confirmation</h4>
                                                             <button type="button" class="btn-close" data-dismiss="modal"></button>
                                                             </div>
                             
                                                             <!-- Modal body -->
                                                             <div class="modal-body">
-                                                            Are you sure you want to delete {{this.id}}?
+                                                            Are you sure you want to reject request ID {{this.id}}?
                                                             </div>
                             
                                                             <!-- Modal footer -->
                                                             <div class="modal-footer">
-                                                            <input type="submit" value="Delete" class="btn btn-danger">
+                                                            <input type="submit" value="Yes" class="btn btn-danger">
+                                                            
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-4">
+                                            <form action="/order/cancel/{{this.id}}" method="get">
+                                                <!-- delete button -->
+                                                <button type="button" title="Approve" class="btn btn-success " data-toggle="modal" data-target="#approvedModal_{{this.id}}">
+                                                    <i class="fa fa-check"></i>
+                                                </button>
+
+                                                <!-- The Modal -->
+                                                <div class="modal" id="approvedModal_{{ this.id }}">
+                                                    <div class="modal-dialog" >
+                                                        <div class="modal-content">
+                            
+                                                            <!-- Modal Header -->
+                                                            <div class="modal-header">
+                                                            <h4 class="modal-title">Confirmation</h4>
+                                                            <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                                            </div>
+                            
+                                                            <!-- Modal body -->
+                                                            <div class="modal-body">
+                                                            Are you sure you want to reject Order ID {{this.Order.id}}?
+                                                            </div>
+                            
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                            <input type="submit" value="Delete" class="btn btn-primary">
                                                             
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                                             </div>
@@ -86,34 +120,87 @@
                                                 <i class="far fa-eye"></i>
                                             </button>
                                             <!-- The Modal -->
-                                            <div class="modal " id="viewModal_{{ this.id }}" >
-                                                <div class="modal-dialog">
-                                                    {{!-- <div class="modal-header" style="width: 800px; margin-left: -100px">
-                                                            <h4 class="modal-title"> Order Details</h4>
-                                                            <button type="button" class="btn-close" data-dismiss="modal"></button>
-                                                    </div> --}}
-                                                    <div class="modal-content" style="width: 800px; margin-left: -100px" >
-                                                        
-                                                        <div class="card" style="border-radius: 10px;" >
-                                                            <div class="card-header px-4 py-5">
+                                            <div class="modal" id="viewModal_{{ this.id }}">
+                                                <div class="modal-dialog" >
+                                                    <div class="modal-content" style="width: 800px; margin-left: -100px">
+                        
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                        <h4 class="modal-title">Order Detail</h4>
+                                                        <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                                        </div>
+                        
+                                                        <!-- Modal body -->
+                                                        <div class="modal-body">
+                                                        <!-- Order Detail -->
+                                                            <article class="card border-primary mb-4">
+                                                                <div class="card-body">
+                                                                <header class="d-lg-flex">
+                                                                    <div class="flex-grow-1">
+                                                                    <h6 class="mb-0">Order ID: {{this.Order.id}} <i class="dot"></i>  
+                                                                        <span class="text-success"> {{this.Payment.delivery_status}} </span>
+                                                                    </h6>
+                                                                    <span class="text-muted">Date: {{dateFormat this.createdAt 'DD MMM YYYY'}}</span>
+                                                                    </div>
+                            
+                                                                </header>
+                                                                <hr>
                                                                 <div class="row">
-                                                                <div class="col-11">
-                                                                    <h5 class="text-muted mb-0">Order Of  <span style="color: #a8729a;">{{this.User.username}}</span>!</h5>
-                                                                </div>
-                                                                <div class="col-1">
-                                                                    <button type="button" class="btn-close" data-dismiss="modal"></button>
-                                                                </div>
+                                                                    <div class="col-lg-4">
+                                                                    <p class="mb-0 text-muted">Contact</p>
+                                                                    <p class="m-0"> 
+                                                                        Mike Johnatan <br>  Phone: 371-295-9131 <br> Email: info@mywebsite.com </p>
+                                                                    </div> <!-- col.// -->
+                                                                    <div class="col-lg-4 border-start">
+                                                                    <p class="mb-0 text-muted">Shipping address</p>
+                                                                    <p class="m-0"> United States <br> 
+                                                                        3601 Old Capitol Trail, Unit A-7, Suite 170777, Wilmington, DE 19808   </p>
+                                                                    </div> <!-- col.// -->
+                                                                    <div class="col-lg-4 border-start">
+                                                                    <p class="mb-0 text-muted">Payment</p>
+                                                                    <p class="m-0">
+                                                                        <span class="text-success"> Visa  **** 4216   </span> <br> 
+                                                                        Shipping fee:  $56 <br> 
+                                                                        Total paid:  $456 
+                                                                    </p>
+                                                                    </div> <!-- col.// -->
+                                                                </div> <!-- row.// -->
+                                                                <hr>
+                                                                <ul class="row">
+                                                                    {{#each this.Order.OrderItems}}
+                                                                        <li class="col-xl-4  col-lg-6" style="list-style: none;">
+                                                                            <figure class="itemside mb-3">
+                                                                                <div class="aside">
+                                                                                <img width="72" height="72" src="images/items/1.jpg" class="img-sm rounded border">
+                                                                                </div>
+                                                                                <figcaption class="info">
+                                                                                <p class="title">{{this.Product.name}}</p>
+                                                                                <strong> {{this.quantity}}x = ${{multiply this.Product.price this.quantity}}.00 </strong>
+                                                                                </figcaption>
+                                                                            </figure> 
+                                                                        </li>    
+                                                                    {{/each}}                                                            
+                                                                </ul>
+                                                                </div> <!-- card-body .// -->
+                                                            </article> <!-- card .// --> 
+                                                            <br>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title">Reason of Cancellation  </h5>
+                                                                    <div class="mb-3">
+                                                                        <textarea class="form-control" name= "message" placeholder="Type here" maxlength="250" readonly> {{this.message}}</textarea>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-
-                                                        <!-- Modal footer -->
-                                                        <div class="modal-footer">
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">                                                        
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                                
                                         </div>
                                     </div>
                                 </td>
