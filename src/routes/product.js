@@ -85,7 +85,7 @@ productRouter.post('/updateRoute',async function(req,res){
 });
 
 productRouter.post('/update',async function(req,res){
-    let { id,name,description,category,stock,price,colour } = req.body;
+    let { id,name,description,category,stock,price,colour,image } = req.body;
     console.log("I AM HERE",name)
     const products = await (await Products.findAll()).map((x) => x.dataValues)
     Product.update({
@@ -94,7 +94,8 @@ productRouter.post('/update',async function(req,res){
         category: category,
         stock: stock,
         price: price,
-        colour: colour
+        colour: colour,
+        image: image
     },
         {where: {id: id}}//change the button value to this.name to use name:id comparison
     )   
