@@ -206,9 +206,13 @@ a {
 	   <a href="/community/chat/{{this}}"> <h2 style="color:white" id="room-name">{{this}}</h2> </a>
 	   {{/each}}
 <!-- Button trigger modal -->
+{{#equals user.isStaff 1}}
 <button type="button" style="margin-bottom: 50px;" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
   Add Chat Room
 </button>
+
+{{/equals}}
+
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
