@@ -79,7 +79,7 @@ communityRouter.route("/chat/:room").get(async (req, res) => {
                     userID : req.user.id,
                     RoomId : check_room.id,
                     username: req.user.username,
-                    user_count
+              
                 })
 
 
