@@ -6,37 +6,70 @@
   </p>
   <br>
 
-{{!-- <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
+<div class="card">
   <div class="card-body">
-    <h5 class="card-title">Product Information</h5>
+    <header class="d-lg-flex">
+        <div class="flex-grow-1">
+          <h6 class="mb-0">Order ID: {{order.id}} <i class="dot"></i>  
+            <span class="text-success"> {{order.Payment.delivery_status}} </span>
+          </h6>
+          <span class="text-muted">Date: {{dateFormat order.createdAt 'DD MMM YYYY'}}</span>
+        </div>
+        
+      </header>
+      <hr>
+      <div class="row">
+        <div class="col-lg-4">
+          <p class="mb-0 text-muted">Contact</p>
+          <p class="m-0"> 
+            Mike Johnatan <br>  Phone: 371-295-9131 <br> Email: info@mywebsite.com </p>
+        </div> <!-- col.// -->
+        <div class="col-lg-4 border-start">
+          <p class="mb-0 text-muted">Shipping address</p>
+          <p class="m-0"> United States <br> 
+            3601 Old Capitol Trail, Unit A-7, Suite 170777, Wilmington, DE 19808   </p>
+        </div> <!-- col.// -->
+        <div class="col-lg-4 border-start">
+          <p class="mb-0 text-muted">Payment</p>
+          <p class="m-0">
+            <span class="text-success"> Visa  **** 4216   </span> <br> 
+            Shipping fee:  $56 <br> 
+            Total paid:  $456 
+          </p>
+        </div> <!-- col.// -->
+      </div> <!-- row.// -->
+      <hr>
+      <ul class="row">
+        {{#each order.OrderItems}}
+          <li class="col-xl-4  col-lg-6">
+            <figure class="itemside mb-3">
+              <div class="aside">
+                <img width="72" height="72" src="images/items/1.jpg" class="img-sm rounded border">
+              </div>
+              <figcaption class="info">
+                <p class="title"> {{this.Product.name}}</p>
+                <strong> {{this.quantity}}x = ${{multiply this.Product.price this.quantity}}.00 </strong>
+              </figcaption>
+            </figure> 
+          </li>
+        {{/each}}
+      </ul>
   </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Product Name:  </li>
-    <li class="list-group-item">Product Category: </li>
-  </ul>
 </div>
-<br> --}}
+<br><br>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Reason of Cancellation  </h5>
 
-<form method="POST" action="" enctype="multipart/form-data">
-    <div class="form-group">
-        {{!-- <Input class="uploadProfileInput" type="file" name="myImage" id="newProfilePhoto" accept="image/*" style="opacity: 0;" /> --}}
-        <div class="upload__box">
-        <div class="upload__btn-box">
-            <label class="upload__btn">
-            <p>Upload images</p>
-            <input type="file" name="myImage" accept="image/*" class="upload__inputfile">
-            </label>
-        </div>
-        <div class="upload__img-wrap" style="width: 100px; height: 100px ">
+<form action="/account/cancelorderform/{{order.id}}" method="post">
+	
+	<div class="mb-3">
+		<textarea class="form-control" name= "message" placeholder="Type here" maxlength="250" required></textarea>
+	</div>
 
-        </div>
-        </div>
-    </div>
- 
-    <div class="form-group">
-        <label for="exampleFormControlTextarea1">Reason For Cancellation: </label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="reason" required></textarea>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+	<button type="submit" class="btn btn-primary">Submit request</button>
 </form>
+
+  </div>
+</div>
+<br><br><br>

@@ -1,0 +1,127 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Order Management</h1>
+    <p class="mb-4">Order Cancellation Request</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Requests</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                >
+                    <thead>
+                        <tr>
+                            <th>OrderID</th>
+                            <th>Customer Email</th>
+                            <th>Messages</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each requests }}
+                            <tr>
+                                <td>{{this.Order.id}}</td>
+                                <td>{{this.Order.User.email}}</td>
+                                <td>{{this.message}}</td>
+                                {{#equals this.status "null" }}
+                                    <td><p class="badge badge-info">NULL</p></td>
+                                {{/equals}}
+                                {{#equals this.status "rejected" }}
+                                    <td><p class="badge badge-danger">Rejected</p></td>
+                                {{/equals}}
+                                {{#equals this.status "Approved" }}
+                                    <td><p class="badge badge-success">Approved</p></td>
+                                {{/equals}}
+                                <td>{{dateFormat this.createdAt 'DD MMM YYYY'}}</td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <form action="/order/cancel/{{this.id}}" method="get">
+                                                <!-- delete button -->
+                                                <button type="button" title="Delete" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal_{{this.id}}">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+
+                                                <!-- The Modal -->
+                                                <div class="modal" id="deleteModal_{{ this.id }}">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                            
+                                                            <!-- Modal Header -->
+                                                            <div class="modal-header">
+                                                            <h4 class="modal-title">Cancel Confirmation</h4>
+                                                            <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                                            </div>
+                            
+                                                            <!-- Modal body -->
+                                                            <div class="modal-body">
+                                                            Are you sure you want to delete {{this.id}}?
+                                                            </div>
+                            
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                            <input type="submit" value="Delete" class="btn btn-danger">
+                                                            
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        {{!-- https://mdbootstrap.com/docs/standard/extended/order-details/# --}}
+                                        <div class="col-4">
+                                            <!-- view button -->
+                                            <button type="button" title="View" class="btn btn-secondary" data-toggle="modal" data-target="#viewModal_{{this.id}}">
+                                                <i class="far fa-eye"></i>
+                                            </button>
+                                            <!-- The Modal -->
+                                            <div class="modal " id="viewModal_{{ this.id }}" >
+                                                <div class="modal-dialog">
+                                                    {{!-- <div class="modal-header" style="width: 800px; margin-left: -100px">
+                                                            <h4 class="modal-title"> Order Details</h4>
+                                                            <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                                    </div> --}}
+                                                    <div class="modal-content" style="width: 800px; margin-left: -100px" >
+                                                        
+                                                        <div class="card" style="border-radius: 10px;" >
+                                                            <div class="card-header px-4 py-5">
+                                                                <div class="row">
+                                                                <div class="col-11">
+                                                                    <h5 class="text-muted mb-0">Order Of  <span style="color: #a8729a;">{{this.User.username}}</span>!</h5>
+                                                                </div>
+                                                                <div class="col-1">
+                                                                    <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Modal footer -->
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

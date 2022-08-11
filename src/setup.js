@@ -149,10 +149,14 @@ InitaliseGoogleLogin();
 
 async function getUserCartCount(UserId) {
     const cart = await Cart.findOne({ where: { UserId } });
-    const cartItems = await CartItem.findAll({ where: { CartId: cart.id } });
-    
-    var count = 0;
-    cartItems.forEach(item => count += item.quantity)
+    if (cart){
+        const cartItems = await CartItem.findAll({ where: { CartId: cart.id } });
+        var count = 0;
+        cartItems.forEach(item => count += item.quantity)
+    }
+    else{
+        count = 0
+    }
     return count;
 }
 

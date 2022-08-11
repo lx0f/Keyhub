@@ -2,6 +2,7 @@ const express = require("express")
 const OrderManagement = express.Router()
 const { Order }  = require("../models/order")
 const { OrderItem } = require("../models/order")
+const { Cancelrequest } = require("../models/order")
 const Product = require("../models/product")
 const { Payment } = require("../models/order")
 const { Cart } = require("../models/cart")
@@ -23,7 +24,7 @@ cron.schedule('*/15 * * * * ', async() => {
             Order.update({order_status: "Cancelled"},{where : {id: order.id }});
             console.log("Hello");
         }
-  });
+    });
 });
 
 // Get Orders
@@ -41,21 +42,73 @@ OrderManagement.get('/', async (req, res) => {
             },
         ],
     });
-
     return res.render('./staff/ordermanagement/staff-getorders', { orders });
 });
 
+// Approved cancel request
 OrderManagement.get('/cancelorder/:id', async function (req, res) {
     try {
-        let order = await Order.findByPk(req.params.id);
-        if (!order) {
-            flash(res, 'error', 'order not found');
-            res.redirect('/staff/manage_order');
+        let request = await Cancelrequest.findOne({
+            where: {OrderId: req.params.id}
+        });
+
+        if (!request) {
+            flash(res, 'error', 'request not found');
+            res.redirect('/staff/manage_order/cancelrequests');
             return;
         }
-        let result = await Order.update({order_status: "Canceled"},{ where: { id: order.id } });
-        req.flash("success", "Order" + " is cancelled!");
-        res.redirect('/staff/manage-orders');
+        let result = await Cancelrequest.update({status: "Approved"},{ where: { id: request.id } });
+        req.flash("success", "Order Cancellation " + " is Approved!");
+        res.redirect('/staff/manage-orders/cancelrequests');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+// Reject Cancel Request
+OrderManagement.get('/rejectcancelorder/:id', async function (req, res) {
+    try {
+        let request = await Cancelrequest.findOne({
+            where: {OrderId: req.params.id}
+        });
+
+        if (!request) {
+            flash(res, 'error', 'request not found');
+            res.redirect('/staff/manage_order/cancelrequests');
+            return;
+        }
+        let result = await Cancelrequest.update({status: "Rejected"},{ where: { id: request.id } });
+        req.flash("success", "Order Cancellation " + " is Rejected!");
+        res.redirect('/staff/manage-orders/cancelrequests');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+// Retrieve Cancellation Request
+OrderManagement.get('/cancelrequests', async function (req, res) {
+    try {
+        const requests = await Cancelrequest.findAll({
+            include: [
+                {   
+                    model: Order,
+                    include: [
+                        {
+                            model: OrderItem,
+                            include: {
+                                model: Product
+                            }
+                        },
+                        {
+                            model:User
+                        }
+                    ]
+                },
+            ],
+        });
+        return res.render('./staff/ordermanagement/staff-cancel-request', { requests });
     }
     catch (err) {
         console.log(err);

@@ -5,6 +5,8 @@ const customerManageAccountRouter = express.Router()
 const User = require("../models/User")
 const { Order }  = require("../models/order")
 const { OrderItem } = require("../models/order")
+const { Cancelrequest } = require("../models/order")
+
 const Product = require("../models/product")
 const { Payment } = require("../models/order")
 const { Cart } = require("../models/cart")
@@ -29,7 +31,6 @@ customerManageAccountRouter.use((req, res, next) => {
 
 
 customerManageAccountRouter.route("/").get((req, res) => {
- 
     
     res.render("./customers/page-profile-main")
 
@@ -75,6 +76,40 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
     });
   
     return res.render('./customers/orders/page-profile-orders', { orders });
+});
+
+customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
+    const order = await Order.findOne({
+        include: [
+            {
+                model: OrderItem,
+                include: {
+                    model: Product
+                }
+            },
+            
+        ],
+        where: { Id: req.params.id }
+
+    });
+    return res.render('./customers/orders/page-cancel-request',{order});
+});
+
+customerManageAccountRouter.post('/cancelorderform/:id', async (req, res) => {
+   try{
+    Cancelrequest.create(
+        {
+            OrderId: req.params.id,
+            message: req.body.message,
+            status: "null"
+        }
+    )
+    req.flash("success","Your cancel request sent susscessfully, Please Watch you email for update")
+    res.redirect("/account/orderhistory")
+   }
+   catch(e){
+    console.log(e)
+   }
 });
 
 customerManageAccountRouter.route("/edit-image").post(async (req, res) => {
