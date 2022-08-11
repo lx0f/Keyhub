@@ -8,6 +8,13 @@ async function exportFAQDocument(path) {
     if (fs.existsSync(path)) {
         fs.unlinkSync(path);
     }
+    var dir = path.split('/');
+    dir.pop();
+    dir = dir.join("/");
+    console.log('DIR', dir);
+    if (!fs.existsSync(path)) {
+        fs.mkdirSync(dir);
+    }
     fs.writeFileSync(path, '');
     faqs.forEach((faq) => {
         var data = `${faq.Question},${faq.Answer}`;
