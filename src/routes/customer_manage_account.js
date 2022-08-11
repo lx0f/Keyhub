@@ -6,7 +6,7 @@ const User = require("../models/User")
 const { Order }  = require("../models/order")
 const { OrderItem } = require("../models/order")
 const { Cancelrequest } = require("../models/order")
-
+const Pevaluation = require("../models/product_evaluation");
 const Product = require("../models/product")
 const { Payment } = require("../models/order")
 const { Cart } = require("../models/cart")
@@ -77,7 +77,20 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
   
     return res.render('./customers/orders/page-profile-orders', { orders });
 });
-
+//
+customerManageAccountRouter.get('/review', async (req,res) =>{
+    const reviews = await Pevaluation.findAll({
+        include: [
+            {
+                model: Product
+            }
+        ],
+        where :{
+            UserId: req.user.id
+        }
+    });
+    return res.render('./customers/page-profile-review', { reviews });
+})
 
 // Have to consider the delivery status of the order see if cancel !!!
 

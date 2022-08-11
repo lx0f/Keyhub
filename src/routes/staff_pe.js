@@ -5,17 +5,10 @@ const User = require("../models/User");
 const PevaluationRouter = express.Router()
 
 PevaluationRouter.get('/productevaluations',async (req, res) => {
-    const product_evaluation = await Pevaluation.findAll({
-        include: [
-                    {
-                        model: Product,
-                    },
-                    {
-                        model: User
-                    },
-                ],
+    const products = await Product.findAll({
+       
     });
-    return res.render("./staff/productevaluation/staff-productevaluation-retrieve", { product_evaluation });
+    return res.render("./staff/productevaluation/staff-productevaluation-retrieve", {products });
     })
   
 
