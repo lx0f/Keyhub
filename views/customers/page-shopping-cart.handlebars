@@ -94,18 +94,42 @@
 			
 				<div class="form-group">
 					<label>Have coupon?</label>
+					{{#if code}}
+					<form action="/cart/removevoucher/{{code}}" method="POST">
+						<div class="input-group">
+							<input type="text" class="form-control" name="voucher_code" placeholder="{{code}}">
+							<span class="input-group-append"> 
+								<button type="submit" class="btn btn-danger">Remove</button>
+							</span>
+						</div>
+					</form>
+					{{else}}
 					<form action="/cart/applyvoucher" method="POST">
 						{{#if code}}
 							<input type="text" class="form-control" value="{{code}}" name="previous_code" placeholder="Coupon code" hidden>
 						{{/if}}
 						<div class="input-group">
-							<input type="text" class="form-control" name="voucher_code" placeholder="Coupon code">
+							<input type="text" class="form-control" name="voucher_code" placeholder="{{code}}">
 							<span class="input-group-append"> 
+								
 								<button type="submit" class="btn btn-primary">Apply</button>
+								
 							</span>
 						</div>
 					</form>
+					{{/if}}
+					<br>
+					{{#if code}}
+					<div class="row">
+						<div class="col-6">
+							<div>Code Applied:</div>
+						</div>
+						<div class="col-6">
+							<div class="text-right"><strong>{{code}}</strong> </div>
+						</div>
 					
+					</div>
+					{{/if}}
 				</div>
 			
 			</div> <!-- card-body.// -->
@@ -113,6 +137,7 @@
 		<div class="card">
 			<div class="card-body">
 					<dl class="dlist-align">
+						
 					  <dt>Sub-Total:</dt>
 					  <dd class="text-right"><strong>${{totalPrice}}</strong></dd>
 					</dl>
@@ -129,11 +154,11 @@
 					  {{#equals no_discount 0}}
 					  
 					  <dt>Discount:</dt>
-					  <dd class="text-right">$<strong>{{no_discount}}</strong></dd>
+					  <dd class="text-right">- $<strong>{{no_discount}}</strong></dd>
 					  {{/equals}}
 
 					</dl>
-					{{#if code}}
+					{{!-- {{#if code}}
 					<dl class="dlist-align">
 					  <dt>Code Applied:</dt>
 					  <dd class="text-right"><strong>{{code}}</strong> </dd>
@@ -141,7 +166,7 @@
 							<button type="submit" class="btn btn-danger">Remove</button>
 						</form>
 					</dl>
-					{{/if}}
+					{{/if}} --}}
 					{{#equals shipping 0}}
 					<dl class="dlist-align">
 						<dt>Shipping:</dt>

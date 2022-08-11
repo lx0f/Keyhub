@@ -40,7 +40,7 @@ manageVoucher.get('/deleteVoucher/:id', async function
   try {
     let voucher = await Voucher.findByPk(req.params.id);
     let result = await Voucher.destroy({ where: { id: voucher.id } });
-    console.log(result + ' video deleted');
+    
     req.flash('success', 'Voucher Deleted');
     res.redirect('/staff/manage-vouchers');
     }
@@ -72,14 +72,14 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
      voucher_title: req.body.voucher_title,
       voucher_name: req.body.voucher_name,
       voucher_value: req.body.voucher_value,
-      voucher_code: req.body.voucher_code,
+      voucher_code: voucher.voucher_code,
       voucher_status: req.body.voucher_status,
       total_voucher: req.body.total_voucher,
-      voucher_used: req.body.voucher_used,
+      voucher_used: voucher.voucher_used,
       voucher_desc: req.body.voucher_desc,
       start_date: req.body.start_date,
       days: req.body.days,
-      voucher_type: req.body.voucher_type,
+      // voucher_type: req.body.voucher_type,
       voucher_cat: req.body.voucher_cat,
       usage:req.body.usage,
       spend:req.body.spend
