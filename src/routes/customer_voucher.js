@@ -7,7 +7,6 @@ const Voucher = require("../models/Voucher");
 
 const customervoucher = express.Router();
 
-
 customervoucher.get("/", async (req, res) => {
     try {
         if (req.user) {
@@ -65,7 +64,7 @@ customervoucher.post('/postvoucherlist', async (req,res) =>{
         // update voucher data
         
         const voucher = await Voucher.findByPk(req.body.voucherID)
-        if (voucher.voucher_used >= voucher.total_voucher) {
+        if (req.body.status == "Inactive" || voucher.voucher_used >= voucher.total_voucher) {
            
           
             req.flash('error', `${voucher.voucher_title} Voucher has been fully claimed!`)
