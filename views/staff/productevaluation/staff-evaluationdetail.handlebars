@@ -1,0 +1,140 @@
+<div class="container-fluid">
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Product Evaluation</h1>
+<p class="mb-4">Evaluation Detail</p>
+
+<!-- =================== COMPONENT REVIEW ====================== -->
+<div class="row" style="margin:auto;">
+	<aside class="col-lg-9">
+		<div class="card mb-4" style="height:605px ;">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-10">
+						<h4 class="card-title" style="padding-top:20px;">Reviews  </h4>
+					
+					</div>
+					
+					<div class="col-2">
+						<p style="color:grey;float:right;"> {{count}} Reviews </p>
+					</div>
+				</div>
+				<hr>
+				<br>
+				
+				<div class="scroll" style="overflow-y:auto;height:450px;">
+					{{#each review}}
+					<blockquote class="border-bottom">
+						<div class="icontext">
+							{{!-- <img src="/uploads/myImage-1660035606378.jpg" class="img-xs icon rounded-circle"> --}}
+							<img src="/{{this.User.imageFilePath}}" class="img-xs icon rounded-circle">
+							<div class="text">
+								<h6 class="mb-0"> {{this.User.username}} </h6>
+								<div class="rating-wrap">
+									<ul class="rating-stars">
+										<li style="width:{{convert this.ProductRating}}%" class="stars-active">
+											<img src="/images/misc/stars-active.svg" alt="">
+										</li>
+										<li> <img src="/images/misc/starts-disable.svg" alt=""> </li>
+									</ul>
+									<b class="dot"></b>
+									<small class="label-rating text-muted"> Purchased on  {{dateFormat this.createdAt 'DD MMM YYYY'}}</small>
+								</div>
+							</div>
+						</div> <!-- icontext.// -->
+						<div class="mt-3">
+							<p>
+								{{this.ProductRemarks}}
+							</p>
+						</div>
+					</blockquote>
+					<br>
+					{{/each}}
+				</div>
+			</div>
+			</div>
+		</aside>
+	
+		<aside class="col-lg-3" >
+			<article class="card" style="width: 300px;">
+				<div class="card-body">
+					
+					{{!-- <div class="total-rating">
+						<h4 class="text-lg " style="text-align:center;"> 
+						4.6 out of 5 
+						</h4>	
+						<div class="stars" style="text-align: center;">
+							<i class="fa-solid fa-star fa-lg"></i>
+							<i class="fa-solid fa-star fa-lg"></i>
+							<i class="fa-solid fa-star fa-lg"></i>
+							<i class="fa-solid fa-star fa-lg"></i>
+							<i class="fa-solid fa-star-half fa-lg"></i>
+						</div>
+					</div> --}}
+					
+					
+					
+					<div class="rating-wrap mt-3">
+						<ul class="rating-stars stars-lg">
+							<li style="width:{{convert average}}%" class="stars-active"> <img src="/images/misc/stars-active.svg" alt=""> </li>
+							<li> <img height="520" src="/images/misc/starts-disable.svg" alt=""> </li>
+						</ul>
+						<b class="label-rating text-lg"> {{average}} out of 5 </b>		
+					</div> <!-- rating-wrap.// -->
+					<p class="mt-1 text-muted"> {{count}} reviews </p>
+
+					<br>
+					
+					
+					<table class="table table-borderless table-sm">
+						<tr valign="middle">
+							<td width="50"> 5 <i class="fa-solid fa-star"></i></td>
+							<td style="vertical-align:middle ;"> 
+								<div class="progress" style="height: 10px;" >
+								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count5 count}}%;" aria-valuenow="25" aria-valuemax="100" ></div>
+								</div> <!-- progress .// -->
+							</td>
+							<td width="60"> {{percentage count5 count}} % </td>
+						</tr>
+						<tr valign="middle">
+							<td> 4 <i class="fa-solid fa-star"></i> </td>
+							<td style="vertical-align:middle ;"> 
+								<div class="progress" style="height: 10px;">
+								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count4 count}}%;" aria-valuenow="80" aria-valuemax="100"></div>
+								</div> <!-- progress .// -->
+							</td>
+							<td> {{percentage count4 count}} % </td>
+						</tr>
+						<tr valign="middle">
+							<td> 3 <i class="fa-solid fa-star"></i></td>
+							<td style="vertical-align:middle ;"> 
+								<div class="progress" style="height: 10px;">
+								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count3 count}} %;" aria-valuenow="35" aria-valuemax="100"></div>
+								</div> <!-- progress .// -->
+							</td>
+							<td> {{percentage count3 count}} % </td>
+						</tr>
+						<tr valign="middle">
+							<td> 2 <i class="fa-solid fa-star"></i> </td>
+							<td style="vertical-align:middle ;"> 
+								<div class="progress" style="height: 10px;">
+								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count2 count}}%;" aria-valuenow="13" aria-valuemax="100"></div>
+								</div> <!-- progress .// -->
+							</td>
+							<td> {{percentage count2 count}} % </td>
+						</tr>
+						<tr valign="middle">
+							<td> 1 <i class="fa-solid fa-star"></i> </td>
+							<td style="vertical-align:middle ;"> 
+								<div class="progress" style="height: 10px;">
+								<div class="progress-bar bg-warning" role="progressbar" style="width:{{percentage count1 count}}%;" aria-valuenow="5" aria-valuemax="100"></div>
+								</div> <!-- progress .// -->
+							</td>
+							<td> {{percentage count1 count}} % </td>
+						</tr>
+					</table>
+				</div>
+			</article>
+		</aside>
+</div>
+
+</div>

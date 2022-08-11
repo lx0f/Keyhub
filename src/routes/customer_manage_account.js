@@ -93,8 +93,14 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
         ],
         where: { Id: req.params.id }
     });
-    if (order.Cancelrequest.length != 0){
-        req.flash("success","Your cancel request is in the progress, please check your email for new updates")
+    const cancelrequest = await Cancelrequest.findAll({
+        where:{
+            OrderId: order.id
+        }
+    })
+    console.log(cancelrequest)
+    if (cancelrequest.length > 0){
+        req.flash("info","Your cancel request is in the progress, please check your email for new updates")
         res.redirect("/account/orderhistory")
     }
     else{
