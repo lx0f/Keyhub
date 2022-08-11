@@ -1,16 +1,15 @@
-const Sequelize = require("sequelize");
-const sequelize = require("./database_setup");
+const Sequelize = require('sequelize');
+const sequelize = require('./database_setup');
 
 class Product extends Sequelize.Model {}
 
 Product.init(
-    {   
+    {
         id: {
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: 
-            'id',
+            unique: 'id',
             allowNull: false,
         },
         name: {
@@ -38,14 +37,14 @@ Product.init(
         image: {
             type: Sequelize.DataTypes.STRING,
             allowNull: true,
-            defaultValue: null
+            defaultValue: null,
         },
     },
     {
         freezeTableName: true,
         timestamps: true,
         sequelize,
-        modelName: "Product",
+        modelName: 'Product',
     }
 );
 

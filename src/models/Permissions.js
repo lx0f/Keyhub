@@ -1,5 +1,5 @@
-const Sequelize = require("sequelize");
-const sequelize = require("./database_setup");
+const Sequelize = require('sequelize');
+const sequelize = require('./database_setup');
 
 class Permission extends Sequelize.Model {}
 
@@ -20,10 +20,9 @@ Permission.init(
         },
         route: {
             type: Sequelize.DataTypes.STRING,
-            
-        }, enabled: {
-            type: Sequelize.DataTypes.BOOLEAN
-            
+        },
+        enabled: {
+            type: Sequelize.DataTypes.BOOLEAN,
         },
         updatedAt: {
             type: Sequelize.DataTypes.DATE,
@@ -32,7 +31,7 @@ Permission.init(
         createdAt: {
             type: Sequelize.DataTypes.DATE,
             allowNull: false,
-        }
+        },
     },
     {
         freezeTableName: true,

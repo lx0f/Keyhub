@@ -3,3 +3,4 @@ data/database
 data/database.sqlite
 .env
 public\uploads
+src/dialogflow/docs

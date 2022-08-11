@@ -1,28 +1,29 @@
-const express = require("express");
+const express = require('express');
 const chatbotRouter = express.Router();
 const Ticket = require('../models/Ticket');
+const serviceAccount = require('../../keyhub-dialogflow-service-account.json');
+const { SessionsClient } = require('@google-cloud/dialogflow').v2beta1;
 
 async function createTicket(req, queryResult) {
-    const { title, description, severity, category } = queryResult.parameters.fields;
-    console.log("Creating ticket");
+    const { title, description, severity, category } =
+        queryResult.parameters.fields;
+    console.log('Creating ticket');
     await Ticket.create({
         title: title.stringValue,
         description: description.stringValue,
         severity: severity.stringValue,
         category: category.stringValue,
-        authorID: req.user.id
+        authorID: req.user.id,
     });
 }
 
-chatbotRouter.get("/test", async (req, res) => {
-    return res.render("./chatbot-test");
+chatbotRouter.get('/test', async (req, res) => {
+    return res.render('./chatbot-test');
 });
 
 // user must be logged in to interact with the chatbot
-chatbotRouter.get("/:query", async (req, res) => {
-    const serviceAccount = require("../../keyhub-dialogflow-service-account.json");
-    const { SessionsClient } = require("@google-cloud/dialogflow");
-    const projectId = "keyhub-357302";
+chatbotRouter.get('/:query', async (req, res) => {
+    const projectId = 'keyhub-357302';
     const sessionId = req.sessionID;
     const sessionClient = new SessionsClient({ credentials: serviceAccount });
     const sessionPath = sessionClient.projectAgentSessionPath(
@@ -36,7 +37,7 @@ chatbotRouter.get("/:query", async (req, res) => {
         queryInput: {
             text: {
                 text: query,
-                languageCode: "en-US",
+                languageCode: 'en-US',
             },
         },
     };
@@ -48,11 +49,10 @@ chatbotRouter.get("/:query", async (req, res) => {
 
     // create ticket
     if (
-        displayName == "Create Ticket" &&
+        displayName == 'Create Ticket' &&
         endInteraction == true &&
         req.isAuthenticated() == true
-    )
-    {
+    ) {
         createTicket(req, queryResult);
     }
 
