@@ -16,6 +16,9 @@ CustomerVoucher.init(
         },
         UserID:{
             type: Sequelize.DataTypes.INTEGER,
+        },
+        setrole:{
+            type: Sequelize.DataTypes.INTEGER,
         }
     },
     {

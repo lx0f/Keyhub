@@ -4,9 +4,13 @@ const User = require("../models/User");
 const { CustomerVoucher } = require("../models/CustomerVoucher");
 const { VoucherItem } = require("../models/CustomerVoucher")
 const manageVoucher = express.Router();
+const { Mail, transporter } = require("../configuration/nodemailer");
 const cron = require('node-cron');
 const moment = require('moment');
 require('dotenv').config()
+const fetch = require('node-fetch');
+
+
 // let sendSmtpEmail = new Sib.SendSmtpEmail();
 // const email = req.query.email;
 // console.log(email)
@@ -167,5 +171,87 @@ manageVoucher.route("/voucher-form").get((req, res) => {
         req.flash("error", e)
     }
 });
+manageVoucher.post('/sendmail/:voucher_id', async (req, res) => {
+  const voucherlist = await CustomerVoucher.findAll({
+    where:{setrole:1}
+  });
+  for (i = 0; i < voucherlist.length; i++){
+    const send_to = await User.findOne({
+      where: { id: voucherlist[i].UserID }
+    });
+    const link = `http://localhost:3000/staff/manage-vouchers/emailvoucher/${send_to.id}/${req.params.voucher_id}`; 
+  
+    Mail.Send({
+        email_recipient: `${send_to.email}`,
+        subject: "Thank You for your Patron",
+        template_path: "../../views/staff/voucher/vouchermail_1.html",
+        context: { link },
+    });
+  }
+  
+ 
+  
+  req.flash("success", "Mail sent successfully")
+  res.redirect("/staff/manage-vouchers")
+})
 
+manageVoucher.post('/emailvoucher/:user_id/:voucher_id', async (req, res) => {
+      
+  const voucherlist = await CustomerVoucher.findOne({
+    where: {
+      UserID: req.params.user_id || 0
+    }
+  })
+  const voucher = await Voucher.findByPk(req.params.voucher_id)
+    
+  // find items in voucher list
+  const item = await VoucherItem.findOne({
+    where: {
+      VoucherListId: voucherlist.id,
+      VoucherId: voucher.id,
+    },
+  })
+  if (item) {
+    req.flash("error", "You have already redeem this voucher !")
+    res.redirect("/");
+  } else {
+    voucher.update({
+      voucher_used: voucher.voucher_used + 1
+    })
+          
+    await VoucherItem.create({ VoucherListId: voucherlist.id, VoucherId: voucher.id, Type: "Reward", usage: 0 })
+    req.flash("success", "Congrats, You have just redeem this voucher!")
+    res.redirect("/");
+  }
+});
+
+manageVoucher.post('/', async (req, res) => { 
+      
+    const voucherlist = await CustomerVoucher.findOne({
+        where: {
+          UserID: req.params.user_id || 0
+        }
+      })
+    const voucher = await Voucher.findByPk(req.params.voucher_id)
+    
+    // find items in voucher list
+    const item = await VoucherItem.findOne({
+      where: {
+        VoucherListId:voucherlist.id,
+        VoucherId:voucher.id,
+      },
+    })
+    if (item) {
+      req.flash("error", "You have already redeem this voucher !")
+      res.redirect("/");
+    } else {
+      voucher.update({
+              voucher_used:voucher.voucher_used + 1
+          })
+          
+      await VoucherItem.create({ VoucherListId: voucherlist.id, VoucherId: voucher.id, Type: "Reward", usage: 0 })
+      req.flash("success", "Congrats, You have just redeem this voucher!")
+      res.redirect("/");
+    }      
+})
 module.exports = manageVoucher;

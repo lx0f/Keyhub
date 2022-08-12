@@ -1,4 +1,5 @@
 const express = require("express");
+
 const customerRouter = express.Router();
 
 const customerFAQRouter = require("./customer_FAQ");
@@ -12,7 +13,7 @@ const ShoppingCart = require("./shoppingcart");
 const CustomerOrder = require("./order");
 const Policies = require("./policies")
 
-const CustomerVoucher = require("./customer_voucher");
+const CustomerVouchers = require("./customer_voucher");
 const loyaltyprogram = require("./loyaltyprogram");
 
 /*customerRouter.use((req, res, next) => {
@@ -47,7 +48,7 @@ customerRouter.use("/cart", ShoppingCart);
 customerRouter.use("/order", CustomerOrder);
 
 
-customerRouter.use("/CustomerVoucher", CustomerVoucher);
+customerRouter.use("/CustomerVoucher", CustomerVouchers);
 
 customerRouter.route("/logout").get((req, res) => {
   req.logOut();
@@ -55,6 +56,7 @@ customerRouter.route("/logout").get((req, res) => {
 });
 
 customerRouter.route("/").get((req, res) => {
+
   res.render("./customers/page-index-3");
 });
 

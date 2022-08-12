@@ -44,12 +44,22 @@ loginRouter
                 isStaff: false,
             });
             const Find_User = await User.findOne({ where: { email: req.body.email } })
-            await CustomerVoucher.create({
+            if (req.body.promotions) {
+                await CustomerVoucher.create({
+                
+                UserID: Find_User.id,
+                setrole: 1
+                
+                })
+            } else {
+                await CustomerVoucher.create({
                 
                 UserID: Find_User.id,
                 setrole: 0
                 
-            })
+                })
+            }
+            
       
        
             req.flash("success", "Successfully registered!");
