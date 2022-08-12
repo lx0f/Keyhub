@@ -17,8 +17,8 @@ DeliveryDetail.init(
         },
         shipping_status: {
             type: Sequelize.DataTypes.STRING,
+            validate: { isIn: [['pending', 'transit', 'delivered']] }
         },
-
         ShipOutDate: {
             type: Sequelize.DataTypes.DATE,
             allowNull: true,

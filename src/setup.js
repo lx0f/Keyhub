@@ -144,6 +144,11 @@ app.engine(
             percentage(a, b) {
                 return (a / b) * 100;
             },
+            dateHasPassed(date) {
+                const today = new Date();
+                var parsedDate = Date.parse(date);
+                return today >= parsedDate;
+            }
         },
     })
 );

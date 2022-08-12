@@ -82,15 +82,9 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
             },
             {
                 model: DeliveryDetail,
-                attributes: ['id','shipping_status'],
             },
         ],
     });
-
-    // DEBUG
-    console.log('ORDER:', orders);
-    console.log('DELIVERY DETAILS:', orders[0].DeliveryDetail);
-    console.log(JSON.stringify(orders, null, 2));
 
     return res.render('./customers/orders/page-profile-orders', { orders });
 });

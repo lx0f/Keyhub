@@ -22,25 +22,152 @@
 	<main class="col-md-9">
         <h5 class="card-title"> Your orders </h5> 
     {{#each orders}}
-        <!-- Delivery Status Modal -->
-        <div class="modal fade" id="deliveryStatusModal{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="deliveryStatusModal{{this.id}}Label" aria-hidden="true">
-  		  <div class="modal-dialog" role="document">
-    		<div class="modal-content">
-      		  <div class="modal-header">
-        		<h5 class="modal-title" id="deliveryStatusModal{{this.id}}Label">Delivery #{{this.DeliveryDetail.id}}</h5>
-        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          		  <span aria-hidden="true">&times;</span>
-        		</button>
-      		  </div>
-      		  <div class="modal-body">
-        		<strong>Delivery status: {{this.DeliveryDetail.shipping_status}}</strong>
-      		  </div>
-      		  <div class="modal-footer">
-        		<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-      		  </div>
-    		</div>
-  		  </div>
-		</div>
+    <!-- Delivery Status Modal -->
+	<div class="modal fade" id="deliveryStatusModal{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="deliveryStatusModal{{this.id}}Label" aria-hidden="true">
+  	  <div class="modal-dialog" role="document">
+    	<div class="modal-content" style="width: 600px">
+      	  <div class="modal-header">
+        	<h5 class="modal-title" id="deliveryStatusModal{{this.id}}Label">Delivery status</h5>
+        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          	  <span aria-hidden="true">&times;</span>
+        	</button>
+      	  </div>
+      	  <div class="modal-body">
+
+
+        	<div class="card border-top border-bottom border-3">
+          	  <div class="card-body p-5">
+
+            	<div class="row">
+              	  <div class="col mb-3">
+                	<p class="small text-muted mb-1">Order No:</p>
+                	<p>{{this.id}}</p>
+              	  </div>
+            	</div>
+
+            	<p class="lead fw-bold mb-4 pb-2 text-primary">Tracking Order</p>
+
+            	<div class="row">
+              	  <div class="col-lg-12">
+
+                	<div class="horizontal-timeline">
+
+                  	  <ul class="list-inline items d-flex justify-content-between">
+                    	<li class="list-inline-item items-list active">
+                      	  <p class="py-1 px-2 rounded text-white small bg-primary">Ordered</p>
+                    	</li>
+
+                    	<li class="list-inline-item items-list
+                    	{{#if (dateHasPassed this.DeliveryDetail.ShipOutDate)}}
+                    	active
+                    	{{/if}}
+                    	">
+                    	{{#if (dateHasPassed this.DeliveryDetail.ShipOutDate)}}
+                      	  <p class="py-1 px-2 rounded text-white small bg-primary">Shipped</p>
+                    	{{else}}
+                      	  <p class="py-1 px-2 small">Shipped</p>
+                    	{{/if}}
+                      	  <p class="muted small">{{dateFormat this.DeliveryDetail.ShipOutDate "MMMM Do, YYYY"}}</p>
+                    	</li>
+
+                    	<li class="list-inline-item items-list
+                    	{{#if (dateHasPassed this.DeliveryDetail.ReceivedDate)}}
+                    	active
+                    	{{/if}}
+                    	">
+                    	{{#if (dateHasPassed this.DeliveryDetail.ReceivedDate)}}
+                      	  <p class="py-1 px-2 rounded text-white small bg-primary">On the way</p>
+                    	{{else}}
+                      	  <p class="py-1 px-2 small">On the way</p>
+                    	{{/if}}
+                      	  <p class="muted small">{{dateFormat this.DeliveryDetail.ReceivedDate "MMMM Do, YYYY"}}</p>
+                    	</li>
+
+                    	<li style="margin-right: 8px;" class="list-inline-item items-list
+                    	{{#if (dateHasPassed this.DeliveryDetail.CompleteDate)}}
+                    	active
+                    	{{/if}}
+                    	">
+                    	{{#if (dateHasPassed this.DeliveryDetail.CompleteDate)}}
+                      	  <p class="py-1 px-2 rounded text-white small bg-primary" style="margin-right: -8px;">Delivered</p>
+                    	{{else}}
+                      	  <p class="py-1 px-2 small" style="margin-right: -8px;">Delivered</p>
+                    	{{/if}}
+                      	  <p class="muted small">{{dateFormat this.DeliveryDetail.CompleteDate "MMMM Do, YYYY"}}</p>
+                    	</li>
+
+                  	  </ul>
+
+                	</div>
+
+              	  </div>
+            	</div>
+
+            	<p class="mt-4 pt-2 mb-0">Want any help? <a href="#!" class="link">Please contact
+                	us</a></p>
+
+          	  </div>
+        	</div>
+
+
+      	  </div>
+      	  <div class="modal-footer">
+        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      	  </div>
+    	</div>
+  	  </div>
+	</div>
+	<style>
+		@media (min-width: 1025px) {
+		.h-custom {
+		height: 100vh !important;
+		}
+		}
+
+		.horizontal-timeline .items {
+		border-top: 2px solid #ddd;
+		}
+
+		.horizontal-timeline .items .items-list {
+		position: relative;
+		margin-right: 0;
+		}
+
+		.horizontal-timeline .items .items-list:before {
+		content: "";
+		position: absolute;
+		height: 8px;
+		width: 8px;
+		border-radius: 50%;
+		background-color: #ddd;
+		top: 0;
+		margin-top: -5px;
+		}
+
+		.horizontal-timeline .items .items-list.active:before {
+		background-color: #3167eb;
+		}
+
+		.horizontal-timeline .items .items-list:last-child:before {
+		content: "";
+		position: absolute;
+		height: 8px;
+		width: 8px;
+		border-radius: 50%;
+		background-color: #ddd;
+		top: 0;
+		right: -8px;
+		margin-top: -5px;
+		}
+
+		.horizontal-timeline .items .items-list {
+		padding-top: 15px;
+		}
+
+		.horizontal-timeline .items .items-list.active:last-child:before {
+		background-color: #3167eb;
+		}
+	</style>
     <!--  ======== item order ======== -->
     <article class="card border-primary mb-4">
     <div class="card-body">
@@ -92,8 +219,7 @@
             </figcaption>
           </figure> 
         </li>
-        {{/each}}
-        
+        {{/each}} 
       </ul>
     </div> <!-- card-body .// -->
     </article> <!-- card .// --> 

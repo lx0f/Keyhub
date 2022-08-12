@@ -126,6 +126,7 @@ CustomerOrder.post('/data', async (req, res) => {
         // create order delivery details
         const deliveryDetail = await DeliveryDetail.create({
             OrderId: order.id,
+            shipping_status: 'pending',
             ShipOutDate: null,
             ReceivedDate: null,
             CompleteDate: null
