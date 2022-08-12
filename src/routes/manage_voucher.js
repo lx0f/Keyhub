@@ -5,6 +5,7 @@ const { CustomerVoucher } = require("../models/CustomerVoucher");
 const { VoucherItem } = require("../models/CustomerVoucher")
 const manageVoucher = express.Router();
 const { Mail, transporter } = require("../configuration/nodemailer");
+const  Redeemables  = require("../models/Redeemables");
 const cron = require('node-cron');
 const moment = require('moment');
 require('dotenv').config()
@@ -181,7 +182,7 @@ manageVoucher.post('/sendmail/:voucher_id', async (req, res) => {
       where: { id: voucherlist[i].UserID }
     });
     const link = `http://localhost:3000/staff/manage-vouchers/emailvoucher/${send_to.id}/${req.params.voucher_id}`; 
-  
+    
     Mail.Send({
         email_recipient: `${send_to.email}`,
         subject: "Thank You for your Patron",
@@ -216,8 +217,12 @@ manageVoucher.post('/emailvoucher/:user_id/:voucher_id', async (req, res) => {
     req.flash("error", "You have already redeem this voucher !")
     res.redirect("/");
   } else {
+    const Redeemcount = await Redeemables.findOne({where:{VoucherId:voucher.id}})
     voucher.update({
       voucher_used: voucher.voucher_used + 1
+    })
+    Redeemcount.update({
+      Redeemcount:Redeemcount.Redeemcount + 1
     })
           
     await VoucherItem.create({ VoucherListId: voucherlist.id, VoucherId: voucher.id, Type: "Reward", usage: 0 })
