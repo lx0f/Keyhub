@@ -20,7 +20,9 @@
 							<span class="top-right tag-2 tag-active">{{this.voucher_status}}</span>
 						{{/equals}}
 						{{#equals this.voucher_status "Inactive" }}
-
+							{{!-- {{#equals this.voucher_used this.total_voucher}}
+							<span class="top-right tag-2 tag-inactive">Fully Redeemed</span>
+							{{/equals}} --}}
 							<span class="top-right tag-2 tag-inactive">Fully Redeemed</span>
 						{{/equals}}
 						
@@ -58,7 +60,8 @@
 									{{/equals}}
 									{{#equals this.voucher_status "Inactive" }}
 										
-										<input type="hidden" name="status" value="{{this.voucher_status}}">
+											<input type="hidden" name="status" value="{{this.voucher_status}}">
+										
 									{{/equals}}
 									<input type="hidden" name="voucherID" value="{{this.id}}">
 									<button type="submit" class="claim-button">Claim</button>
