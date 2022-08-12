@@ -41,62 +41,60 @@ customervoucher.post('/postvoucherlist', async (req, res) => {
     try {
         if (req.user) {
             let list = {}
-         const [voucherlist] = await CustomerVoucher.findOrCreate({
-            where: {
-              UserID: req.user.id || 0
-            }
-         })
-        list = voucherlist
+            const [voucherlist] = await CustomerVoucher.findOrCreate({
+                where: {
+                    UserID: req.user.id || 0
+                }
+            })
+            list = voucherlist
         
         
-        // find items in voucher list
-        const [item, created] = await VoucherItem.findOrCreate({
-          where: {
-            VoucherListId:voucherlist.id,
-            VoucherId:req.body.voucherID,
-          },
-            defaults: {
-            Type:"Daily",
-            usage: 0
-          }
-        })
-        // update voucher data
+            // find items in voucher list
+            const [item, created] = await VoucherItem.findOrCreate({
+                where: {
+                    VoucherListId: voucherlist.id,
+                    VoucherId: req.body.voucherID,
+                },
+                defaults: {
+                    Type: "Daily",
+                    usage: 0
+                }
+            })
+            // update voucher data
         
-        const voucher = await Voucher.findByPk(req.body.voucherID)
-        if (req.body.status == "Inactive" || voucher.voucher_used >= voucher.total_voucher) {
+            const voucher = await Voucher.findByPk(req.body.voucherID)
+            if (req.body.status == "Inactive" || voucher.voucher_used >= voucher.total_voucher) {
            
           
-            req.flash('error', `${voucher.voucher_title} Voucher has been fully claimed!`)
-            return res.redirect('/CustomerVoucher');
-        }
-        else if (!created) {
-          
-            req.flash('error', `${voucher.voucher_title} Voucher has been already been claimed`)
-            return res.redirect('/CustomerVoucher');
-          
-        }
-        else{
-            await voucher.update({
-            
-                voucher_used: voucher.voucher_used += 1
-            })
-             if (voucher.voucher_used >= voucher.total_voucher) {
-
-                await voucher.update({
-                    voucher_used: (voucher.voucher_used += 1),
-                });
-                if (voucher.voucher_used >= voucher.total_voucher) {
-                    await voucher.update({
-                        voucher_status: 'Inactive',
-                    });
-                }
+                req.flash('error', `${voucher.voucher_title} Voucher has been fully claimed!`)
+                return res.redirect('/CustomerVoucher');
             }
+            else if (!created) {
+          
+                req.flash('error', `${voucher.voucher_title} Voucher has been already been claimed`)
+                return res.redirect('/CustomerVoucher');
+          
+            }
+            else {
+                await voucher.update({
+            
+                    voucher_used: voucher.voucher_used += 1
+                })
+                if (voucher.voucher_used >= voucher.total_voucher) {
 
-            await item.save();
-            return res.redirect('/CustomerVoucher');
-        } else {
-            req.flash('error', 'please login as customer first');
-            return res.redirect('/login');
+                    await voucher.update({
+                        voucher_used: (voucher.voucher_used += 1),
+                    });
+                    if (voucher.voucher_used >= voucher.total_voucher) {
+                        await voucher.update({
+                            voucher_status: 'Inactive',
+                        });
+                    }
+                }
+
+                await item.save();
+                return res.redirect('/CustomerVoucher');
+            }
         }
     } catch (e) {
         console.log(e);

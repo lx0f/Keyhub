@@ -100,7 +100,10 @@ manageVoucher.get('/deleteVoucher/:id', async function
     req.flash('success', 'Voucher Deleted');
     res.redirect('/staff/manage-vouchers');
 
-    }
+  }
+  catch (e) {
+    console.log(e)
+  }
 });
 manageVoucher.get('/editVoucher/:id', (req, res) => {
     Voucher.findByPk(req.params.id)
@@ -123,40 +126,24 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
 
   const voucher = await Voucher.findByPk(req.params.id);
   await voucher.update({
-     voucher_title: req.body.voucher_title,
-      voucher_name: req.body.voucher_name,
-      voucher_value: req.body.voucher_value,
-      voucher_code: voucher.voucher_code,
-      voucher_status: req.body.voucher_status,
-      total_voucher: req.body.total_voucher,
-      voucher_used: voucher.voucher_used,
-      voucher_desc: req.body.voucher_desc,
+    voucher_title: req.body.voucher_title,
+    voucher_name: req.body.voucher_name,
+    voucher_value: req.body.voucher_value,
+    voucher_code: voucher.voucher_code,
+    voucher_status: req.body.voucher_status,
+    total_voucher: req.body.total_voucher,
+    voucher_used: voucher.voucher_used,
+    voucher_desc: req.body.voucher_desc,
     start_date: req.body.start_date,
-      spend:req.body.spend,
-      days: req.body.days,
-      // voucher_type: req.body.voucher_type,
-      voucher_cat: req.body.voucher_cat,
-      usage:req.body.usage,
-      spend:req.body.spend
+    spend: req.body.spend,
+    days: req.body.days,
+    // voucher_type: req.body.voucher_type,
+    voucher_cat: req.body.voucher_cat,
+    usage: req.body.usage,
+    spend: req.body.spend
 
-
-    const voucher = await Voucher.findByPk(req.params.id);
-    await voucher.update({
-        voucher_title: req.body.voucher_title,
-        voucher_name: req.body.voucher_name,
-        voucher_value: req.body.voucher_value,
-        voucher_code: req.body.voucher_code,
-        voucher_status: req.body.voucher_status,
-        total_voucher: req.body.total_voucher,
-        voucher_used: req.body.voucher_used,
-        voucher_desc: req.body.voucher_desc,
-        start_date: req.body.start_date,
-        days: req.body.days,
-        voucher_type: req.body.voucher_type,
-        voucher_cat: req.body.voucher_cat,
-        usage: req.body.usage,
-        spend: req.body.spend,
-    });
+  });
+    
 
     req.flash('success', 'Voucher updated!');
     res.redirect('/staff/manage-vouchers');
@@ -172,12 +159,7 @@ manageVoucher
         res.render('staff/voucher/voucher-form');
         // }
     })
-    req.flash("success", "Successfully created Voucher!")
-    return res.redirect("/staff/manage-vouchers")
-  } catch(e) {
-        req.flash("error", e)
-    }
-});
+   
 manageVoucher.post('/sendmail/:voucher_id', async (req, res) => {
   const voucherlist = await CustomerVoucher.findAll({
     where:{setrole:1}
