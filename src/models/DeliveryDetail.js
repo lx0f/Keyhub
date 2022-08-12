@@ -17,7 +17,7 @@ class DeliveryDetail extends Sequelize.Model {
       OrderId:{
         type: Sequelize.DataTypes.INTEGER,
       },
-      delivery_status:{
+      shipping_status:{
         type: Sequelize.DataTypes.STRING,
       },
       

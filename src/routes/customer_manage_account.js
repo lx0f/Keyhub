@@ -18,6 +18,7 @@ const { VoucherItem } = require('../models/CustomerVoucher');
 const Voucher = require('../models/Voucher');
 
 const handlebars = require('handlebars');
+const DeliveryDetail = require('../models/DeliveryDetail');
 
 customerManageAccountRouter.use((req, res, next) => {
     if (req.isUnauthenticated()) {
@@ -68,6 +69,7 @@ customerManageAccountRouter
 
 customerManageAccountRouter.get('/orderhistory', async (req, res) => {
     const orders = await Order.findAll({
+        where: { UserId: req.user.id },
         include: [
             {
                 model: OrderItem,
@@ -78,9 +80,17 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
             {
                 model: Payment,
             },
+            {
+                model: DeliveryDetail,
+                attributes: ['id','shipping_status'],
+            },
         ],
-        where: { UserId: req.user.id },
     });
+
+    // DEBUG
+    console.log('ORDER:', orders);
+    console.log('DELIVERY DETAILS:', orders[0].DeliveryDetail);
+    console.log(JSON.stringify(orders, null, 2));
 
     return res.render('./customers/orders/page-profile-orders', { orders });
 });
