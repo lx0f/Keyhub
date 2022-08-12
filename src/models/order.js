@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('./database_setup');
 const Product = require('./product');
 const User = require('./User');
+const DeliveryDetail = require('./DeliveryDetail');
 
 class Order extends Sequelize.Model {}
 
@@ -97,9 +98,6 @@ Payment.init(
         modelName: 'Payment',
     }
 );
-// cancel request and order
-Order.hasOne(Cancelrequest)
-Cancelrequest.belongsTo(Order)
 
 
 class Cancelrequest extends Sequelize.Model {}
@@ -134,7 +132,7 @@ Order.hasOne(Cancelrequest)
 Cancelrequest.belongsTo(Order)
 
 
-// User and order association 
+// User and order association
 Order.belongsTo(User);
 User.hasMany(Order);
 
@@ -167,5 +165,9 @@ Payment.belongsTo(Order);
 
 Order.hasOne(DeliveryDetail);
 DeliveryDetail.belongsTo(Order)
+
+// cancel request and order
+Order.hasOne(Cancelrequest)
+Cancelrequest.belongsTo(Order)
 
 module.exports = { Order, OrderItem, Payment, Cancelrequest };
