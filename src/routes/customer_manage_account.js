@@ -1,15 +1,15 @@
 const express = require('express');
 const fs = require('fs');
- const upload = require('../configuration/imageUpload');
-const customerManageAccountRouter = express.Router()
-const User = require("../models/User")
-const { Order }  = require("../models/order")
-const { OrderItem } = require("../models/order")
-const { Cancelrequest } = require("../models/order")
-const Pevaluation = require("../models/product_evaluation");
-const Product = require("../models/product")
-const { Payment } = require("../models/order")
-const { Cart } = require("../models/cart")
+const upload = require('../configuration/imageUpload');
+const customerManageAccountRouter = express.Router();
+const User = require('../models/User');
+const { Order } = require('../models/order');
+const { OrderItem } = require('../models/order');
+const { Cancelrequest } = require('../models/order');
+const Pevaluation = require('../models/product_evaluation');
+const Product = require('../models/product');
+const { Payment } = require('../models/order');
+const { Cart } = require('../models/cart');
 const moment = require('moment');
 const cron = require('node-cron');
 
@@ -85,19 +85,19 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
     return res.render('./customers/orders/page-profile-orders', { orders });
 });
 //
-customerManageAccountRouter.get('/review', async (req,res) =>{
+customerManageAccountRouter.get('/review', async (req, res) => {
     const reviews = await Pevaluation.findAll({
         include: [
             {
-                model: Product
-            }
+                model: Product,
+            },
         ],
-        where :{
-            UserId: req.user.id
-        }
+        where: {
+            UserId: req.user.id,
+        },
     });
     return res.render('./customers/page-profile-review', { reviews });
-})
+});
 
 // Have to consider the delivery status of the order see if cancel !!!
 
@@ -107,44 +107,46 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
             {
                 model: OrderItem,
                 include: {
-                    model: Product
-                }
-            },{
-                model: Cancelrequest
-            }
+                    model: Product,
+                },
+            },
+            {
+                model: Cancelrequest,
+            },
         ],
-        where: { Id: req.params.id }
+        where: { Id: req.params.id },
     });
     const cancelrequest = await Cancelrequest.findAll({
-        where:{
-            OrderId: order.id
-        }
-    })
-    if (cancelrequest.length > 0){
-        req.flash("info","Your cancel request is in the progress, please check your email for new updates")
-        res.redirect("/account/orderhistory")
-    }
-    else{
-        return res.render('./customers/orders/page-cancel-request',{order});
-
+        where: {
+            OrderId: order.id,
+        },
+    });
+    if (cancelrequest.length > 0) {
+        req.flash(
+            'info',
+            'Your cancel request is in the progress, please check your email for new updates'
+        );
+        res.redirect('/account/orderhistory');
+    } else {
+        return res.render('./customers/orders/page-cancel-request', { order });
     }
 });
 
 customerManageAccountRouter.post('/cancelorderform/:id', async (req, res) => {
-   try{
-    Cancelrequest.create(
-        {
+    try {
+        Cancelrequest.create({
             OrderId: req.params.id,
             message: req.body.message,
-            status: "null"
-        }
-    )
-    req.flash("success","Your cancel request sent susscessfully, Please Watch you email for update")
-    res.redirect("/account/orderhistory")
-   }
-   catch(e){
-    console.log(e)
-   }
+            status: 'null',
+        });
+        req.flash(
+            'success',
+            'Your cancel request sent susscessfully, Please Watch you email for update'
+        );
+        res.redirect('/account/orderhistory');
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 customerManageAccountRouter.route('/edit-image').post(async (req, res) => {

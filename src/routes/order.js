@@ -123,16 +123,17 @@ CustomerOrder.post('/data', async (req, res) => {
             payment_status: req.body.payment_status,
         });
         // create orderItem (cartItem -> orderItem)
-        const items = Array.from({ length: cart.cartProducts.length }).map((_, i) => (
-          OrderItem.create({
-            OrderId: order.id,
-            ProductId: cart.cartProducts[i].id,
-            price: cart.cartProducts[i].price,
-            quantity: cart.cartProducts[i].CartItem.quantity
-          })
-        ))
-        Promise.all(items)
-        await cart.destroy()
+        const items = Array.from({ length: cart.cartProducts.length }).map(
+            (_, i) =>
+                OrderItem.create({
+                    OrderId: order.id,
+                    ProductId: cart.cartProducts[i].id,
+                    price: cart.cartProducts[i].price,
+                    quantity: cart.cartProducts[i].CartItem.quantity,
+                })
+        );
+        Promise.all(items);
+        await cart.destroy();
         // clear cartId in session
         req.session.cartId = '';
         return res.redirect(`/order/payment/${order.id}`);

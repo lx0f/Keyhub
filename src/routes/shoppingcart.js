@@ -152,10 +152,10 @@ ShoppingCart.post('/postcart', async (req, res) => {
 //       where: { UserId: req.user.id },
 //       include: "cartProducts"
 //     })
-    
+
 //     const cartcount = cart.cartProducts.length
 //     res.render('./customers/page-shopping-cart',{cartcount})
-    
+
 //   }catch (e) {
 //     console.log(e)
 //   }

@@ -50,8 +50,7 @@ communityRouter.route('/chat/:room').get(async (req, res) => {
             socket.join(room);
 
             console.log('New connection...');
-            io.to(socket.id)
-            .emit(
+            io.to(socket.id).emit(
                 'message',
                 userMessage('KeyHub Bot', `Welcome to ${room} channel!`)
             );
@@ -98,10 +97,8 @@ communityRouter.route('/chat/:room').get(async (req, res) => {
             );
             numClients[room]--;
             io.emit('disconnected');
-         
         });
     });
- 
 
     res.render('./customers/page-community-chat', {
         username: req.user.username,
@@ -121,8 +118,8 @@ communityRouter.route('/chat/create-room').post(async (req, res) => {
     res.redirect('/community/chat');
 });
 
-communityRouter.route("/chat/delete-room").post(async (req,res) => {})
-communityRouter.route("/chat/update-room").post(async (req, res) => {})
+communityRouter.route('/chat/delete-room').post(async (req, res) => {});
+communityRouter.route('/chat/update-room').post(async (req, res) => {});
 
 communityRouter.route('/chat').get(async (req, res) => {
     const all_rooms = (await Room.findAll()).map((x) => x.dataValues.name);
@@ -131,7 +128,6 @@ communityRouter.route('/chat').get(async (req, res) => {
         const a = Room.build({ name: 'Main' });
         await a.save();
         console.log(a);
-    
     }
     console.log(all_rooms);
 
