@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('./database_setup');
 
-class DeliveryDetail extends Sequelize.Model { }
+class DeliveryDetail extends Sequelize.Model {}
 
 DeliveryDetail.init(
     {

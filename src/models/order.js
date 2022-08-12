@@ -165,7 +165,7 @@ Order.hasOne(DeliveryDetail);
 DeliveryDetail.belongsTo(Order);
 
 // cancel request and order
-Order.hasOne(Cancelrequest)
-Cancelrequest.belongsTo(Order)
+Order.hasOne(Cancelrequest);
+Cancelrequest.belongsTo(Order);
 
 module.exports = { Order, OrderItem, Payment, Cancelrequest };
