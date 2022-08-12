@@ -85,11 +85,11 @@ CustomerOrder.get('/', async (req, res) => {
       
 
     }
+
   } catch (e) {
     console.log(e);
   }
 });
-
 // Post Order
 CustomerOrder.post('/data', async (req, res) => {
   try {
@@ -246,11 +246,7 @@ CustomerOrder.post('/paymentdata/:id', async (req, res) => {
 });
 
 CustomerOrder.get('/success', async (req, res) => {
- 
   return res.render('./customers/page-success');
-
-
-    return res.render('./customers/page-success');
 });
 
 module.exports = CustomerOrder;
