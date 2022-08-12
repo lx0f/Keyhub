@@ -1,5 +1,6 @@
 const express = require('express');
 const { NONE } = require('sequelize');
+const { OrderItem } = require('../models/order');
 const productRouter = express.Router();
 const product = require('../models/product');
 const Pevaluation = require("../models/product_evaluation")
@@ -87,7 +88,7 @@ productRouter.get('/bare', async (req, res) => {
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
-        if (products[index]['category'] == 'Barebones Kit') {
+        if (products[index]['category'] == 'Barebone Kit') {
             display.push(products[index]);
         }
     }
@@ -100,23 +101,6 @@ productRouter.get('/bare', async (req, res) => {
     res.render('./customers/page-listing-grid', { display, items });
 });
 
-productRouter.get('/bare', async (req, res) => {
-    const products = await (await product.findAll()).map((x) => x.dataValues);
-    const display = [];
-    for (let index = 0; index < products.length; index++) {
-        if (products[index]['category'] == 'Barebones Kit') {
-            display.push(products[index]);
-        }
-    }
-
-    var items = await display.length;
-    if (items == 1) {
-        items = items.toString() + ' product';
-    } else {
-        items = items.toString() + ' products';
-    }
-    res.render('./customers/page-listing-grid', { display, items });
-});
 
 productRouter.get('/switches', async (req, res) => {
     const products = await (await product.findAll()).map((x) => x.dataValues);
@@ -140,7 +124,7 @@ productRouter.get('/keycaps', async (req, res) => {
     const products = await (await product.findAll()).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
-        if (products[index]['category'] == 'Keycap') {
+        if (products[index]['category'] == 'Key Cap') {
             display.push(products[index]);
         }
     }
@@ -203,10 +187,18 @@ productRouter.get('/detail/:id', async (req, res) => {
         const count1 = onestar.length;
 
         const count = review.length;
-
-        const average =
+        const totalorder = await OrderItem.findAll({
+            where:{
+                ProductId: req.params.id
+            }
+        })
+        
+        let average =
             (count5 * 5 + count4 * 4 + count3 * 3 + count2 * 2 + count1 * 1) /
             count;
+        if(count == 0 ){
+            average = 0
+        }
         // console.log(average)
         // console.log(onestar)
         res.render('./customers/page-product-large', {
@@ -219,11 +211,11 @@ productRouter.get('/detail/:id', async (req, res) => {
             count4,
             count5,
             average,
+            totalorder
         });
     } catch (e) {
         console.log(e);
     }
-    const items = await display.length
-    res.render("./customers/page-listing-grid",{display,items});
+
 })
 module.exports = productRouter
