@@ -9,11 +9,11 @@ Role.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         name: {
             type: Sequelize.DataTypes.STRING,
-            unique: true,
+            unique: 'name',
             allowNull: false,
         },
         createdAt: {

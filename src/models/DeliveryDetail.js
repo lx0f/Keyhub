@@ -11,7 +11,7 @@ class DeliveryDetail extends Sequelize.Model {
         type: Sequelize.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        unique: true,
+        unique: 'id',
         allowNull: false,
       },
       OrderId:{
