@@ -138,11 +138,20 @@ app.engine(
                 return html;
             },
             convert(num){
-                num = num / 5 * 100
-                return num
+                if (num == 0)
+                    return 1
+                else{
+                    return num = num / 5 * 100
+                }
             },
             percentage(a,b){
-                return a / b * 100
+                if (a || b == 0){
+                    return 0
+                }
+                else{
+                    return a / b * 100 
+                }
+                
             }
         },
     })

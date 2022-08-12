@@ -14,7 +14,7 @@ productRouter.get('/', (req, res) => {
 });
 
 productRouter.post('/', async function (req, res) {
-    let { name, description, category, stock, price, colour, image } = req.body;
+    let { name, description, category, stock, price, colour, image, brand } = req.body;
     //const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/uploads/${image}`, 'base64');
     const products = await (
         await product.findAll({
@@ -60,6 +60,7 @@ productRouter.post('/', async function (req, res) {
             price,
             colour,
             image,
+            brand
 
             //list of attributes
         });

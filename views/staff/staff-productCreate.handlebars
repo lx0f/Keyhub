@@ -22,16 +22,21 @@
                                 <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Category</label>
                                 <br>
+                        
                                 <select name="category" class="form-control" id="exampleFormControlInput1" required>
                                     <option value="" disabled selected>Choose a Category</option>
                                     <option value="Pre-Built Keyboard">Pre-Built Keyboard</option><!--value is what is sent to the db-->
-                                    <option value="Barebones Kit">Barebones Kit</option>
-                                    
-                                    <option value="Keycap">Keycaps</option>
+                                    <option value="Barebone Kit">Bare Bone Kit</option>
+                                    <option value="Key Cap">Keycaps</option>
                                     <option value="Switches">Switches</option> 
                                     <option value="Accessories">Accessories</option>
                                 </select>
                                 </div>
+                                <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Brand</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name = "brand" placeholder="Enter Description Here" required></textarea>
+                                </div>
+
                                 <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Stock</label>
                                 <input type="number" class="form-control" id="exampleFormControlInput1" name = "stock" placeholder="Stock" required>
@@ -44,10 +49,10 @@
                                     <label for="exampleFormControlInput1" class="form-label">Colour</label>
                                     <br>
                                     <select name="colour" class="form-control" id="exampleFormControlInput1" required>
-                                    <option value="" disabled selected>Choose a Colour</option>
-                                    <option value="red">Red</option>
-                                    <option value="green">Green</option>
-                                    <option value="blue">Blue</option>
+                                    <option name="colour" value="" disabled selected>Choose a Colour</option>
+                                    <option name="colour" value="red">Red</option>
+                                    <option name="colour" value="green">Green</option>
+                                    <option name="colour" value="blue">Blue</option>
                                 </select>
                                 </div>
                                 <div class="mb-3">
