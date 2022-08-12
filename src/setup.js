@@ -148,7 +148,7 @@ app.engine(
                 const today = new Date();
                 var parsedDate = Date.parse(date);
                 return today >= parsedDate;
-            }
+            },
         },
     })
 );
