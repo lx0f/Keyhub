@@ -115,13 +115,13 @@ loyaltyprogram.get("/redeem", async (req, res) => {
 loyaltyprogram.post('/redeem', async (req,res) =>{
     try {
         if (req.user) {
-            let list = {}
-         const [voucherlist] = await CustomerVoucher.findOrCreate({
+          
+         const [voucherlist] = await CustomerVoucher.findOne({
             where: {
               UserID: req.user.id || 0
             }
          })
-        list = voucherlist
+        
         
         
         // find items in voucher list
@@ -198,6 +198,7 @@ loyaltyprogram.post('/redeem', async (req,res) =>{
     console.log(e)
     }
 });
+
 loyaltyprogram.post('/redeemables/:id', async (req, res) => {
     try {
  
@@ -241,5 +242,7 @@ loyaltyprogram.post('/redeemables/:id', async (req, res) => {
         console.log(e)
     }
     
- })
+})
+ 
+
 module.exports = loyaltyprogram;

@@ -37,18 +37,21 @@ loginRouter
                 req.flash("error", "Email is not unique!");
                 return res.redirect("/register");
             }
-            User.create({
+            await User.create({
                 username: req.body.username,
                 email: req.body.email,
                 password: req.body.password,
                 isStaff: false,
             });
             const Find_User = await User.findOne({ where: { email: req.body.email } })
-            await CustomerVoucher.findOrCreate({
-            where: {
-              UserID: Find_User.id || 0
-            }
-         })
+            await CustomerVoucher.create({
+                
+                UserID: Find_User.id,
+                setrole: 0
+                
+            })
+      
+       
             req.flash("success", "Successfully registered!");
             return res.redirect("/login");
         } catch (e) {
