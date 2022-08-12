@@ -1,5 +1,6 @@
 const express = require('express');
 const { NONE } = require('sequelize');
+const { OrderItem } = require('../models/order');
 const productRouter = express.Router();
 const product = require('../models/product');
 const Pevaluation = require("../models/product_evaluation")
@@ -186,7 +187,12 @@ productRouter.get('/detail/:id', async (req, res) => {
         const count1 = onestar.length;
 
         const count = review.length;
-
+        const totalorder = await OrderItem.findAll({
+            where:{
+                ProductId: req.params.id
+            }
+        })
+        
         let average =
             (count5 * 5 + count4 * 4 + count3 * 3 + count2 * 2 + count1 * 1) /
             count;
@@ -205,6 +211,7 @@ productRouter.get('/detail/:id', async (req, res) => {
             count4,
             count5,
             average,
+            totalorder
         });
     } catch (e) {
         console.log(e);

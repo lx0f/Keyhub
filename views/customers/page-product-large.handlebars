@@ -7,7 +7,7 @@
 	<article class="gallery-wrap"> 
 		<div class="img-big-wrap img-thumbnail">
 		<a data-fslightbox="mygalley" data-type="image" href=""> 
-			<img height="560" src="/uploads/{{productdetail.image}}"> 
+			<img height="560" src="/{{productdetail.image}}"> 
 		</a>
 		</div> <!-- img-big-wrap.// -->
 	</article> <!-- gallery-wrap .end// -->
@@ -24,7 +24,7 @@
 		<b class="label-rating text-warning"> {{average}} stars</b>
 		
 		<i class="dot"></i>
-		<span class="label-rating text-muted"> <i class="fa fa-shopping-basket"></i> 154 orders </span>
+		<span class="label-rating text-muted"> <i class="fa fa-shopping-basket"></i> {{sum_quantity totalorder}} orders </span>
 		<i class="dot"></i>
 		{{#notequals productdetail.stock 0}}
 		<span class="label-rating text-success">In Stock</span>
