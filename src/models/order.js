@@ -99,38 +99,36 @@ Payment.init(
     }
 );
 
-
 class Cancelrequest extends Sequelize.Model {}
 
 Cancelrequest.init(
     {
-        id:{
+        id: {
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
             unique: true,
         },
-        OrderId:{
+        OrderId: {
             type: Sequelize.DataTypes.INTEGER,
         },
-        message:{
-            type: Sequelize.DataTypes.STRING
+        message: {
+            type: Sequelize.DataTypes.STRING,
         },
         status: {
-            type: Sequelize.DataTypes.STRING
-        }
+            type: Sequelize.DataTypes.STRING,
+        },
     },
     {
         freezeTableName: true,
         timestamps: true,
         sequelize,
-        modelName: "Cancelrequest",
+        modelName: 'Cancelrequest',
     }
 );
 // cancel request and order
-Order.hasOne(Cancelrequest)
-Cancelrequest.belongsTo(Order)
-
+Order.hasOne(Cancelrequest);
+Cancelrequest.belongsTo(Order);
 
 // User and order association
 Order.belongsTo(User);
@@ -164,7 +162,7 @@ Order.hasMany(Payment);
 Payment.belongsTo(Order);
 
 Order.hasOne(DeliveryDetail);
-DeliveryDetail.belongsTo(Order)
+DeliveryDetail.belongsTo(Order);
 
 // cancel request and order
 Order.hasOne(Cancelrequest)

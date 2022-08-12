@@ -2,8 +2,8 @@ const express = require('express');
 const { NONE } = require('sequelize');
 const productRouter = express.Router();
 const product = require('../models/product');
-const Pevaluation = require("../models/product_evaluation")
-const User = require("../models/User")
+const Pevaluation = require('../models/product_evaluation');
+const User = require('../models/User');
 
 productRouter.post('/desc', async function (req, res) {
     let { productID } = req.body;
@@ -223,7 +223,7 @@ productRouter.get('/detail/:id', async (req, res) => {
     } catch (e) {
         console.log(e);
     }
-    const items = await display.length
-    res.render("./customers/page-listing-grid",{display,items});
-})
-module.exports = productRouter
+    const items = await display.length;
+    res.render('./customers/page-listing-grid', { display, items });
+});
+module.exports = productRouter;
