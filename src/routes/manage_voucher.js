@@ -114,18 +114,18 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
   // const start = req.body.start_date;
   // const end = req.body.end_date; 
   // const coupon_type = req.body.coupon_type;
-
+  var startAt = moment(req.body.start_date).format('YYYY-MM-DD HH:mm:ss')
+  
   const voucher = await Voucher.findByPk(req.params.id);
   await voucher.update({
      voucher_title: req.body.voucher_title,
       voucher_name: req.body.voucher_name,
       voucher_value: req.body.voucher_value,
       voucher_code: voucher.voucher_code,
-      voucher_status: req.body.voucher_status,
       total_voucher: req.body.total_voucher,
       voucher_used: voucher.voucher_used,
       voucher_desc: req.body.voucher_desc,
-    start_date: req.body.start_date,
+    start_date: startAt,
       spend:req.body.spend,
       days: req.body.days,
       // voucher_type: req.body.voucher_type,
@@ -150,6 +150,8 @@ manageVoucher.route("/voucher-form").get((req, res) => {
 
 }).post(async (req, res) => {
   try {
+    var startAt = moment(req.body.start_date).format('YYYY-MM-DD HH:mm:ss')
+    
     Voucher.create({
       voucher_title: req.body.voucher_title,
       voucher_name: req.body.voucher_name,
@@ -159,7 +161,7 @@ manageVoucher.route("/voucher-form").get((req, res) => {
       total_voucher: req.body.total_voucher,
       voucher_used: req.body.voucher_used,
       voucher_desc: req.body.voucher_desc,
-      start_date: req.body.start_date,
+      start_date: startAt,
       days: req.body.days,
       voucher_type: req.body.voucher_type,
       voucher_cat: req.body.voucher_cat,
@@ -180,18 +182,24 @@ manageVoucher.post('/sendmail/:voucher_id', async (req, res) => {
     const send_to = await User.findOne({
       where: { id: voucherlist[i].UserID }
     });
-    const link = `http://localhost:3000/staff/manage-vouchers/emailvoucher/${send_to.id}/${req.params.voucher_id}`; 
+    if (send_to) {
+      const link = `http://localhost:3000/staff/manage-vouchers/emailvoucher/${send_to.id}/${req.params.voucher_id}`; 
   
-    Mail.Send({
-        email_recipient: `${send_to.email}`,
-        subject: "Thank You for your Patron",
-        template_path: "../../views/staff/voucher/vouchermail_1.html",
-        context: { link },
-    });
+      Mail.Send({
+          email_recipient: `${send_to.email}`,
+          subject: "Thank You for your Patron",
+          template_path: "../../views/staff/voucher/vouchermail_1.html",
+          context: { link },
+      });
+      
+    } else {
+      req.flash("error", "No Mail to send")
+      res.redirect("/staff/manage-vouchers")
+      
+    }
+   
   }
-  
- 
-  
+
   req.flash("success", "Mail sent successfully")
   res.redirect("/staff/manage-vouchers")
 })
