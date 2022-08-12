@@ -203,6 +203,9 @@ app.use('/', loginRouter);
 app.use('/', customerRouter);
 app.use('/chatbot', chatbotRouter);
 
+app.get('*', function(req, res){
+    res.status(404).render("./customers/page-404", {layout: false});
+  });
 const dialogflowSync = require('./dialogflow/setup');
 dialogflowSync();
 
