@@ -108,6 +108,9 @@ customerManageAccountRouter.get('/review', async (req,res) =>{
         include: [
             {
                 model: Product
+            },
+            {
+                model: User
             }
         ],
         where :{
