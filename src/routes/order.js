@@ -151,11 +151,12 @@ CustomerOrder.post('/data', async (req, res) => {
             }) 
         }
         const applyvoucher = await ApplyVoucher.findOne({ where: { UserId: req.user.id } });
-        const voucheritem = await VoucherItem.findOne({
-            where: { VoucherId:applyvoucher.VoucherId }
-        });
+        
         if (applyvoucher)
         {
+          const voucheritem = await VoucherItem.findOne({
+            where: { VoucherId:applyvoucher.VoucherId }
+          });
           await voucheritem.update({ usage: voucheritem.usage + 1 })
           await applyvoucher.destroy()
         }
