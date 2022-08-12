@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('./database_setup');
 const Product = require('./product');
 const User = require('./User');
+const DeliveryDetail = require("./DeliveryDetail")
 
 class Order extends Sequelize.Model {}
 
@@ -97,9 +98,6 @@ Payment.init(
         modelName: 'Payment',
     }
 );
-// cancel request and order
-Order.hasOne(Cancelrequest)
-Cancelrequest.belongsTo(Order)
 
 
 class Cancelrequest extends Sequelize.Model {}
