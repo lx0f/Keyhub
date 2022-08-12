@@ -92,6 +92,9 @@ Payment.init(
         Payment_method: {
             type: Sequelize.DataTypes.STRING,
         },
+        last4digit:{
+            type: Sequelize.DataTypes.INTEGER
+        },
         isSuccess: {
             type: Sequelize.DataTypes.BOOLEAN
         },
