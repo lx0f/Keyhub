@@ -82,7 +82,7 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
             },
             {
                 model: DeliveryDetail,
-                attributes: ['id','shipping_status'],
+                attributes: ['id', 'shipping_status'],
             },
         ],
     });

@@ -5,7 +5,7 @@ const { OrderItem } = require('../models/order');
 const Product = require('../models/product');
 const { Payment } = require('../models/order');
 const { Cart } = require('../models/cart');
-const DeliveryDetail = require("../models/DeliveryDetail");
+const DeliveryDetail = require('../models/DeliveryDetail');
 const ApplyVoucher = require('../models/ApplyVoucher');
 const Voucher = require('../models/Voucher');
 const moment = require('moment');
@@ -128,7 +128,7 @@ CustomerOrder.post('/data', async (req, res) => {
             OrderId: order.id,
             ShipOutDate: null,
             ReceivedDate: null,
-            CompleteDate: null
+            CompleteDate: null,
         });
         // create orderItem (cartItem -> orderItem)
         const items = Array.from({ length: cart.cartProducts.length }).map(
