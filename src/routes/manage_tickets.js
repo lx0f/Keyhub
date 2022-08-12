@@ -1,17 +1,16 @@
-const express = require("express");
+const express = require('express');
 const manageTicketRouter = express.Router();
 
-const Ticket = require("../models/Ticket");
-const TicketComment = require("../models/TicketComment");
-const TicketAssignee = require("../models/TicketAssignee");
-const User = require("../models/User");
-
-manageTicketRouter.get("/", async (req, res) => {
+const Ticket = require('../models/Ticket');
+const TicketComment = require('../models/TicketComment');
+const TicketAssignee = require('../models/TicketAssignee');
+const User = require('../models/User');
+manageTicketRouter.get('/', async (req, res) => {
     const tickets = await Ticket.findAll();
-    return res.render("./staff/ticket/ticket-table", { tickets });
+    return res.render('./staff/ticket/ticket-table', { tickets });
 });
 
-manageTicketRouter.patch("/", async (req, res) => {
+manageTicketRouter.patch('/', async (req, res) => {
     const ticket = await Ticket.findByPk(req.body.id);
     const meta = req.body.meta;
     const message = req.body.message;
@@ -28,7 +27,7 @@ manageTicketRouter.patch("/", async (req, res) => {
     res.redirect(`/staff/tickets/${ticket.id}`);
 });
 
-manageTicketRouter.post("/assign/user", async (req, res) => {
+manageTicketRouter.post('/assign/user', async (req, res) => {
     const userID = req.body.user;
     const ticketID = req.body.id;
     console.log(userID);
@@ -38,7 +37,7 @@ manageTicketRouter.post("/assign/user", async (req, res) => {
     });
 
     if (ticketAssignee) {
-        req.flash("error", `User already assigned to ticket ${ticketID}.`);
+        req.flash('error', `User already assigned to ticket ${ticketID}.`);
         return res.redirect(`/staff/tickets/${ticketID}`);
     }
 
@@ -50,7 +49,7 @@ manageTicketRouter.post("/assign/user", async (req, res) => {
     return res.redirect(`/staff/tickets/${ticketID}`);
 });
 
-manageTicketRouter.post("/reassign/user", async (req, res) => {
+manageTicketRouter.post('/reassign/user', async (req, res) => {
     const ticket = await Ticket.findByPk(req.body.id);
     const assignees = await TicketAssignee.findAll({
         where: { ticketID: ticket.id },
@@ -102,7 +101,7 @@ manageTicketRouter.post("/reassign/user", async (req, res) => {
     return res.redirect(`/staff/tickets/${ticket.id}`);
 });
 
-manageTicketRouter.post("/assign/category", async (req, res) => {
+manageTicketRouter.post('/assign/category', async (req, res) => {
     const ticketID = req.body.id;
     const category = req.body.category;
     const ticket = await Ticket.findByPk(ticketID);
@@ -110,7 +109,7 @@ manageTicketRouter.post("/assign/category", async (req, res) => {
     return res.redirect(`/staff/tickets/${ticket.id}`);
 });
 
-manageTicketRouter.post("/assign/severity", async (req, res) => {
+manageTicketRouter.post('/assign/severity', async (req, res) => {
     const ticketID = req.body.id;
     const severity = req.body.severity;
     const ticket = await Ticket.findByPk(ticketID);
@@ -118,29 +117,29 @@ manageTicketRouter.post("/assign/severity", async (req, res) => {
     return res.redirect(`/staff/tickets/${ticket.id}`);
 });
 
-manageTicketRouter.get("/:id", async (req, res) => {
+manageTicketRouter.get('/:id', async (req, res) => {
     const id = req.params.id;
     const user = req.user;
     const ticket = await Ticket.findByPk(id, { include: User });
     const comments = await TicketComment.findAll({
         where: { ticketID: ticket.id },
         include: { model: User },
-        order: [["createdAt", "ASC"]], // order ascending by creation date
+        order: [['createdAt', 'ASC']], // order ascending by creation date
     });
     const assignees = await TicketAssignee.findAll({
         where: { ticketID: ticket.id },
         include: { model: User },
     });
     if (ticket) {
-        return res.render("./staff/ticket/ticket", {
+        return res.render('./staff/ticket/ticket', {
             ticket,
             comments,
             user,
             assignees,
         });
     }
-    req.flash("error", "No such account!");
-    return res.redirect("/staff");
+    req.flash('error', 'No such account!');
+    return res.redirect('/staff');
 });
 
 module.exports = manageTicketRouter;

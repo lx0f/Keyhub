@@ -1,0 +1,45 @@
+const Sequelize = require('sequelize');
+const sequelize = require('./database_setup');
+
+class DeliveryDetail extends Sequelize.Model {
+    
+  }
+  
+  DeliveryDetail.init(
+    {
+      id: {
+        type: Sequelize.DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        unique: 'id',
+        allowNull: false,
+      },
+      OrderId:{
+        type: Sequelize.DataTypes.INTEGER,
+      },
+      delivery_status:{
+        type: Sequelize.DataTypes.STRING,
+      },
+      
+      ShipOutDate: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: true,
+      },
+      ReceivedDate: {
+        type: Sequelize.DataTypes.DATE,
+        allowNull: true,
+      },
+      CompleteDate:{
+        type: Sequelize.DataTypes.DATE,
+        allowNull: true,
+      },
+    },
+    {
+      freezeTableName: true,
+      timestamps: true,
+      sequelize,
+      modelName: "DeliveryDetail"
+    }
+  );
+  
+  module.exports = DeliveryDetail;

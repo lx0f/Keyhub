@@ -1,139 +1,72 @@
+const dataRouter = require('express').Router();
+const dfd = require('danfojs-node');
+const User = require('../models/user');
+const chartJsImg = require('chartjs-to-image');
+const Chart = require("./pipeline");
 
-const dataRouter = require("express").Router()
-const dfd = require('danfojs-node')
-const User = require("../models/user")
+var getDaysArray = function (s, e) {
+    for (
+        var a = [], d = new Date(s);
+        d <= new Date(e);
+        d.setDate(d.getDate() + 1)
+    ) {
+        a.push(new Date(d));
+    }
+    return a;
+};
 
 dataRouter.get('/chart-info', async (req, res) => {
-    const usersJoined = await User.findAll();
-    const users = usersJoined.map((x) => x.dataValues);
-  
-    let data = [];
-    let cols = ["Dates","NoOfUsersJoined"];
-  
-  
-    usersJoined.forEach(element => {
-      let rawData = [element.date, 1];
 
-      data.push(rawData)
-    
-      
+    const df2 = await Chart.lineUserChartDaily(new Date('07-07-2022'), new Date())
+
+    var NoOfUsers = [];
+    var dates = [];
+    df2.forEach((element) => {
+        NoOfUsers.push(element['NoOfUsersJoined_sum']);
+        dates.push(element['Dates']);
     });
-    data.push(["08/01/2022", 1])
-    data.push(["08/01/2022", 1])
-    data.push(["09/01/2022", 1])
-    data.push(["10/01/2022", 5])
-    const df = new dfd.DataFrame(data,{columns:["Dates","NoOfUsersJoined"]})
-    const group_df = df.groupby(["Dates"]).sum()
-    console.log(group_df)
-    const df2 = dfd.toJSON(group_df,{format:"json"})
-    res.status(200).json({ 'data':df2 })
-  });
+    console.log(dates);
+
+    console.log(NoOfUsers);
 
 
 
-  dataRouter.get('/chart-info', async (req, res) => {
-    const usersJoined = await User.findAll();
-    const users = usersJoined.map((x) => x.dataValues);
-  
-    let data = [];
-    let cols = ["Dates","NoOfUsersJoined"];
-  
-  
-    usersJoined.forEach(element => {
-      let rawData = [element.date, 1];
-
-      data.push(rawData)
     
-      
+    res.status(200).json({ data: df2 });
+});
+
+dataRouter.get('/chart-info-year', async (req, res) => {
+    const df2 = await Chart.lineUserChartYearly(new Date("07-07-2022"), new Date())
+    var NoOfUsers = [];
+    var dates = [];
+    df2.forEach((element) => {
+        NoOfUsers.push(element['NoOfUsersJoined_sum']);
+        dates.push(element['Dates']);
     });
-    data.push(["08/01/2022", 1])
-    data.push(["08/01/2022", 1])
-    data.push(["09/01/2022", 1])
-    data.push(["10/01/2022", 5])
-    const df = new dfd.DataFrame(data,{columns:["Dates","NoOfUsersJoined"]})
-    const group_df = df.groupby(["Dates"]).sum()
-    console.log(group_df)
-    const df2 = dfd.toJSON(group_df,{format:"json"})
-    res.status(200).json({ 'data':df2 })
-  });
+    console.log(dates);
+    console.log(NoOfUsers);
+    console.log(df2)
 
 
-  
-  
+   
+    res.status(200).json({ data: df2 });
+});
 
-  dataRouter.get('/chart-info-year', async (req, res) => {
-    const usersJoined = await User.findAll();
-    const users = usersJoined.map((x) => x.dataValues);
-  
-    let data = [];
-    let cols = ["Dates","NoOfUsersJoined"];
-  
-  
-    usersJoined.forEach(element => {
-      let rawData = [element.date[2].split("/")[1], 1];
-
-      data.push(rawData)
-    
-      
+dataRouter.get('/chart-info-month', async (req, res) => {
+    const df2 = await Chart.lineUserChartMonthly(new Date("07-07-2022"), new Date())
+    var NoOfUsers = [];
+    var dates = [];
+    df2.forEach((element) => {
+        NoOfUsers.push(element['NoOfUsersJoined_sum']);
+        dates.push(element['Dates']);
     });
-    data.push(["2022", 1])
-    data.push(["2022", 1])
-    data.push(["2022", 1])
-    data.push(["2022", 5])
-    const df = new dfd.DataFrame(data,{columns:["Dates","NoOfUsersJoined"]})
-    const group_df = df.groupby(["Dates"]).sum()
-    console.log(group_df)
-    const df2 = dfd.toJSON(group_df,{format:"json"})
-    res.status(200).json({ 'data':df2 })
-  });
+    console.log(dates);
+    console.log(NoOfUsers);
+
+    console.log('hoi');
 
 
+    res.status(200).json({ data: df2 });
+});
 
-
-
-
-
-
-
-
-
-  dataRouter.get('/chart-info-month', async (req, res) => {
-    const usersJoined = await User.findAll();
-    const users = usersJoined.map((x) => x.dataValues);
-  
-    let data = [];
-    let cols = ["Dates","NoOfUsersJoined"];
-  
-  
-    usersJoined.forEach(element => {
-      let rawData = [element.date.split("/")[1], 1];
-
-
-      data.push(rawData)
-    
-      
-    });
-    data.push(["01", 1])
-    data.push(["01", 1])
-    data.push(["01", 1])
-    data.push(["01", 5])
-    const df = new dfd.DataFrame(data,{columns:["Dates","NoOfUsersJoined"]})
-    const group_df = df.groupby(["Dates"]).sum()
-    console.log(group_df)
-    const df2 = dfd.toJSON(group_df,{format:"json"})
-    res.status(200).json({ 'data':df2 })
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-
-  module.exports = dataRouter;
+module.exports = dataRouter;

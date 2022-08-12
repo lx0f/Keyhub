@@ -1,14 +1,15 @@
-const express = require("express");
-const Voucher = require("../models/Voucher");
-const User = require("../models/User");
-const { CustomerVoucher } = require("../models/CustomerVoucher");
-const { VoucherItem } = require("../models/CustomerVoucher")
+const express = require('express');
+const Voucher = require('../models/Voucher');
+const User = require('../models/User');
+const { CustomerVoucher } = require('../models/CustomerVoucher');
+const { VoucherItem } = require('../models/CustomerVoucher');
 const manageVoucher = express.Router();
 const { Mail, transporter } = require("../configuration/nodemailer");
 const cron = require('node-cron');
 const moment = require('moment');
 require('dotenv').config()
 const fetch = require('node-fetch');
+
 
 
 // let sendSmtpEmail = new Sib.SendSmtpEmail();
@@ -64,24 +65,31 @@ cron.schedule('*/1 * * * * ', async () => {
 manageVoucher
   .route("/")
   .get(async (req, res) => {
-    try {
-      const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
-      const user = await (await User.findAll()).map((x) => x.dataValues);
-      const voucherlist = await CustomerVoucher.findAll({
-        include: ["voucheritem",{ model: User },
-        ],
-      });
-      const voucheritem = await (await VoucherItem.findAll()).map((x) => x.dataValues)
-     
-      console.log(voucherlist)
-      
-      res.render("./staff/voucher/voucher-table", {voucherlist,voucher, user,voucheritem});
-    } catch (e) {
-      console.log(e)
-    }
-    
-  })
 
+    try {
+        const voucher = await (
+            await Voucher.findAll()
+        ).map((x) => x.dataValues);
+        const user = await (await User.findAll()).map((x) => x.dataValues);
+        const voucherlist = await CustomerVoucher.findAll({
+            include: ['voucheritem', { model: User }],
+        });
+        const voucheritem = await (
+            await VoucherItem.findAll()
+        ).map((x) => x.dataValues);
+
+        console.log(voucherlist);
+
+        res.render('./staff/voucher/voucher-table', {
+            voucherlist,
+            voucher,
+            user,
+            voucheritem,
+        });
+    } catch (e) {
+        console.log(e);
+    }
+});
 
 manageVoucher.get('/deleteVoucher/:id', async function
 (req, res) {
@@ -91,17 +99,15 @@ manageVoucher.get('/deleteVoucher/:id', async function
     
     req.flash('success', 'Voucher Deleted');
     res.redirect('/staff/manage-vouchers');
+
     }
-    catch (err) {
-      console.log(err);
-  }
 });
 manageVoucher.get('/editVoucher/:id', (req, res) => {
-  Voucher.findByPk(req.params.id)
-  .then((voucher) => {
-    res.render('./staff/voucher/voucher-edit', { voucher });
-  })
-  .catch(err => console.log(err));
+    Voucher.findByPk(req.params.id)
+        .then((voucher) => {
+            res.render('./staff/voucher/voucher-edit', { voucher });
+        })
+        .catch((err) => console.log(err));
 });
 
 manageVoucher.post('/editVoucher/:id', async (req, res) => {
@@ -133,38 +139,38 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
       usage:req.body.usage,
       spend:req.body.spend
 
-  });
 
-  req.flash("success", "Voucher updated!");
-  res.redirect("/staff/manage-vouchers");
+    const voucher = await Voucher.findByPk(req.params.id);
+    await voucher.update({
+        voucher_title: req.body.voucher_title,
+        voucher_name: req.body.voucher_name,
+        voucher_value: req.body.voucher_value,
+        voucher_code: req.body.voucher_code,
+        voucher_status: req.body.voucher_status,
+        total_voucher: req.body.total_voucher,
+        voucher_used: req.body.voucher_used,
+        voucher_desc: req.body.voucher_desc,
+        start_date: req.body.start_date,
+        days: req.body.days,
+        voucher_type: req.body.voucher_type,
+        voucher_cat: req.body.voucher_cat,
+        usage: req.body.usage,
+        spend: req.body.spend,
+    });
 
-})
+    req.flash('success', 'Voucher updated!');
+    res.redirect('/staff/manage-vouchers');
+});
 
-manageVoucher.route("/voucher-form").get((req, res) => {
-// if (req.isUnauthenticated() || !req.user.isStaff) {
-//   return res.redirect("/");
-// }
-// else {
-  res.render("staff/voucher/voucher-form");
-// }
-
-}).post(async (req, res) => {
-  try {
-    Voucher.create({
-      voucher_title: req.body.voucher_title,
-      voucher_name: req.body.voucher_name,
-      voucher_value: req.body.voucher_value,
-      voucher_code: req.body.voucher_code,
-      voucher_status: req.body.voucher_status,
-      total_voucher: req.body.total_voucher,
-      voucher_used: req.body.voucher_used,
-      voucher_desc: req.body.voucher_desc,
-      start_date: req.body.start_date,
-      days: req.body.days,
-      voucher_type: req.body.voucher_type,
-      voucher_cat: req.body.voucher_cat,
-      usage:req.body.usage,
-      spend:req.body.spend
+manageVoucher
+    .route('/voucher-form')
+    .get((req, res) => {
+        // if (req.isUnauthenticated() || !req.user.isStaff) {
+        //   return res.redirect("/");
+        // }
+        // else {
+        res.render('staff/voucher/voucher-form');
+        // }
     })
     req.flash("success", "Successfully created Voucher!")
     return res.redirect("/staff/manage-vouchers")
@@ -225,6 +231,7 @@ manageVoucher.post('/emailvoucher/:user_id/:voucher_id', async (req, res) => {
     res.redirect("/");
   }
 });
+
 
 manageVoucher.post('/', async (req, res) => { 
       

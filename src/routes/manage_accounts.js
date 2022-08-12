@@ -1,18 +1,18 @@
-const express = require("express");
-const User = require("../models/User");
+const express = require('express');
+const User = require('../models/User');
 const manageAccountRoute = express.Router();
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 
 manageAccountRoute
-    .route("/")
+    .route('/')
     .get(async (req, res) => {
         const users = await (await User.findAll()).map((x) => x.dataValues);
-        return res.render("./staff/staff-tables", { users });
+        return res.render('./staff/staff-tables', { users });
     })
     .delete(async (req, res) => {
         await User.destroy({ where: { id: req.body.id } });
-        req.flash("error", "Account has been deleted");
-        res.redirect("/staff/accounts");
+        req.flash('error', 'Account has been deleted');
+        res.redirect('/staff/accounts');
     })
     .patch(async (req, res) => {
         const user = await User.findByPk(req.body.id);
@@ -24,30 +24,31 @@ manageAccountRoute
         }
 
         await user.save();
-        req.flash("success", "User updated!");
-        res.redirect("/staff/accounts");
-    }).post(async (req, res) => {
-        const user = await User.findByPk(req.body.id)
-       
-        await user.update({disabled: req.body.disable})
-        await user.save()
-        console.log(req.body.disable)
-        if(+req.body.disable) {
-        req.flash("error", "User has been disabled!")
+        req.flash('success', 'User updated!');
+        res.redirect('/staff/accounts');
+    })
+    .post(async (req, res) => {
+        const user = await User.findByPk(req.body.id);
+
+        await user.update({ disabled: req.body.disable });
+        await user.save();
+        console.log(req.body.disable);
+        if (+req.body.disable) {
+            req.flash('error', 'User has been disabled!');
         } else {
-            req.flash("success", "User has been undisabled")
+            req.flash('success', 'User has been undisabled');
         }
-        res.redirect("/staff/accounts")
+        res.redirect('/staff/accounts');
     });
 
 // Author: @lx0f
 // To get staff usernames and id when
 // querying and assigning users to a ticket
 // Refer to route /staff/tickets/:id (API)
-manageAccountRoute.route("/users/:query").get(async (req, res) => {
+manageAccountRoute.route('/users/:query').get(async (req, res) => {
     const query = req.params.query;
     const users = await User.findAll({
-        attributes: ["id", "username"],
+        attributes: ['id', 'username'],
         where: {
             username: {
                 [Op.regexp]: query,
@@ -58,16 +59,16 @@ manageAccountRoute.route("/users/:query").get(async (req, res) => {
     return res.send({ users });
 });
 
-manageAccountRoute.get("/:id", async (req, res) => {
+manageAccountRoute.get('/:id', async (req, res) => {
     const id = req.params.id;
     const user = await User.findByPk(id);
     if (user) {
-        return res.render("./staff/staff-manage-account", {
+        return res.render('./staff/staff-manage-account', {
             user: user.dataValues, //what happens when no id
         });
     }
-    req.flash("error", "No such account!");
-    return res.redirect("/staff");
+    req.flash('error', 'No such account!');
+    return res.redirect('/staff');
 });
 
 module.exports = manageAccountRoute;

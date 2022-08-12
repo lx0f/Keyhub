@@ -1,6 +1,6 @@
-const Sequelize = require("sequelize");
-const sequelize = require("./database_setup");
-const User = require("./User");
+const Sequelize = require('sequelize');
+const sequelize = require('./database_setup');
+const User = require('./User');
 
 class Ticket extends Sequelize.Model {}
 
@@ -10,7 +10,7 @@ Ticket.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
             allowNull: false,
         },
         title: {
@@ -26,20 +26,20 @@ Ticket.init(
         status: {
             type: Sequelize.DataTypes.STRING,
             allowNull: false,
-            validate: { isIn: [["open", "closed"]] },
-            defaultValue: "open",
+            validate: { isIn: [['open', 'closed']] },
+            defaultValue: 'open',
         },
         severity: {
             type: Sequelize.DataTypes.STRING,
             allowNull: false,
             unique: false,
-            validate: { isIn: [["low", "medium", "high"]] },
+            validate: { isIn: [['low', 'medium', 'high']] },
         },
         category: {
             type: Sequelize.DataTypes.STRING,
             allowNull: false,
             unique: false,
-            validate: { isIn: [["bug", "product", "request"]] },
+            validate: { isIn: [['bug', 'product', 'request']] },
         },
     },
     {
@@ -48,11 +48,11 @@ Ticket.init(
         createdAt: true,
         updatedAt: true,
         sequelize,
-        modelName: "Ticket",
+        modelName: 'Ticket',
     }
 );
 
-Ticket.belongsTo(User, { foreignKey: "authorID" });
-User.hasMany(Ticket, { foreignKey: "authorID" });
+Ticket.belongsTo(User, { foreignKey: 'authorID' });
+User.hasMany(Ticket, { foreignKey: 'authorID' });
 
 module.exports = Ticket;
