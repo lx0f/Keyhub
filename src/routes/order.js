@@ -105,6 +105,7 @@ CustomerOrder.post('/data', async (req, res) => {
             return res.redirect('/cart')
           }
         }
+        
         // update inventory data
         const productsMap = new Map()
         cart.cartProducts.forEach(product => {
@@ -219,10 +220,12 @@ CustomerOrder.post('/paymentdata/:id', async (req, res) => {
         const order = await Order.findByPk(req.params.id)
         console.log(order)
         // create payment data
+
         await Payment.create({
           OrderId: order.id,
           payment_method: "VISA",
           isSuccess: 1,
+          last4digit: req.body.cardnum,
           payTime: moment().format("YYYY-MM-DD HH:mm")
         })
         
@@ -244,20 +247,7 @@ CustomerOrder.post('/paymentdata/:id', async (req, res) => {
 });
 
 CustomerOrder.get('/success', async (req, res) => {
-  // const orders = await Order.findAll({
-  //     include: [
-  //         {
-  //             model: OrderItem,
-  //             include: {
-  //                 model: Product
-  //             }
-  //         },
-  //         {
-  //             model: User
-  //         },
-  //     ],
-  // });
-
+ 
   return res.render('./customers/page-success');
 
 });
