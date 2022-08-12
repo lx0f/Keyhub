@@ -32,7 +32,7 @@ cron.schedule('*/1 * * * * ', async () => {
     // console.log(enddate)
     // console.log(startAt)
     // console.log("done");
-    if (now >= startAt) {
+    if (enddate <= startAt) {
       console.log("waiting")
       console.log(now)
       const find_voucher =  Voucher.findOne({ where: { id: voucher.id, voucher_status: "Active" } })
@@ -125,7 +125,8 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
       total_voucher: req.body.total_voucher,
       voucher_used: voucher.voucher_used,
       voucher_desc: req.body.voucher_desc,
-      start_date: req.body.start_date,
+    start_date: req.body.start_date,
+      spend:req.body.spend,
       days: req.body.days,
       // voucher_type: req.body.voucher_type,
       voucher_cat: req.body.voucher_cat,

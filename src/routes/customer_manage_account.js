@@ -3,7 +3,7 @@ const fs = require('fs');
  const upload = require('../configuration/imageUpload');
 const customerManageAccountRouter = express.Router()
 const User = require("../models/User")
-const { Order }  = require("../models/order")
+const { Order, Shippinginfo }  = require("../models/order")
 const { OrderItem } = require("../models/order")
 const Product = require("../models/product")
 const { Payment } = require("../models/order")
@@ -81,10 +81,18 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
             },
             {
                 model: Payment
+            },
+            {
+                model: Shippinginfo
+            },
+            {
+                model: User
             }
         ],
-        where: { UserId: req.user.id }
+        where: { UserId: req.user.id },
+        order: [['createdAt', 'DESC']],
     });
+    console.log(orders)
   
     return res.render('./customers/orders/page-profile-orders', { orders });
 });
