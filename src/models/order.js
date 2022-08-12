@@ -107,9 +107,47 @@ Payment.init(
     }
 );
 
+class Shippinginfo extends Sequelize.Model {}
+
+Shippinginfo.init(
+    {
+        id: {
+            type: Sequelize.DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+            unique: true,
+        },
+        OrderId: {
+            type: Sequelize.DataTypes.INTEGER
+        },
+        Fname: {
+            type: Sequelize.DataTypes.STRING,
+        },
+        Lname: {
+            type: Sequelize.DataTypes.STRING
+        },
+        address: {
+            type: Sequelize.DataTypes.STRING
+        },
+        zipcode: {
+            type: Sequelize.INTEGER
+        }
+    },
+    {
+        freezeTableName: true,
+        timestamps: true,
+        sequelize,
+        modelName: "Shippinginfo",
+    }
+);
+
 // User and order association 
 Order.belongsTo(User);
 User.hasMany(Order);
+
+//shippinginfo and order
+Shippinginfo.belongsTo(Order)
+Order.hasOne(Shippinginfo)
 
 // Order and Product association
 Order.belongsToMany(Product, {
@@ -139,4 +177,4 @@ OrderItem.belongsTo(Product)
 Order.hasMany(Payment);
 Payment.belongsTo(Order);
 
-module.exports = { Order, OrderItem, Payment };
+module.exports = { Order, OrderItem, Payment, Shippinginfo };

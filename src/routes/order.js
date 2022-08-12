@@ -3,6 +3,7 @@ const express = require("express")
 const CustomerOrder = express.Router()
 const { Order }  = require("../models/order")
 const {OrderItem} = require("../models/order")
+const {Shippinginfo} = require("../models/order")
 const Product = require("../models/product")
 const {Payment} = require("../models/order")
 const { Cart } = require("../models/cart")
@@ -11,7 +12,7 @@ const Voucher = require("../models/Voucher");
 const { CustomerVoucher, VoucherItem } = require("../models/CustomerVoucher");
 const LoyaltyCard = require("../models/LoyaltyCard");
 const moment = require('moment')
-
+const User = require("../models/User");
 
 // fillOrderData
 CustomerOrder.get('/', async (req, res) => {
@@ -20,6 +21,7 @@ CustomerOrder.get('/', async (req, res) => {
       where: { UserId: req.user.id },
       include: 'cartProducts'
     })
+    const user = await User.findByPk(req.user.id)
     if (!cart || !cart.cartProducts.length) {
       req.flash('error', 'Your shopping cart is empty!')
       return res.redirect('/cart')
@@ -38,7 +40,7 @@ CustomerOrder.get('/', async (req, res) => {
        if (discount_price < 0) {
         discount_price = 0
       }
-      res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, discount_price,shipping,no_discount })
+      res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, discount_price,shipping,no_discount, user })
     } else {
         const voucher = await Voucher.findOne({
         where: { id:applyvoucher.VoucherId }
@@ -91,14 +93,12 @@ CustomerOrder.get('/', async (req, res) => {
 // Post Order
 CustomerOrder.post('/data', async (req, res) => {
   try {
-    
-    
         // check all products have inventory
        const cart = await Cart.findOne({
         where: { UserId: req.user.id },
           include: 'cartProducts'
         })
-      
+        
         for (const product of cart.cartProducts) {
           if (product.stock < product.CartItem.quantity) {
             req.flash('error', `Product Id:${product.id} only left with ${product.stock}, Please reselect quantity!`)
@@ -131,6 +131,16 @@ CustomerOrder.post('/data', async (req, res) => {
           shipping_status: req.body.shipping_status,
           payment_status: req.body.payment_status
         })
+
+        //Create Shippinginfo of the order
+        Shippinginfo.create({
+          Fname: req.body.firstname,
+          Lname: req.body.lastname,
+          address: req.body.address,
+          zipcode: req.body.zipcode,
+          OrderId: order.id
+        })
+
         const User_Card = await LoyaltyCard.findOne({ where: { authorID: req.user.id } })
         if (User_Card) {
             let Order_Points = parseInt(req.body.amount)
