@@ -61,10 +61,13 @@
 
 		{{!-- <a href="#" class="btn  btn-warning"> Buy now </a> --}}
 		{{#notequals productdetail.stock 0}}
-			<button href="#" class="btn  btn-primary"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
+			<form action="/cart/postcart" method="POST">
+				<input type="hidden" name="productId" value="{{productdetail.id}}">
+				<button type="submit" class="btn  btn-primary"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
+			</form>
 		{{/notequals}}
 		{{#equals productdetail.stock 0}}
-		<button href="#" class="btn  btn-primary" disabled> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
+			<button href="#" class="btn  btn-primary" disabled> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
 		{{/equals}}
 		{{!-- <a href="#" class="btn  btn-light"> <i class="me-1 fa fa-heart"></i> Save </a> --}}
 	
