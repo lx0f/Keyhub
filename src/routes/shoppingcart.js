@@ -214,7 +214,7 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
       const voucheritem = await VoucherItem.findOne({
         where: { VoucherId:voucher.id ,VoucherListId:voucherlist.id }
       });
-      if (voucheritem && voucher.voucher_status == "Active") {
+      if (voucheritem ) {
         
         const cart = await Cart.findOne({
           where: { UserId: req.user.id },
