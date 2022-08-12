@@ -4,6 +4,7 @@ const Product = require('../models/product');
 const Products = require('../models/product');
 const productRouter = express.Router();
 const product = require('../models/product');
+const upload = require('../configuration/imageUpload');
 
 const fs = require('fs');
 
@@ -14,7 +15,7 @@ productRouter.get('/', (req, res) => {
 });
 
 productRouter.post('/', async function (req, res) {
-    let { name, description, category, stock, price, colour, image, brand } = req.body;
+    let { name, description, category, stock, price, colour, brand } = req.body;
     //const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/uploads/${image}`, 'base64');
     const products = await (
         await product.findAll({
@@ -50,22 +51,26 @@ productRouter.post('/', async function (req, res) {
         }
     }
     if (flag) {
-        console.log(image);
-        product.create({
-            productID,
-            name,
-            description,
-            category,
-            stock,
-            price,
-            colour,
-            image,
-            brand
+        // console.log(image);
+        upload(req, res, async (err) => {
 
-            //list of attributes
-        });
-        req.flash('success', name, ' has been successfully added!');
-        // req.flash("success",name,description,category,stock,price,"ID:",productID)
+            product.create({
+                productID,
+                name,
+                description,
+                category,
+                stock,
+                price,
+                colour,
+                image: `uploads/${req.file.filename}`,
+                brand
+    
+                //list of attributes
+            });
+
+            req.flash('success', name, ' has been successfully added!');        
+    })
+        
     } else {
         req.flash('error', name, ' is already a product!');
     }
