@@ -28,7 +28,7 @@ cron.schedule('*/1 * * * * ', async () => {
     // console.log(enddate)
     // console.log(startAt)
     // console.log("done");
-    if (now >= startAt) {
+    if (enddate <= startAt) {
       console.log("waiting")
       console.log(now)
       const find_voucher =  Voucher.findOne({ where: { id: voucher.id, voucher_status: "Active" } })
