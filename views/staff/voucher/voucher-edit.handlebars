@@ -35,12 +35,12 @@
 				<label class="form-label">Usage per customer</label>
 				<input type="number" class="form-control" id="usage" name="usage" value="1" value="{{voucher.usage}}" required>
 			</div>
-			<div class="mb-3">
+			{{!-- <div class="mb-3">
 				<label for="voucher_type">Voucher Type</label>
 				<select class="form-control" id="voucher_type" name="voucher_type">
 					<option value="Customer">Customer</option>
 				</select>
-			</div>
+			</div> --}}
 			<div class="mb-3">
 				<label for="voucher_cat">Voucher Category</label>
 				<select class="form-control" id="voucher_cat" name="voucher_cat">
@@ -91,7 +91,7 @@
 				</label>
 				
 				<label class="btn col-2" id="button_stats_2" onclick="status_choice_2()" >
-					<input type="radio" name="" id="voucher_status_2" value="Inactive" autocomplete="off" > Non-Active
+					<input type="radio" name="" id="voucher_status_2" value="Inactive" autocomplete="off" > Disabled
 				</label>
 			</div>
 			<br>

@@ -3,7 +3,7 @@ const fs = require('fs');
  const upload = require('../configuration/imageUpload');
 const customerManageAccountRouter = express.Router()
 const User = require("../models/User")
-const { Order }  = require("../models/order")
+const { Order, Shippinginfo }  = require("../models/order")
 const { OrderItem } = require("../models/order")
 const { Cancelrequest } = require("../models/order")
 const Pevaluation = require("../models/product_evaluation");
@@ -13,9 +13,11 @@ const { Cart } = require("../models/cart")
 const moment = require('moment');
 const cron = require('node-cron');
 
-const { CustomerVoucher } = require('../models/CustomerVoucher');
-const { VoucherItem } = require('../models/CustomerVoucher');
-const Voucher = require('../models/Voucher');
+const { CustomerVoucher } = require("../models/CustomerVoucher");
+const { VoucherItem } = require("../models/CustomerVoucher");
+const Voucher = require("../models/Voucher");
+const LoyaltyCard = require("../models/LoyaltyCard");
+
 
 const handlebars = require('handlebars');
 
@@ -23,7 +25,16 @@ customerManageAccountRouter.use((req, res, next) => {
     if (req.isUnauthenticated()) {
         req.flash('info', 'Please login first to manage your own account!');
         return res.redirect('/');
-    }
+    }    
+    next()
+})
+
+
+customerManageAccountRouter.route("/").get((req, res) => {
+   
+    
+    res.render("./customers/page-profile-main")
+
 
     next();
 });
@@ -76,11 +87,20 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
                 },
             },
             {
-                model: Payment,
+                model: Payment
             },
+            {
+                model: Shippinginfo
+            },
+            {
+                model: User
+            }
         ],
         where: { UserId: req.user.id },
+        order: [['createdAt', 'DESC']],
     });
+    console.log(orders)
+  
 
     return res.render('./customers/orders/page-profile-orders', { orders });
 });
@@ -167,18 +187,45 @@ customerManageAccountRouter.route('/edit-image').post(async (req, res) => {
 customerManageAccountRouter.route('/myvouchers').get(async (req, res) => {
     const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
     const voucherlist = await CustomerVoucher.findAll({
-        include: ['voucheritem', { model: User }],
-    });
-    console.log(voucherlist);
-    const voucheritem = await (
-        await VoucherItem.findAll()
-    ).map((x) => x.dataValues);
+        include: ["voucheritem",{ model: User },
+        ],
+      });
+    console.log(voucherlist)
+    const voucheritem = await (await VoucherItem.findAll()).map((x) => x.dataValues)
+   
+    res.render('./customers/customer_voucher/myvouchers', {voucherlist,voucher,voucheritem});
+     
+     
+    
+})
 
-    res.render('./customers/customer_voucher/myvouchers', {
-        voucherlist,
-        voucher,
-        voucheritem,
-    });
+customerManageAccountRouter.route("/loyaltyprogram").get(async (req, res) => {
+    if (req.user) {
+        let user_id = req.user.id
+        
+        const User_Card = await LoyaltyCard.findAll({ where: { authorID: user_id } });
+        if (User_Card) {
+            let total_points = User_Card.Active_Points + User_Card.Used_Points
+            const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
+            const voucherlist = await CustomerVoucher.findAll({
+                include: ["voucheritem",{ model: User },
+                ],
+            });
+            const voucheritem = await (await VoucherItem.findAll()).map((x) => x.dataValues)
+            return res.render("./customers/loyaltyprogram/loyaltyprogram",{User_Card,total_points,voucher,voucherlist,voucheritem});
+        } else {
+            return res.render("./customers/loyaltyprogram/loyaltyprogram");
+        }
+       
+        
+    } else {
+        return res.render("./customers/loyaltyprogram/loyaltyprogram");
+    }
+    
 });
+
+
+
+
 
 module.exports = customerManageAccountRouter;

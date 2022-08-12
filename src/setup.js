@@ -31,11 +31,12 @@ const chatbotRouter = require('./routes/Chatbot');
 
 // const voucherRouter = require("./routes/voucher");
 
-const FAQrouter = require('./routes/staff_FAQs');
-const { sum } = require('./models/product');
+
+const FAQrouter = require("./routes/staff_FAQs");
+const { sum } = require("./models/product");
+const { Cart ,CartItem }  = require("./models/cart")
 const { OrderItem, Order } = require('./models/order');
 const { isObject } = require('util');
-const { Cart, CartItem } = require("./models/cart");
 const { sign } = require("crypto");
 
 //Initialisation of the app
@@ -186,6 +187,7 @@ app.use(async (req, res, next) => {
     res.locals.authenticated = req.isAuthenticated();
     res.locals.user = req.user;
     res.locals.method = req.body.method;
+
     res.locals.cartcount = req.isAuthenticated() 
         ? await getUserCartCount(req.user.id)
         : 0;

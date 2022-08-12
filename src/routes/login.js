@@ -1,8 +1,10 @@
-const express = require('express');
-const db = require('../models/database_setup');
-const User = require('../models/User');
-const passport = require('passport');
-const { Mail, transporter } = require('../configuration/nodemailer');
+const express = require("express");
+const db = require("../models/database_setup");
+const User = require("../models/User");
+const passport = require("passport");
+const { Mail, transporter } = require("../configuration/nodemailer");
+const { CustomerVoucher } = require("../models/CustomerVoucher");
+
 const loginRouter = express.Router();
 var handlebars = require('handlebars');
 const { callbackPromise } = require('nodemailer/lib/shared');
@@ -36,14 +38,34 @@ loginRouter
                 req.flash('error', 'Email is not unique!');
                 return res.redirect('/register');
             }
-            User.create({
+            await User.create({
                 username: req.body.username,
                 email: req.body.email,
                 password: req.body.password,
                 isStaff: false,
             });
-            req.flash('success', 'Successfully registered!');
-            return res.redirect('/login');
+            const Find_User = await User.findOne({ where: { email: req.body.email } })
+            if (req.body.promotions) {
+                await CustomerVoucher.create({
+                
+                UserID: Find_User.id,
+                setrole: 1
+                
+                })
+            } else {
+                await CustomerVoucher.create({
+                
+                UserID: Find_User.id,
+                setrole: 0
+                
+                })
+            }
+            
+      
+       
+            req.flash("success", "Successfully registered!");
+            return res.redirect("/login");
+
         } catch (e) {
             req.flash('error', e);
         }
