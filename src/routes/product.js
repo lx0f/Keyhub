@@ -15,7 +15,7 @@ productRouter.get('/', (req, res) => {
 });
 
 productRouter.post('/', async function (req, res) {
-    let { name, description, category, stock, price, colour, brand } = req.body;
+    // let { name, description, category, stock, price, colour, brand } = req.body;
     //const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/uploads/${image}`, 'base64');
     const products = await (
         await product.findAll({
@@ -32,49 +32,49 @@ productRouter.post('/', async function (req, res) {
         //console.log("AFTER",productID)
     }
     flag = true;
-    for (let index = 0; index < products.length; index++) {
-        const usedName = products[index]['name'].toUpperCase();
-        console.log(products[index]['colour']);
-        const usedColour = products[index]['colour'].toUpperCase();
-        if (
-            products[index]['category'] == 'Pre-Built Keyboard' ||
-            products[index]['category'] == 'Barebones Kit'
-        ) {
-            if (
-                usedName == name.toUpperCase() &&
-                usedColour == colour.toUpperCase()
-            ) {
-                flag = false;
-            }
-        } else if (usedName == name.toUpperCase()) {
-            flag = false;
-        }
-    }
+    // for (let index = 0; index < products.length; index++) {
+    //     const usedName = products[index]['name'].toUpperCase();
+    //     console.log(products[index]['colour']);
+    //     const usedColour = products[index]['colour'].toUpperCase();
+    //     if (
+    //         products[index]['category'] == 'Pre-Built Keyboard' ||
+    //         products[index]['category'] == 'Barebones Kit'
+    //     ) {
+    //         if (
+    //             usedName == name.toUpperCase() &&
+    //             usedColour == colour.toUpperCase()
+    //         ) {
+    //             flag = false;
+    //         }
+    //     } else if (usedName == name.toUpperCase()) {
+    //         flag = false;
+    //     }
+    // }
     if (flag) {
         // console.log(image);
         upload(req, res, async (err) => {
 
             product.create({
                 productID,
-                name,
-                description,
-                category,
-                stock,
-                price,
-                colour,
+                name: req.body.name,
+                description: req.body.description,
+                category: req.body.category,
+                stock: req.body.stock,
+                price: req.body.price,
+                colour: req.body.colour,
                 image: `uploads/${req.file.filename}`,
-                brand
+                brand: req.body.brand
     
                 //list of attributes
             });
-
-            req.flash('success', name, ' has been successfully added!');        
+            req.flash('success',  ' product has been successfully added!'); 
+            res.redirect('/staff/product/check');
     })
-        
+    // req.flash('success', name, ' has been successfully added!');
     } else {
-        req.flash('error', name, ' is already a product!');
+        req.flash('error', 'It is already a product!');
+        res.redirect('/staff/product/check');
     }
-    res.redirect('/staff/product/check');
 });
 
 productRouter.post('/delete', async function (req, res) {
