@@ -16,6 +16,7 @@ const { Cart } = require('../models/cart');
 const moment = require('moment');
 const cron = require('node-cron');
 const DeliveryDetail = require('../models/DeliveryDetail');
+const { where } = require('sequelize');
 
 cron.schedule('*/15 * * * * ', async () => {
     console.log('running a task every 15 minute');
@@ -55,11 +56,37 @@ OrderManagement.get('/', async (req, res) => {
             {
                 model: DeliveryDetail,
             },
+            {
+                model: Shippinginfo,
+            },
+            {
+                model: Payment
+            }
         ],
     });
     return res.render('./staff/ordermanagement/staff-getorders', { orders });
 });
 
+OrderManagement.get('/cancel/:id', async function (req, res) {
+    try {
+        let order = await Order.findOne({
+            where: { id: req.params.id },
+        });
+
+        if (!order) {
+            req.flash(res, 'error', 'order not found');
+            res.redirect('/staff/manage-orders');
+        }
+       
+        await Order.update(
+            { order_status: 'Cancelled' },
+            { where: { id: req.params.id } })
+        req.flash('success', 'You have cancel the order successfully');
+        res.redirect('/staff/manage-orders');
+        } catch (err) {
+        console.log(err);
+    }
+});
 // Approved cancel request
 // Have to consider the delivery status of the order see if cancel
 OrderManagement.get('/cancelorder/:id', async function (req, res) {
@@ -269,19 +296,38 @@ OrderManagement.post('/delivery-detail/:id', async (req, res) => {
     const deliveryDetailId = req.params.id;
     const deliveryStage = req.body.deliveryStage;
     const nextDate = new Date();
-
+    const order = await DeliveryDetail.findByPk(req.params.id)
     const deliveryDetail = await DeliveryDetail.findByPk(deliveryDetailId);
     switch (deliveryStage) {
         case 'complete':
             deliveryDetail.CompleteDate = nextDate;
-            break;
+            await Order.update(
+                {shipping_status: "received"},
+                {where:{ id: order.id}}
+            )
 
         case 'received':
             deliveryDetail.ReceivedDate = nextDate;
+            await Order.update(
+                {
+                shipping_status: "on the way"
+                },
+                {where:{
+                    id: order.id
+                }}
+            )
             break;
 
         case 'ship':
             deliveryDetail.ShipOutDate = nextDate;
+            await Order.update(
+                {
+                shipping_status: "shipped out"
+                },
+                {where:{
+                    id: order.id
+                }}
+            )
             break;
 
         default:

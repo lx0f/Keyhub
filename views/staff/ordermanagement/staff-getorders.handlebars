@@ -19,56 +19,46 @@
                 >
                     <thead>
                         <tr>
-
                             <th>ID</th>
-                            <th>Quantity</th>
-                            <th>Customer Name</th>
                             <th>Customer Email</th>
                             <th>No of items</th>
-                            <th>Status</th>
+                            <th>Payment Status</th>
+							<th>Order Status</th>
                             <th>Total Price</th>
                             <th>Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
 
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Quantity</th>
-                            <th>Customer Name</th>
-                            <th>Customer Email</th>
-                            <th>No of items</th>
-                            <th>Status</th>
-                            <th>Total Price</th>
-                            <th>Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </tfoot>
 
                     <tbody>
                         {{#each orders }}
                             <tr>
                                 <td>{{this.id}}</td>
-                                <td>{{ sum_quantity this.OrderItems }}</td>
-                                <td>{{this.User.username}}</td>
                                 <td>{{this.User.email}}</td>
                                 <td>{{sum_quantity this.OrderItems}}</td>
 
                                 {{#equals this.payment_status 0 }}
                                     <td><p class="badge badge-danger">Unpaid</p></td>
+	
                                 {{/equals}}
                                 {{#equals this.payment_status 1 }}
                                     <td><p class="badge badge-success">Paid</p></td>
                                 {{/equals}}
+								{{#equals this.order_status "Cancelled"}}
+										<td><p class="badge badge-danger">Cancelled</p> </td>
+								{{/equals}}
+								{{#equals this.order_status null}}
+										<td><p class="badge badge-success">Active</p> </td>
+								{{/equals}}
                                 <td>${{this.amount}}</td>
                                 <td>{{dateFormat this.createdAt 'DD MMM YYYY'}}</td>
                                 <td>
                                     <div class="row">
                                         <div class="col-4">
-                                            <form action="/order/cancel/{{this.id}}" method="get">
+                                            <form action="/staff/manage-orders/cancel/{{this.id}}" method="get">
                                                 <button type="button" title="Delete" class="btn btn-danger " data-toggle="modal" data-target="#deleteModal_{{this.id}}">
-                                                    <i class="fas fa-trash-alt"></i>
+                                                    <i class="fas fa-ban"></i>
                                                 </button>
 
                                                 <!-- Delete Modal -->
@@ -98,10 +88,14 @@
                                                 </div>
                                             </form>
                                         </div>
+										
                                         <div class="col-4">
-                                            <button type="button" title="View" class="btn btn-secondary" data-toggle="modal" data-target="#deliveryStatusModal{{this.id}}">
-                                                <i class="far fa-eye"></i>
+											{{#notequals this.order_status "Cancelled"}}
+                                            <button type="button" title="Delivery" class="btn btn-primary" data-toggle="modal" data-target="#deliveryStatusModal{{this.id}}">
+                                                {{!-- <i class="far fa-eye"></i> --}}
+												<i class="fa fa-truck"></i>
                                             </button>
+											{{/notequals}}
                                             <div class="modal fade" id="deliveryStatusModal{{this.id}}" tabindex="-1" role="dialog" aria-labelledby="deliveryStatusModal{{this.id}}Label" aria-hidden="true">
   	                                          <div class="modal-dialog" role="document">
     	                                        <div class="modal-content" style="width: 600px">
@@ -276,6 +270,94 @@
 		                                        background-color: #3167eb;
 		                                        }
 	                                        </style>
+                                        </div>
+										<div class="col-4">
+											<button type="button" title="View" class="btn btn-secondary " data-toggle="modal" data-target="#viewModal_{{this.id}}">
+												<i class="fas fa-eye"></i>
+											</button>
+
+											<!-- Delete Modal -->
+											<div class="modal" id="viewModal_{{ this.id }}">
+												<div class="modal-dialog">
+													<div class="modal-content"style="width: 800px; margin-left: -150px">
+
+														<!-- Modal Header -->
+														<div class="modal-header">
+														<h4 class="modal-title">Order Detail</h4>
+														<button type="button" class="btn-close" data-dismiss="modal"></button>
+														</div>
+
+														<!-- Modal body -->
+														<div class="modal-body">
+														{{#equals this.payment_status 0}}
+														<article class="card border-danger mb-4  order-list-content" style="margin:auto;width:95% ">
+														{{/equals}}
+														{{#equals this.payment_status 1}}
+															<article class="card border-primary mb-4 order-list-content  "style="margin:auto;width:95% ">
+														{{/equals}}
+														
+														<div class="card-body" >
+															<header class="d-lg-flex">
+															<div class="flex-grow-1">
+																<h6 class="mb-0 order-list">Order ID: {{this.id}} <i class="dot"></i>  
+																<span class="text-success"> {{this.delivery_status}} </span>
+																</h6>
+																<span class="text-muted">Date: {{dateFormat this.createdAt 'DD MMM YYYY'}}</span>
+															</div>
+													
+															</header>
+															<hr>
+															<div class="row">
+															<div class="col-lg-4">
+																<p class="mb-0 text-muted">Contact</p>
+																<p class="m-0"> 
+																{{this.Shippinginfo.Lname}} {{this.Shippinginfo.Fname}}<br> Email: {{this.User.email}} </p>
+															</div> <!-- col.// -->
+															<div class="col-lg-4 border-start">
+																<p class="mb-0 text-muted">Shipping address</p>
+																<p class="m-0"> Singapore <br> 
+																{{this.Shippinginfo.address}} , {{this.Shippinginfo.zipcode}}
+																</p>
+															</div> <!-- col.// -->
+															<div class="col-lg-4 border-start">
+																<p class="mb-0 text-muted">Payment</p>
+																<p class="m-0">
+																<span class="text-success"> Visa  **** {{this.Payment.last4digit}}</span> <br> 
+																Shipping fee:  ${{this.shipping_fee}} <br> 
+																Discount: ${{this.discount}} <br>
+																Total paid:  ${{this.amount}}
+																</p>
+															</div> <!-- col.// -->
+															</div> <!-- row.// -->
+															<hr>
+															<ul class="row">
+															{{#each this.OrderItems}}
+															<li class="col-xl-4  col-lg-6">
+																<figure class="itemside mb-3">
+																<div class="aside">
+																	<img width="72" height="72" src="/{{this.Product.image}}" class="img-sm rounded border">
+																</div>
+																<figcaption class="info">
+																	<p class="title">{{this.Product.name}}</p>
+																	<strong> {{this.quantity}}x = ${{multiply this.Product.price this.quantity}}.00 </strong>
+																</figcaption>
+																</figure> 
+															</li>
+															{{/each}}
+															
+															</ul>
+														</div> <!-- card-body .// -->
+														</article> <!-- card .// --> 
+														</div>
+														<!-- Modal footer -->
+														<div class="modal-footer">
+														<input type="submit" value="Delete" class="btn btn-danger">
+
+														<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+														</div>
+													</div>
+												</div>
+											</div>
                                         </div>
                                     </div>
                                 </td>

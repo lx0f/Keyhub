@@ -199,10 +199,10 @@
 	</style>
           <!--  ======== item order ======== -->
            {{#equals this.payment_status 0}}
-          <article class="card border-danger mb-4  order-list-content" style="margin:auto;width:95% ">
+          	<article class="card border-danger mb-4  order-list-content" style="margin:auto;width:95% ">
           {{/equals}}
           {{#equals this.payment_status 1}}
-            <article class="card border-primary mb-4 order-list-content  "style="margin:auto;width:95% ">
+        	<article class="card border-primary mb-4 order-list-content  "style="margin:auto;width:95% ">
           {{/equals}}
           
           <div class="card-body" >
@@ -214,15 +214,24 @@
                 <span class="text-muted">Date: {{dateFormat this.createdAt 'DD MMM YYYY'}}</span>
               </div>
               <div>
-                  <a href="/account/cancelorderform/{{this.id}}" class="btn btn-sm btn-outline-danger">Cancel order</a>
-            	  <a href="#" data-toggle="modal" data-target="#deliveryStatusModal{{this.id}}" class="btn btn-sm btn-primary">Track order</a> 
-                   {{#equals this.payment_status 0}}
-                  <a href="/order/payment/{{this.id}}" class="btn btn-sm btn-info">Complete Payment</a> 
-                {{/equals}}
-              </div>
+				{{#equals this.payment_status 0}}
+                  	<a href="/order/payment/{{this.id}}" class="btn btn-sm btn-info">Complete Payment</a> 
+				{{/equals}}
+				{{#equals this.payment_status 1}}
+                  	<a href="/account/cancelorderform/{{this.id}}" class="btn btn-sm btn-outline-danger">Cancel order</a>
+					<a href="#" data-toggle="modal" data-target="#deliveryStatusModal{{this.id}}" class="btn btn-sm btn-primary">Track order</a> 
+				{{/equals}}
+              
+			  </div>
+	
             </header>
             <hr>
             <div class="row">
+			<div>
+				{{#equals this.payment_status 0}}
+					<small>    &nbsp &nbsp Please comeple the order in 30mins after order time, otherwise it will be automatically cancelled by system</small>
+				{{/equals}}
+			</div>
               <div class="col-lg-4">
                 <p class="mb-0 text-muted">Contact</p>
                 <p class="m-0"> 
@@ -237,9 +246,13 @@
               <div class="col-lg-4 border-start">
                 <p class="mb-0 text-muted">Payment</p>
                 <p class="m-0">
-                  {{#each this.Payments}}
-                    <span class="text-success"> Visa  **** {{this.last4digit}}</span> <br> 
-                  {{/each}}
+				{{#equals this.payment_status 1}}
+                <span class="text-success"> Visa  **** {{this.Payment.last4digit}}</span>
+				{{/equals}}
+				{{#equals this.payment_status 0}}
+                <span class="text-danger"> Unpaid</span>
+				{{/equals}}
+				 <br> 
                   Shipping fee:  ${{this.shipping_fee}} <br> 
                   Discount: ${{this.discount}} <br>
                   Total paid:  ${{this.amount}}
