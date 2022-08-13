@@ -2,7 +2,10 @@ const express = require('express');
 
 const { restart } = require('nodemon');
 const User = require('../models/user');
-const Voucher = require('../models/Voucher');
+const LoyaltyCard = require('../models/LoyaltyCard');
+const Message = require("../models/Message")
+const {Order} = require("../models/order")
+
 const staffRouter = express.Router();
 const manageAccountRoute = require('./manage_accounts');
 
@@ -21,6 +24,7 @@ const dataRouter = require('./data');
 const manageTicketRoute = require('./manage_tickets');
 
 const staffpeRouter = require('./staff_pe');
+const Chart = require("./pipeline")
 
 enableDebugMode(false);
 staffRouter.use((req, res, next) => {
@@ -41,8 +45,9 @@ staffRouter.use('/manage-orders', OrderManagement);
 
 staffRouter.use('/data', dataRouter);
 
-staffRouter.route('/').get((req, res) => {
-    res.render('./staff/staff-charts');
+staffRouter.route('/').get(async (req, res) => {
+    const stats = await Chart.totalStats()
+    res.render('./staff/staff-charts', stats );
 });
 
 module.exports = staffRouter;
