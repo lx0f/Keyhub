@@ -55,7 +55,7 @@ class Mail {
                     const template = handlebars.compile(html);
                     const contexts = template(context);
                     const mailOptions = {
-                        from: 'keyhub1@gmail.com',
+                        from: users.keyhuborg.user,
                         to: email_recipient,
                         subject,
                         html: contexts,
