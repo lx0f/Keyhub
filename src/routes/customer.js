@@ -54,7 +54,6 @@ customerRouter.use('/community', communityRouter);
 customerRouter.use('/CustomerVoucher', CustomerVoucher);
 
 
-customerRouter.use("/CustomerVoucher", CustomerVouchers);
 
 customerRouter.route("/logout").get((req, res) => {
   req.logOut();

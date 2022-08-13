@@ -20,11 +20,7 @@ const dataRouter = require('./data');
 
 const manageTicketRoute = require('./manage_tickets');
 
-const staffpeRouter = require('./staff_pe');
 
-
-
-const manageTicketRoute = require("./manage_tickets");
 
 const staffpeRouter = require("./staff_pe")
 
