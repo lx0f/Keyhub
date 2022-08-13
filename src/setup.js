@@ -146,11 +146,12 @@ app.engine(
                 }
             },
             percentage(a,b){
-                if (a || b == 0){
+                if (a == 0 || b == 0){
                     return 0 
                 }else{
                     return a / b * 100 
                 }
+                return a / b * 100 
             }
         },
     })
