@@ -23,7 +23,12 @@
         <h5 class="card-title"> Your orders </h5> 
     {{#each orders}}
     <!--  ======== item order ======== -->
-    <article class="card border-primary mb-4">
+      {{#equals this.payment_status 0}}
+          <article class="card border-danger mb-4">
+      {{/equals}}
+      {{#equals this.payment_status 1}}
+        <article class="card border-primary mb-4">
+      {{/equals}}
     <div class="card-body">
       <header class="d-lg-flex">
         <div class="flex-grow-1">
@@ -34,10 +39,17 @@
         </div>
         <div>
             <a href="/account/cancelorderform/{{this.id}}" class="btn btn-sm btn-outline-danger">Cancel order</a>
-            <a href="#" class="btn btn-sm btn-primary">Track order</a> 
+            <a href="#" class="btn btn-sm btn-primary">Track order</a>
+            {{#equals this.payment_status 0}}
+              <a href="/order/payment/{{this.id}}" class="btn btn-sm btn-info">Complete Payment</a> 
+            {{/equals}}
         </div>
       </header>
       <hr>
+      
+      {{#equals this.payment_status 0}}
+          <small style="color: grey;">Please comeple payment in 30mins after order submitted, otherwise it will be cancelled by system automatically</small>
+      {{/equals}}
       <div class="row">
         <div class="col-lg-4">
           <p class="mb-0 text-muted">Contact</p>
@@ -53,9 +65,7 @@
         <div class="col-lg-4 border-start">
           <p class="mb-0 text-muted">Payment</p>
           <p class="m-0">
-            {{#each this.Payments}}
-              <span class="text-success"> Visa  **** {{this.last4digit}}</span> <br> 
-            {{/each}}
+            <span class="text-success"> Visa  **** {{this.Payment.last4digit}}</span> <br> 
             Shipping fee:  ${{this.shipping_fee}} <br> 
             Discount: ${{this.discount}} <br>
             Total paid:  ${{this.amount}}
