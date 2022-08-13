@@ -1,98 +1,125 @@
 <!-- ========================= SECTION PAGETOP ========================= -->
-<section class="section-pagetop bg">
-<div class="container">
-	<h2 class="title-page">My Order History</h2>
-</div> <!-- container //  -->
-</section>
+
 <!-- ========================= SECTION INTRO END// ========================= -->
 
 <!-- ========================= SECTION CONTENT ========================= -->
 <section class="section-content padding-y">
 <div class="container">
-
+  
 <div class="row">
+  
 	<aside class="col-md-3">
+    
 		<ul class="list-group">
-			<a class="list-group-item" href="/account"> Account overview  </a>
-			<a class="list-group-item active" href="#"> My Orders </a>
+			<a class="list-group-item " href="/account"> Account overview  </a>
+			<a class="list-group-item active" href="/account/orderhistory"> My Orders </a>
+			<a class="list-group-item" href="/account/review"> My Comments </a>
 			<a class="list-group-item" href="#"> Return and refunds </a>
-      <a class="list-group-item" href="/account/review"> My Comments </a>
+            <a class="list-group-item " href="/account/myvouchers"> Vouchers</a>
+			<a class="list-group-item " href="/account/loyaltyprogram"> Rewards Program</a>
 		</ul>
 	</aside> <!-- col.// -->
 	<main class="col-md-9">
-        <h5 class="card-title"> Your orders </h5> 
-    {{#each orders}}
-    <!--  ======== item order ======== -->
-      {{#equals this.payment_status 0}}
-          <article class="card border-danger mb-4">
-      {{/equals}}
-      {{#equals this.payment_status 1}}
-        <article class="card border-primary mb-4">
-      {{/equals}}
-    <div class="card-body">
-      <header class="d-lg-flex">
-        <div class="flex-grow-1">
-          <h6 class="mb-0">Order ID: {{this.id}} <i class="dot"></i>  
-            <span class="text-success"> {{this.delivery_status}} </span>
-          </h6>
-          <span class="text-muted">Date: {{dateFormat this.createdAt 'DD MMM YYYY'}}</span>
-        </div>
-        <div>
-            <a href="/account/cancelorderform/{{this.id}}" class="btn btn-sm btn-outline-danger">Cancel order</a>
-            <a href="#" class="btn btn-sm btn-primary">Track order</a>
-            {{#equals this.payment_status 0}}
-              <a href="/order/payment/{{this.id}}" class="btn btn-sm btn-info">Complete Payment</a> 
-            {{/equals}}
-        </div>
-      </header>
-      <hr>
-      
-      {{#equals this.payment_status 0}}
-          <small style="color: grey;">Please comeple payment in 30mins after order submitted, otherwise it will be cancelled by system automatically</small>
-      {{/equals}}
-      <div class="row">
-        <div class="col-lg-4">
-          <p class="mb-0 text-muted">Contact</p>
-          <p class="m-0"> 
-            {{this.Shippinginfo.Lname}} {{this.Shippinginfo.Fname}}<br> Email: {{this.User.email}} </p>
-        </div> <!-- col.// -->
-        <div class="col-lg-4 border-start">
-          <p class="mb-0 text-muted">Shipping address</p>
-          <p class="m-0"> Singapore <br> 
-            {{this.Shippinginfo.address}} , {{this.Shippinginfo.zipcode}}
-            </p>
-        </div> <!-- col.// -->
-        <div class="col-lg-4 border-start">
-          <p class="mb-0 text-muted">Payment</p>
-          <p class="m-0">
-            <span class="text-success"> Visa  **** {{this.Payment.last4digit}}</span> <br> 
-            Shipping fee:  ${{this.shipping_fee}} <br> 
-            Discount: ${{this.discount}} <br>
-            Total paid:  ${{this.amount}}
-          </p>
-        </div> <!-- col.// -->
-      </div> <!-- row.// -->
-      <hr>
-      <ul class="row">
-        {{#each this.OrderItems}}
-        <li class="col-xl-4  col-lg-6">
-          <figure class="itemside mb-3">
-            <div class="aside">
-              <img width="72" height="72" src="/{{this.Product.image}}" class="img-sm rounded border">
-            </div>
-            <figcaption class="info">
-              <p class="title">{{this.Product.name}}</p>
-              <strong> {{this.quantity}}x = ${{multiply this.Product.price this.quantity}}.00 </strong>
-              <a href="/createPE/{{this.Product.id}}" class="btn btn-sm btn-outline-info">Give Rating</a>
-            </figcaption>
-          </figure> 
-        </li>
-        {{/each}}
+
         
-      </ul>
-    </div> <!-- card-body .// -->
-    </article> <!-- card .// --> 
-  {{/each}}
+    <div class="card">
+    <div class="card-body">
+      <h4>Order History</h4>
+      <span> View and manage your orders </span>
+    </div>
+  </div>
+  <br>
+  <div class="card">
+
+    <div class="card-body">
+      <div class="search-bar" >
+          <i class="fa fa-magnifying-glass" style=" position: absolute;right:-210px;top:30px;width:30%;float:right; "></i>
+          <input type="text" class="form-control" name=""  id="searchbar" onkeyup="search_animal()"  placeholder="Search Something" style="width:30%;float:right;"> 
+          
+      </div>
+    </div>
+    
+    
+    {{!-- <h5 class="card-title" style="padding:10px 10px 10px 20px;"> All Orders </h5>  --}}
+   
+
+      <div class="card order-scroll" style="width:100%;overflow-y:scroll;border:none;height:500px;" >
+          
+          {{#each orders}}
+          <!--  ======== item order ======== -->
+           {{#equals this.payment_status 0}}
+          <article class="card border-danger mb-4  order-list-content" style="margin:auto;width:95% ">
+          {{/equals}}
+          {{#equals this.payment_status 1}}
+            <article class="card border-primary mb-4 order-list-content  "style="margin:auto;width:95% ">
+          {{/equals}}
+          
+          <div class="card-body" >
+            <header class="d-lg-flex">
+              <div class="flex-grow-1">
+                <h6 class="mb-0 order-list">Order ID: {{this.id}} <i class="dot"></i>  
+                  <span class="text-success"> {{this.delivery_status}} </span>
+                </h6>
+                <span class="text-muted">Date: {{dateFormat this.createdAt 'DD MMM YYYY'}}</span>
+              </div>
+              <div>
+                  <a href="/account/cancelorderform/{{this.id}}" class="btn btn-sm btn-outline-danger">Cancel order</a>
+                  <a href="#" class="btn btn-sm btn-primary">Track order</a> 
+                   {{#equals this.payment_status 0}}
+                  <a href="/order/payment/{{this.id}}" class="btn btn-sm btn-info">Complete Payment</a> 
+                {{/equals}}
+              </div>
+            </header>
+            <hr>
+            <div class="row">
+              <div class="col-lg-4">
+                <p class="mb-0 text-muted">Contact</p>
+                <p class="m-0"> 
+                  {{this.Shippinginfo.Lname}} {{this.Shippinginfo.Fname}}<br> Email: {{this.User.email}} </p>
+              </div> <!-- col.// -->
+              <div class="col-lg-4 border-start">
+                <p class="mb-0 text-muted">Shipping address</p>
+                <p class="m-0"> Singapore <br> 
+                  {{this.Shippinginfo.address}} , {{this.Shippinginfo.zipcode}}
+                  </p>
+              </div> <!-- col.// -->
+              <div class="col-lg-4 border-start">
+                <p class="mb-0 text-muted">Payment</p>
+                <p class="m-0">
+                  {{#each this.Payments}}
+                    <span class="text-success"> Visa  **** {{this.last4digit}}</span> <br> 
+                  {{/each}}
+                  Shipping fee:  ${{this.shipping_fee}} <br> 
+                  Discount: ${{this.discount}} <br>
+                  Total paid:  ${{this.amount}}
+                </p>
+              </div> <!-- col.// -->
+            </div> <!-- row.// -->
+            <hr>
+            <ul class="row">
+              {{#each this.OrderItems}}
+              <li class="col-xl-4  col-lg-6">
+                <figure class="itemside mb-3">
+                  <div class="aside">
+                    <img width="72" height="72" src="/{{this.Product.image}}" class="img-sm rounded border">
+                  </div>
+                  <figcaption class="info">
+                    <p class="title">{{this.Product.name}}</p>
+                    <strong> {{this.quantity}}x = ${{multiply this.Product.price this.quantity}}.00 </strong>
+                    <a href="/createPE/{{this.Product.id}}" class="btn btn-sm btn-outline-info">Give Rating</a>
+                  </figcaption>
+                </figure> 
+              </li>
+              {{/each}}
+              
+            </ul>
+          </div> <!-- card-body .// -->
+          </article> <!-- card .// --> 
+
+
+        {{/each}}
+      </div>
+    </div>
 	</main> <!-- col.// -->
 </div>
 
@@ -113,3 +140,44 @@
 	</div><!-- //container -->
 </footer>
 <!-- ========================= FOOTER END // ========================= -->
+
+<style>
+   .order-scroll::-webkit-scrollbar {
+  width: 10px;
+  
+}
+
+/* Track */
+.order-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.order-scroll::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.order-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+</style>
+
+<script>
+
+    function search_animal() {
+    let input = document.getElementById('searchbar').value
+    input=input.toLowerCase();
+    let x = document.getElementsByClassName('order-list');
+    let y = document.getElementsByClassName("order-list-content")
+    for (i = 0; i < x.length; i++) { 
+        if (!x[i].innerHTML.toLowerCase().includes(input)) {
+            y[i].style.display="none";
+        }
+        else {
+            y[i].style.display="block";                 
+        }
+    }
+}
+</script>
+
