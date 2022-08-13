@@ -22,7 +22,7 @@
                 <label for="blog" class="blog"><i class="fa fa-keyboard"></i>Barebones Kits</label>
                 <label for="code" class="code"><i class="fa fa-stop"></i>Keycaps</label>
                 <label for="help" class="help"><img src="../../../public/images/icons/keycap.png" alt="">Switches</label>
-                <label for="add1" class="add1"><i class="fas fa-accessory"></i>Others</label>
+                <label for="add1" class="add1"><i class="fas fa-accessory"></i>Accessories</label>
                 <div class="slider"></div>
               </nav>
               <!-- Section of Prebuilt keyboard-->
@@ -142,7 +142,7 @@
                       </thead>
                       <tbody>
                       {{#each products}}
-                        {{#equals this.category "Barebones Kit"}}
+                        {{#equals this.category "Barebone Kit"}}
                           <tr>
                             <td>{{this.id}}</td>
                             <td>{{this.name}}</td>
@@ -153,13 +153,7 @@
                               {{!-- <form action=""  method="POST"> --}}
                                 
                                 <!-- Button to Open the Modal -->
-                                <form action="/staff/product/delete"  method="POST">
-                      
-                                <!-- Button to Open the Modal -->
-                                <button type="submit" title="Delete" class="btn btn-danger " name="productID" value="{{this.id}}">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
-                                </form>
+                        
                                 
                                 <!-- The Modal -->
                                 {{!-- <div class="modal" id="myModal_{{this.id}}">
@@ -190,11 +184,7 @@
 
                             <td class='col-1'>
                                   
-                               <form action="/staff/product/updateRoute" method="POST">
-                              <button type="submit" title="View" class="btn btn-secondary" name="productID" value="{{this.id}}">
-                                <i class="fa fa-edit"></i>
-                              </button>
-                              </form>
+                           
                               
                               <!-- Modal -->
                               <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby="" aria-hidden="true">
@@ -252,7 +242,7 @@
                       </thead>
                       <tbody>
                        {{#each products}}
-                        {{#equals this.category "Keycap"}}
+                        {{#equals this.category "Key Cap"}}
                           <tr>
                           <td>{{this.id}}</td>
                             <td>{{this.name}}</td>
@@ -265,13 +255,7 @@
                               {{!-- <form action=""  method="POST"> --}}
                                 
                                 <!-- Button to Open the Modal -->
-                                <form action="/staff/product/delete"  method="POST">
-                      
-                                <!-- Button to Open the Modal -->
-                                <button type="submit" title="Delete" class="btn btn-danger " name="productID" value="{{this.id}}">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
-                                </form>
+                              
                                 
                                 {{!-- <!-- The Modal -->
                                 <div class="modal" id="myModal_{{this.id}}">
@@ -301,12 +285,7 @@
 
                             <td class='col-1'>
                                   
-                             <form action="/staff/product/updateRoute" method="POST">
-                              <button type="submit" title="View" class="btn btn-secondary" name="productID" value="{{this.id}}">
-                                <i class="fa fa-edit"></i>
-                              </button>
-                              </form>
-                              
+                            
                               <!-- Modal -->
                               <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby="" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -375,14 +354,7 @@
                               {{!-- <form action=""  method="POST"> --}}
                                 
                                 <!-- Button to Open the Modal -->
-                               <form action="/staff/product/delete"  method="POST">
-                      
-                                <!-- Button to Open the Modal -->
-                                <button type="submit" title="Delete" class="btn btn-danger " name="productID" value="{{this.id}}">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
-                                </form>
-                                
+                            
                                 <!-- The Modal -->
                                 {{!-- <div class="modal" id="myModal_{{this.id}}">
                                   <div class="modal-dialog">
@@ -411,11 +383,7 @@
 
                             <td class='col-1'>
                                   
-                             <form action="/staff/product/updateRoute" method="POST">
-                              <button type="submit" title="View" class="btn btn-secondary" name="productID" value="{{this.id}}">
-                                <i class="fa fa-edit"></i>
-                              </button>
-                              </form>
+                             
                               
                               <!-- Modal -->
                               <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby="" aria-hidden="true">
@@ -485,13 +453,7 @@
                               {{!-- <form action=""  method="POST"> --}}
                                 
                                 <!-- Button to Open the Modal -->
-                               <form action="/staff/product/delete"  method="POST">
-                      
-                                <!-- Button to Open the Modal -->
-                                <button type="submit" title="Delete" class="btn btn-danger " name="productID" value="{{this.id}}">
-                                  <i class="fas fa-trash-alt"></i>
-                                </button>
-                                </form>
+                               
                                 
                                 {{!-- <!-- The Modal -->
                                 <div class="modal" id="myModal_{{this.id}}">
@@ -521,11 +483,7 @@
 
                             <td class='col-1'>
                                   
-                             <form action="/staff/product/updateRoute" method="POST">
-                              <button type="submit" title="View" class="btn btn-secondary" name="productID" value="{{this.id}}">
-                                <i class="fa fa-edit"></i>
-                              </button>
-                              </form>
+                          
                               <!-- Modal -->
                               <div class="modal fade" id="weModal_" tabindex="-1" aria-labelledby="" aria-hidden="true">
                                 <div class="modal-dialog">
