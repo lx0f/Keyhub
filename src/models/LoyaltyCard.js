@@ -17,7 +17,7 @@ LoyaltyCard.init(
       type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      unique: true,
+      unique: 'id',
       allowNull: false,
     },
     Active_Points: {
