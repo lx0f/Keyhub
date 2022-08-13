@@ -82,7 +82,14 @@ productRouter.post('/delete', async function (req, res) {
     //console.log("PRODUCT ID:",productID)
     const value = await Products.findOne({ where: { id: productID } });
     const name = value['name'];
-    const removeProduct = await Products.destroy({ where: { id: productID } });
+    //change this to update status to hidden
+    // const removeProduct = await Products.destroy({ where: { id: productID } });
+    Product.update(
+        {
+            status: "offline"
+        },
+        {where: {id: productID}}
+    )
     //console.log("I AM HERE",products)
     req.flash('success', name, ' has been successfully removed.');
     res.redirect('/staff/product/check');
@@ -90,9 +97,15 @@ productRouter.post('/delete', async function (req, res) {
 
 productRouter.get('/check', async (req, res) => {
     //idk why flashes dont work so this route is used to render the check page with products
-    const products = await (await product.findAll()).map((x) => x.dataValues);
+    const products = await (await product.findAll({where: {status: "online"}})).map((x) => x.dataValues);
     //console.log("I AM HERE",products)
     return res.render('./staff/staff-products', { products });
+});
+productRouter.get('/checkD', async (req, res) => {
+    //idk why flashes dont work so this route is used to render the check page with products
+    const products = await (await product.findAll({where: {status: "offline"}})).map((x) => x.dataValues);
+    //console.log("I AM HERE",products)
+    return res.render('./staff/staff-deleted-products', { products });
 });
 
 productRouter.post('/updateRoute', async function (req, res) {
@@ -103,10 +116,10 @@ productRouter.post('/updateRoute', async function (req, res) {
 });
 
 productRouter.post('/update', async function (req, res) {
-    let { id, name, description, category, stock, price, colour, image } =
+    let { id, name, description, category, stock, price, colour, brand } =
         req.body;
-    console.log('I AM HERE', name);
-    const products = await (await Products.findAll()).map((x) => x.dataValues);
+    //console.log('I AM HERE', name);
+    //const products = await (await Products.findAll()).map((x) => x.dataValues);
     Product.update(
         {
             name: name,
@@ -115,7 +128,8 @@ productRouter.post('/update', async function (req, res) {
             stock: stock,
             price: price,
             colour: colour,
-            image: image,
+            image:`uploads/${req.file.filename}`,
+            brand: brand
         },
         { where: { id: id } } //change the button value to this.name to use name:id comparison
     );
