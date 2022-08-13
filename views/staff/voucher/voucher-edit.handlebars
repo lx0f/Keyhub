@@ -4,7 +4,7 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
 <div class="container">
-	<div class="shadow card card-body ">
+	<div class="shadow card card-body " style="margin-bottom:20px ;">
 		<div class="row">
 			<div class="col-12 text-center">
 				<div class="btn" id="Customer" onclick="Customer()" >
@@ -14,7 +14,10 @@
 		</div>
 		<form action="/staff/manage-vouchers/editVoucher/{{voucher.id}}" method="POST">
 		
-			
+			<div class="mb-3">
+				<label for="" class="form-label">Voucher Title</label>
+				<input type="text" class="form-control" id="voucher_title" name="voucher_title" value="{{voucher.voucher_title}}" required >
+			</div>
 			<div class="mb-3">
 				<label for="" class="form-label">Voucher Name</label>
 				<input type="text" class="form-control" id="voucher_name" name="voucher_name" value="{{voucher.voucher_name}}" required>
@@ -82,7 +85,7 @@
             <input type="text" id="timepicker_2" width="234" class="" name="end_date" />
             </div> --}}
 			
-			<div >
+			{{!-- <div >
 				<label for="" class="form-label">Status</label>
 			
 			<div class=" btn-group-toggle" data-toggle="buttons">
@@ -95,7 +98,7 @@
 				</label>
 			</div>
 			<br>
-			</div>
+			</div> --}}
 			<div class="row">
 				<div class="col-10 ">
 					<button type="submit" class="btn btn-primary">Update Customer Voucher</button>

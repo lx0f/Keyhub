@@ -25,6 +25,10 @@ Redeemables.init(
             type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
         },
+         Redeemcount: {
+            type: Sequelize.DataTypes.INTEGER,
+            allowNull: false,
+        },
     },
     {
         freezeTableName: true,

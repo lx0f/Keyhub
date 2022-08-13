@@ -83,13 +83,12 @@ CustomerOrder.get('/', async (req, res) => {
            
         res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, shipping })
       }
-      
-
+    }
+    }catch (e) {
+      console.log(e);
     }
 
-  } catch (e) {
-    console.log(e);
-  }
+ 
 });
 // Post Order
 CustomerOrder.post('/data', async (req, res) => {
