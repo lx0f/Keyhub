@@ -17,13 +17,13 @@ Referral.init(
       type: Sequelize.DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
-      unique: true,
+      unique: 'id',
       allowNull: false,
     },
     referral_code: {
       type: Sequelize.DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: 'referral_code',
     },
     redeemed: {
       type: Sequelize.DataTypes.INTEGER,
