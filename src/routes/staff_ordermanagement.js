@@ -1,6 +1,6 @@
 const express = require('express');
 const OrderManagement = express.Router();
-const { Order } = require('../models/order');
+const { Order, Shippinginfo } = require('../models/order');
 const { OrderItem } = require('../models/order');
 const { Cancelrequest } = require("../models/order")
 const Product = require('../models/product');
@@ -153,6 +153,9 @@ OrderManagement.get('/cancelrequests', async function (req, res) {
                         },
                         {
                             model:User
+                        },
+                        {
+                            model: Shippinginfo
                         }
                     ]
                 },

@@ -138,9 +138,9 @@
                                                                 <header class="d-lg-flex">
                                                                     <div class="flex-grow-1">
                                                                     <h6 class="mb-0">Order ID: {{this.Order.id}} <i class="dot"></i>  
-                                                                        <span class="text-success"> {{this.Payment.delivery_status}} </span>
+                                                                        <span class="text-success"> {{this.Order.Payment.delivery_status}} </span>
                                                                     </h6>
-                                                                    <span class="text-muted">Date: {{dateFormat this.createdAt 'DD MMM YYYY'}}</span>
+                                                                    <span class="text-muted">Date: {{dateFormat this.Order.createdAt 'DD MMM YYYY'}}</span>
                                                                     </div>
                             
                                                                 </header>
@@ -149,21 +149,21 @@
                                                                     <div class="col-lg-4">
                                                                     <p class="mb-0 text-muted">Contact</p>
                                                                     <p class="m-0"> 
-                                                                        {{this.Shippinginfo.Lname}} {{this.Shippinginfo.Fname}}<br> Email: {{this.User.email}} </p>
+                                                                        {{this.Order.Shippinginfo.Lname}} {{this.Order.Shippinginfo.Fname}}<br> Email: {{this.Order.User.email}} </p>
                                                                     </div> <!-- col.// -->
                                                                     <div class="col-lg-4 border-start">
                                                                     <p class="mb-0 text-muted">Shipping address</p>
                                                                     <p class="m-0"> Singapore <br> 
-                                                                        {{this.Shippinginfo.address}} , {{this.Shippinginfo.zipcode}}
+                                                                        {{this.Order.Shippinginfo.address}} , {{this.Order.Shippinginfo.zipcode}}
                                                                         </p>
                                                                     </div> <!-- col.// -->
                                                                     <div class="col-lg-4 border-start">
                                                                     <p class="mb-0 text-muted">Payment</p>
                                                                     <p class="m-0">
-                                                                        <span class="text-success"> Visa  **** {{this.Payment.last4digit}}</span> <br> 
-                                                                        Shipping fee:  ${{this.shipping_fee}} <br> 
-                                                                        Discount: ${{this.discount}} <br>
-                                                                        Total paid:  ${{this.amount}}
+                                                                        <span class="text-success"> Visa  **** {{this.Order.Payment.last4digit}}</span> <br> 
+                                                                        Shipping fee:  ${{this.Order.shipping_fee}} <br> 
+                                                                        Discount: ${{this.Order.discount}} <br>
+                                                                        Total paid:  ${{this.Order.amount}}
                                                                     </p>
                                                                     </div> <!-- col.// -->
                                                                 </div> <!-- row.// -->

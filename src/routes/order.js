@@ -259,13 +259,15 @@ CustomerOrder.post('/paymentdata/:id', async (req, res) => {
         // const link = `http://localhost:3000/reset-password/${user.id}/${user.resetTokenID}`;
         const userID = order.UserId
         const user = await User.findByPk(userID) 
-      
+        const payment = await Payment.findOne({
+          where: {OrderId : order.id}
+        })
         Mail.Send({
             email_recipient: user.email,
             subject: 'Your Receipt',
             // template_path: '../../views/customers/email1.html',
             template_path: '../../views/customers/emailreceipt.html',
-            context: { order },
+            context: { order, payment },
         });
         return res.redirect(`/order/success`);
     } catch (e) {
