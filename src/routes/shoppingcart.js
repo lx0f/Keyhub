@@ -237,16 +237,18 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
       const voucheritem = await VoucherItem.findOne({
         where: { VoucherId:voucher.id ,VoucherListId:voucherlist.id }
       });
-      if (voucheritem ) {
+      if (voucheritem) {
         
         const cart = await Cart.findOne({
           where: { UserId: req.user.id },
           include: "cartProducts"
         })
-        const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-        
-        if(voucher.spend <= totalPrice)
-          if (previous_code) {
+        if (!cart) {
+          req.flash("error", "Cart is empty ! Unable to apply code")
+        } else {
+          const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+          if (voucher.spend <= totalPrice)
+            if (previous_code) {
               const old_voucher = await Voucher.findOne({
                 where: { voucher_code: previous_code }
               });
@@ -258,23 +260,26 @@ ShoppingCart.post('/applyvoucher', async (req, res) => {
                 VoucherId: voucher.id,
                 UserId: req.user.id
               })
-          } else {
-            ApplyVoucher.create({
-              VoucherId: voucher.id,
-              UserId: req.user.id
-            })
-            req.flash("success","Voucher Applied!")
+            } else {
+              ApplyVoucher.create({
+                VoucherId: voucher.id,
+                UserId: req.user.id
+              })
+              req.flash("success", "Voucher Applied!")
+            }
+          else {
+            const difference = voucher.spend - totalPrice
+            req.flash("error", "Please spend $" + difference + " more to apply voucher")
           }
-        else {
-          const difference = voucher.spend - totalPrice
-          req.flash("error","Please spend $"+difference+" more to apply voucher")
         }
-      } else {
-        req.flash("error","Code has expired / Code is invalid")
-      }
+        } else {
+          req.flash("error", "Code has expired / Code is invalid")
+        }
+      
     } else {
       req.flash("error","Please use a valid code")
-    }
+      }
+    
     return res.redirect("/cart")
     
      

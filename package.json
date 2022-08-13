@@ -11,6 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/Ronandt/Mechanical-Keyboard-Website.git"
   },
+
   "keywords": [
     "mechanical",
     "mechanical_keyboards",
@@ -44,6 +45,7 @@
     "flash-messenger": "^1.1.1",
     "handlebars": "^4.7.7",
     "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.25",
     "method-override": "^3.0.0",
     "moment": "^2.29.3",
     "multer": "^1.4.5-lts.1",

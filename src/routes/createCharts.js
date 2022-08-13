@@ -20,15 +20,7 @@ class GenerateImageCharts {
             NoOfUsers.push(element['NoOfUsersJoined_sum']);
             dates.push(element['Dates']);
         });
-        console.log(dates);
-    
-        console.log(NoOfUsers);
-        console.log(df2)
-        console.log("osdjsfjojfoifiosdff")
-        console.log("osdjsfjojfoifiosdff")
-        console.log("osdjsfjojfoifiosdff")
-        console.log("osdjsfjojfoifiosdff")
-        console.log("osdjsfjojfoifiosdff")
+
         
     
     
@@ -113,9 +105,7 @@ class GenerateImageCharts {
         NoOfUsers.push(element['NoOfUsersJoined_sum']);
         dates.push(element['Dates']);
     });
-    console.log(dates);
-    console.log(NoOfUsers);
-    console.log(df2)
+
 
 
     const myChart = new chartJsImg();
@@ -201,17 +191,7 @@ class GenerateImageCharts {
             NoOfUsers.push(element['NoOfUsersJoined_sum']);
             dates.push(element['Dates']);
         });
-        console.log(dates);
-        console.log(NoOfUsers);
     
-        console.log('hoi');
-        console.log(df2);
-        console.log('a');
-        console.log('a');
-        console.log('a');
-        console.log('a');
-        console.log('a');
-        console.log('a');
     
         const myChart = new chartJsImg();
     
@@ -286,6 +266,31 @@ class GenerateImageCharts {
         return `monthlyLineChart.png`
     
 
+    }
+
+    async GeneratePieChart() {
+        const a = await Chart.proportionPieChart()
+        const myChart = new chartJsImg();
+        myChart.setConfig({
+            type: 'pie',
+            data: {
+              labels: ["Customers", "Staff"],
+              datasets: [{
+                label: "Population (millions)",
+                backgroundColor: ["#3e95cd", "#8e5ea2"],
+                data: Object.values(JSON.parse(a))
+              }]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Proportion of Staff and Customers'
+              }
+            }
+        });
+
+        await myChart.toFile("pieChart.png")
+    
     }
 }
 

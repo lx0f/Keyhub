@@ -17,7 +17,12 @@ var getDaysArray = function (s, e) {
 
 dataRouter.get('/chart-info', async (req, res) => {
 
-    const df2 = await Chart.lineUserChartDaily(new Date('07-07-2022'), new Date())
+const earliest_user = (await User.findAll({
+    limit: 1
+}))[0].dataValues.date.split("/").join("-")
+
+
+    const df2 = await Chart.lineUserChartDaily(new Date(earliest_user), new Date())
 
     var NoOfUsers = [];
     var dates = [];
@@ -25,9 +30,7 @@ dataRouter.get('/chart-info', async (req, res) => {
         NoOfUsers.push(element['NoOfUsersJoined_sum']);
         dates.push(element['Dates']);
     });
-    console.log(dates);
 
-    console.log(NoOfUsers);
 
 
 
@@ -36,16 +39,16 @@ dataRouter.get('/chart-info', async (req, res) => {
 });
 
 dataRouter.get('/chart-info-year', async (req, res) => {
-    const df2 = await Chart.lineUserChartYearly(new Date("07-07-2022"), new Date())
+    const earliest_user = (await User.findAll({
+        limit: 1
+    }))[0].dataValues.date.split("/").join("-")
+    const df2 = await Chart.lineUserChartYearly(new Date(earliest_user), new Date())
     var NoOfUsers = [];
     var dates = [];
     df2.forEach((element) => {
         NoOfUsers.push(element['NoOfUsersJoined_sum']);
         dates.push(element['Dates']);
     });
-    console.log(dates);
-    console.log(NoOfUsers);
-    console.log(df2)
 
 
    
@@ -53,20 +56,25 @@ dataRouter.get('/chart-info-year', async (req, res) => {
 });
 
 dataRouter.get('/chart-info-month', async (req, res) => {
-    const df2 = await Chart.lineUserChartMonthly(new Date("07-07-2022"), new Date())
+    const earliest_user = (await User.findAll({
+        limit: 1
+    }))[0].dataValues.date.split("/").join("-")
+    const df2 = await Chart.lineUserChartMonthly(new Date(earliest_user), new Date())
     var NoOfUsers = [];
     var dates = [];
     df2.forEach((element) => {
         NoOfUsers.push(element['NoOfUsersJoined_sum']);
         dates.push(element['Dates']);
     });
-    console.log(dates);
-    console.log(NoOfUsers);
 
-    console.log('hoi');
 
 
     res.status(200).json({ data: df2 });
 });
+
+dataRouter.get("/chart-info-pie", async(req, res) => {
+    const a = await Chart.proportionPieChart()
+    return res.status(200).json({a})
+})
 
 module.exports = dataRouter;

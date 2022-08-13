@@ -50,7 +50,7 @@ loyaltyprogram.post("/signup", async (req, res) => {
                     context: { link },
                 });
                 // await LoyaltyCard.create({ authorID: req.user.id,Active_Points: 0, Expired_Points: 0, Used_Points: 0,Status:"Bronze",Total_Points:0});
-                req.flash("success", "Please click on the confirmation in the email of user"+req.user.email)
+                req.flash("success", "Please click on the confirmation in the email of user "+req.user.email)
                 return res.redirect("/account/loyaltyprogram")
 
                 
@@ -115,15 +115,13 @@ loyaltyprogram.get("/redeem", async (req, res) => {
 loyaltyprogram.post('/redeem', async (req,res) =>{
     try {
         if (req.user) {
-          
-         const [voucherlist] = await CustomerVoucher.findOne({
+          let list = {}
+         const voucherlist = await CustomerVoucher.findOne({
             where: {
               UserID: req.user.id || 0
             }
          })
-        
-        
-        
+         list = voucherlist
         // find items in voucher list
         const item = await VoucherItem.findOne({
           where: {
@@ -146,7 +144,8 @@ loyaltyprogram.post('/redeem', async (req,res) =>{
             return res.redirect('/loyaltyprogram/redeem');
           
         }
-        else{
+        else {
+            const Redeemcount = await Redeemables.findOne({where:{VoucherId:voucher.id}})
             const User_Card = await LoyaltyCard.findOne({ where: { authorID: req.user.id }})
             
             if (User_Card.Active_Points < req.body.redeem) {
@@ -174,6 +173,9 @@ loyaltyprogram.post('/redeem', async (req,res) =>{
                 await voucher.update({
         
                 voucher_used: voucher.voucher_used += 1
+                })
+                await Redeemcount.update({
+                    Redeemcount: Redeemcount.Redeemcount + 1
                 })
                 if (voucher.voucher_used >= voucher.total_voucher) {
                     await voucher.update({
@@ -229,7 +231,8 @@ loyaltyprogram.post('/redeemables/:id', async (req, res) => {
             Redeemables.create(
             {
                 VoucherId: voucher.id,
-                Price: price,
+                    Price: price,
+                Redeemcount: 0
             }
             )
             req.flash("success","Sucessfully added Reward"+voucher.voucher_title)
