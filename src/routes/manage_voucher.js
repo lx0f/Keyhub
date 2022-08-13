@@ -1,8 +1,8 @@
-const express = require("express");
-const Voucher = require("../models/Voucher");
-const User = require("../models/User");
-const { CustomerVoucher } = require("../models/CustomerVoucher");
-const { VoucherItem } = require("../models/CustomerVoucher")
+const express = require('express');
+const Voucher = require('../models/Voucher');
+const User = require('../models/User');
+const { CustomerVoucher } = require('../models/CustomerVoucher');
+const { VoucherItem } = require('../models/CustomerVoucher');
 const manageVoucher = express.Router();
 const { Mail, transporter } = require("../configuration/nodemailer");
 const  Redeemables  = require("../models/Redeemables");
@@ -10,6 +10,7 @@ const cron = require('node-cron');
 const moment = require('moment');
 require('dotenv').config()
 const fetch = require('node-fetch');
+
 
 
 // let sendSmtpEmail = new Sib.SendSmtpEmail();
@@ -65,6 +66,7 @@ cron.schedule('*/1 * * * * ', async () => {
 manageVoucher
   .route("/")
   .get(async (req, res) => {
+
     try {
       const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
       const user = await (await User.findAll()).map((x) => x.dataValues);
@@ -82,9 +84,13 @@ manageVoucher
     }
     
   })
-manageVoucher.get("/test", async (req, res) => { 
-res.render("./customers/loyaltyprogram/confirmation")
-})
+manageVoucher.get("/test", async (req, res) => {
+  res.render("./customers/loyaltyprogram/confirmation")
+});
+
+
+   
+
 
 manageVoucher.get('/deleteVoucher/:id', async function
 (req, res) {
@@ -94,17 +100,18 @@ manageVoucher.get('/deleteVoucher/:id', async function
     
     req.flash('success', 'Voucher Deleted');
     res.redirect('/staff/manage-vouchers');
-    }
-    catch (err) {
-      console.log(err);
+
+  }
+  catch (e) {
+    console.log(e)
   }
 });
 manageVoucher.get('/editVoucher/:id', (req, res) => {
-  Voucher.findByPk(req.params.id)
-  .then((voucher) => {
-    res.render('./staff/voucher/voucher-edit', { voucher });
-  })
-  .catch(err => console.log(err));
+    Voucher.findByPk(req.params.id)
+        .then((voucher) => {
+            res.render('./staff/voucher/voucher-edit', { voucher });
+        })
+        .catch((err) => console.log(err));
 });
 
 manageVoucher.post('/editVoucher/:id', async (req, res) => {
@@ -136,12 +143,14 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
       usage:req.body.usage,
       spend:req.body.spend
 
-  });
 
-  req.flash("success", "Voucher updated!");
-  res.redirect("/staff/manage-vouchers");
+    
+    });
 
-})
+    req.flash('success', 'Voucher updated!');
+    res.redirect('/staff/manage-vouchers');
+});
+
 
 manageVoucher.route("/voucher-form").get((req, res) => {
 // if (req.isUnauthenticated() || !req.user.isStaff) {
@@ -168,14 +177,16 @@ manageVoucher.route("/voucher-form").get((req, res) => {
       days: req.body.days,
       voucher_type: req.body.voucher_type,
       voucher_cat: req.body.voucher_cat,
-      usage:req.body.usage,
-      spend:req.body.spend
+      usage: req.body.usage,
+      spend: req.body.spend
     })
-    req.flash("success", "Successfully created Voucher!")
-    return res.redirect("/staff/manage-vouchers")
+
+
+    req.flash("success", "Successfully created Voucher!");
+    return res.redirect("/staff/manage-vouchers");
   } catch(e) {
         req.flash("error", e)
-    }
+  }
 });
 manageVoucher.post('/sendmail/:voucher_id', async (req, res) => {
   const voucherlist = await CustomerVoucher.findAll({
@@ -249,6 +260,7 @@ manageVoucher.post('/emailvoucher/:user_id/:voucher_id', async (req, res) => {
     res.redirect("/");
   }
 });
+
 
 manageVoucher.post('/', async (req, res) => { 
       

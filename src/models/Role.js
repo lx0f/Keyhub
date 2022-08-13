@@ -1,5 +1,5 @@
-const sequelize = require("./database_setup");
-const Sequelize = require("sequelize");
+const sequelize = require('./database_setup');
+const Sequelize = require('sequelize');
 
 class Role extends Sequelize.Model {}
 
@@ -9,11 +9,11 @@ Role.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
         },
         name: {
             type: Sequelize.DataTypes.STRING,
-            unique: true,
+            unique: 'name',
             allowNull: false,
         },
         createdAt: {
@@ -30,4 +30,4 @@ Role.init(
     }
 );
 
-module.exports = Role
+module.exports = Role;

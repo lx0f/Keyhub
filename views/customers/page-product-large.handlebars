@@ -1,0 +1,232 @@
+<!-- ============== SECTION CONTENT ============== -->
+
+<section class="padding-y">
+<div class="container">
+<div class="row">
+	<aside class="col-lg-6">
+	<article class="gallery-wrap"> 
+		<div class="img-big-wrap img-thumbnail">
+		<a data-fslightbox="mygalley" data-type="image" href=""> 
+			<img height="560" src="/{{productdetail.image}}"> 
+		</a>
+		</div> <!-- img-big-wrap.// -->
+	</article> <!-- gallery-wrap .end// -->
+	</aside>
+	<main class="col-lg-6">
+	<article class="ps-lg-3">
+		<h4 class="title text-dark"> {{productdetail.name}} </h4>
+		<div class="rating-wrap my-3">
+		<ul class="rating-stars">
+			<li style="width:80%" class="stars-active"> <img src="images/misc/stars-active.svg" alt=""> </li>
+			<li> <img src="images/misc/starts-disable.svg" alt=""> </li>
+		</ul>
+		
+		<b class="label-rating text-warning"> {{average}} stars</b>
+		
+		<i class="dot"></i>
+		<span class="label-rating text-muted"> <i class="fa fa-shopping-basket"></i> {{sum_quantity totalorder}} orders </span>
+		<i class="dot"></i>
+		{{#notequals productdetail.stock 0}}
+		<span class="label-rating text-success">In Stock</span>
+		{{/notequals}}
+		{{#equals productdetail.stock 0}}
+			<span class="label-rating text-danger">Out Of Stock</span>
+		{{/equals}}
+		</div> <!-- rating-wrap.// -->
+
+		<div class="mb-3"> 
+		<var class="price h5">${{productdetail.price}}</var> 
+		<span class="text-muted">/per set</span> 
+		</div> 
+
+		<p>{{productdetail.description}}</p>
+
+		<dl class="row">
+		<dt class="col-3">Type: </dt>
+		<dd class="col-9">{{productdetail.category}}</dd>
+
+		<dt class="col-3">Color</dt>
+		<dd class="col-9">{{productdetail.colour}}</dd>
+
+		<dt class="col-3">Brand</dt>
+		<dd class="col-9">{{productdetail.brand}} </dd>
+		</dl>
+
+		<hr>
+
+		<div class="row mb-4">
+		
+		
+		</div> <!-- row.// -->
+
+		{{!-- <a href="#" class="btn  btn-warning"> Buy now </a> --}}
+		{{#notequals productdetail.stock 0}}
+			<form action="/cart/postcart" method="POST">
+				<input type="hidden" name="productId" value="{{productdetail.id}}">
+				<button type="submit" class="btn  btn-primary"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
+			</form>
+		{{/notequals}}
+		{{#equals productdetail.stock 0}}
+			<button href="#" class="btn  btn-primary" disabled> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
+		{{/equals}}
+		{{!-- <a href="#" class="btn  btn-light"> <i class="me-1 fa fa-heart"></i> Save </a> --}}
+	
+	</article> <!-- product-info-aside .// -->
+	</main> <!-- col.// -->
+</div> <!-- row.// -->
+
+<!-- =================== COMPONENT REVIEW ====================== -->
+<div class="row" style="margin:auto;">
+	<aside class="col-lg-9">
+		<div class="card mb-4" style="height:605px ;">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-10">
+						<h4 class="card-title" style="padding-top:20px;">Reviews  </h4>
+					
+					</div>
+					
+					<div class="col-2">
+						<p style="color:grey;float:right;"> {{count}} Reviews </p>
+					</div>
+				</div>
+				<hr>
+				<br>
+				
+				<div class="scroll" style="overflow-y:auto;height:450px;">
+					{{#each review}}
+					<blockquote class="border-bottom">
+						<div class="icontext">
+							{{!-- <img src="/uploads/myImage-1660035606378.jpg" class="img-xs icon rounded-circle"> --}}
+							<img src="/{{this.User.imageFilePath}}" class="img-xs icon rounded-circle">
+							<div class="text">
+								<h6 class="mb-0"> {{this.User.username}} </h6>
+								<div class="rating-wrap">
+									<ul class="rating-stars">
+										<li style="width:{{convert this.ProductRating}}%" class="stars-active">
+											<img src="/images/misc/stars-active.svg" alt="">
+										</li>
+										<li> <img src="/images/misc/starts-disable.svg" alt=""> </li>
+									</ul>
+									<b class="dot"></b>
+									<small class="label-rating text-muted"> Purchased on  {{dateFormat this.createdAt 'DD MMM YYYY'}}</small>
+								</div>
+							</div>
+						</div> <!-- icontext.// -->
+						<div class="mt-3">
+							<p>
+								{{this.ProductRemarks}}
+							</p>
+						</div>
+					</blockquote>
+					<br>
+					{{/each}}
+				</div>
+			</div>
+			</div>
+		</aside>
+	
+		<aside class="col-lg-3" >
+			<article class="card" style="width: 300px;">
+				<div class="card-body">
+					
+					{{!-- <div class="total-rating">
+						<h4 class="text-lg " style="text-align:center;"> 
+						4.6 out of 5 
+						</h4>	
+						<div class="stars" style="text-align: center;">
+							<i class="fa-solid fa-star fa-lg"></i>
+							<i class="fa-solid fa-star fa-lg"></i>
+							<i class="fa-solid fa-star fa-lg"></i>
+							<i class="fa-solid fa-star fa-lg"></i>
+							<i class="fa-solid fa-star-half fa-lg"></i>
+						</div>
+					</div> --}}
+					
+					
+					
+					<div class="rating-wrap mt-3">
+						<ul class="rating-stars stars-lg">
+							<li style="width:{{convert average}}%" class="stars-active"> <img src="/images/misc/stars-active.svg" alt=""> </li>
+							<li> <img height="520" src="/images/misc/starts-disable.svg" alt=""> </li>
+						</ul>
+						<b class="label-rating text-lg"> {{average}} out of 5 </b>		
+					</div> <!-- rating-wrap.// -->
+					<p class="mt-1 text-muted"> {{count}} reviews </p>
+
+					<br>
+					
+					
+					<table class="table table-borderless table-sm">
+						<tr valign="middle">
+							<td width="50"> 5 <i class="fa-solid fa-star"></i></td>
+							<td style="vertical-align:middle ;"> 
+								<div class="progress" style="height: 10px;" >
+								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count5 count}}%;" aria-valuenow="25" aria-valuemax="100" ></div>
+								</div> <!-- progress .// -->
+							</td>
+							<td width="60"> {{percentage count5 count}} % </td>
+						</tr>
+						<tr valign="middle">
+							<td> 4 <i class="fa-solid fa-star"></i> </td>
+							<td style="vertical-align:middle ;"> 
+								<div class="progress" style="height: 10px;">
+								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count4 count}}%;" aria-valuenow="80" aria-valuemax="100"></div>
+								</div> <!-- progress .// -->
+							</td>
+							<td> {{percentage count4 count}} % </td>
+						</tr>
+						<tr valign="middle">
+							<td> 3 <i class="fa-solid fa-star"></i></td>
+							<td style="vertical-align:middle ;"> 
+								<div class="progress" style="height: 10px;">
+								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count3 count}} %;" aria-valuenow="35" aria-valuemax="100"></div>
+								</div> <!-- progress .// -->
+							</td>
+							<td> {{percentage count3 count}} % </td>
+						</tr>
+						<tr valign="middle">
+							<td> 2 <i class="fa-solid fa-star"></i> </td>
+							<td style="vertical-align:middle ;"> 
+								<div class="progress" style="height: 10px;">
+								<div class="progress-bar bg-warning" role="progressbar" style="width: {{percentage count2 count}}%;" aria-valuenow="13" aria-valuemax="100"></div>
+								</div> <!-- progress .// -->
+							</td>
+							<td> {{percentage count2 count}} % </td>
+						</tr>
+						<tr valign="middle">
+							<td> 1 <i class="fa-solid fa-star"></i> </td>
+							<td style="vertical-align:middle ;"> 
+								<div class="progress" style="height: 10px;">
+								<div class="progress-bar bg-warning" role="progressbar" style="width:{{percentage count1 count}}%;" aria-valuenow="5" aria-valuemax="100"></div>
+								</div> <!-- progress .// -->
+							</td>
+							<td> {{percentage count1 count}} % </td>
+						</tr>
+					</table>
+				</div>
+			</article>
+		</aside>
+</div>
+
+<br><br>
+
+</div> <!-- container .//  -->
+</section>
+
+<style>
+	.scroll::-webkit-scrollbar-track{
+		background-color: ghostwhite;
+		scroll-margin-left: 10px !important;
+	}
+	.scroll::-webkit-scrollbar {
+	width: 12px;  
+	/* width of the entire scrollbar */
+	}
+	.scroll::-webkit-scrollbar-thumb {
+  background-color: #F3F3F3;    /* color of the scroll thumb */
+  border-radius: 20px;  
+  height:40px;     /* roundness of the scroll thumb */
+   /* creates padding around scroll thumb */
+}
+</style>

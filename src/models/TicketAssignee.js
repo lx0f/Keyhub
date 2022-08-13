@@ -1,7 +1,7 @@
-const Sequelize = require("sequelize");
-const sequelize = require("./database_setup");
-const User = require("./User");
-const Ticket = require("./Ticket");
+const Sequelize = require('sequelize');
+const sequelize = require('./database_setup');
+const User = require('./User');
+const Ticket = require('./Ticket');
 
 class TicketAssignee extends Sequelize.Model {}
 
@@ -11,7 +11,7 @@ TicketAssignee.init(
             type: Sequelize.DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
-            unique: true,
+            unique: 'id',
             allowNull: false,
         },
     },
@@ -21,14 +21,14 @@ TicketAssignee.init(
         createdAt: true,
         updatedAt: true,
         sequelize,
-        modelName: "TicketAssignee",
+        modelName: 'TicketAssignee',
     }
 );
 
-TicketAssignee.belongsTo(User, { foreignKey: "userID" });
-User.hasMany(TicketAssignee, { foreignKey: "userID" });
+TicketAssignee.belongsTo(User, { foreignKey: 'userID' });
+User.hasMany(TicketAssignee, { foreignKey: 'userID' });
 
-TicketAssignee.belongsTo(Ticket, { foreignKey: "ticketID" });
-Ticket.hasMany(TicketAssignee, { foreignKey: "ticketID" });
+TicketAssignee.belongsTo(Ticket, { foreignKey: 'ticketID' });
+Ticket.hasMany(TicketAssignee, { foreignKey: 'ticketID' });
 
 module.exports = TicketAssignee;

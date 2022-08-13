@@ -1,13 +1,12 @@
-const express = require("express");
-const User = require("../models/User");
-const { CustomerVoucher } = require("../models/CustomerVoucher");
-const { VoucherItem } = require("../models/CustomerVoucher");
-const Voucher = require("../models/Voucher");
-
+const express = require('express');
+const User = require('../models/User');
+const { CustomerVoucher } = require('../models/CustomerVoucher');
+const { VoucherItem } = require('../models/CustomerVoucher');
+const Voucher = require('../models/Voucher');
 
 const customervoucher = express.Router();
 
-customervoucher.get("/", async (req, res) => {
+customervoucher.get('/', async (req, res) => {
     try {
         if (req.user) {
             const voucherlist = await CustomerVoucher.findOne({
@@ -32,13 +31,13 @@ customervoucher.get("/", async (req, res) => {
             res.render('./customers/customer_voucher/customervoucher', {voucher});
         }
     
+
     } catch (e) {
-        console.log(e)
+        console.log(e);
     }
-   
 });
- // Add customer voucher
-customervoucher.post('/postvoucherlist', async (req,res) =>{
+// Add customer voucher
+customervoucher.post('/postvoucherlist', async (req, res) => {
     try {
         if (req.user) {
             let list = {}
@@ -82,27 +81,26 @@ customervoucher.post('/postvoucherlist', async (req,res) =>{
                 voucher_used: voucher.voucher_used += 1
             })
              if (voucher.voucher_used >= voucher.total_voucher) {
+
                 await voucher.update({
-                    voucher_status: "Inactive",
-                })
+                    voucher_used: (voucher.voucher_used += 1),
+                });
+                if (voucher.voucher_used >= voucher.total_voucher) {
+                    await voucher.update({
+                        voucher_status: 'Inactive',
+                    });
+                }
             }
-        }
-       
 
-        await item.save()
-        return res.redirect('/CustomerVoucher')
-
+            await item.save();
+            return res.redirect('/CustomerVoucher');
         } else {
-             req.flash('error', 'please login as customer first')
-            return res.redirect('/login')   
+            req.flash('error', 'please login as customer first');
+            return res.redirect('/login');
         }
-        
-        
     } catch (e) {
-    console.log(e)
+        console.log(e);
     }
 });
-   
-   
 
 module.exports = customervoucher;

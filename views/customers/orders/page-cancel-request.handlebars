@@ -1,0 +1,75 @@
+<div class="container">
+  <br>
+  <h3 class="text-center" style="color: black;">Order Cancellation Form</h3>
+  <p class="text-center" style="font-size: 12px;">
+    Please check your order information and fill in the reason for cancellation
+  </p>
+  <br>
+
+<div class="card">
+  <div class="card-body">
+    <header class="d-lg-flex">
+        <div class="flex-grow-1">
+          <h6 class="mb-0">Order ID: {{order.id}} <i class="dot"></i>  
+            <span class="text-success"> {{order.Payment.delivery_status}} </span>
+          </h6>
+          <span class="text-muted">Date: {{dateFormat order.createdAt 'DD MMM YYYY'}}</span>
+        </div>
+        
+      </header>
+      <hr>
+      <div class="row">
+        <div class="col-lg-4">
+          <p class="mb-0 text-muted">Contact</p>
+          <p class="m-0"> 
+            Mike Johnatan <br>  Phone: 371-295-9131 <br> Email: info@mywebsite.com </p>
+        </div> <!-- col.// -->
+        <div class="col-lg-4 border-start">
+          <p class="mb-0 text-muted">Shipping address</p>
+          <p class="m-0"> United States <br> 
+            3601 Old Capitol Trail, Unit A-7, Suite 170777, Wilmington, DE 19808   </p>
+        </div> <!-- col.// -->
+        <div class="col-lg-4 border-start">
+          <p class="mb-0 text-muted">Payment</p>
+          <p class="m-0">
+            <span class="text-success"> Visa  **** 4216   </span> <br> 
+            Shipping fee:  $56 <br> 
+            Total paid:  $456 
+          </p>
+        </div> <!-- col.// -->
+      </div> <!-- row.// -->
+      <hr>
+      <ul class="row">
+        {{#each order.OrderItems}}
+          <li class="col-xl-4  col-lg-6">
+            <figure class="itemside mb-3">
+              <div class="aside">
+                <img width="72" height="72" src="/{{this.Product.image}}" class="img-sm rounded border">
+              </div>
+              <figcaption class="info">
+                <p class="title"> {{this.Product.name}}</p>
+                <strong> {{this.quantity}}x = ${{multiply this.Product.price this.quantity}}.00 </strong>
+              </figcaption>
+            </figure> 
+          </li>
+        {{/each}}
+      </ul>
+  </div>
+</div>
+<br><br>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Reason of Cancellation  </h5>
+
+<form action="/account/cancelorderform/{{order.id}}" method="post">
+	
+	<div class="mb-3">
+		<textarea class="form-control" name= "message" placeholder="Type here" maxlength="250" required></textarea>
+	</div>
+
+	<button type="submit" class="btn btn-primary">Submit request</button>
+</form>
+
+  </div>
+</div>
+<br><br><br>

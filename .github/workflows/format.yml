@@ -1,0 +1,29 @@
+name: format-js
+on:
+  push:
+    branches:
+      - KEYH-*
+  pull_request:
+    branches:
+      - main
+jobs:
+  format-js:
+    name: Format JS in `src`
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Format JS files in `src`
+        run: npx prettier "src/**/*.js" --write
+
+      - name: Commit format
+        run: |
+          git config --global user.name 'Luth Andyka'
+          git config --global user.email 'lx0f@users.noreply.github.com'
+          git commit -am "[ACTIONS] Automated formatting" && git push || echo "No changes to be commited"

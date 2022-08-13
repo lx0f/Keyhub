@@ -1,10 +1,12 @@
-const express = require("express")
+const express = require('express');
 const fs = require('fs');
  const upload = require('../configuration/imageUpload');
 const customerManageAccountRouter = express.Router()
 const User = require("../models/User")
 const { Order, Shippinginfo }  = require("../models/order")
 const { OrderItem } = require("../models/order")
+const { Cancelrequest } = require("../models/order")
+const Pevaluation = require("../models/product_evaluation");
 const Product = require("../models/product")
 const { Payment } = require("../models/order")
 const { Cart } = require("../models/cart")
@@ -17,14 +19,13 @@ const Voucher = require("../models/Voucher");
 const LoyaltyCard = require("../models/LoyaltyCard");
 
 
-const handlebars = require("handlebars")
+const handlebars = require('handlebars');
 
 customerManageAccountRouter.use((req, res, next) => {
     if (req.isUnauthenticated()) {
-        req.flash("info", "Please login first to manage your own account!")
-        return res.redirect("/")
-    }
-    
+        req.flash('info', 'Please login first to manage your own account!');
+        return res.redirect('/');
+    }    
     next()
 })
 
@@ -34,41 +35,47 @@ customerManageAccountRouter.route("/").get((req, res) => {
     
     res.render("./customers/page-profile-main")
 
-})
 
-customerManageAccountRouter.route("/edit").get(async (req, res) => {
-    const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/${req.user.imageFilePath}`, 'base64');
-    res.render("./customers/page-profile-edit", {imageAsBase64})
-}).post(async (req, res) => {
-   
+    next();
+});
 
-    upload(req, res, async (err) => {
-        const user = await User.findByPk(req.body.id)
-        if(!(err || !req.file)) {
-            user.imageFilePath = `uploads/${req.file.filename}`
+customerManageAccountRouter.route('/').get((req, res) => {
+    res.render('./customers/page-profile-main');
+});
 
-        } 
-        
-        user.username = req.body.username || user.username
-        user.email = req.body.email || user.email
-        user.address = req.body.address || user.address
-        if(req.body.password) {
-            if(req.body.password != req.body.repeatpassword) {
-                req.flash("error", "Repeat password must be the same as the password!")
-            } else {
-                user.password = req.body.password
-               
+customerManageAccountRouter
+    .route('/edit')
+    .get(async (req, res) => {
+        const imageAsBase64 =
+            'data:image/png;base64, ' +
+            fs.readFileSync(`public/${req.user.imageFilePath}`, 'base64');
+        res.render('./customers/page-profile-edit', { imageAsBase64 });
+    })
+    .post(async (req, res) => {
+        upload(req, res, async (err) => {
+            const user = await User.findByPk(req.body.id);
+            if (!(err || !req.file)) {
+                user.imageFilePath = `uploads/${req.file.filename}`;
             }
-           
-        }
-        await user.save()
 
-      });
+            user.username = req.body.username || user.username;
+            user.email = req.body.email || user.email;
+            user.address = req.body.address || user.address;
+            if (req.body.password) {
+                if (req.body.password != req.body.repeatpassword) {
+                    req.flash(
+                        'error',
+                        'Repeat password must be the same as the password!'
+                    );
+                } else {
+                    user.password = req.body.password;
+                }
+            }
+            await user.save();
+        });
 
-
-  
-    return res.redirect("/account")
-})
+        return res.redirect('/account');
+    });
 
 customerManageAccountRouter.get('/orderhistory', async (req, res) => {
     const orders = await Order.findAll({
@@ -76,8 +83,8 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
             {
                 model: OrderItem,
                 include: {
-                    model: Product
-                }
+                    model: Product,
+                },
             },
             {
                 model: Payment
@@ -94,36 +101,90 @@ customerManageAccountRouter.get('/orderhistory', async (req, res) => {
     });
     console.log(orders)
   
+
     return res.render('./customers/orders/page-profile-orders', { orders });
 });
-
-customerManageAccountRouter.route("/edit-image").post(async (req, res) => {
-
-    upload(req, res, async (err) => {
-       
-        if(err || !req.file) {
-            req.flash("error", "Please upload a proper file!")
-       console.log(err)
-            return res.redirect("/account/edit")
-
-        } 
-         else {
-
-            const user = await User.findByPk(req.user.id)
-            user.imageFilePath = `uploads/${req.file.filename}`
-            console.log(req.file.filename)
-            console.log(user.imageFilePath)
-            await user.save()
-            return res.redirect("/account")
-          }
-
-      });
-
-
-
+//
+customerManageAccountRouter.get('/review', async (req,res) =>{
+    const reviews = await Pevaluation.findAll({
+        include: [
+            {
+                model: Product
+            }
+        ],
+        where :{
+            UserId: req.user.id
+        }
+    });
+    return res.render('./customers/page-profile-review', { reviews });
 })
 
-customerManageAccountRouter.route("/myvouchers").get(async (req, res) => { 
+// Have to consider the delivery status of the order see if cancel !!!
+
+customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
+    const order = await Order.findOne({
+        include: [
+            {
+                model: OrderItem,
+                include: {
+                    model: Product
+                }
+            },{
+                model: Cancelrequest
+            }
+        ],
+        where: { Id: req.params.id }
+    });
+    const cancelrequest = await Cancelrequest.findAll({
+        where:{
+            OrderId: order.id
+        }
+    })
+    if (cancelrequest.length > 0){
+        req.flash("info","Your cancel request is in the progress, please check your email for new updates")
+        res.redirect("/account/orderhistory")
+    }
+    else{
+        return res.render('./customers/orders/page-cancel-request',{order});
+
+    }
+});
+
+customerManageAccountRouter.post('/cancelorderform/:id', async (req, res) => {
+   try{
+    Cancelrequest.create(
+        {
+            OrderId: req.params.id,
+            message: req.body.message,
+            status: "null"
+        }
+    )
+    req.flash("success","Your cancel request sent susscessfully, Please Watch you email for update")
+    res.redirect("/account/orderhistory")
+   }
+   catch(e){
+    console.log(e)
+   }
+});
+
+customerManageAccountRouter.route('/edit-image').post(async (req, res) => {
+    upload(req, res, async (err) => {
+        if (err || !req.file) {
+            req.flash('error', 'Please upload a proper file!');
+            console.log(err);
+            return res.redirect('/account/edit');
+        } else {
+            const user = await User.findByPk(req.user.id);
+            user.imageFilePath = `uploads/${req.file.filename}`;
+            console.log(req.file.filename);
+            console.log(user.imageFilePath);
+            await user.save();
+            return res.redirect('/account');
+        }
+    });
+});
+
+customerManageAccountRouter.route('/myvouchers').get(async (req, res) => {
     const voucher = await (await Voucher.findAll()).map((x) => x.dataValues);
     const voucherlist = await CustomerVoucher.findAll({
         include: ["voucheritem",{ model: User },
@@ -166,4 +227,5 @@ customerManageAccountRouter.route("/loyaltyprogram").get(async (req, res) => {
 
 
 
-module.exports = customerManageAccountRouter
+
+module.exports = customerManageAccountRouter;

@@ -1,18 +1,17 @@
 const Sequelize = require('sequelize');
 const sequelize = require('./database_setup');
-const Product = require("./product");
-const User = require("./User")
-class Pevaluation extends Sequelize.Model {
-    
-  }
-  
-  Pevaluation.init(
+
+const Product = require('./product');
+const User = require('./User');
+class Pevaluation extends Sequelize.Model {}
+
+Pevaluation.init(
     {
       id: {
         type: Sequelize.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
-        unique: true,
+        unique: 'id',
         allowNull: false,
       },
       UserId:{
@@ -37,17 +36,33 @@ class Pevaluation extends Sequelize.Model {
       createdAt: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false,
-      }
+      },
+      imageFilePath1: {
+        type: Sequelize.DataTypes.STRING,
+        defaultValue: "uploads/unknownimage.png",
+      },
+      imageFilePath2: {
+        type: Sequelize.DataTypes.STRING,
+        defaultValue: "uploads/unknownimage.png",
+      },
+      imageFilePath3: {
+        type: Sequelize.DataTypes.STRING,
+        defaultValue: "uploads/unknownimage.png",
+      },
+      
     },
     {
-      freezeTableName: true,
-      timestamps: true,
-      sequelize,
-      modelName: "Product_Evaluation"
+        freezeTableName: true,
+        timestamps: true,
+        sequelize,
+        modelName: 'Product_Evaluation',
     }
   );
+  
   Pevaluation.belongsTo(Product);
   Product.hasMany(Pevaluation)
+
   Pevaluation.belongsTo(User)
   User.hasMany(Pevaluation)
+
   module.exports = Pevaluation;

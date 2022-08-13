@@ -1,0 +1,214 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Order Management</h1>
+    <p class="mb-4">Order Cancellation Request</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Requests</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                >
+                    <thead>
+                        <tr>
+                            <th>OrderID</th>
+                            <th>Customer Email</th>
+                            <th>Messages</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each requests }}
+                            <tr>
+                                <td>{{this.Order.id}}</td>
+                                <td>{{this.Order.User.email}}</td>
+                                <td>{{this.message}}</td>
+                                {{#equals this.status "null" }}
+                                    <td><p class="badge badge-info">NULL</p></td>
+                                {{/equals}}
+                                {{#equals this.status "Rejected" }}
+                                    <td><p class="badge badge-danger">Rejected</p></td>
+                                {{/equals}}
+                                {{#equals this.status "Approved" }}
+                                    <td><p class="badge badge-success">Approved</p></td>
+                                {{/equals}}
+                                <td>{{dateFormat this.createdAt 'DD MMM YYYY'}}</td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <form action="/staff/manage-orders/rejectcancelorder/{{this.id}}" method="get">
+                                                <!-- delete button -->
+                                                <button type="button" title="Reject" class="btn btn-danger " data-toggle="modal" data-target="#rejectModal_{{this.id}}">
+                                                    <i class="fa fa-ban"></i>
+                                                </button>
+
+                                                <!-- The Modal -->
+                                                <div class="modal" id="rejectModal_{{ this.id }}">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                            
+                                                            <!-- Modal Header -->
+                                                            <div class="modal-header">
+                                                            <h4 class="modal-title">Confirmation</h4>
+                                                            <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                                            </div>
+                            
+                                                            <!-- Modal body -->
+                                                            <div class="modal-body">
+                                                            Are you sure you want to reject request ID {{this.id}}?
+                                                            </div>
+                            
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                            <input type="submit" value="Yes" class="btn btn-danger">
+                                                            
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-4">
+                                            <form action="/staff/manage-orders/cancelorder/{{this.id}}" method="get">
+                                                <!-- delete button -->
+                                                <button type="button" title="Approve" class="btn btn-success " data-toggle="modal" data-target="#approvedModal_{{this.id}}">
+                                                    <i class="fa fa-check"></i>
+                                                </button>
+
+                                                <!-- The Modal -->
+                                                <div class="modal" id="approvedModal_{{ this.id }}">
+                                                    <div class="modal-dialog" >
+                                                        <div class="modal-content">
+                            
+                                                            <!-- Modal Header -->
+                                                            <div class="modal-header">
+                                                            <h4 class="modal-title">Confirmation</h4>
+                                                            <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                                            </div>
+                            
+                                                            <!-- Modal body -->
+                                                            <div class="modal-body">
+                                                            Are you sure you want to approve Order ID {{this.Order.id}}?
+                                                            </div>
+                            
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">
+                                                            <input type="submit" value="Yes" class="btn btn-primary">
+                                                            
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        {{!-- https://mdbootstrap.com/docs/standard/extended/order-details/# --}}
+                                        <div class="col-4">
+                                            <!-- view button -->
+                                            <button type="button" title="View" class="btn btn-secondary" data-toggle="modal" data-target="#viewModal_{{this.id}}">
+                                                <i class="far fa-eye"></i>
+                                            </button>
+                                            <!-- The Modal -->
+                                            <div class="modal" id="viewModal_{{ this.id }}">
+                                                <div class="modal-dialog" >
+                                                    <div class="modal-content" style="width: 800px; margin-left: -100px">
+                        
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                        <h4 class="modal-title">Order Detail</h4>
+                                                        <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                                        </div>
+                        
+                                                        <!-- Modal body -->
+                                                        <div class="modal-body">
+                                                        <!-- Order Detail -->
+                                                            <article class="card border-primary mb-4">
+                                                                <div class="card-body">
+                                                                <header class="d-lg-flex">
+                                                                    <div class="flex-grow-1">
+                                                                    <h6 class="mb-0">Order ID: {{this.Order.id}} <i class="dot"></i>  
+                                                                        <span class="text-success"> {{this.Payment.delivery_status}} </span>
+                                                                    </h6>
+                                                                    <span class="text-muted">Date: {{dateFormat this.createdAt 'DD MMM YYYY'}}</span>
+                                                                    </div>
+                            
+                                                                </header>
+                                                                <hr>
+                                                                <div class="row">
+                                                                    <div class="col-lg-4">
+                                                                    <p class="mb-0 text-muted">Contact</p>
+                                                                    <p class="m-0"> 
+                                                                        Mike Johnatan <br>  Phone: 371-295-9131 <br> Email: info@mywebsite.com </p>
+                                                                    </div> <!-- col.// -->
+                                                                    <div class="col-lg-4 border-start">
+                                                                    <p class="mb-0 text-muted">Shipping address</p>
+                                                                    <p class="m-0"> United States <br> 
+                                                                        3601 Old Capitol Trail, Unit A-7, Suite 170777, Wilmington, DE 19808   </p>
+                                                                    </div> <!-- col.// -->
+                                                                    <div class="col-lg-4 border-start">
+                                                                    <p class="mb-0 text-muted">Payment</p>
+                                                                    <p class="m-0">
+                                                                        <span class="text-success"> Visa  **** 4216   </span> <br> 
+                                                                        Shipping fee:  $56 <br> 
+                                                                        Total paid:  $456 
+                                                                    </p>
+                                                                    </div> <!-- col.// -->
+                                                                </div> <!-- row.// -->
+                                                                <hr>
+                                                                <ul class="row">
+                                                                    {{#each this.Order.OrderItems}}
+                                                                        <li class="col-xl-4  col-lg-6" style="list-style: none;">
+                                                                            <figure class="itemside mb-3">
+                                                                                <div class="aside">
+                                                                                <img width="72" height="72" src="/{{this.Product.image}}" class="img-sm rounded border">
+                                                                                </div>
+                                                                                <figcaption class="info">
+                                                                                <p class="title">{{this.Product.name}}</p>
+                                                                                <strong> {{this.quantity}}x = ${{multiply this.Product.price this.quantity}}.00 </strong>
+                                                                                </figcaption>
+                                                                            </figure> 
+                                                                        </li>    
+                                                                    {{/each}}                                                            
+                                                                </ul>
+                                                                </div> <!-- card-body .// -->
+                                                            </article> <!-- card .// --> 
+                                                            <br>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <h5 class="card-title">Reason of Cancellation  </h5>
+                                                                    <div class="mb-3">
+                                                                        <textarea class="form-control" name= "message" placeholder="Type here" maxlength="250" readonly> {{this.message}}</textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Modal footer -->
+                                                            <div class="modal-footer">                                                        
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -20,6 +20,6 @@ $(document).ready(function () {
 
     $(".filter-btn").on("click", function (e) {
         var val = $(this).val();
-        dataTable.column(5).search(val).draw();
+        dataTable.column(4).search(val).draw();
     });
 });
