@@ -2,10 +2,11 @@ const express = require('express');
 const OrderManagement = express.Router();
 const { Order, Shippinginfo } = require('../models/order');
 const { OrderItem } = require('../models/order');
-const { Cancelrequest } = require("../models/order")
+const { Cancelrequest } = require('../models/order');
 const Product = require('../models/product');
 const { Mail } = require("../configuration/nodemailer");
 const sequelize = require('sequelize');
+
 
 const User = require('../models/User');
 
@@ -14,6 +15,7 @@ const { Cart } = require('../models/cart');
 
 const moment = require('moment');
 const cron = require('node-cron');
+const DeliveryDetail = require('../models/DeliveryDetail');
 
 cron.schedule('*/15 * * * * ', async () => {
     console.log('running a task every 15 minute');
@@ -50,6 +52,9 @@ OrderManagement.get('/', async (req, res) => {
             {
                 model: User,
             },
+            {
+                model: DeliveryDetail,
+            },
         ],
     });
     return res.render('./staff/ordermanagement/staff-getorders', { orders });
@@ -60,26 +65,30 @@ OrderManagement.get('/', async (req, res) => {
 OrderManagement.get('/cancelorder/:id', async function (req, res) {
     try {
         let request = await Cancelrequest.findOne({
-            where: {OrderId: req.params.id}
+            where: { OrderId: req.params.id },
         });
 
         if (!request) {
-            console.log(1)
+            console.log(1);
             req.flash(res, 'error', 'request not found');
             res.redirect('/staff/manage-orders/cancelrequests');
-            
         }
-        if(request.status != "null" ){
-            req.flash("error", " You have already rejected or approved it" );
+        if (request.status != 'null') {
+            req.flash('error', ' You have already rejected or approved it');
             res.redirect('/staff/manage-orders/cancelrequests');
-        }
-        else{
-            let result = await Cancelrequest.update({status: "Approved"},{ where: { id: request.id } });
-            let o =  await Order.update({order_status: "Cancelled"},{where : {id: req.params.id }});
-            const order = await Order.findByPk(req.params.id)
-            const userID = order.UserId
-            const user = await User.findByPk(userID) 
-            let orderid = order.id
+        } else {
+            let result = await Cancelrequest.update(
+                { status: 'Approved' },
+                { where: { id: request.id } }
+            );
+            let o = await Order.update(
+                { order_status: 'Cancelled' },
+                { where: { id: req.params.id } }
+            );
+            const order = await Order.findByPk(req.params.id);
+            const userID = order.UserId;
+            const user = await User.findByPk(userID);
+            let orderid = order.id;
 
             Mail.Send({
                 email_recipient: user.email,
@@ -88,11 +97,10 @@ OrderManagement.get('/cancelorder/:id', async function (req, res) {
                 template_path: '../../views/customers/acceptrequest.html',
                 context: { orderid },
             });
-            req.flash("success", "Order Cancellation " + " is Approved!");
+            req.flash('success', 'Order Cancellation ' + ' is Approved!');
             res.redirect('/staff/manage-orders/cancelrequests');
         }
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
     }
 });
@@ -101,7 +109,7 @@ OrderManagement.get('/cancelorder/:id', async function (req, res) {
 OrderManagement.get('/rejectcancelorder/:id', async function (req, res) {
     try {
         const request = await Cancelrequest.findOne({
-            where: {OrderId: req.params.id}
+            where: { OrderId: req.params.id },
         });
 
         if (!request) {
@@ -109,18 +117,20 @@ OrderManagement.get('/rejectcancelorder/:id', async function (req, res) {
             res.redirect('/staff/manage_order/cancelrequests');
             return;
         }
-        console.log(request.status)
-        if(request.status != "null" ){
-            req.flash("error", " You have already rejected or approved it" );
+        console.log(request.status);
+        if (request.status != 'null') {
+            req.flash('error', ' You have already rejected or approved it');
             res.redirect('/staff/manage-orders/cancelrequests');
-        }
-        else{
-            let result = await Cancelrequest.update({status: "Rejected"},{ where: { id: request.id } });
+        } else {
+            let result = await Cancelrequest.update(
+                { status: 'Rejected' },
+                { where: { id: request.id } }
+            );
 
-            const order = await Order.findByPk(req.params.id)
-            const userID = order.UserId
-            const user = await User.findByPk(userID) 
-            let orderid = order.id
+            const order = await Order.findByPk(req.params.id);
+            const userID = order.UserId;
+            const user = await User.findByPk(userID);
+            let orderid = order.id;
             Mail.Send({
                 email_recipient: user.email,
                 subject: 'Order Cancellation Rejected',
@@ -129,11 +139,10 @@ OrderManagement.get('/rejectcancelorder/:id', async function (req, res) {
                 context: { orderid },
             });
 
-            req.flash("success", "Order Cancellation " + " is Rejected!");
+            req.flash('success', 'Order Cancellation ' + ' is Rejected!');
             res.redirect('/staff/manage-orders/cancelrequests');
         }
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
     }
 });
@@ -143,28 +152,29 @@ OrderManagement.get('/cancelrequests', async function (req, res) {
     try {
         const requests = await Cancelrequest.findAll({
             include: [
-                {   
+                {
                     model: Order,
                     include: [
                         {
                             model: OrderItem,
                             include: {
-                                model: Product
-                            }
+                                model: Product,
+                            },
                         },
                         {
-                            model:User
+                            model: User,
                         },
                         {
-                            model: Shippinginfo
-                        }
-                    ]
+                            model: Shippinginfo,
+                        },
+                    ],
                 },
             ],
         });
-        return res.render('./staff/ordermanagement/staff-cancel-request', { requests });
-    }
-    catch (err) {
+        return res.render('./staff/ordermanagement/staff-cancel-request', {
+            requests,
+        });
+    } catch (err) {
         console.log(err);
     }
 });
@@ -255,5 +265,33 @@ OrderManagement.get('/top10', async function (req, res) {
 })
 
 
+OrderManagement.post('/delivery-detail/:id', async (req, res) => {
+    const deliveryDetailId = req.params.id;
+    const deliveryStage = req.body.deliveryStage;
+    const nextDate = new Date();
+
+    const deliveryDetail = await DeliveryDetail.findByPk(deliveryDetailId);
+    switch (deliveryStage) {
+        case 'complete':
+            deliveryDetail.CompleteDate = nextDate;
+            break;
+
+        case 'received':
+            deliveryDetail.ReceivedDate = nextDate;
+            break;
+
+        case 'ship':
+            deliveryDetail.ShipOutDate = nextDate;
+            break;
+
+        default:
+            req.flash('danger', 'There was an error with the date specified');
+            return res.redirect('/staff/manage-orders');
+    }
+
+    deliveryDetail.save();
+    req.flash('success', 'Order delivery status successfully updated');
+    res.redirect('/staff/manage-orders');
+});
 
 module.exports = OrderManagement;

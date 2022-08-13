@@ -41,7 +41,7 @@ Product.init(
         },
         status: {
             type: Sequelize.DataTypes.STRING,
-            defaultValue: "online",
+            defaultValue: 'online',
         },
     },
     {

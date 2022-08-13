@@ -966,7 +966,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
   </script>
 
 
-        <div class="card shadow mb-4" style="position: relative; top: 350px; left: 30px;max-width: 800px; ">
+        <div class="card shadow mb-4" style="position: relative; top: 350px; left: 30px;max-width: 900px; ">
               <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Proportion of Staff and Customers</h6>
               </div>
@@ -979,7 +979,19 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
 
               </div>
             </div>
+        <div class="card shadow mb-4" style="position: relative; top: 350px; left: 30px;max-width: 900px; ">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Proportion of Local and OAuth Accounts</h6>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                 
+<canvas id="doughnut-chart" style="width:70%;max-width:700px;"></canvas>
+                </div>
+                <hr>
 
+              </div>
+            </div>
 <div style="height: 100px"></div>
 
             <br>
@@ -1005,7 +1017,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
 
   <script>
 const a = $.get('/staff/data/chart-info-pie')
-
+console.log("hihiihihihihihihih")
 a.done(function (a) {
 
 const mychart = new Chart(document.getElementById("pie-chart").getContext("2d"), {
@@ -1029,6 +1041,52 @@ const mychart = new Chart(document.getElementById("pie-chart").getContext("2d"),
 
 
 
+  </script>
+
+
+    <script>
+const b = $.get('/staff/data/chart-info-doughnut')
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+b.done(function (a) {
+console.log(a)
+console.log("hihiihihihihihihih")
+const mychart = new Chart(document.getElementById("doughnut-chart").getContext("2d"), {
+    type: 'doughnut',
+    data: {
+      labels: ["Local", "OAuth"],
+      datasets: [{
+        label: "Population (millions)",
+        backgroundColor: ["#b2e061", "#fd7f6f"],
+        data: Object.values(JSON.parse(a.a))
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Proportion of Local and OAuth Accounts'
+      }
+    }
+});
+})
+
+
+
+  </script>
+
+  <script>
+    console.log("WHAT THE FUCK")
+     console.log("WHAT THE FUCK")
+      console.log("WHAT THE FUCK")
+       console.log("WHAT THE FUCK")
+        console.log("WHAT THE FUCK")
+         console.log("WHAT THE FUCK")
   </script>
 </div>
 

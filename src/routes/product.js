@@ -53,7 +53,6 @@ productRouter.post('/', async function (req, res) {
     if (flag) {
         // console.log(image);
         upload(req, res, async (err) => {
-
             product.create({
                 productID,
                 name: req.body.name,
@@ -63,14 +62,14 @@ productRouter.post('/', async function (req, res) {
                 price: req.body.price,
                 colour: req.body.colour,
                 image: `uploads/${req.file.filename}`,
-                brand: req.body.brand
-    
+                brand: req.body.brand,
+
                 //list of attributes
             });
-            req.flash('success',  ' product has been successfully added!'); 
+            req.flash('success', ' product has been successfully added!');
             res.redirect('/staff/product/check');
-    })
-    // req.flash('success', name, ' has been successfully added!');
+        });
+        // req.flash('success', name, ' has been successfully added!');
     } else {
         req.flash('error', 'It is already a product!');
         res.redirect('/staff/product/check');
@@ -86,10 +85,10 @@ productRouter.post('/delete', async function (req, res) {
     // const removeProduct = await Products.destroy({ where: { id: productID } });
     Product.update(
         {
-            status: "offline"
+            status: 'offline',
         },
-        {where: {id: productID}}
-    )
+        { where: { id: productID } }
+    );
     //console.log("I AM HERE",products)
     req.flash('success', name, ' has been successfully removed.');
     res.redirect('/staff/product/check');
@@ -97,13 +96,17 @@ productRouter.post('/delete', async function (req, res) {
 
 productRouter.get('/check', async (req, res) => {
     //idk why flashes dont work so this route is used to render the check page with products
-    const products = await (await product.findAll({where: {status: "online"}})).map((x) => x.dataValues);
+    const products = await (
+        await product.findAll({ where: { status: 'online' } })
+    ).map((x) => x.dataValues);
     //console.log("I AM HERE",products)
     return res.render('./staff/staff-products', { products });
 });
 productRouter.get('/checkD', async (req, res) => {
     //idk why flashes dont work so this route is used to render the check page with products
-    const products = await (await product.findAll({where: {status: "offline"}})).map((x) => x.dataValues);
+    const products = await (
+        await product.findAll({ where: { status: 'offline' } })
+    ).map((x) => x.dataValues);
     //console.log("I AM HERE",products)
     return res.render('./staff/staff-deleted-products', { products });
 });
@@ -128,8 +131,8 @@ productRouter.post('/update', async function (req, res) {
             stock: stock,
             price: price,
             colour: colour,
-            image:`uploads/${req.file.filename}`,
-            brand: brand
+            image: `uploads/${req.file.filename}`,
+            brand: brand,
         },
         { where: { id: id } } //change the button value to this.name to use name:id comparison
     );
