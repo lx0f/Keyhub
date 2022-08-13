@@ -71,11 +71,11 @@
                     	{{/if}}
                     	">
                     	{{#if (dateHasPassed this.DeliveryDetail.ShipOutDate)}}
-                      	  <p class="py-1 px-2 rounded text-white small bg-primary">Shipped</p>
-                    	{{else}}
-                      	  <p class="py-1 px-2 small">Shipped</p>
-                    	{{/if}}
+                      	  <p class="py-1 px-2 rounded text-white small bg-primary">Ship out</p>
                       	  <p class="muted small">{{dateFormat this.DeliveryDetail.ShipOutDate "MMMM Do, YYYY"}}</p>
+                    	{{else}}
+                      	  <p class="py-1 px-2 small">Ship out</p>
+                    	{{/if}}
                     	</li>
 
                     	<li class="list-inline-item items-list
@@ -85,10 +85,10 @@
                     	">
                     	{{#if (dateHasPassed this.DeliveryDetail.ReceivedDate)}}
                       	  <p class="py-1 px-2 rounded text-white small bg-primary">On the way</p>
+                      	  <p class="muted small">{{dateFormat this.DeliveryDetail.ReceivedDate "MMMM Do, YYYY"}}</p>
                     	{{else}}
                       	  <p class="py-1 px-2 small">On the way</p>
                     	{{/if}}
-                      	  <p class="muted small">{{dateFormat this.DeliveryDetail.ReceivedDate "MMMM Do, YYYY"}}</p>
                     	</li>
 
                     	<li style="margin-right: 8px;" class="list-inline-item items-list
@@ -98,10 +98,10 @@
                     	">
                     	{{#if (dateHasPassed this.DeliveryDetail.CompleteDate)}}
                       	  <p class="py-1 px-2 rounded text-white small bg-primary" style="margin-right: -8px;">Delivered</p>
+                      	  <p class="muted small">{{dateFormat this.DeliveryDetail.CompleteDate "MMMM Do, YYYY"}}</p>
                     	{{else}}
                       	  <p class="py-1 px-2 small" style="margin-right: -8px;">Delivered</p>
                     	{{/if}}
-                      	  <p class="muted small">{{dateFormat this.DeliveryDetail.CompleteDate "MMMM Do, YYYY"}}</p>
                     	</li>
 
                   	  </ul>

@@ -12,6 +12,7 @@ const { Cart } = require('../models/cart');
 
 const moment = require('moment');
 const cron = require('node-cron');
+const DeliveryDetail = require('../models/DeliveryDetail');
 
 cron.schedule('*/15 * * * * ', async () => {
     console.log('running a task every 15 minute');
@@ -48,6 +49,9 @@ OrderManagement.get('/', async (req, res) => {
             {
                 model: User,
             },
+            {
+                model: DeliveryDetail
+            }
         ],
     });
     return res.render('./staff/ordermanagement/staff-getorders', { orders });
@@ -143,6 +147,35 @@ OrderManagement.get('/cancelrequests', async function (req, res) {
     } catch (err) {
         console.log(err);
     }
+});
+
+OrderManagement.post('/delivery-detail/:id', async (req, res) => {
+    const deliveryDetailId = req.params.id;
+    const deliveryStage = req.body.deliveryStage;
+    const nextDate = new Date();
+
+    const deliveryDetail = await DeliveryDetail.findByPk(deliveryDetailId);
+    switch (deliveryStage) {
+        case "complete":
+            deliveryDetail.CompleteDate = nextDate;
+            break;
+
+        case "received":
+            deliveryDetail.ReceivedDate = nextDate;
+            break;
+
+        case "ship":
+            deliveryDetail.ShipOutDate = nextDate;
+            break;
+
+        default:
+            req.flash('danger', 'There was an error with the date specified');
+            return res.redirect('/staff/manage-orders');
+    }
+
+    deliveryDetail.save()
+    req.flash('success', 'Order delivery status successfully updated');
+    res.redirect('/staff/manage-orders');
 });
 
 module.exports = OrderManagement;
