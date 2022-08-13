@@ -8,18 +8,11 @@ const moment = require('moment');
 const GenerateImageCharts = require('./createCharts');
 const Chart = require('./pipeline');
 const User = require("../models/User")
-const {Storage} = require("@google-cloud/storage")
-const path = require("path")
+const bucket = require("../configuration/cloudStorage")
 
 const width = docs.internal.pageSize.getWidth();
 const height = docs.internal.pageSize.getHeight();
-const gc = new Storage({
-    keyFileName: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-    projectId: 'keyhub-359213'
-})
 
-gc.getBuckets().then(x => console.log(x))
-const bucket = gc.bucket("keyhub-files")
 //yyyy-mm-dd -> mm-dd-yyyy
 generateRouter.route('/chart').get(async (req, res) => {
     const stats = await Chart.totalStats()
