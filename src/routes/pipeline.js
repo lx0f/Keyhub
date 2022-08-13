@@ -36,16 +36,16 @@ class Chart {
             ];
         });
 
-        
-        data.push([moment(data[data.length -1][0], "DD/MM/YYYY").add(1, "days").format("DD/MM/YYYY"), 0])
-     
+        data.push([
+            moment(data[data.length - 1][0], 'DD/MM/YYYY')
+                .add(1, 'days')
+                .format('DD/MM/YYYY'),
+            0,
+        ]);
 
- 
+        data.shift();
+        const dateCheck = data.map((v) => v[0]);
 
-    data.shift()
-        const dateCheck = data.map((v) => v[0])
-    
-   
         dummyData.forEach((e) => {
             if (dateCheck.includes(e[0])) {
                 data.push(e);
@@ -77,9 +77,9 @@ class Chart {
 
     static async lineUserChartYearly(to, from) {
         const usersJoined = await User.findAll();
-   
+
         let data = [];
-    
+
         data = dateSpan(to, from);
         const dataa = data;
         data = data.map((v) => {
@@ -143,10 +143,9 @@ class Chart {
 
     static async lineUserChartMonthly(to, from) {
         const usersJoined = await User.findAll();
-    
 
         let data = [];
- 
+
         data = dateSpan(to, from);
         const dataa = data;
         data = data.map((v) => {
@@ -206,7 +205,7 @@ class Chart {
             columns: ['Dates', 'NoOfUsersJoined'],
         });
         const group_df = df.groupby(['Dates']).sum();
-      
+
         const df2 = dfd.toJSON(group_df, { format: 'json' });
         return df2;
     }
@@ -224,24 +223,28 @@ class Chart {
 
         data = data.map((v) => {
             const isoDate = v.toISOString().slice(0, 10).split('-');
-            return [isoDate[1], isoDate[isoDate.length - 1], isoDate[0]].join('/') });
-        
+            return [isoDate[1], isoDate[isoDate.length - 1], isoDate[0]].join(
+                '/'
+            );
+        });
 
-        
-        data.push(moment(data[data.length -1][0], "MM/DD/YYYY").add(1, "days").format("MM/DD/YYYY"))
-     
+        data.push(
+            moment(data[data.length - 1][0], 'MM/DD/YYYY')
+                .add(1, 'days')
+                .format('MM/DD/YYYY')
+        );
 
+        data.shift();
 
-    data.shift()
+        const Staff = (await User.findAll({ where: { isStaff: 1 } }))
+            .filter((x) => data.includes(x.dataValues.date))
+            .map((x) => x.dataValues).length;
 
+        const Customers = (await User.findAll({ where: { isStaff: 0 } }))
+            .filter((x) => data.includes(x.dataValues.date))
+            .map((x) => x.dataValues).length;
 
-
-
-        const Staff = (await User.findAll({where : {isStaff: 1}})).filter(x=>data.includes(x.dataValues.date)).map(x => x.dataValues).length
-    
-        const  Customers = (await User.findAll({where: {isStaff: 0}})).filter(x=>data.includes(x.dataValues.date)).map(x => x.dataValues).length
-    
-        return JSON.stringify({Customers, Staff})
+        return JSON.stringify({ Customers, Staff });
     }
 
     static async authDoughnutChart(to, from) {
@@ -249,24 +252,30 @@ class Chart {
 
         data = data.map((v) => {
             const isoDate = v.toISOString().slice(0, 10).split('-');
-            return [isoDate[1], isoDate[isoDate.length - 1], isoDate[0]].join('/') });
-        
+            return [isoDate[1], isoDate[isoDate.length - 1], isoDate[0]].join(
+                '/'
+            );
+        });
 
-        
-        data.push(moment(data[data.length -1][0], "MM/DD/YYYY").add(1, "days").format("MM/DD/YYYY"))
-     
+        data.push(
+            moment(data[data.length - 1][0], 'MM/DD/YYYY')
+                .add(1, 'days')
+                .format('MM/DD/YYYY')
+        );
 
+        data.shift();
 
-    data.shift()
+        const Staff = (await User.findAll({ where: { authMethod: 'local' } }))
+            .filter((x) => data.includes(x.dataValues.date))
+            .map((x) => x.dataValues).length;
 
+        const Customers = (
+            await User.findAll({ where: { authMethod: 'oauth' } })
+        )
+            .filter((x) => data.includes(x.dataValues.date))
+            .map((x) => x.dataValues).length;
 
-
-
-        const Staff = (await User.findAll({where : {authMethod: "local"}})).filter(x=>data.includes(x.dataValues.date)).map(x => x.dataValues).length
-    
-        const  Customers = (await User.findAll({where: {authMethod: "oauth"}})).filter(x=>data.includes(x.dataValues.date)).map(x => x.dataValues).length
-    
-        return JSON.stringify({Customers, Staff})
+        return JSON.stringify({ Customers, Staff });
     }
 }
 
