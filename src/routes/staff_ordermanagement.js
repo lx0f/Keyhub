@@ -5,6 +5,7 @@ const { OrderItem } = require('../models/order');
 const { Cancelrequest } = require("../models/order")
 const Product = require('../models/product');
 const { Mail } = require("../configuration/nodemailer");
+const sequelize = require('sequelize');
 
 const User = require('../models/User');
 
@@ -167,5 +168,92 @@ OrderManagement.get('/cancelrequests', async function (req, res) {
         console.log(err);
     }
 });
+
+
+OrderManagement.get('/top10', async function (req, res) {
+    // TOP Selling Product of each category, Pre-built keyboard
+    const top10sp = await OrderItem.findAll({
+        
+        attributes: [[sequelize.fn("SUM", sequelize.col("quantity")), "sold"]],
+        include:{
+            model: Product,
+            where: {
+                category :  "Pre-Built Keyboard"
+            }
+        },
+        limit : 10,
+        group: "ProductId",
+        order: [[sequelize.fn("SUM", sequelize.col("quantity")), 'desc']]
+    });
+    // console.log('10')
+    // console.log(top10s)
+
+    // TOP Selling Product of each category, Barebone Kit
+
+    const top10sb = await OrderItem.findAll({
+        
+        attributes: [[sequelize.fn("SUM", sequelize.col("quantity")), "sold"]],
+        include:{
+            model: Product,
+            where: {
+                category :  "Barebone Kit"
+            }
+        },
+        limit : 10,
+        group: "ProductId",
+        order: [[sequelize.fn("SUM", sequelize.col("quantity")), 'desc']]
+    });
+
+    // TOP Selling Product of each category, Key Cap
+
+    const top10sk = await OrderItem.findAll({
+        
+        attributes: [[sequelize.fn("SUM", sequelize.col("quantity")), "sold"]],
+        include:{
+            model: Product,
+            where: {
+                category :  "Key Cap"
+            }
+        },
+        limit : 10,
+        group: "ProductId",
+        order: [[sequelize.fn("SUM", sequelize.col("quantity")), 'desc']]
+    });
+
+    // TOP Selling Product of each category, Switches
+    const top10ss = await OrderItem.findAll({
+        
+        attributes: [[sequelize.fn("SUM", sequelize.col("quantity")), "sold"]],
+        include:{
+            model: Product,
+            where: {
+                category :  "Switches"
+            }
+        },
+        limit : 10,
+        group: "ProductId",
+        order: [[sequelize.fn("SUM", sequelize.col("quantity")), 'desc']]
+    });
+
+    // TOP Selling Product of each category, Accessories
+    const top10sa = await OrderItem.findAll({
+        
+        attributes: [[sequelize.fn("SUM", sequelize.col("quantity")), "sold"]],
+        include:{
+            model: Product,
+            where: {
+                category :  "Accessories"
+            }
+        },
+        limit : 10,
+        group: "ProductId",
+        order: [[sequelize.fn("SUM", sequelize.col("quantity")), 'desc']]
+    });
+
+
+    return res.render('./staff/topsellingproduct',{top10sp,top10sb, top10sk,top10ss, top10sa })
+})
+
+
 
 module.exports = OrderManagement;

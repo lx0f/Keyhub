@@ -133,6 +133,15 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
                 }
             },{
                 model: Cancelrequest
+            },
+            {
+                model: Shippinginfo
+            },
+            {
+                model: User
+            },
+            {
+                model:Payment
             }
         ],
         where: { Id: req.params.id }
