@@ -8,11 +8,18 @@ const moment = require('moment');
 const GenerateImageCharts = require('./createCharts');
 const Chart = require('./pipeline');
 const User = require("../models/User")
-
+const {Storage} = require("@google-cloud/storage")
+const path = require("path")
 
 const width = docs.internal.pageSize.getWidth();
 const height = docs.internal.pageSize.getHeight();
+const gc = new Storage({
+    keyFileName: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+    projectId: 'keyhub-359213'
+})
 
+gc.getBuckets().then(x => console.log(x))
+const bucket = gc.bucket("keyhub-files")
 //yyyy-mm-dd -> mm-dd-yyyy
 generateRouter.route('/chart').get(async (req, res) => {
     const stats = await Chart.totalStats()
@@ -46,6 +53,7 @@ generateRouter.route('/chart').get(async (req, res) => {
         await generateImageCharts.GenerateLineUserChartMonthly();
     const yearlyPath = await generateImageCharts.GenerateLineUserChartYearly();
     await generateImageCharts.GeneratePieChart()
+    await generateImageCharts.GenerateDoughnutChart()
     const doc = new jsPDF();
 
     doc.setFont('Helvetica');
@@ -63,7 +71,7 @@ generateRouter.route('/chart').get(async (req, res) => {
     doc.text(moment().format('L'), 180, 7);
     doc.addPage();
 
-    doc.text(`=================TOTAL STATISTICS==================`, 43, 9).setFont(undefined, 'bold')
+    doc.text(`__________________TOTAL STATISTICS_________________`, 43, 9).setFont(undefined, 'bold')
     doc.text(`| Users  |  Messages  |  Orders  |  Loyalty  |\n  ${Object.values(stats).join("                 ")}`, 62, 17).setFont(undefined, 'bold')
     doc.text(`===================================================`, 43, 29).setFont(undefined, 'bold')
     var imgData =
@@ -97,17 +105,34 @@ generateRouter.route('/chart').get(async (req, res) => {
         'data:image/png;base64,' +
             require('fs').readFileSync(`pieChart.png`, 'base64'),
         'png',
-        -10,
+        -5,
         130,
-        220,
+        205,
         120
     );
+
+    doc.addPage()
+
    
+    doc.addImage(
+        'data:image/png;base64,' +
+            require('fs').readFileSync(`doughnutChart.png`, 'base64'),
+        'png',
+        -5,
+        15,
+        205,
+        120
+    );
 
 
+    const filename = `KeyHubReport ${from}-${to}.pdf`
 
+    doc.save(filename);
 
-    doc.save(`KeyHubReport ${from}-${to}.pdf`);
+ 
+
+    const upload = await bucket.upload(filename)
+    console.log(upload)
 
     res.download(`KeyHubReport ${from}-${to}.pdf`);
 });

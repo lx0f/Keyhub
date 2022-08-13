@@ -25,7 +25,7 @@ const dummyData = [
 class Chart {
     static async lineUserChartDaily(to, from) {
         const usersJoined = await User.findAll();
-        const users = usersJoined.map((x) => x.dataValues);
+
         let data = dateSpan(to, from);
  
         data = data.map((v) => {
@@ -41,13 +41,11 @@ class Chart {
      
 
  
-    console.log(data)
+
     data.shift()
         const dateCheck = data.map((v) => v[0])
     
-        console.log(dateCheck)
-        
-        let cols = ['Dates', 'NoOfUsersJoined'];
+   
         dummyData.forEach((e) => {
    
             if (dateCheck.includes(e[0])) {
@@ -78,10 +76,9 @@ console.log(dateCheck)
 
     static async lineUserChartYearly(to, from) {
         const usersJoined = await User.findAll();
-        const users = usersJoined.map((x) => x.dataValues);
-
+   
         let data = [];
-        let cols = ['Dates', 'NoOfUsersJoined'];
+    
         data = dateSpan(to, from);
         const dataa = data
         data = data.map((v) => {
@@ -139,10 +136,10 @@ console.log(dateCheck)
 
     static async lineUserChartMonthly(to, from) {
         const usersJoined = await User.findAll();
-        const users = usersJoined.map((x) => x.dataValues);
+    
 
         let data = [];
-        let cols = ['Dates', 'NoOfUsersJoined'];
+ 
         data = dateSpan(to, from);
        const dataa = data
         data = data.map((v) => {
@@ -188,7 +185,7 @@ console.log(dateCheck)
             columns: ['Dates', 'NoOfUsersJoined'],
         });
         const group_df = df.groupby(['Dates']).sum();
-        console.log(group_df);
+      
         const df2 = dfd.toJSON(group_df, { format: 'json' });
         return df2;
     }
@@ -202,10 +199,53 @@ console.log(dateCheck)
 
     }
 
-    static async proportionPieChart() {
-        const Staff = (await User.findAll({where : {isStaff: 1}})).map(x => x.dataValues).length
-        console.log(Staff)
-        const  Customers = (await User.findAll({where: {isStaff: 0}})).map(x => x.dataValues).length
+    static async proportionPieChart(to, from) {
+        let data = dateSpan(to, from);
+
+        data = data.map((v) => {
+            const isoDate = v.toISOString().slice(0, 10).split('-');
+            return [isoDate[1], isoDate[isoDate.length - 1], isoDate[0]].join('/') });
+        
+
+        
+        data.push(moment(data[data.length -1][0], "MM/DD/YYYY").add(1, "days").format("MM/DD/YYYY"))
+     
+
+
+    data.shift()
+
+
+
+
+        const Staff = (await User.findAll({where : {isStaff: 1}})).filter(x=>data.includes(x.dataValues.date)).map(x => x.dataValues).length
+    
+        const  Customers = (await User.findAll({where: {isStaff: 0}})).filter(x=>data.includes(x.dataValues.date)).map(x => x.dataValues).length
+    
+        return JSON.stringify({Customers, Staff})
+    }
+
+    static async authDoughnutChart(to, from) {
+        let data = dateSpan(to, from);
+
+        data = data.map((v) => {
+            const isoDate = v.toISOString().slice(0, 10).split('-');
+            return [isoDate[1], isoDate[isoDate.length - 1], isoDate[0]].join('/') });
+        
+
+        
+        data.push(moment(data[data.length -1][0], "MM/DD/YYYY").add(1, "days").format("MM/DD/YYYY"))
+     
+
+
+    data.shift()
+
+
+
+
+        const Staff = (await User.findAll({where : {authMethod: "local"}})).filter(x=>data.includes(x.dataValues.date)).map(x => x.dataValues).length
+    
+        const  Customers = (await User.findAll({where: {authMethod: "oauth"}})).filter(x=>data.includes(x.dataValues.date)).map(x => x.dataValues).length
+    
         return JSON.stringify({Customers, Staff})
     }
 }
