@@ -37,53 +37,56 @@ CustomerOrder.get('/', async (req, res) => {
         shipping = 0
         discount_price = totalPrice + shipping
       }
-       if (discount_price < 0) {
+      if (discount_price < 0) {
         discount_price = 0
       }
-      res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, discount_price,shipping,no_discount, user })
+      res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, discount_price, shipping, no_discount, user })
     } else {
-        const voucher = await Voucher.findOne({
-        where: { id:applyvoucher.VoucherId }
-        });
-        if (voucher.voucher_cat == "Discount") {
-          const discount = voucher.voucher_value
-          const code = voucher.voucher_code
-          if (applyvoucher.VoucherId == voucher.id) {
-            let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-            let discount_price = totalPrice - discount + shipping
-            if (totalPrice > 250) {
-              shipping = 0
-              discount_price = discount_price - shipping
-            }
-           
-             if (discount_price < 0) {
-              discount_price = 0
-            }
-            res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, discount, code, discount_price,shipping })
-          }
-        }
-        else if (voucher.voucher_cat == "Cashback") {
-          const cashback = voucher.voucher_value
-          const code = voucher.voucher_code
+      const voucher = await Voucher.findOne({
+        where: { id: applyvoucher.VoucherId }
+      });
+      if (voucher.voucher_cat == "Discount") {
+        const discount = voucher.voucher_value
+        const code = voucher.voucher_code
+        if (applyvoucher.VoucherId == voucher.id) {
           let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
-          let discount_price = totalPrice + shipping
+          let discount_price = totalPrice - discount + shipping
           if (totalPrice > 250) {
             shipping = 0
-            discount_price = totalPrice + shipping
+            discount_price = discount_price - shipping
           }
-          
-           if (discount_price < 0) {
-              discount_price = 0
-            }
-          res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, cashback, code,discount_price,shipping })
-        }
-        else {
-          const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
            
-          res.render('./customers/page-checkout', { cartId,cart: cart.toJSON(), totalPrice,shipping })
+          if (discount_price < 0) {
+            discount_price = 0
+          }
+          res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, discount, code, discount_price, shipping })
         }
+      }
+      else if (voucher.voucher_cat == "Cashback") {
+        const cashback = voucher.voucher_value
+        const code = voucher.voucher_code
+        let totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+        let discount_price = totalPrice + shipping
+        if (totalPrice > 250) {
+          shipping = 0
+          discount_price = totalPrice + shipping
+        }
+          
+        if (discount_price < 0) {
+          discount_price = 0
+        }
+        res.render('./customers/page-checkout', { cart: cart.toJSON(), totalPrice, cashback, code, discount_price, shipping })
+      }
+      else {
+        const totalPrice = cart.cartProducts.length > 0 ? cart.cartProducts.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+           
+        res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, shipping })
+      }
+    }
       
 
+    }catch (e) {
+      console.log(e);
     }
 });
 
