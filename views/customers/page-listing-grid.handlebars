@@ -74,7 +74,15 @@
 						<span class="price">${{this.price}}</span>
 					</div> <!-- price-wrap.// -->
 					<div>
+						{{#equals this.category "Pre-Built Keyboard"}}
+						<span>Colour: {{this.colour}}</span>
+						{{else}}
+						{{#equals this.category "Barebones Kit"}}
+						<span>Colour: {{this.colour}}</span>
+						{{else}}
 						<span>Category: {{this.category}}</span>
+						{{/equals}}
+						{{/equals}}
 						</div>						
 				</div>
 				<div class="btn">
