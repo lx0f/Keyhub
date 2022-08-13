@@ -81,7 +81,9 @@ manageVoucher
     }
     
   })
-
+manageVoucher.get("/test", async (req, res) => { 
+res.render("./customers/loyaltyprogram/confirmation")
+})
 
 manageVoucher.get('/deleteVoucher/:id', async function
 (req, res) {
