@@ -2,7 +2,7 @@ const dataRouter = require('express').Router();
 const dfd = require('danfojs-node');
 const User = require('../models/user');
 const chartJsImg = require('chartjs-to-image');
-const Chart = require("./pipeline");
+const Chart = require('./pipeline');
 
 var getDaysArray = function (s, e) {
     for (
@@ -16,13 +16,18 @@ var getDaysArray = function (s, e) {
 };
 
 dataRouter.get('/chart-info', async (req, res) => {
+    const earliest_user = (
+        await User.findAll({
+            limit: 1,
+        })
+    )[0].dataValues.date
+        .split('/')
+        .join('-');
 
-const earliest_user = (await User.findAll({
-    limit: 1
-}))[0].dataValues.date.split("/").join("-")
-
-
-    const df2 = await Chart.lineUserChartDaily(new Date(earliest_user), new Date())
+    const df2 = await Chart.lineUserChartDaily(
+        new Date(earliest_user),
+        new Date()
+    );
 
     var NoOfUsers = [];
     var dates = [];
@@ -32,15 +37,22 @@ const earliest_user = (await User.findAll({
     });
 
     const myChart = new chartJsImg();
-    
+
     res.status(200).json({ data: df2 });
 });
 
 dataRouter.get('/chart-info-year', async (req, res) => {
-    const earliest_user = (await User.findAll({
-        limit: 1
-    }))[0].dataValues.date.split("/").join("-")
-    const df2 = await Chart.lineUserChartYearly(new Date(earliest_user), new Date())
+    const earliest_user = (
+        await User.findAll({
+            limit: 1,
+        })
+    )[0].dataValues.date
+        .split('/')
+        .join('-');
+    const df2 = await Chart.lineUserChartYearly(
+        new Date(earliest_user),
+        new Date()
+    );
     var NoOfUsers = [];
     var dates = [];
     df2.forEach((element) => {
@@ -52,10 +64,17 @@ dataRouter.get('/chart-info-year', async (req, res) => {
 });
 
 dataRouter.get('/chart-info-month', async (req, res) => {
-    const earliest_user = (await User.findAll({
-        limit: 1
-    }))[0].dataValues.date.split("/").join("-")
-    const df2 = await Chart.lineUserChartMonthly(new Date(earliest_user), new Date())
+    const earliest_user = (
+        await User.findAll({
+            limit: 1,
+        })
+    )[0].dataValues.date
+        .split('/')
+        .join('-');
+    const df2 = await Chart.lineUserChartMonthly(
+        new Date(earliest_user),
+        new Date()
+    );
     var NoOfUsers = [];
     var dates = [];
     df2.forEach((element) => {
@@ -63,14 +82,12 @@ dataRouter.get('/chart-info-month', async (req, res) => {
         dates.push(element['Dates']);
     });
 
-
-
     res.status(200).json({ data: df2 });
 });
 
-dataRouter.get("/chart-info-pie", async(req, res) => {
-    const a = await Chart.proportionPieChart()
-    return res.status(200).json({a})
-})
+dataRouter.get('/chart-info-pie', async (req, res) => {
+    const a = await Chart.proportionPieChart();
+    return res.status(200).json({ a });
+});
 
 module.exports = dataRouter;

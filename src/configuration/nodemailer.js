@@ -4,12 +4,10 @@ const nodemailerHbs = require('nodemailer-express-handlebars');
 const fs = require('fs');
 const path = require('path');
 const handlebars = require('handlebars');
-const users ={
-    keyhub1: {user: 'keyhub1@gmail.com',
-pass:'jjbsogehekusztmk'},
-keyhuborg: {user: 'keyhuborg@gmail.com',
-pass:'vitdskhmqubwqxsj'},
-}
+const users = {
+    keyhub1: { user: 'keyhub1@gmail.com', pass: 'jjbsogehekusztmk' },
+    keyhuborg: { user: 'keyhuborg@gmail.com', pass: 'vitdskhmqubwqxsj' },
+};
 const transporter = nodemailer.createTransport({
     port: 465,
     host: 'smtp.gmail.com',
@@ -19,7 +17,6 @@ const transporter = nodemailer.createTransport({
     },
     secure: true,
 });
-
 
 //KeyHub Org: hBR0I06PlC%9
 //Keyhub Org: PASS (vitdskhmqubwqxsj)

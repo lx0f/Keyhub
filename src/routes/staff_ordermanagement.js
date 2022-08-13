@@ -4,7 +4,7 @@ const { Order, Shippinginfo } = require('../models/order');
 const { OrderItem } = require('../models/order');
 const { Cancelrequest } = require('../models/order');
 const Product = require('../models/product');
-const { Mail } = require("../configuration/nodemailer");
+const { Mail } = require('../configuration/nodemailer');
 
 const User = require('../models/User');
 
@@ -67,22 +67,26 @@ OrderManagement.get('/cancelorder/:id', async function (req, res) {
         });
 
         if (!request) {
-            console.log(1)
+            console.log(1);
             req.flash(res, 'error', 'request not found');
             res.redirect('/staff/manage-orders/cancelrequests');
-            
         }
         if (request.status != 'null') {
             req.flash('error', ' You have already rejected or approved it');
             res.redirect('/staff/manage-orders/cancelrequests');
-        }
-        else{
-            let result = await Cancelrequest.update({status: "Approved"},{ where: { id: request.id } });
-            let o =  await Order.update({order_status: "Cancelled"},{where : {id: req.params.id }});
-            const order = await Order.findByPk(req.params.id)
-            const userID = order.UserId
-            const user = await User.findByPk(userID) 
-            let orderid = order.id
+        } else {
+            let result = await Cancelrequest.update(
+                { status: 'Approved' },
+                { where: { id: request.id } }
+            );
+            let o = await Order.update(
+                { order_status: 'Cancelled' },
+                { where: { id: req.params.id } }
+            );
+            const order = await Order.findByPk(req.params.id);
+            const userID = order.UserId;
+            const user = await User.findByPk(userID);
+            let orderid = order.id;
 
             Mail.Send({
                 email_recipient: user.email,
@@ -91,7 +95,7 @@ OrderManagement.get('/cancelorder/:id', async function (req, res) {
                 template_path: '../../views/customers/acceptrequest.html',
                 context: { orderid },
             });
-            req.flash("success", "Order Cancellation " + " is Approved!");
+            req.flash('success', 'Order Cancellation ' + ' is Approved!');
             res.redirect('/staff/manage-orders/cancelrequests');
         }
     } catch (err) {
@@ -115,14 +119,16 @@ OrderManagement.get('/rejectcancelorder/:id', async function (req, res) {
         if (request.status != 'null') {
             req.flash('error', ' You have already rejected or approved it');
             res.redirect('/staff/manage-orders/cancelrequests');
-        }
-        else{
-            let result = await Cancelrequest.update({status: "Rejected"},{ where: { id: request.id } });
+        } else {
+            let result = await Cancelrequest.update(
+                { status: 'Rejected' },
+                { where: { id: request.id } }
+            );
 
-            const order = await Order.findByPk(req.params.id)
-            const userID = order.UserId
-            const user = await User.findByPk(userID) 
-            let orderid = order.id
+            const order = await Order.findByPk(req.params.id);
+            const userID = order.UserId;
+            const user = await User.findByPk(userID);
+            let orderid = order.id;
             Mail.Send({
                 email_recipient: user.email,
                 subject: 'Order Cancellation Rejected',
@@ -131,7 +137,7 @@ OrderManagement.get('/rejectcancelorder/:id', async function (req, res) {
                 context: { orderid },
             });
 
-            req.flash("success", "Order Cancellation " + " is Rejected!");
+            req.flash('success', 'Order Cancellation ' + ' is Rejected!');
             res.redirect('/staff/manage-orders/cancelrequests');
         }
     } catch (err) {
@@ -154,12 +160,12 @@ OrderManagement.get('/cancelrequests', async function (req, res) {
                             },
                         },
                         {
-                            model:User
+                            model: User,
                         },
                         {
-                            model: Shippinginfo
-                        }
-                    ]
+                            model: Shippinginfo,
+                        },
+                    ],
                 },
             ],
         });

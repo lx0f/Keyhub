@@ -18,16 +18,16 @@ Order.init(
             type: Sequelize.DataTypes.INTEGER,
         },
         subtotal: {
-            type: Sequelize.DataTypes.INTEGER
+            type: Sequelize.DataTypes.INTEGER,
         },
         amount: {
             type: Sequelize.DataTypes.INTEGER,
         },
         discount: {
-            type: Sequelize.DataTypes.INTEGER
+            type: Sequelize.DataTypes.INTEGER,
         },
         shipping_fee: {
-            type: Sequelize.DataTypes.INTEGER
+            type: Sequelize.DataTypes.INTEGER,
         },
         shipping_status: {
             type: Sequelize.DataTypes.STRING,
@@ -93,8 +93,8 @@ Payment.init(
         Payment_method: {
             type: Sequelize.DataTypes.STRING,
         },
-        last4digit:{
-            type: Sequelize.DataTypes.INTEGER
+        last4digit: {
+            type: Sequelize.DataTypes.INTEGER,
         },
         isSuccess: {
             type: Sequelize.DataTypes.BOOLEAN,
@@ -154,36 +154,36 @@ Shippinginfo.init(
             unique: true,
         },
         OrderId: {
-            type: Sequelize.DataTypes.INTEGER
+            type: Sequelize.DataTypes.INTEGER,
         },
         Fname: {
             type: Sequelize.DataTypes.STRING,
         },
         Lname: {
-            type: Sequelize.DataTypes.STRING
+            type: Sequelize.DataTypes.STRING,
         },
         address: {
-            type: Sequelize.DataTypes.STRING
+            type: Sequelize.DataTypes.STRING,
         },
         zipcode: {
-            type: Sequelize.INTEGER
-        }
+            type: Sequelize.INTEGER,
+        },
     },
     {
         freezeTableName: true,
         timestamps: true,
         sequelize,
-        modelName: "Shippinginfo",
+        modelName: 'Shippinginfo',
     }
 );
 
-// User and order association 
+// User and order association
 Order.belongsTo(User);
 User.hasMany(Order);
 
 //shippinginfo and order
-Shippinginfo.belongsTo(Order)
-Order.hasOne(Shippinginfo)
+Shippinginfo.belongsTo(Order);
+Order.hasOne(Shippinginfo);
 
 // Order and Product association
 Order.belongsToMany(Product, {
@@ -219,6 +219,4 @@ DeliveryDetail.belongsTo(Order);
 Order.hasOne(Cancelrequest);
 Cancelrequest.belongsTo(Order);
 
-module.exports = { Order, OrderItem, Payment, Shippinginfo, Cancelrequest};
-
-
+module.exports = { Order, OrderItem, Payment, Shippinginfo, Cancelrequest };
