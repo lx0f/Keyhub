@@ -258,7 +258,7 @@ class GenerateImageCharts {
     }
 
     async GeneratePieChart() {
-        const a = await Chart.proportionPieChart();
+        const a = await Chart.proportionPieChart(this.to, this.from)
         const myChart = new chartJsImg();
         myChart.setConfig({
             type: 'pie',
@@ -273,14 +273,45 @@ class GenerateImageCharts {
                 ],
             },
             options: {
-                title: {
-                    display: true,
-                    text: 'Proportion of Staff and Customers',
-                },
-            },
+              title: {
+                display: true,
+                text: 'Proportion of Staff and Customers'
+              },
+              legend: {
+                labels: {
+                    fontColor: "white",
+                    fontSize: 16
+                }
+              }
+            }
         });
 
         await myChart.toFile('pieChart.png');
+    }
+
+    async GenerateDoughnutChart() {
+        const a = await Chart.authDoughnutChart(this.to, this.from)
+        const myChart = new chartJsImg();
+        myChart.setConfig({
+            type: 'doughnut',
+            data: {
+              labels: ["Local", "OAuth"],
+              datasets: [{
+                label: "Population (millions)",
+                backgroundColor: ["#fd7f6f", "#b2e061"],
+                data: Object.values(JSON.parse(a))
+              }]
+            },
+            options: {
+              title: {
+                display: true,
+                text: 'Proportion of Staff and Customers'
+              },
+            }
+        });
+
+        await myChart.toFile("doughnutChart.png")
+    
     }
 }
 
