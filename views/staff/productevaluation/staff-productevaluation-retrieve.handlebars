@@ -37,7 +37,7 @@
                               <div class="hover-action p-2">
                                 <a class="btn btn-sm w-100 btn-primary" href="/staff/manage-pe/evaluationdetail/{{this.id}}"> <i class="fa fa-search-plus"></i> Quick view</a>
                               </div>
-                              <img src="../images/items/5.jpg">
+                              <img src="/{{this.image}}" style="height:100px">
                             </div>
                             <figcaption class="info-wrap border-top">
                               <p>{{this.name}}</p>
@@ -55,19 +55,19 @@
               <section>
                   <div class="content content-2">
                     <div class="row">
-                      {{#each product_evaluation}}
-                      {{#equals this.Product.category "Bare Bone Kit"}}
+                      {{#each products}}
+                      {{#equals this.category "Bare Bone Kit"}}
                         <div class="col-lg-3 col-sm-6 col-12">
                           <figure class="card card-product-grid">
                             <div class="img-wrap"> 
                               <div class="hover-action p-2">
                                 <a class="btn btn-sm w-100 btn-primary" href="/staff/manage-pe/evaluationdetail/{{this.Product.id}}"> <i class="fa fa-search-plus"></i> Quick view</a>
                               </div>
-                              <img src="../images/items/5.jpg">
+                              <img src="/{{this.image}}">
                             </div>
                             <figcaption class="info-wrap border-top">
-                              <p>{{this.Product.name}}</p>
-                              <strong class="price">${{this.Product.price}}.00</strong> <!-- price.// -->
+                              <p>{{this.name}}</p>
+                              <strong class="price">${{this.price}}.00</strong> <!-- price.// -->
                             </figcaption>
                           </figure> <!-- card // -->
                         </div> <!-- col.// -->
@@ -89,7 +89,7 @@
                               <div class="hover-action p-2">
                                 <a class="btn btn-sm w-100 btn-primary" href="/staff/manage-pe/evaluationdetail/{{this.id}}"> <i class="fa fa-search-plus"></i> Quick view</a>
                               </div>
-                              <img src="../images/items/5.jpg">
+                              <img src="/{{this.image}}">
                             </div>
                             <figcaption class="info-wrap border-top">
                               <p>{{this.name}}</p>
@@ -114,7 +114,7 @@
                               <div class="hover-action p-2">
                                 <a class="btn btn-sm w-100 btn-primary" href="/staff/manage-pe/evaluationdetail/{{this.id}}"> <i class="fa fa-search-plus"></i> Quick view</a>
                               </div>
-                              <img src="../images/items/5.jpg">
+                              <img src="/{{this.image}}">
                             </div>
                             <figcaption class="info-wrap border-top">
                               <p>{{this.name}}</p>
@@ -139,7 +139,7 @@
                               <div class="hover-action p-2">
                                 <a class="btn btn-sm w-100 btn-primary" href="/staff/manage-pe/evaluationdetail/{{this.id}}"> <i class="fa fa-search-plus"></i> Quick view</a>
                               </div>
-                              <img src="../images/items/5.jpg">
+                              <img src="/{{this.image}}">
                             </div>
                             <figcaption class="info-wrap border-top">
                               <p>{{this.name}}</p>
