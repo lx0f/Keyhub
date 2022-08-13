@@ -36,7 +36,6 @@ customerManageAccountRouter.route("/").get((req, res) => {
     res.render("./customers/page-profile-main")
 
 
-  
 });
 
 customerManageAccountRouter.route('/').get((req, res) => {
@@ -110,6 +109,9 @@ customerManageAccountRouter.get('/review', async (req,res) =>{
         include: [
             {
                 model: Product
+            },
+            {
+                model: User
             }
         ],
         where :{

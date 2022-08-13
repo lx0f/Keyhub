@@ -6,16 +6,16 @@ const product = require('../models/product');
 const Pevaluation = require("../models/product_evaluation")
 const User = require("../models/User")
 
-productRouter.post('/desc', async function (req, res) {
-    let { productID } = req.body;
-    const products = await (await product.findAll()).map((x) => x.dataValues);
-    const single = await Products.findOne({ where: { id: productID } });
-    return res.render('./customers/description', { single });
-});
+// productRouter.post('/desc', async function (req, res) {
+//     let { productID } = req.body;
+//     const products = await (await product.findAll()).map((x) => x.dataValues);
+//     const single = await Products.findOne({ where: { id: productID } });
+//     return res.render('./customers/description', { single });
+// });
 
 productRouter.post('/search', async function (req, res) {
     let { search } = req.body;
-    const products = await (await product.findAll()).map((x) => x.dataValues);
+    const products = await (await product.findAll({where: {status: "online"}})).map((x) => x.dataValues);
     const display = [];
 
     for (let index = 0; index < products.length; index++) {
@@ -47,7 +47,7 @@ productRouter.post('/search', async function (req, res) {
 });
 
 productRouter.route('/general').get(async (req, res) => {
-    const products = await (await product.findAll()).map((x) => x.dataValues);
+    const products = await (await product.findAll({where: {status: "online"}})).map((x) => x.dataValues);
 
     const display = products;
     var items = await display.length;
@@ -67,7 +67,7 @@ productRouter.route('/general').get(async (req, res) => {
 });
 
 productRouter.get('/pre', async (req, res) => {
-    const products = await (await product.findAll()).map((x) => x.dataValues);
+    const products = await (await product.findAll({where: {status: "online"}})).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
         if (products[index]['category'] == 'Pre-Built Keyboard') {
@@ -85,7 +85,7 @@ productRouter.get('/pre', async (req, res) => {
 });
 
 productRouter.get('/bare', async (req, res) => {
-    const products = await (await product.findAll()).map((x) => x.dataValues);
+    const products = await (await product.findAll({where: {status: "online"}})).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
         if (products[index]['category'] == 'Barebone Kit') {
@@ -103,7 +103,7 @@ productRouter.get('/bare', async (req, res) => {
 
 
 productRouter.get('/switches', async (req, res) => {
-    const products = await (await product.findAll()).map((x) => x.dataValues);
+    const products = await (await product.findAll({where: {status: "online"}})).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
         if (products[index]['category'] == 'Switches') {
@@ -121,7 +121,7 @@ productRouter.get('/switches', async (req, res) => {
 });
 
 productRouter.get('/keycaps', async (req, res) => {
-    const products = await (await product.findAll()).map((x) => x.dataValues);
+    const products = await (await product.findAll({where: {status: "online"}})).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
         if (products[index]['category'] == 'Key Cap') {
@@ -139,7 +139,7 @@ productRouter.get('/keycaps', async (req, res) => {
 });
 
 productRouter.get('/others', async (req, res) => {
-    const products = await (await product.findAll()).map((x) => x.dataValues);
+    const products = await (await product.findAll({where: {status: "online"}})).map((x) => x.dataValues);
     const display = [];
     for (let index = 0; index < products.length; index++) {
         if (products[index]['category'] == 'Accessories') {

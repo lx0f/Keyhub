@@ -95,10 +95,12 @@ customervoucher.post('/postvoucherlist', async (req, res) => {
                 await item.save();
                 return res.redirect('/CustomerVoucher');
             }
+
         }
         else {
             req.flash('error', 'please login as customer first');
             return res.redirect('/login');
+
         }
     } catch (e) {
         console.log(e);

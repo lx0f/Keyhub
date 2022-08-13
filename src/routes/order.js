@@ -13,6 +13,7 @@ const { CustomerVoucher, VoucherItem } = require("../models/CustomerVoucher");
 const LoyaltyCard = require("../models/LoyaltyCard");
 const moment = require('moment')
 const User = require("../models/User");
+const { Mail } = require("../configuration/nodemailer");
 
 // fillOrderData
 CustomerOrder.get('/', async (req, res) => {
@@ -83,13 +84,12 @@ CustomerOrder.get('/', async (req, res) => {
         res.render('./customers/page-checkout', { cartId, cart: cart.toJSON(), totalPrice, shipping })
       }
     }
-      
-
     }catch (e) {
       console.log(e);
     }
-});
 
+ 
+});
 // Post Order
 CustomerOrder.post('/data', async (req, res) => {
   try {
@@ -215,30 +215,57 @@ CustomerOrder.get('/payment/:id', async (req, res) => {
 CustomerOrder.post('/paymentdata/:id', async (req, res) => {
     try {
         // find order
-        const order = await Order.findByPk(req.params.id);
-        console.log(order);
+        // const order = await Order.findByPk({req.params.id);
+        const order = await Order.findOne({
+          where:{
+            id: req.params.id
+          },
+          include: [
+              {
+                  model: OrderItem,
+                  include: {
+                      model: Product,
+                  },
+              },
+              {
+                  model: User,
+              },
+              {
+                model: Shippinginfo
+              },
+              {
+                model: Payment
+              }
+          ],
+        });
+
+        // console.log(order);
         // create payment data
 
         await Payment.create({
           OrderId: order.id,
-          payment_method: "VISA",
+          Payment_method: "VISA",
           isSuccess: 1,
           last4digit: req.body.cardnum,
           payTime: moment().format("YYYY-MM-DD HH:mm")
         })
         
-
         // update payment_status
         await order.update({
             payment_status: 1,
         });
         // send mail
-        // const email = req.user.email
-        // const subject = `[TEST]Key Hub OrderID:${order.id} Payment Done!`
-        // const status = 'Unshipped / Unpaid'
-        // const msg = 'Shipment will be arranged in the near future, please pay attention to the email again!'
-        // sendMail(email, subject, payMail(order, status, msg))
-        // flash message
+        // const link = `http://localhost:3000/reset-password/${user.id}/${user.resetTokenID}`;
+        const userID = order.UserId
+        const user = await User.findByPk(userID) 
+      
+        Mail.Send({
+            email_recipient: user.email,
+            subject: 'Your Receipt',
+            // template_path: '../../views/customers/email1.html',
+            template_path: '../../views/customers/emailreceipt.html',
+            context: { order },
+        });
         return res.redirect(`/order/success`);
     } catch (e) {
         console.log(e);
@@ -246,11 +273,7 @@ CustomerOrder.post('/paymentdata/:id', async (req, res) => {
 });
 
 CustomerOrder.get('/success', async (req, res) => {
- 
   return res.render('./customers/page-success');
-
-
-    return res.render('./customers/page-success');
 });
 
 module.exports = CustomerOrder;

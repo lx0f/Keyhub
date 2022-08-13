@@ -128,6 +128,7 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
   
   const voucher = await Voucher.findByPk(req.params.id);
   await voucher.update({
+
      voucher_title: req.body.voucher_title,
       voucher_name: req.body.voucher_name,
       voucher_value: req.body.voucher_value,
@@ -146,6 +147,9 @@ manageVoucher.post('/editVoucher/:id', async (req, res) => {
 
     
     });
+
+   
+
 
     req.flash('success', 'Voucher updated!');
     res.redirect('/staff/manage-vouchers');
@@ -182,12 +186,14 @@ manageVoucher.route("/voucher-form").get((req, res) => {
     })
 
 
+
     req.flash("success", "Successfully created Voucher!");
     return res.redirect("/staff/manage-vouchers");
   } catch(e) {
         req.flash("error", e)
   }
 });
+
 manageVoucher.post('/sendmail/:voucher_id', async (req, res) => {
   const voucherlist = await CustomerVoucher.findAll({
     where:{setrole:1}
