@@ -25,19 +25,21 @@
 		<br>
 		<div class="card">
 			<div class="card-body" >
-				<form action="" method="POST" id="redeem_code" class="">
+				<form action="/CustomerVoucher/postvoucherlist" method="POST" id="redeem_code" class="">
 					<div class="">
 						<div class="row">
 							<div class="col-3">
 								<h6 class="" style="float:right;padding-top:8px;"> Code </h6>
 							</div>
-							<div class="col-5" >
-								<input type="text" class="form-control" id="voucher_title" name="voucher_title" placeholder="Enter code . . . " required  style="float:right;">
-							</div>
-							<div class="col-4" >
-								
-								<button class="btn btn-primary"> Redeem </button>
-							</div>
+						
+								<div class="col-5" >
+									<input type="text" class="form-control" id="" name="code" placeholder="Enter code . . . " required  style="float:right;">
+								</div>
+								<div class="col-4" >
+									
+									<button class="btn btn-primary" type="submit"> Redeem </button>
+								</div>
+							
 						</div>
 					</div>
 				</form>
@@ -45,7 +47,7 @@
 		</div>
 		<br>
 		<article class="card mb-3">
-			<div class="card-body">
+			<div class="card-body review" style="overflow-y:scroll;height:450px;">
 				<div class="row">
 					{{#each voucherlist}}
                         
@@ -286,6 +288,27 @@
 .copy-text.active button:before,
 .copy-text.active button:after {
 	display: block;
+}
+
+
+       .review::-webkit-scrollbar {
+  width: 10px;
+  
+}
+
+/* Track */
+.review::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.review::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.review::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
 </style>

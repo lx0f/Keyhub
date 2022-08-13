@@ -268,33 +268,34 @@ manageVoucher.post('/emailvoucher/:user_id/:voucher_id', async (req, res) => {
 });
 
 
-manageVoucher.post('/', async (req, res) => { 
+// manageVoucher.post('/', async (req, res) => { 
       
-    const voucherlist = await CustomerVoucher.findOne({
-        where: {
-          UserID: req.params.user_id || 0
-        }
-      })
-    const voucher = await Voucher.findByPk(req.params.voucher_id)
+//     const voucherlist = await CustomerVoucher.findOne({
+//         where: {
+//           UserID: req.params.user_id || 0
+//         }
+//       })
+//     const voucher = await Voucher.findByPk(req.params.voucher_id)
     
-    // find items in voucher list
-    const item = await VoucherItem.findOne({
-      where: {
-        VoucherListId:voucherlist.id,
-        VoucherId:voucher.id,
-      },
-    })
-    if (item) {
-      req.flash("error", "You have already redeem this voucher !")
-      res.redirect("/");
-    } else {
-      voucher.update({
-              voucher_used:voucher.voucher_used + 1
-          })
+//     // find items in voucher list
+//     const item = await VoucherItem.findOne({
+//       where: {
+//         VoucherListId:voucherlist.id,
+//         VoucherId:voucher.id,
+//       },
+//     })
+//   if (item) {
+   
+//       req.flash("error", "You have already redeem this voucher !")
+//       res.redirect("/");
+//     } else {
+//       voucher.update({
+//               voucher_used:voucher.voucher_used + 1
+//           })
           
-      await VoucherItem.create({ VoucherListId: voucherlist.id, VoucherId: voucher.id, Type: "Reward", usage: 0 })
-      req.flash("success", "Congrats, You have just redeem this voucher!")
-      res.redirect("/");
-    }      
-})
+//       await VoucherItem.create({ VoucherListId: voucherlist.id, VoucherId: voucher.id, Type: "Reward", usage: 0 })
+//       req.flash("success", "Congrats, You have just redeem this voucher!")
+//       res.redirect("/");
+//     }      
+// })
 module.exports = manageVoucher;
