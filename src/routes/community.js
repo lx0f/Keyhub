@@ -37,6 +37,8 @@ communityRouter.route('/chat/:room').get(async (req, res) => {
         await Message.findAll({ where: { RoomId: check_room.id } })
     ).map((x) => x.dataValues);
 
+    
+
     io.once('connection', (socket) => {
         console.log('hoi');
         socket.once('joinRoom', () => {
