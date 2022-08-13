@@ -46,7 +46,7 @@
                                 <td>
                                     <div class="row">
                                         <div class="col-4">
-                                            <form action="/staff/manage-orders/rejectcancelorder/{{this.id}}" method="get">
+                                            <form action="/staff/manage-orders/rejectcancelorder/{{this.Order.id}}" method="get">
                                                 <!-- delete button -->
                                                 <button type="button" title="Reject" class="btn btn-danger " data-toggle="modal" data-target="#rejectModal_{{this.id}}">
                                                     <i class="fa fa-ban"></i>
@@ -80,7 +80,7 @@
                                             </form>
                                         </div>
                                         <div class="col-4">
-                                            <form action="/staff/manage-orders/cancelorder/{{this.id}}" method="get">
+                                            <form action="/staff/manage-orders/cancelorder/{{this.Order.id}}" method="get">
                                                 <!-- delete button -->
                                                 <button type="button" title="Approve" class="btn btn-success " data-toggle="modal" data-target="#approvedModal_{{this.id}}">
                                                     <i class="fa fa-check"></i>
