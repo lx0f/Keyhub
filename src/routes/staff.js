@@ -26,7 +26,7 @@ const manageTicketRoute = require("./manage_tickets");
 
 const staffpeRouter = require("./staff_pe")
 
-
+const loyaltyprogram = require("./manage_loyaltyprogram")
 
 
 enableDebugMode(false)
@@ -50,6 +50,7 @@ staffRouter.use("/product", productRouter)
 staffRouter.use("/manage-pe", staffpeRouter);
 staffRouter.use("/manage-orders", OrderManagement);
 // staffRouter.use("/manage-mail", manageMail);
+staffRouter.use("/manage-loyaltyprogram",loyaltyprogram)
 
 staffRouter.use("/data", dataRouter);
 
