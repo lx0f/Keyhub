@@ -81,7 +81,8 @@ productRouter.get('/pre', async (req, res) => {
     } else {
         items = items.toString() + ' products';
     }
-    res.render('./customers/page-listing-grid', { display, items });
+    const keeb = {keyboard: true}
+    res.render('./customers/page-listing-grid', { display, items,keeb });
 });
 
 productRouter.get('/bare', async (req, res) => {
@@ -98,7 +99,8 @@ productRouter.get('/bare', async (req, res) => {
     } else {
         items = items.toString() + ' products';
     }
-    res.render('./customers/page-listing-grid', { display, items });
+    const keyboard = true
+    res.render('./customers/page-listing-grid', { display, items,keyboard });
 });
 
 
