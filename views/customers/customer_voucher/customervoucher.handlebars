@@ -9,68 +9,72 @@
 		<img src="/public/images/logo-white.png" alt="">
 	</div>
     <div class="row">
-		
-        {{#each voucher}}
-            {{#equals this.voucher_type "Customer" }}
-            <div class="col-6" >
-                <div class="courses-container">
-					
-					<span class="top-left tag-2 tag-limited">Limited</span>
-					{{#equals this.voucher_status "Active" }}
-						<span class="top-right tag-2 tag-active">{{this.voucher_status}}</span>
-					{{/equals}}
-					{{#equals this.voucher_status "Inactive" }}
-
-						<span class="top-right tag-2 tag-inactive">Fully Redeemed</span>
-					{{/equals}}
-                    
-                    <div class="course">
-                        <div class="course-preview">
-							<br>
-                            <h6>{{this.voucher_cat}}</h6>
-                            <h4>{{this.voucher_title}}</h4>
-							<br>
-                            <a href="#">Terms & Conditions</i></a>
-                        </div>
-                        <div class="course-info">
-                            <div class="progress-container">
-                                <div class="progress"></div>
-                                <span class="progress-text">
-                                   {{this.voucher_used}} / {{this.total_voucher}} Vouchers Claimed
-                                </span>
-                            </div>
-                            <h4>{{this.voucher_name}}</h4>
-                            <h5 >Min. Spend ${{this.spend}}</h5>
-                             <p style="color:grey;font-size: 13px;">
-                                Valid Till: 31.12.2022
-                            </p>
-                           
-                            {{!-- {{#equals voucherlist.voucheritem.VoucherId voucher.id}}
-                            
-                                {{voucherlist.voucheritem.VoucherId}}
-                                <input type="hidden" id="claimed" value="{{voucherlist.voucheritem.id}}">
-                                <button type="submit" class="claimed-button">Claimed <i class="fa-solid fa-check"></i></button>
-                            
-                            {{/equals}} --}}
-                            <form action="/CustomerVoucher/postvoucherlist" method="POST">
-							 	{{#equals this.voucher_status "Active" }}
-									<input type="hidden" name="ststus" value="{{this.voucher_status}}">
-								{{/equals}}
-								{{#equals this.voucher_status "Inactive" }}
-									
-									<input type="hidden" name="status" value="{{this.voucher_status}}">
-								{{/equals}}
-                                <input type="hidden" name="voucherID" value="{{this.id}}">
-                                <input type="hidden" name="name" value="{{this.voucher_title}}">
-                                <input type="hidden" id="claim" value="{{voucher.id}}">
-                                <button type="submit" class="claim-button">Claim</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>   
-            </div>
-            {{/equals}}
-		{{/each}}
+		{{#if voucher}}
+			{{#each voucher}}
+				{{#equals this.voucher_type "Master" }}
+				<div class="col-6" >
+					<div class="courses-container">
+						
+						<span class="top-left tag-2 tag-limited">Limited</span>
+						{{#equals this.voucher_status "Active" }}
+							<span class="top-right tag-2 tag-active">{{this.voucher_status}}</span>
+						{{/equals}}
+						{{#equals this.voucher_status "Inactive" }}
+							{{!-- {{#equals this.voucher_used this.total_voucher}}
+							<span class="top-right tag-2 tag-inactive">Fully Redeemed</span>
+							{{/equals}} --}}
+							<span class="top-right tag-2 tag-inactive">Fully Redeemed</span>
+						{{/equals}}
+						
+						<div class="course">
+							<div class="course-preview">
+								<br>
+								<h6>{{this.voucher_cat}}</h6>
+								<h4>{{this.voucher_title}}</h4>
+								<br>
+								<a href="#">Terms & Conditions</i></a>
+							</div>
+							<div class="course-info">
+								<div class="progress-container">
+									<div class="progress"></div>
+									<span class="progress-text">
+									{{this.voucher_used}} / {{this.total_voucher}} Vouchers Claimed
+									</span>
+								</div>
+								<h4>{{this.voucher_name}}</h4>
+								<h5 >Min. Spend ${{this.spend}}</h5>
+								<p style="color:grey;font-size: 13px;">
+									Valid Till: 31.12.2022
+								</p>
+							
+								{{!-- {{#equals voucherlist.voucheritem.VoucherId voucher.id}}
+								
+									{{voucherlist.voucheritem.VoucherId}}
+									<input type="hidden" id="claimed" value="{{voucherlist.voucheritem.id}}">
+									<button type="submit" class="claimed-button">Claimed <i class="fa-solid fa-check"></i></button>
+								
+								{{/equals}} --}}
+								<form action="/CustomerVoucher/postvoucherlist" method="POST">
+									{{#equals this.voucher_status "Active" }}
+										<input type="hidden" name="ststus" value="{{this.voucher_status}}">
+									{{/equals}}
+									{{#equals this.voucher_status "Inactive" }}
+										
+											<input type="hidden" name="status" value="{{this.voucher_status}}">
+										
+									{{/equals}}
+									<input type="hidden" name="voucherID" value="{{this.id}}">
+									<button type="submit" class="claim-button">Claim</button>
+								</form>
+							</div>
+						</div>
+					</div>   
+				</div>
+				{{/equals}}
+			{{/each}}
+		{{else}}
+		<h3 style="margin:auto;margin-top:120px;">Daily Vouchers will be refreshed daily at 2PM</h3>
+		{{/if}}
             
         
     </div>
@@ -86,6 +90,7 @@
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 
 .header-name::before{
+
   content: "";
   position: absolute;
   display: block;

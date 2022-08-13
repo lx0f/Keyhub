@@ -31,11 +31,12 @@ const chatbotRouter = require('./routes/Chatbot');
 
 // const voucherRouter = require("./routes/voucher");
 
-const FAQrouter = require('./routes/staff_FAQs');
-const { sum } = require('./models/product');
+
+const FAQrouter = require("./routes/staff_FAQs");
+const { sum } = require("./models/product");
+const { Cart ,CartItem }  = require("./models/cart")
 const { OrderItem, Order } = require('./models/order');
 const { isObject } = require('util');
-const { Cart, CartItem } = require('./models/cart');
 const { sign } = require('crypto');
 
 //Initialisation of the app
@@ -137,18 +138,26 @@ app.engine(
                 var html = converter.convert();
                 return html;
             },
-            convert(num) {
-                num = (num / 5) * 100;
-                return num;
-            },
-            percentage(a, b) {
-                return (a / b) * 100;
-            },
             dateHasPassed(date) {
                 const today = new Date();
                 var parsedDate = Date.parse(date);
                 return today >= parsedDate;
             },
+            convert(num){
+                if (num == 0)
+                    return 1
+                else{
+                    return num = num / 5 * 100
+                }
+            },
+            percentage(a,b){
+                if (a == 0 || b == 0){
+                    return 0 
+                }else{
+                    return a / b * 100 
+                }
+                return a / b * 100 
+            }
         },
     })
 );
@@ -209,6 +218,9 @@ app.use('/', loginRouter);
 app.use('/', customerRouter);
 app.use('/chatbot', chatbotRouter);
 
+app.get('*', function(req, res){
+    res.status(404).render("./customers/page-404");
+  });
 const dialogflowSync = require('./dialogflow/setup');
 dialogflowSync();
 

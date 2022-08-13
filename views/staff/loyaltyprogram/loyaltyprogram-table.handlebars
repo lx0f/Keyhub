@@ -1,0 +1,594 @@
+<META http-equiv=refresh>
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+<!-- Page Heading -->
+
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-8 col-sm-6">
+                    <h1 class="h3 mb-2 text-gray-800">Rewards Program</h1>
+                    <p class="mb-4">Manage Program </p>
+                    
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="text-right">
+                    {{!-- <button type="button" class="btn btn-primary "><a href="/staff/manage-vouchers/voucher-form" style="text-decoration:none; color:white;">Create</a></button> --}}
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            
+            <div class="wrapper">
+                <input type="radio" name="slider" checked id="home">
+                <input type="radio" name="slider" id="blog">
+                <input type="radio" name="slider" id="code">
+                <input type="radio" name="slider" id="help">
+                <input type="radio" name="slider" id="add1">
+                <nav>
+                    <label for="home" class="home"><i class="fa fa-tags" aria-hidden="true"></i></i>All Accounts</label>
+                    <label for="blog" class="blog"><i class="fa fa-check" aria-hidden="true"></i></i>Active Accounts</label>
+                    <label for="code" class="code"><i class="fa fa-times" aria-hidden="true"></i></i>Disabled Accounts</label>
+                    <label for="help" class="help"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></i>Redeems</label>
+                    <div class="slider"></div>
+                </nav>
+                <hr>
+            
+            <!-- Section of Orders & Payment-->
+            
+            
+                <section>
+                    <div class="content content-1">
+                        <table class="table table-bordered" id="table-1" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Active Points</th>
+                                    <th>Used Points</th>
+                                    <th>Total Points</th>
+                                    <th>Tier Level</th>
+                                    <th>Status</th>
+                                    
+                                    <th>Actions</th>
+                                
+                            
+                                </tr>
+                            </thead>
+                
+                            <tbody>
+                                {{#each User_Cards }}
+                                <tr >
+                                    
+                                    {{#each ../Users}}
+                                        {{#equals ../this.authorID this.id}}
+                                            <td>{{this.username}}</td>
+                                        {{/equals}}
+                                    {{/each}}
+                                    <td>{{this.Active_Points}}</td>
+                                    <td>{{this.Used_Points}}</td>
+                                    <td>{{this.Total_Points}}</td>
+                                    <td>{{this.Status}}</td>
+                                    {{#equals this.Activation "On"}}
+                                    <td><div class="badge badge-success">Active</div></td>
+                                    {{/equals}}
+                                    {{#equals this.Activation "Off"}}
+                                    <td><div class="badge badge-danger">Disabled</div></td>
+                                    {{/equals}}
+                                
+                                
+                                    
+                                    
+                                    
+                                    <td>
+                                        {{!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{this.id}}">
+                                                <i class="fa fa-info" aria-hidden="true"></i>
+                                        </button> --}}
+                                        {{#equals this.Activation "On"}}
+                                         <form action="/staff/manage-loyaltyprogram/account/disabled/{{this.id}}" method="POST">
+                                            <button type="submit" class="btn btn-danger"><i class="fa fa-ban"></i></button>
+                                        </form>
+                                        {{/equals}}
+                                        {{#equals this.Activation "Off"}}
+                                         <form action="/staff/manage-loyaltyprogram/account/enabled/{{this.id}}" method="POST">
+                                            <button type="submit" class="btn btn-success"><i class="fa fa-check"></i></button>
+                                        </form>
+                                        {{/equals}}
+                                     
+                                       
+                                        
+                                        
+                                        <!-- Button trigger modal -->
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal{{this.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content" >
+                                                    <div class="modal-body">
+                                                        <div class="background-info"></div>
+                                                        <div class="card-header-1">
+                                                                {{#equals this.voucher_status "Active"}}
+                                                                <span class="top-right tag-2 tag-active">Active</span>
+                                                            {{/equals}}
+                                                            {{#equals this.voucher_status "Inactive"}}
+                                                                <span class="top-right tag-2 tag-inactive">Fully Redeemed</span>
+                                                            {{/equals}}
+                                                            
+                                                            <img src="https://c0.wallpaperflare.com/preview/483/210/436/car-green-4x4-jeep.jpg" alt="rover" />
+                                                            <span class="voucher-info">
+                                                                <h6 style="padding:10px;padding-top:20px;">
+                                                                    $10OFF
+                                                                    <br >
+                                                                    <br>
+                                                                        Min. Spend $100
+                                                                    <br >
+                                                                    <br>
+                                                                    <span class="tag">First Purchase Only</span>
+                                                                    <br>
+                                                                    <br>
+                                                                    <p style="color:grey;font-size: 13px;">
+                                                                        Valid Till: 31.12.2022
+                                                                    </p>
+                                                                </h6>
+                                                            </span>
+                                                            <div class="card-body-1">
+                                                            
+                                                            <h6 style="padding:10px;padding-top:20px;">
+                                                                    <strong>Description</strong> 
+                                                                    <br>
+                                                                    First come first served. Act fast before voucher is used up!
+                                                                    $10 OFF
+                                                                    <br >
+                                                                    <br>
+                                                                    <strong>Valid Time</strong> 
+                                                                    <br>
+                                                                    20.12.2022 - 31.12.2022 
+                                                                    <br >
+                                                                    <br>
+                                                                        <strong>Product</strong> 
+                                                                        <br>
+                                                                        Applicable to all products. Except keycaps
+                                                                    <br>
+                                                                    <br>
+                                                                    <strong>More Info</strong> 
+                                                                    <br>
+                                                                    Applicable to all users. Enjoy $10 OFF with no min spend.
+                                                                    Valid from 20.12.2022 - 31.12.2022.
+                                                                    Limited Redeemptions only !
+                                                                
+                                                                </h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                
+                                </tr>
+                                {{/each }}
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section>
+                    <div class="content content-2">
+                            <table class="table table-bordered" id="table-2" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Active Points</th>
+                                    <th>Used Points</th>
+                                    <th>Total Points</th>
+                                    <th>Tier Level</th>
+                                    <th>Status</th>
+                                    
+                                    <th>Actions</th>
+                                
+                            
+                                </tr>
+                            </thead>
+                
+                            <tbody>
+                                {{#each User_Cards }}
+                                <tr >
+                                    {{#equals this.Activation "On"}}
+                                        {{#each ../Users}}
+                                            {{#equals ../this.authorID this.id}}
+                                                <td>{{this.username}}</td>
+                                            {{/equals}}
+                                        {{/each}}
+                                        <td>{{this.Active_Points}}</td>
+                                        <td>{{this.Used_Points}}</td>
+                                        <td>{{this.Total_Points}}</td>
+                                        <td>{{this.Status}}</td>
+                                        {{#equals this.Activation "On"}}
+                                        <td><div class="badge badge-success">Active</div></td>
+                                        {{/equals}}
+                                        <td>
+                                            {{!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{this.id}}">
+                                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                        </button> --}}
+                                        {{#equals this.Activation "On"}}
+                                        <form action="/staff/manage-loyaltyprogram/account/disabled/{{this.id}}" method="POST">
+                                            <button type="submit" class="btn btn-danger"><i class="fa fa-ban"></i></button>
+                                        </form>
+                                        
+                                        {{/equals}}
+                                        </td>
+                                    {{/equals}}
+                                </tr>
+                                {{/each }}
+                            
+                            </tbody>
+                            </table>
+                    </div>
+                </section>
+                <section>
+                    <div class="content content-3">
+                        <table class="table table-bordered" id="table-3" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Active Points</th>
+                                    <th>Used Points</th>
+                                    <th>Total Points</th>
+                                    <th>Tier Level</th>
+                                    <th>Status</th>
+                                    
+                                    <th>Actions</th>
+                                
+                            
+                                </tr>
+                            </thead>
+                
+                            <tbody>
+                                {{#each User_Cards }}
+                                <tr >
+                                    {{#equals this.Activation "Off"}}
+                                        {{#each ../Users}}
+                                            {{#equals ../this.authorID this.id}}
+                                                <td>{{this.username}}</td>
+                                            {{/equals}}
+                                        {{/each}}
+                                        <td>{{this.Active_Points}}</td>
+                                        <td>{{this.Used_Points}}</td>
+                                        <td>{{this.Total_Points}}</td>
+                                        <td>{{this.Status}}</td>
+                                        {{#equals this.Activation "Off"}}
+                                        <td><div class="badge badge-danger">Disabled</div></td>
+                                        {{/equals}}
+                                        <td>
+                                            {{!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{this.id}}">
+                                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                        </button> --}}
+                                        {{#equals this.Activation "Off"}}
+                                        <form action="/staff/manage-loyaltyprogram/account/enabled/{{this.id}}" method="POST">
+                                            <button type="submit" class="btn btn-success"><i class="fa fa-check"></i></button>
+                                        </form>
+                                        
+                                        {{/equals}}
+                                        </td>
+                                    {{/equals}}
+                                      
+                                </tr>
+                                {{/each }}
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <section>
+                    <div class="content content-4">
+                        <table class="table table-bordered" id="table-4" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Redeemptions</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                
+                            <tbody>
+                                {{#each Redeems}}
+                                    
+                                    <tr >
+                                        {{#each ../Vouchers}}
+                                            {{#equals this.id ../this.VoucherId }}
+                                            <td>
+                                                {{this.voucher_title}} 
+                                                
+                                            </td>
+                                            {{/equals}}
+                                        {{/each}}
+                                        <td>{{this.Price}}</td>
+                                        <td>{{this.Redeemcount}}</td>
+                                        <td>
+                                            <form action="/staff/manage-loyaltyprogram/rewards/delete/{{this.id}}" method="POST">
+                                               
+                                                <button type="submit" class="btn btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                            
+                                            
+                                        
+                                        </td>
+                                    </tr>
+                                 
+                                    
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                
+            </div>  
+        </div>
+    </div>
+</div>
+
+</div>
+                <!-- /.container-fluid -->
+
+  
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+
+.top-right{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+.background-info{
+  position:absolute;
+  top: 0;
+  right: 0;
+  height: 180px;
+  width: 498px;
+  z-index: 0;
+  background-image: linear-gradient(to right top, #2a9dda, #3798d8, #4294d5, #4b8fd2, #548ace, #7a87d1, #9c83ce, #b97fc6, #ea7eae, #ff898c, #ffa26b, #eec15a);
+}
+.voucher-info{
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background-color:white ;
+  height: 200px;
+  width: 300px;
+}
+.card-header-1 img {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 1px ;
+}
+.card-body-1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 125px;
+}
+
+.tag {
+  border-radius: 2px;
+  font-size: 12px;
+  margin: 0;
+  color: red;
+  border-color: red;
+  border: solid 1px;
+  padding: 2px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.tag-2{
+  z-index: 2;
+  background: #cccccc;
+  border-radius: 3px;
+  font-size: 10px;
+  margin: 0;
+  color: white;
+  padding: 6px 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.tag-active {
+  background-color: #47d4b5;
+}
+.tag-inactive {
+  background-color: #D22B2B;
+}
+.tag-purple {
+  background-color: #5e76bf;
+}
+.tag-pink {
+  background-color: #cd5b9f;
+}
+
+.card-body p {
+  font-size: 13px;
+  margin: 0 0 40px;
+}
+
+    a:link{ color: white; text-decoration: none;}
+
+    ::selection{
+      background: rgba(23, 98, 184, 0.3);
+    }
+    .wrapper{
+
+      width: 100%;
+      height: 100%;
+      padding: 25px 30px 30px 30px;
+      border-radius: 5px;
+      background: #fff;
+    
+    }
+    .wrapper header{
+      font-size: 30px;
+      font-weight: 600;
+      padding-bottom: 20px;
+    }
+    .wrapper nav{
+      position: relative;
+      width: 100%;
+      height: 50px;
+      display: flex;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+    .wrapper nav label{
+      display: block;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      line-height: 50px;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      color: #0f87d8;
+      font-size: 17px;
+      border-radius: 5px;
+      margin: 0 5px;
+
+      transition: all 0.3s ease;
+    }
+    .wrapper nav label:hover{
+      margin-bottom: 10px;
+      background:#1253a7;
+    }
+    #home:checked ~ nav label.home,
+    #blog:checked ~ nav label.blog,
+    #code:checked ~ nav label.code,
+    #help:checked ~ nav label.help,
+      #about:checked ~ nav label.about{
+      color: #fff;
+    }
+    nav label i{
+      padding-right: 7px;
+    }
+    nav .slider{
+      position: absolute;
+      height: 100%;
+      width: 24%;
+      left: 0;
+      bottom: 0;
+      z-index: 0;
+      border-radius: 5px;
+      background: #175db8;
+      transition: all 0.3s ease;
+    
+    }
+    input[type="radio"]{
+      display: none;
+    }
+    #blog:checked ~ nav .slider{
+      left: 25%;
+    }
+    #code:checked ~ nav .slider{
+      left: 50%;
+    }
+    #help:checked ~ nav .slider{
+      left: 75%;
+    }
+    #about:checked ~ nav .slider{
+      left: 100%;
+    }
+    section .content{
+      display: none;
+      background: #fff;
+    }
+    #home:checked ~ section .content-1,
+    #blog:checked ~ section .content-2,
+    #code:checked ~ section .content-3,
+    #help:checked ~ section .content-4,
+    #about:checked ~ section .content-5{
+      display: block;
+    }
+    section .content .title{
+      font-size: 21px;
+      font-weight: 500;
+      margin: 30px 0 10px 0;
+    }
+    section .content p{
+    text-align: justify;
+    }
+
+    .card {
+    border: none;
+    border-radius: 10px
+}
+
+.c-details span {
+    font-weight: 300;
+    font-size: 13px
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    background-color: #eee;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 39px
+}
+
+.badge span {
+    background-color: #fffbec;
+    width: 60px;
+    height: 25px;
+    padding-bottom: 3px;
+    border-radius: 5px;
+    display: flex;
+    color: #fed85d;
+    justify-content: center;
+    align-items: center
+}
+
+.progress {
+    height: 10px;
+    border-radius: 10px
+}
+
+.progress div {
+    background-color: red
+}
+
+.text1 {
+    font-size: 14px;
+    font-weight: 600
+}
+
+.text2 {
+    color: #a5aec0
+}
+  </style>
+<script>
+   
+    $(document).ready( function () {
+    $('#table-1').DataTable();
+    $('#table-2').DataTable();
+    $('#table-3').DataTable();
+     $('#table-4').DataTable();
+} );
+  </script>
