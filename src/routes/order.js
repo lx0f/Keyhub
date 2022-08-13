@@ -231,6 +231,12 @@ CustomerOrder.post('/paymentdata/:id', async (req, res) => {
               {
                   model: User,
               },
+              {
+                model: Shippinginfo
+              },
+              {
+                model: Payment
+              }
           ],
         });
 
@@ -253,7 +259,7 @@ CustomerOrder.post('/paymentdata/:id', async (req, res) => {
         // const link = `http://localhost:3000/reset-password/${user.id}/${user.resetTokenID}`;
         const userID = order.UserId
         const user = await User.findByPk(userID) 
-        
+      
         Mail.Send({
             email_recipient: user.email,
             subject: 'Your Receipt',
@@ -261,14 +267,6 @@ CustomerOrder.post('/paymentdata/:id', async (req, res) => {
             template_path: '../../views/customers/emailreceipt.html',
             context: { order },
         });
-
-        // send mail
-        // const email = req.user.email
-        // const subject = `[TEST]Key Hub OrderID:${order.id} Payment Done!`
-        // const status = 'Unshipped / Unpaid'
-        // const msg = 'Shipment will be arranged in the near future, please pay attention to the email again!'
-        // sendMail(email, subject, payMail(order, status, msg))
-        // flash message
         return res.redirect(`/order/success`);
     } catch (e) {
         console.log(e);

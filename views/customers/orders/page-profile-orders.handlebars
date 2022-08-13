@@ -53,9 +53,7 @@
         <div class="col-lg-4 border-start">
           <p class="mb-0 text-muted">Payment</p>
           <p class="m-0">
-            {{#each this.Payments}}
-              <span class="text-success"> Visa  **** {{this.last4digit}}</span> <br> 
-            {{/each}}
+            <span class="text-success"> Visa  **** {{this.Payment.last4digit}}</span> <br> 
             Shipping fee:  ${{this.shipping_fee}} <br> 
             Discount: ${{this.discount}} <br>
             Total paid:  ${{this.amount}}

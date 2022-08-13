@@ -210,7 +210,7 @@ Product.hasMany(OrderItem);
 OrderItem.belongsTo(Product);
 
 // Order and Payment association
-Order.hasMany(Payment);
+Order.hasOne(Payment);
 Payment.belongsTo(Order);
 
 

@@ -78,12 +78,14 @@ OrderManagement.get('/cancelorder/:id', async function (req, res) {
             const order = await Order.findByPk(req.params.id)
             const userID = order.UserId
             const user = await User.findByPk(userID) 
+            let orderid = order.id
+
             Mail.Send({
                 email_recipient: user.email,
                 subject: 'Order Cancellation Approved',
                 // template_path: '../../views/customers/email1.html',
                 template_path: '../../views/customers/acceptrequest.html',
-                context: { order },
+                context: { orderid },
             });
             req.flash("success", "Order Cancellation " + " is Approved!");
             res.redirect('/staff/manage-orders/cancelrequests');
@@ -117,12 +119,13 @@ OrderManagement.get('/rejectcancelorder/:id', async function (req, res) {
             const order = await Order.findByPk(req.params.id)
             const userID = order.UserId
             const user = await User.findByPk(userID) 
+            let orderid = order.id
             Mail.Send({
                 email_recipient: user.email,
                 subject: 'Order Cancellation Rejected',
                 // template_path: '../../views/customers/email1.html',
                 template_path: '../../views/customers/rejectrequest.html',
-                context: { order },
+                context: { orderid },
             });
 
             req.flash("success", "Order Cancellation " + " is Rejected!");
