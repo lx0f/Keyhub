@@ -47,7 +47,7 @@
 		</div>
 		<br>
 		<article class="card mb-3">
-			<div class="card-body">
+			<div class="card-body review" style="overflow-y:scroll;height:450px;">
 				<div class="row">
 					{{#each voucherlist}}
                         
@@ -288,6 +288,27 @@
 .copy-text.active button:before,
 .copy-text.active button:after {
 	display: block;
+}
+
+
+       .review::-webkit-scrollbar {
+  width: 10px;
+  
+}
+
+/* Track */
+.review::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.review::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.review::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 
 </style>

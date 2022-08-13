@@ -55,7 +55,11 @@ customervoucher.post('/postvoucherlist', async (req, res) => {
             
             const voucher = await Voucher.findByPk(req.body.voucherID)
             if (!voucher) {
-                const voucher = await Voucher.findOne({where:{voucher_code: req.body.code}})
+                const voucher = await Voucher.findOne({ where: { voucher_code: req.body.code } })
+                if (!voucher) {
+                    req.flash('error', `Please use a valid code!`)
+                    return res.redirect('/account/myvouchers');
+                }
                 const [item, created] = await VoucherItem.findOrCreate({
                 where: {
                     VoucherListId: voucherlist.id,
@@ -69,12 +73,12 @@ customervoucher.post('/postvoucherlist', async (req, res) => {
                 
                 if (req.body.status == "Inactive" || voucher.voucher_used >= voucher.total_voucher) {
                     req.flash('error', `${voucher.voucher_title} Voucher has been fully claimed!`)
-                    return res.redirect('/CustomerVoucher');
+                    return res.redirect('/account/myvouchers');
                     }
                     else if (!created) {
                 
                         req.flash('error', `${voucher.voucher_title} Voucher has been already been claimed`)
-                        return res.redirect('/CustomerVoucher');
+                        return res.redirect('/account/myvouchers');
                 
                     }
                     else {
