@@ -25,19 +25,21 @@
 		<br>
 		<div class="card">
 			<div class="card-body" >
-				<form action="" method="POST" id="redeem_code" class="">
+				<form action="/CustomerVoucher/postvoucherlist" method="POST" id="redeem_code" class="">
 					<div class="">
 						<div class="row">
 							<div class="col-3">
 								<h6 class="" style="float:right;padding-top:8px;"> Code </h6>
 							</div>
-							<div class="col-5" >
-								<input type="text" class="form-control" id="voucher_title" name="voucher_title" placeholder="Enter code . . . " required  style="float:right;">
-							</div>
-							<div class="col-4" >
-								
-								<button class="btn btn-primary"> Redeem </button>
-							</div>
+						
+								<div class="col-5" >
+									<input type="text" class="form-control" id="" name="code" placeholder="Enter code . . . " required  style="float:right;">
+								</div>
+								<div class="col-4" >
+									
+									<button class="btn btn-primary" type="submit"> Redeem </button>
+								</div>
+							
 						</div>
 					</div>
 				</form>

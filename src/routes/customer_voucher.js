@@ -50,24 +50,70 @@ customervoucher.post('/postvoucherlist', async (req, res) => {
         
         
             // find items in voucher list
-            const [item, created] = await VoucherItem.findOrCreate({
+            
+            // update voucher data
+            
+            const voucher = await Voucher.findByPk(req.body.voucherID)
+            if (!voucher) {
+                const voucher = await Voucher.findOne({where:{voucher_code: req.body.code}})
+                const [item, created] = await VoucherItem.findOrCreate({
                 where: {
                     VoucherListId: voucherlist.id,
-                    VoucherId: req.body.voucherID,
+                    VoucherId: voucher.id,
                 },
                 defaults: {
                     Type: "Daily",
                     usage: 0
                 }
             })
-            // update voucher data
-        
-            const voucher = await Voucher.findByPk(req.body.voucherID)
+                
+                if (req.body.status == "Inactive" || voucher.voucher_used >= voucher.total_voucher) {
+                    req.flash('error', `${voucher.voucher_title} Voucher has been fully claimed!`)
+                    return res.redirect('/CustomerVoucher');
+                    }
+                    else if (!created) {
+                
+                        req.flash('error', `${voucher.voucher_title} Voucher has been already been claimed`)
+                        return res.redirect('/CustomerVoucher');
+                
+                    }
+                    else {
+                        await voucher.update({
+                    
+                            voucher_used: voucher.voucher_used += 1
+                        })
+                        if (voucher.voucher_used >= voucher.total_voucher) {
+
+                            await voucher.update({
+                                voucher_used: (voucher.voucher_used += 1),
+                            });
+                            if (voucher.voucher_used >= voucher.total_voucher) {
+                                await voucher.update({
+                                    voucher_status: 'Inactive',
+                                });
+                            }
+                        }
+
+                        await item.save();
+                        req.flash("success","Successfully redeem voucher")
+                        return res.redirect('/account/myvouchers');
+                }
+            } else {
+            const [item, created] = await VoucherItem.findOrCreate({
+            where: {
+                VoucherListId: voucherlist.id,
+                VoucherId: req.body.voucherID,
+            },
+            defaults: {
+                Type: "Daily",
+                usage: 0
+            }
+        })
             if (req.body.status == "Inactive" || voucher.voucher_used >= voucher.total_voucher) {
-           
-          
-                req.flash('error', `${voucher.voucher_title} Voucher has been fully claimed!`)
-                return res.redirect('/CustomerVoucher');
+        
+        
+            req.flash('error', `${voucher.voucher_title} Voucher has been fully claimed!`)
+            return res.redirect('/CustomerVoucher');
             }
             else if (!created) {
           
@@ -93,8 +139,11 @@ customervoucher.post('/postvoucherlist', async (req, res) => {
                 }
 
                 await item.save();
+                req.flash("success","Successfully redeem voucher")
                 return res.redirect('/CustomerVoucher');
             }
+            }
+            
 
         }
         else {
