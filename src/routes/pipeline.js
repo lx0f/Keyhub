@@ -1,7 +1,10 @@
 const dfd = require('danfojs-node');
-const User = require('../models/user');
 const chartJsImg = require('chartjs-to-image');
 const moment = require("moment")
+const User = require('../models/user');
+const LoyaltyCard = require('../models/LoyaltyCard');
+const Message = require("../models/Message")
+const {Order} = require("../models/order")
 const dateSpan = (s, e) => {
     for (
         var a = [], d = new Date(s);
@@ -14,9 +17,9 @@ const dateSpan = (s, e) => {
 };
 
 const dummyData = [
-    ['08/07/2022', 2],
-    ['09/07/2022', 1],
-    ['10/07/2022', 5],
+    ['08/07/2022', 0],
+    ['09/07/2022', 0],
+    ['10/07/2022', 0],
 ];
 
 class Chart {
@@ -188,6 +191,22 @@ console.log(dateCheck)
         console.log(group_df);
         const df2 = dfd.toJSON(group_df, { format: 'json' });
         return df2;
+    }
+
+    static async totalStats() {
+        const users = await User.count()
+        const messages = await Message.count()
+        const orders = await Order.count()
+        const loyaltyCards = await LoyaltyCard.count()
+        return {users, messages, orders, loyaltyCards}
+
+    }
+
+    static async proportionPieChart() {
+        const Staff = (await User.findAll({where : {isStaff: 1}})).map(x => x.dataValues).length
+        console.log(Staff)
+        const  Customers = (await User.findAll({where: {isStaff: 0}})).map(x => x.dataValues).length
+        return JSON.stringify({Customers, Staff})
     }
 }
 
