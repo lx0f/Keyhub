@@ -50,8 +50,8 @@ OrderManagement.get('/', async (req, res) => {
                 model: User,
             },
             {
-                model: DeliveryDetail
-            }
+                model: DeliveryDetail,
+            },
         ],
     });
     return res.render('./staff/ordermanagement/staff-getorders', { orders });
@@ -156,15 +156,15 @@ OrderManagement.post('/delivery-detail/:id', async (req, res) => {
 
     const deliveryDetail = await DeliveryDetail.findByPk(deliveryDetailId);
     switch (deliveryStage) {
-        case "complete":
+        case 'complete':
             deliveryDetail.CompleteDate = nextDate;
             break;
 
-        case "received":
+        case 'received':
             deliveryDetail.ReceivedDate = nextDate;
             break;
 
-        case "ship":
+        case 'ship':
             deliveryDetail.ShipOutDate = nextDate;
             break;
 
@@ -173,7 +173,7 @@ OrderManagement.post('/delivery-detail/:id', async (req, res) => {
             return res.redirect('/staff/manage-orders');
     }
 
-    deliveryDetail.save()
+    deliveryDetail.save();
     req.flash('success', 'Order delivery status successfully updated');
     res.redirect('/staff/manage-orders');
 });
