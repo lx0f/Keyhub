@@ -53,8 +53,16 @@
                 	<div class="horizontal-timeline">
 
                   	  <ul class="list-inline items d-flex justify-content-between">
-                    	<li class="list-inline-item items-list active">
+                    	<li class="list-inline-item items-list 
+                    	{{#if this.payment_status}}
+                    	active
+                    	{{/if}}
+                    	">
+                    	{{#if this.payment_status}}
                       	  <p class="py-1 px-2 rounded text-white small bg-primary">Ordered</p>
+                    	{{else}}
+                      	  <p class="py-1 px-2 small">Ordered</p>
+                    	{{/if}}
                     	</li>
 
                     	<li class="list-inline-item items-list
