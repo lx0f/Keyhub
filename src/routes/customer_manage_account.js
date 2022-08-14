@@ -24,8 +24,18 @@ customerManageAccountRouter.use((req, res, next) => {
     if (req.isUnauthenticated()) {
         req.flash('info', 'Please login first to manage your own account!');
         return res.redirect('/');
+
     }
-    next();
+});
+
+
+customerManageAccountRouter.route("/").get((req, res) => {
+   
+    
+    res.render("./customers/page-profile-main")
+
+
+
 });
 
 customerManageAccountRouter.route('/').get((req, res) => {

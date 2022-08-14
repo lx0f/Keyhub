@@ -11,6 +11,10 @@ const moment = require('moment');
 require('dotenv').config();
 const fetch = require('node-fetch');
 
+
+const url = require('url');
+
+
 // let sendSmtpEmail = new Sib.SendSmtpEmail();
 // const email = req.query.email;
 // console.log(email)
@@ -90,9 +94,13 @@ manageVoucher.route('/').get(async (req, res) => {
     } catch (e) {
         console.log(e);
     }
+
 });
-manageVoucher.get('/test', async (req, res) => {
-    res.render('./customers/loyaltyprogram/confirmation');
+manageVoucher.get("/test", async (req, res) => {
+  const path = url.parse(req.url).path;
+  var fullUrl = req.originalUrl;
+  res.render("./staff/voucher/testing",{path,fullUrl})
+
 });
 
 manageVoucher.get('/deleteVoucher/:id', async function (req, res) {
