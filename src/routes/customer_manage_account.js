@@ -51,6 +51,13 @@ customerManageAccountRouter
                 user.imageFilePath = `uploads/${req.file.filename}`;
             }
 
+            console.log(req)
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+
             user.username = req.body.username || user.username;
             user.email = req.body.email || user.email;
             user.address = req.body.address || user.address;
@@ -65,9 +72,11 @@ customerManageAccountRouter
                 }
             }
             await user.save();
+            return res.redirect('/account')
         });
+     
 
-        return res.redirect('/account');
+       
     });
 
 customerManageAccountRouter.get('/orderhistory', async (req, res) => {
