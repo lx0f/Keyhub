@@ -10,7 +10,7 @@ const cron = require('node-cron');
 const moment = require('moment');
 require('dotenv').config()
 const fetch = require('node-fetch');
-
+const url = require('url');
 
 
 // let sendSmtpEmail = new Sib.SendSmtpEmail();
@@ -85,7 +85,9 @@ manageVoucher
     
   })
 manageVoucher.get("/test", async (req, res) => {
-  res.render("./customers/loyaltyprogram/confirmation")
+  const path = url.parse(req.url).path;
+  var fullUrl = req.originalUrl;
+  res.render("./staff/voucher/testing",{path,fullUrl})
 });
 
 

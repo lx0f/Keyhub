@@ -36,7 +36,7 @@ customerManageAccountRouter.route("/").get((req, res) => {
     res.render("./customers/page-profile-main")
 
 
-    next();
+    
 });
 
 customerManageAccountRouter.route('/').get((req, res) => {
