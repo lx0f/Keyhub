@@ -45,7 +45,12 @@ manageAccountRoute
 manageAccountRoute
     .route('/add')
     .get((req, res) => {
-        return res.render('./staff/staff-add-users');
+       const img = 'data:image/png;base64, ' +
+        require('fs').readFileSync(
+            `public/uploads/unknownimage.png`,
+            'base64'
+        );
+        return res.render('./staff/staff-add-users', {img});
     })
     .post(async (req, res) => {
         await User.create({
