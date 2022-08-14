@@ -126,21 +126,21 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
             {
                 model: OrderItem,
                 include: {
-                    model: Product
-                }
-            },{
-                model: Cancelrequest
+                    model: Product,
+                },
             },
             {
-                model: Shippinginfo
+                model: Cancelrequest,
             },
             {
-                model: User
+                model: Shippinginfo,
             },
             {
-                model:Payment
-            }
-
+                model: User,
+            },
+            {
+                model: Payment,
+            },
         ],
         where: { Id: req.params.id },
     });
@@ -149,13 +149,13 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
             OrderId: order.id,
         },
     });
-    
+
     // if the order is shipped out cannot be cancel
-    if(order.shipping_status != "pending"){
+    if (order.shipping_status != 'pending') {
         req.flash(
             'info',
             'Your order is shipped out, so you are not allowed to cancel it'
-        )
+        );
     }
     // if the system automatically cancel the order:
 
@@ -165,13 +165,12 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
             'Your cancel request is in the progress, please check your email for new updates'
         );
         res.redirect('/account/orderhistory');
-    } else if( order.order_status == "Cancelled"){
+    } else if (order.order_status == 'Cancelled') {
         req.flash(
             'info',
             'The system already cancelled your order since the payment is not completed'
-        )
-    }
-    else {
+        );
+    } else {
         return res.render('./customers/orders/page-cancel-request', { order });
     }
 });
