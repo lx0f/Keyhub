@@ -6,10 +6,6 @@ const { VoucherItem } = require('../models/CustomerVoucher');
 const Voucher = require('../models/Voucher');
 const Redeemables = require('../models/Redeemables');
 const { Mail, transporter } = require('../configuration/nodemailer');
-const moment = require('moment');
-const url = require('url');
-const { Usertraffic, Individualtraffic } = require("../models/Usertraffic");
-
 const loyaltyprogram = express.Router();
 
 loyaltyprogram.get('/signup', async (req, res) => {
@@ -94,34 +90,6 @@ loyaltyprogram.get('/confirmation/:id', async (req, res) => {
 loyaltyprogram.get('/redeem', async (req, res) => {
     try {
         if (req.user) {
-            
-            var pathUrl = req.originalUrl
-            const find_traffic = await Usertraffic.findOne({ where: { path: pathUrl } })
-            var now = moment().format('YYYY-MM-DD HH:mm:ss');
-
-            if (find_traffic) {
-                const indviudal_traffic = await Individualtraffic.findOne({ where: { path: find_traffic.path, UserId: req.user.id } })
-                if (indviudal_traffic) {
-                    var latestvisit = moment(indviudal_traffic.latestvisit).format('YYYY-MM-DD HH:mm:ss');
-                    var minute = moment(now).diff(moment(latestvisit), 'minutes');
-                    console.log(minute);
-                    if (minute >= 3) {
-                
-                        find_traffic.update({ pathcount: find_traffic.pathcount + 1 })
-                        indviudal_traffic.update({ latestvisit: now, visitcount: indviudal_traffic.visitcount + 1 })
-                    }
-                } else {
-                    find_traffic.update({ pathcount: find_traffic.pathcount + 1, usercount: find_traffic.usercount + 1 })
-                    await Individualtraffic.create({ UserId: req.user.id, path: find_traffic.path, visitcount: 1, latestvisit: now })
-                }
-        
-            } else {
-                await Usertraffic.create({ UserId: req.user.id, path: pathUrl, pathcount: 1, usercount: 1 })
-                const new_traffic = await Usertraffic.findOne({ where: { path: pathUrl } })
-
-                await Individualtraffic.create({ UserId: req.user.id, path: new_traffic.path, visitcount: 1, latestvisit: now })
-            }
-    
             let user_id = req.user.id;
             const User_Card = await LoyaltyCard.findAll({
                 where: { authorID: user_id },
