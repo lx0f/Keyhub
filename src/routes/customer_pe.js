@@ -6,15 +6,22 @@ const fs = require('fs');
 const { Order } = require('../models/order');
 const upload = require('../configuration/imageUpload');
 
+
 PevaluationRouter.get('/:id', async (req, res) => {
     try {
         const product = await Product.findByPk(req.params.id);
         const ProductId = req.params.id;
         // console.log(ProductId);
-        res.render('./customers/page-product-evaluation', {
-            ProductId,
-            product,
-        });
+        const pe = await Pevaluation.findOne({where:{ProductId : req.params.id, UserId: req.user.id},})
+        if (pe){
+            req.flash('info',"You have rated on this product")
+            res.redirect("/account/orderhistory")
+        }else{
+            res.render('./customers/page-product-evaluation', {
+                ProductId,
+                product,
+            });
+        }
     } catch (e) {
         console.log(e);
     }

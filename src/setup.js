@@ -143,7 +143,7 @@ app.engine(
                 return today >= parsedDate;
             },
             convert(num) {
-                if (num == 0) return 1;
+                if (num == 0){return 0}
                 else {
                     return (num = (num / 5) * 100);
                 }
