@@ -72,7 +72,7 @@ PevaluationRouter.post('/:id', async function (req, res) {
         });
         req.flash(
             'success',
-            'Your Product evaluation sent susscessfully, Thank you'
+            'Your Product evaluation sent successfully, Thank you'
         );
         res.redirect('/');
     });
