@@ -29,14 +29,7 @@ customerManageAccountRouter.use((req, res, next) => {
 });
 
 
-customerManageAccountRouter.route("/").get((req, res) => {
-   
-    
-    res.render("./customers/page-profile-main")
 
-
-
-});
 
 customerManageAccountRouter.route('/').get(async(req, res) => {
     const nooforder = await (await Order.findAll({where:{UserId: req.user.id}})).length
