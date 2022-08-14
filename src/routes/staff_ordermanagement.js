@@ -296,38 +296,25 @@ OrderManagement.post('/delivery-detail/:id', async (req, res) => {
     const deliveryDetailId = req.params.id;
     const deliveryStage = req.body.deliveryStage;
     const nextDate = new Date();
-    const order = await DeliveryDetail.findByPk(req.params.id)
     const deliveryDetail = await DeliveryDetail.findByPk(deliveryDetailId);
+    const order = await Order.findByPk(deliveryDetail.OrderId);
     switch (deliveryStage) {
-        case 'complete':
-            deliveryDetail.CompleteDate = nextDate;
-            await Order.update(
-                {shipping_status: "received"},
-                {where:{ id: order.id}}
-            )
-
         case 'received':
+            deliveryDetail.CompleteDate = nextDate;
+            deliveryDetail.shipping_status = 'received'
+            order.shipping_status = 'received';
+            break;
+
+        case 'on the way':
             deliveryDetail.ReceivedDate = nextDate;
-            await Order.update(
-                {
-                shipping_status: "on the way"
-                },
-                {where:{
-                    id: order.id
-                }}
-            )
+            deliveryDetail.shipping_status = 'on the way'
+            order.shipping_status = 'on the way';
             break;
 
         case 'ship':
             deliveryDetail.ShipOutDate = nextDate;
-            await Order.update(
-                {
-                shipping_status: "shipped out"
-                },
-                {where:{
-                    id: order.id
-                }}
-            )
+            deliveryDetail.shipping_status = 'shipped out'
+            order.shipping_status = 'shipped out';
             break;
 
         default:
@@ -336,6 +323,7 @@ OrderManagement.post('/delivery-detail/:id', async (req, res) => {
     }
 
     deliveryDetail.save();
+    order.save();
     req.flash('success', 'Order delivery status successfully updated');
     res.redirect('/staff/manage-orders');
 });
