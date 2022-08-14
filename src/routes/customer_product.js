@@ -231,8 +231,5 @@ productRouter.get('/detail/:id', async (req, res) => {
     } catch (e) {
         console.log(e);
     }
-    const items = await display.length;
-    res.render('./customers/page-listing-grid', { display, items });
 });
-
 module.exports = productRouter;

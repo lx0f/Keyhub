@@ -23,6 +23,8 @@ const dataRouter = require('./data');
 
 const manageTicketRoute = require('./manage_tickets');
 
+const generateRouter = require('./generate');
+
 const staffpeRouter = require('./staff_pe');
 
 const loyaltyprogram = require('./manage_loyaltyprogram');
@@ -46,7 +48,11 @@ staffRouter.use('/product', productRouter);
 staffRouter.use('/manage-pe', staffpeRouter);
 staffRouter.use('/manage-orders', OrderManagement);
 // staffRouter.use("/manage-mail", manageMail);
+
+staffRouter.use('/generate', generateRouter);
+
 staffRouter.use('/manage-loyaltyprogram', loyaltyprogram);
+
 
 staffRouter.use('/data', dataRouter);
 
