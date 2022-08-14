@@ -87,19 +87,19 @@ Enjoy :)
   <form action="/order/paymentdata/{{OrderId}}" method="POST">
       <fieldset>
         <label for="card-number">Card Number</label>
-        <input type="num" id="card-number" class="input-cart-number" maxlength="4" />
-        <input type="num" id="card-number-1" class="input-cart-number" maxlength="4" />
-        <input type="num" id="card-number-2" class="input-cart-number" maxlength="4" />
-        <input type="num" id="card-number-3" name = "cardnum" class="input-cart-number" maxlength="4" />
+        <input type="num" id="card-number" class="input-cart-number" maxlength="4" required />
+        <input type="num" id="card-number-1" class="input-cart-number" maxlength="4" required/>
+        <input type="num" id="card-number-2" class="input-cart-number" maxlength="4" required/>
+        <input type="num" id="card-number-3" name = "cardnum" class="input-cart-number" maxlength="4" required/>
       </fieldset>
       <fieldset>
         <label for="card-holder">Card holder</label>
-        <input type="text" id="card-holder" />
+        <input type="text" id="card-holder" required/>
       </fieldset>
       <fieldset class="fieldset-expiration">
         <label for="card-expiration-month">Expiration date</label>
         <div class="select">
-          <select id="card-expiration-month">
+          <select id="card-expiration-month" required>
             <option></option>
             <option>01</option>
             <option>02</option>
@@ -116,7 +116,7 @@ Enjoy :)
           </select>
         </div>
         <div class="select">
-          <select id="card-expiration-year">
+          <select id="card-expiration-year" required>
             <option></option>
             <option>2022</option>
             <option>2023</option>
@@ -131,11 +131,16 @@ Enjoy :)
       </fieldset>
       <fieldset class="fieldset-ccv">
         <label for="card-ccv">CCV</label>
-        <input type="text" id="card-ccv" maxlength="3" />
+        <input type="text" id="card-ccv" maxlength="3" required/>
       </fieldset>
       
       <input type="hidden" name="OrderId" value="{{orderId}}">
-      <button class="button-1 btn-submit"><i class="fa fa-lock"></i> submit</button>
+      <button type="submit" class=" btn btn-dark" style="width: 100%;">
+		<div class="extra" style="margin: 5px;font-size:18px;font-weight:600;">
+			<i class="fa fa-lock"></i> Submit
+		</div>
+		
+		</button>
     </form>
 </div>
 

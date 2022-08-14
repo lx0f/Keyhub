@@ -38,13 +38,15 @@ customerManageAccountRouter.route("/").get((req, res) => {
 
 });
 
-customerManageAccountRouter.route('/').get((req, res) => {
-    res.render('./customers/page-profile-main');
+customerManageAccountRouter.route('/').get(async(req, res) => {
+    const nooforder = await (await Order.findAll({where:{UserId: req.user.id}})).length
+    const noofreview = await (await Pevaluation.findAll({where:{UserId: req.user.id}})).length
+    res.render('./customers/page-profile-main',{nooforder,noofreview});
 });
 
-customerManageAccountRouter.route('/').get((req, res) => {
-    res.render('./customers/page-profile-main');
-});
+// customerManageAccountRouter.route('/').get((req, res) => {
+//     res.render('./customers/page-profile-main');
+// });
 
 customerManageAccountRouter
     .route('/edit')
@@ -61,6 +63,13 @@ customerManageAccountRouter
                 user.imageFilePath = `uploads/${req.file.filename}`;
             }
 
+            console.log(req)
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+
             user.username = req.body.username || user.username;
             user.email = req.body.email || user.email;
             user.address = req.body.address || user.address;
@@ -75,9 +84,11 @@ customerManageAccountRouter
                 }
             }
             await user.save();
+            return res.redirect('/account')
         });
+     
 
-        return res.redirect('/account');
+       
     });
 
 customerManageAccountRouter.get('/orderhistory', async (req, res) => {
@@ -136,21 +147,21 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
             {
                 model: OrderItem,
                 include: {
-                    model: Product
-                }
-            },{
-                model: Cancelrequest
+                    model: Product,
+                },
             },
             {
-                model: Shippinginfo
+                model: Cancelrequest,
             },
             {
-                model: User
+                model: Shippinginfo,
             },
             {
-                model:Payment
-            }
-
+                model: User,
+            },
+            {
+                model: Payment,
+            },
         ],
         where: { Id: req.params.id },
     });
@@ -159,29 +170,34 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
             OrderId: order.id,
         },
     });
-    
+
+    console.log(order.shipping_status)
     // if the order is shipped out cannot be cancel
-    if(order.shipping_status != "pending"){
+    if (order.shipping_status == 'shipped out') {
         req.flash(
             'info',
             'Your order is shipped out, so you are not allowed to cancel it'
-        )
+        );
+        res.redirect('/account/orderhistory')
     }
-    // if the system automatically cancel the order:
 
+    // if the system automatically cancel the order:
+    // so means if the cancelrequest.length == 0 and order.order_status is Cancelled
+    // if (cancelrequest.length == 0 && order.order_status == 'Cancelled') {
+    //     req.flash('info', 'Your orer is cancelled since it is unpaid');
+    // }
     if (cancelrequest.length > 0) {
         req.flash(
             'info',
             'Your cancel request is in the progress, please check your email for new updates'
         );
         res.redirect('/account/orderhistory');
-    } else if( order.order_status == "Cancelled"){
+    } else if (order.order_status == 'Cancelled') {
         req.flash(
             'info',
             'The system already cancelled your order since the payment is not completed'
-        )
-    }
-    else {
+        );
+    } else {
         return res.render('./customers/orders/page-cancel-request', { order });
     }
 });
@@ -250,6 +266,7 @@ customerManageAccountRouter.route('/loyaltyprogram').get(async (req, res) => {
                 await Voucher.findAll()
             ).map((x) => x.dataValues);
             const voucherlist = await CustomerVoucher.findAll({
+                where:{UserId:req.user.id},
                 include: ['voucheritem', { model: User }],
             });
             const voucheritem = await (

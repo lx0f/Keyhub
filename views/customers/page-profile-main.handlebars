@@ -13,37 +13,21 @@
 <div class="row">
 	<aside class="col-md-3">
 		<ul class="list-group">
-			<a class="list-group-item active " href="/account"> Account overview  </a>
-			<a class="list-group-item " href="/account/orderhistory"> My Orders </a>
-			<a class="list-group-item" href="/account/review"> My Comments </a>
-			<a class="list-group-item" href="#"> Return and refunds </a>
-            <a class="list-group-item " href="/account/myvouchers"> Vouchers</a>
-			<a class="list-group-item " href="/account/loyaltyprogram"> Rewards Program</a>
+			<a class="list-group-item active" href="/account" style="background-color: black;border:none"> Account overview  </a>
+			<a class="list-group-item " href="/account/orderhistory" style="color: black;"> My Orders </a>
+			<a class="list-group-item" href="/account/review" style="color: black;"> My Comments </a>
+			<a class="list-group-item" href="#" style="color: black;"> Return and refunds </a>
+            <a class="list-group-item " href="/account/myvouchers" style="color: black;"> Vouchers</a>
+			<a class="list-group-item " href="/account/loyaltyprogram" style="color: black;"> Rewards Program</a>
 		</ul>
 		<br>
-		<article class="card  mb-3">
+		{{!-- <article class="card  mb-3">
 			<div class="card-body " >
 				<h5 class="card-title mb-4">Recent orders </h5>	
 				
 
 				
-				{{#each orders}}
-					<div class="row" >
-					{{#each this.OrderItems}}	
-					
-						<figure class="itemside mb-3" style="overflow-y:scroll ;">
-							<div class="aside"><img src="images/items/3.jpg" class="border img-sm"></div>
-							<figcaption class="info">
-								<time class="text-muted"><i class="fa fa-calendar-alt"></i> {{dateFormat this.createdAt 'DD MMM YYYY'}}</time>
-								<p>{{this.Product.name}} </p>
-								<span class="text-success">Pending </span>
-							</figcaption>
-						</figure>
-					 <!-- col.// -->
-					{{/each}}
-					</div>
-					<hr>
-				{{/each}}
+				
 				
 				
 					<figure class="itemside mb-3 order-scroll" style="overflow-y:scroll ;height:100px;">
@@ -65,7 +49,7 @@
 			<br>
 			 <!-- card-body .// -->
 		
-		</article> <!-- col.// -->
+		</article> <!-- col.// --> --}}
 	</aside>
 	<main class="col-md-9">
 		<article class="card mb-3">
@@ -99,7 +83,7 @@
 								
 								</p>
 								<br>
-							<button class="btn btn-primary" style="float: left;">
+							<button class="btn btn-dark" style="float: left;">
 							<a href="/account/edit" style="color:white;text-decoration:none;">Edit</a>
 						</button>
 							
@@ -113,7 +97,7 @@
 						</div>
 						<div class="edit" style="display:flex;justify-content: center;">
 							<button class="btn btn-light btn--m btn--inline" style="">
-							<a href="/account/edit" style="color:#3099F6;text-decoration:none;">Select Image</a>
+							<a href="/account/edit" style="color:black;text-decoration:none;">Select Image</a>
 						</button>
 						</div>
 						
@@ -127,25 +111,25 @@
 				<article class="card-group">
 					<figure class="card bg">
 						<div class="p-3">
-							 <h5 class="card-title">38</h5>
+							 <h5 class="card-title">{{nooforder}}</h5>
 							<span>Orders</span>
 						</div>
 					</figure>
-					<figure class="card bg">
+					{{!-- <figure class="card bg">
 						<div class="p-3">
 							 <h5 class="card-title">5</h5>
 							<span>Wishlists</span>
 						</div>
-					</figure>
-					<figure class="card bg">
+					</figure> --}}
+					{{!-- <figure class="card bg">
 						<div class="p-3">
 							 <h5 class="card-title">12</h5>
 							<span>Vouchers</span>
 						</div>
-					</figure>
+					</figure> --}}
 					<figure class="card bg">
 						<div class="p-3">
-							 <h5 class="card-title">50</h5>
+							 <h5 class="card-title">{{noofreview}}</h5>
 							<span>Comments</span>
 						</div>
 					</figure>
@@ -172,19 +156,6 @@
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
 
-<!-- ========================= FOOTER ========================= -->
-<footer class="section-footer border-top padding-y">
-	<div class="container">
-		<p class="float-md-right"> 
-			&copy Copyright 2019 All rights reserved
-		</p>
-		<p>
-			<a href="#">Terms and conditions</a>
-		</p>
-	</div><!-- //container -->
-</footer>
-<!-- ========================= FOOTER END // ========================= -->
-
 
 <style>
 	
@@ -206,5 +177,8 @@
 /* Handle on hover */
 .order-scroll::-webkit-scrollbar-thumb:hover {
   background: #555; 
+}
+.active{
+	background-color: black;
 }
 </style>

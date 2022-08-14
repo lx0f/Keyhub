@@ -76,6 +76,10 @@ dataRouter.get('/:data', async (req, res) => {
         );
         return res.status(200).json({ a });
     }
+    else if (req.params.data == 'chart-info-disabled') {
+        const d = await Chart.DisablePieChart(new Date(earliest_user), new Date())
+        return res.status(200).json({d});
+    }
 });
 
 module.exports = dataRouter;

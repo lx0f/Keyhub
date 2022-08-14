@@ -9,12 +9,20 @@ const upload = require('../configuration/imageUpload');
 PevaluationRouter.get('/:id', async (req, res) => {
     try {
         const product = await Product.findByPk(req.params.id);
-        const ProductId = product.id;
-        console.log(ProductId);
-        res.render('./customers/page-product-evaluation', {
-            ProductId,
-            product,
+        const ProductId = req.params.id;
+        // console.log(ProductId);
+        const pe = await Pevaluation.findOne({
+            where: { ProductId: req.params.id, UserId: req.user.id },
         });
+        if (pe) {
+            req.flash('info', 'You have rated on this product');
+            res.redirect('/account/orderhistory');
+        } else {
+            res.render('./customers/page-product-evaluation', {
+                ProductId,
+                product,
+            });
+        }
     } catch (e) {
         console.log(e);
     }
@@ -50,16 +58,21 @@ PevaluationRouter.post('/:id', async function (req, res) {
     // }).post(async (req, res) => {
 
     upload(req, res, async (err) => {
+        var fileName = null;
+        try {
+            fileName = req.file.filename;
+        } catch (error) {}
+
         Pevaluation.create({
             ProductId: req.params.id,
             UserId: req.user.id,
             ProductRating: req.body.ProductRating,
             ProductRemarks: req.body.ProductRemarks,
-            imageFilePath1: `uploads/${req.file.filename}`,
+            imageFilePath1: fileName ? `uploads/${req.file.filename}` : null,
         });
         req.flash(
             'success',
-            'Your Product evaluation sent susscessfully, Thank you'
+            'Your Product evaluation sent successfully, Thank you'
         );
         res.redirect('/');
     });

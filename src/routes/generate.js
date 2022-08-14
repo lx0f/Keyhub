@@ -1,6 +1,8 @@
 const generateRouter = require('express').Router();
 const { jsPDF } = require('jspdf');
+
 require('jspdf-autotable');
+const PDF = require('../models/Pdf');
 
 const chartJsImg = require('chartjs-to-image');
 const docs = new jsPDF('p', 'mm', 'a4');
@@ -9,6 +11,7 @@ const GenerateImageCharts = require('./createCharts');
 const Chart = require('./pipeline');
 const User = require('../models/User');
 const bucket = require('../configuration/cloudStorage');
+
 
 const width = docs.internal.pageSize.getWidth();
 const height = docs.internal.pageSize.getHeight();
@@ -53,6 +56,7 @@ generateRouter.route('/chart').get(async (req, res) => {
     const yearlyPath = await generateImageCharts.GenerateLineUserChartYearly();
     await generateImageCharts.GeneratePieChart();
     await generateImageCharts.GenerateDoughnutChart();
+    await generateImageCharts.GenerateDisabledChart();
     const doc = new jsPDF();
 
     doc.setFont('Helvetica');
@@ -134,14 +138,34 @@ generateRouter.route('/chart').get(async (req, res) => {
         120
     );
 
-    const filename = `KeyHubReport ${from}-${to}.pdf`;
+    doc.addImage(
+        'data:image/png;base64,' + require("fs").readFileSync("disabledChart.png", "base64"),'png', 
+        -5, 165, 205, 120
+    )
+
+    const filename = `KeyHubReports ${from}-${to}.pdf`;
 
     doc.save(filename);
 
-    const upload = await bucket.upload(filename);
-    console.log(upload);
+    try {
+        const upload = await bucket.upload(filename);
+        await PDF.create({
+            link: `https://storage.googleapis.com/keyhub-files/KeyHubReports%20${from}-${to}.pdf`,
+            name: filename,
+        });
 
-    res.download(`KeyHubReport ${from}-${to}.pdf`);
+        console.log(upload);
+
+        res.download(`KeyHubReports ${from}-${to}.pdf`);
+    } catch (e) {
+        console.log(e);
+        res.download(`KeyHubReports ${from}-${to}.pdf`);
+    }
+});
+
+generateRouter.route('/overview').get(async (req, res) => {
+    const pdfs = (await PDF.findAll()).map((x) => x.dataValues);
+    res.render('./staff/staff-pdf', { pdfs });
 });
 
 module.exports = generateRouter;

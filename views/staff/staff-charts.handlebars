@@ -301,7 +301,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
 </style>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
-  <form class="modal-dialog modal-dialog-centered" style="width: 800px" method="GET" action="/generate/chart">
+  <form class="modal-dialog modal-dialog-centered" style="width: 800px" method="GET" action="/staff/generate/chart">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -316,16 +316,14 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
           <p>
           <div class="form-row">
             <div class="col">
-              <h4>Date From</h4>
+            Date From
               <input type="date" name="from" style="display: inline-block ">
               </p>
             </div>
 
-            <div class="col" style="position: relative; bottom: 16px; margin-right: 80px">
+            <div class="col" style="margin-right: 60px">
               <p>
-              <h4>
                 Date To
-              </h4>
               <input type="date" style="display: inline-block " name="to">
               </p>
             </div>
@@ -351,12 +349,15 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
 
 
   <!-- Page Heading -->
-  <h1 class="h3 mb-2 text-gray-800">Charts</h1>
+<h3 style="color:#f1f1f200">Invisible</h3>
   <!-- Content Row -->
   <div class="whitebutton" style="position: relative; padding: 30px;float: right; right: 50px; bottom: 90px;">
 
-    <a href="/generate/chart" data-toggle="modal" data-target="#exampleModalCenter">Download Report</a><br>
+    <a href="/staff/generate/chart" data-toggle="modal" data-target="#exampleModalCenter">Download Report</a><br>
+   
   </div>
+
+   <a href="/staff/generate/overview"  style="position: relative; left: 67%; bottom: 35px" class="btn btn-primary">Archived PDFs</a>
 
   <div class="row">
 
@@ -393,7 +394,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
                   <div class="h5 mb-0 font-weight-bold text-gray-800">{{users}}</div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                  <i class="fas fa-users fa-2x" ></i>
                 </div>
               </div>
             </div>
@@ -411,7 +412,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
                   <div class="h5 mb-0 font-weight-bold text-gray-800">{{messages}}</div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                 <i class="fas fa-comment-dots fa-2x"></i>
                 </div>
               </div>
             </div>
@@ -439,7 +440,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
                   </div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                <i class="fas fa-truck fa-2x"></i>
                 </div>
               </div>
             </div>
@@ -457,7 +458,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
                   <div class="h5 mb-0 font-weight-bold text-gray-800">{{loyaltyCards}}</div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-comments fa-2x text-gray-300"></i>
+                  <i class="fas fa-address-card fa-2x"></i>
                 </div>
               </div>
             </div>
@@ -470,22 +471,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <div class="tile" id="tile-1" style="margin-top: 10px;margin-left: 10px; width: 130%;">
+      <div class="tile" id="tile-1" style="margin-top: 10px;margin-left: 10px; width: 1000px;">
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs nav-justified" role="tablist">
@@ -551,9 +537,24 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
           </div>
 
         </div>
-
+        
       </div>
 
+      <div class="card shadow mb-4" style="margin-top: 400px;margin-left: 25px; width: 970px;">
+        <div class="card-header py-3" >
+            <h6 class="m-0 font-weight-bold text-primary">Inventory Stocks</h6>
+        </div>
+        <div class="card-body">
+            <div class="chart-bar">
+                <canvas id="InventoryReportBarchart"></canvas>
+            </div>
+            <hr>
+            <div class="text-center">
+                <h5 class="small"><b>Inventory Stocks</b></h5>
+                <h4 class="small font-weight-bold text-primary">Stock Of All Products</h4>
+            </div>
+        </div>
+      </div>  
 
 
 
@@ -973,9 +974,9 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
               <div class="card-body">
                 <div class="chart-area">
                  
-<canvas id="pie-chart" style="width:70%;max-width:700px;"></canvas>
+<canvas id="pie-chart" style="width:70%;max-width:700px; margin-left: 50px"></canvas>
                 </div>
-                <hr>
+                 <hr style="margin-top: 40px">
 
               </div>
             </div>
@@ -986,9 +987,23 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
               <div class="card-body">
                 <div class="chart-area">
                  
-<canvas id="doughnut-chart" style="width:70%;max-width:700px;"></canvas>
+<canvas id="doughnut-chart" style="width:70%;max-width:700px;margin-left: 50px"></canvas>
                 </div>
-                <hr>
+                  <hr style="margin-top: 40px">
+
+              </div>
+            </div>
+
+                  <div class="card shadow mb-4" style="position: relative; top: 350px; left: 30px;max-width: 900px;">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Proportion of Active and Disabled Accounts</h6>
+              </div>
+              <div class="card-body" >
+                <div class="chart-area" style=" padding-bottom: 120px ">
+                 
+<canvas id="disabled-chart" style="width:70%;max-width:700px;margin-left: 50px"></canvas>
+                </div>
+                <hr style="margin-top: 40px">
 
               </div>
             </div>
@@ -1013,7 +1028,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
 
 
             <br>
-
+ <script async src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
 
   <script>
 const a = $.get('/staff/data/chart-info-pie')
@@ -1034,6 +1049,14 @@ const mychart = new Chart(document.getElementById("pie-chart").getContext("2d"),
       title: {
         display: true,
         text: 'Proportion of Staff and Customers'
+      },
+      plugins: {
+        labels: {
+          fontSize: 14,
+          fontColor: '#fff',
+          fontStyle: 'bold'
+
+        }
       }
     }
 });
@@ -1060,10 +1083,10 @@ console.log("hihiihihihihihihih")
 const mychart = new Chart(document.getElementById("doughnut-chart").getContext("2d"), {
     type: 'doughnut',
     data: {
-      labels: ["Local", "OAuth"],
+      labels: ["OAuth", "Local"],
       datasets: [{
         label: "Population (millions)",
-        backgroundColor: ["#b2e061", "#fd7f6f"],
+        backgroundColor: ["#7289da", "#282b30"],
         data: Object.values(JSON.parse(a.a))
       }]
     },
@@ -1071,6 +1094,14 @@ const mychart = new Chart(document.getElementById("doughnut-chart").getContext("
       title: {
         display: true,
         text: 'Proportion of Local and OAuth Accounts'
+      },
+      plugins: {
+        labels: {
+          fontSize: 14,
+          fontColor: '#fff',
+          fontStyle: 'bold'
+
+        }
       }
     }
 });
@@ -1080,13 +1111,166 @@ const mychart = new Chart(document.getElementById("doughnut-chart").getContext("
 
   </script>
 
-  <script>
-    console.log("WHAT THE FUCK")
-     console.log("WHAT THE FUCK")
-      console.log("WHAT THE FUCK")
-       console.log("WHAT THE FUCK")
-        console.log("WHAT THE FUCK")
-         console.log("WHAT THE FUCK")
+
+
+
+
+
+
+    <script>
+const p = $.get('/staff/data/chart-info-disabled')
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+p.done(function (data) {
+
+const mychart = new Chart(document.getElementById("disabled-chart").getContext("2d"), {
+    type: 'doughnut',
+    data: {
+      labels: ["Disabled", "Active"],
+      datasets: [{
+        label: "Population (millions)",
+        backgroundColor: ["#fd7f6f", '#7CBB5D'],
+        data: Object.values(JSON.parse(data.d))
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Proportion of Active and Disabled Accounts'
+      },
+      plugins: {
+        labels: {
+          fontSize: 14,
+          fontColor: '#fff',
+          fontStyle: 'bold'
+
+        }
+      }
+    }
+});
+})
+
+
+
   </script>
+
+
+  <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+
+  </script>
+  <script>
+    // Your Products Bar Chart
+    var getInventoryData = $.get('/staff/InventoryReport')
+    var ctx6 = document.getElementById("InventoryReportBarchart");
+    getInventoryData.done(function(data){
+    var stock = []
+    var name = []
+    // console.log(data.data)
+    data.data.forEach(element => {
+      stock.push(element["Stocks"])
+      name.push(element["ProductName"])
+      // console.log(element["Stocks"])
+      // console.log("hi")
+      
+    });
+  
+      var mybarChart = new Chart(ctx6, {
+      type: 'bar',
+      data: {
+        labels: name,
+        datasets: [{
+          label: "Current Stock",
+          lineTension: 0.3,
+          backgroundColor: "blue",
+          borderColor: "rgba(78, 115, 223, 1)",
+          pointRadius: 3,
+          pointBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointBorderColor: "rgba(78, 115, 223, 1)",
+          pointHoverRadius: 3,
+          pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+          pointHitRadius: 10,
+          pointBorderWidth: 2,
+          data: stock,
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 10,
+            right: 25,
+            top: 25,
+            bottom: 0
+          }
+        },
+        scales: {
+          xAxes: [{
+            time: {
+              unit: 'productname'
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 7
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              min: 0,
+              padding: 10,
+              // Include a dollar sign in the ticks
+              callback: function(value, index, values) {
+                return number_format(value);
+              }
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          titleMarginBottom: 10,
+          titleFontColor: '#6e707e',
+          titleFontSize: 14,
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          intersect: false,
+          mode: 'index',
+          caretPadding: 10,
+          callbacks: {
+            label: function(tooltipItem, chart) {
+              var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+              return datasetLabel + " "+ number_format(tooltipItem.yLabel);
+            }
+          }
+        }
+      }
+    });
+
+  })
+  </script>
+  
 </div>
 

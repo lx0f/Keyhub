@@ -1,3 +1,170 @@
+
+<div class="chat-container">
+	<header class="chat-header">
+		<h1><i class="fas fa-smile"></i> KeyhubChat</h1>
+		<a href="/" class="button">Leave Room</a>
+	</header>
+	<main class="chat-main">
+		<div class="chat-sidebar">
+			<h3><i class="fas fa-comments"></i> Room Name:</h3>
+
+			{{#each all_rooms}}
+			<a href="/community/chat/{{this}}">
+				<h2 style="color:white; max-width: 300px" id="room-name"><a href="/community/chat/{{this}}" style="color: white">{{this}}</a>
+				
+				<button
+						style="display:inline-block;margin-left: 55%; background-color:#1f1f20; border:#1f1f20"><i
+							class="fa fa-refresh invis" data-toggle="modal" data-target="#update-{{this}}"style="" aria-hidden="true"></i></button>
+					<button style="display:inline-block;background-color:#1f1f20; border:#1f1f20"><i class="fa fa-trash invis"
+							aria-hidden="true" style="margin-left: 5px;" data-toggle="modal" data-target="#delete-{{this}}"></i></button>
+						
+				</h2>
+	
+
+
+
+<div class="modal fade" id="update-{{this}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle" style="color: black">Update {{this}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                <form method="POST" action="/community/chat/update-room">
+
+					
+					<div class="form-group ">
+						<label style="color:black">Room name</label>
+					    <input class="form-control" name="name" value="{{this}}" type="text" required>
+						<input name="prev_name" value="{{this}}" type="hidden">
+					</div> <!-- form-group end.// --> 
+	
+				
+			    <div class="form-group">
+			        <button type="submit" class="btn btn-primary btn-block"> Update Room </button>
+			    </div> 
+				
+				
+				<!-- form-group// -->     
+</form>
+
+		
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="delete-{{this}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle" style="color: black">Are You Sure You Want To Delete {{this}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                <form method="POST" action="/community/chat/delete-room">
+
+			
+					    <input class="form-control" name="delete" value="{{this}}" type="hidden" required>
+			
+	
+				
+			    <div class="form-group">
+			        <button type="submit" class="btn btn-danger btn-block"> Delete Room </button>
+			    </div> 
+				
+				
+				<!-- form-group// -->     
+</form>
+
+		
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+
+
+
+			{{/each}}
+			<!-- Button trigger modal -->
+			{{#equals user.isStaff 1}}
+			<button type="button" style="margin-bottom: 50px;" class="btn btn-primary" data-toggle="modal"
+				data-target="#exampleModalCenter">
+				Add Chat Room
+			</button>
+
+			{{/equals}}
+
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCenterTitle" style="color: black">Create a room</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form method="POST" action="/community/chat/create-room">
+
+
+								<div class="form-group ">
+									<label style="color:black">Room name</label>
+									<input class="form-control" name="name" type="text" required>
+								</div> <!-- form-group end.// -->
+
+
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary btn-block"> Create Room </button>
+								</div>
+
+
+								<!-- form-group// -->
+							</form>
+
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+			
+
+		</div>
+		<div class="chat-messages">
+
+			{{#each messages}}
+			<div class="message">
+				<p class="meta">{{this.username}}<span> {{this.time}}</span></p>
+				<p class="text">
+					{{this.text}}
+				</p>
+			</div>
+			{{/each}}
+		</div>
+	</main>
+	<div class="chat-form-container">
+		<form id="chat-form">
+			<input id="msg" type="text" placeholder="Enter Message" required autocomplete="off" />
+			<button class="button"><i class="fas fa-paper-plane"></i> Send</button>
+		</form>
+	</div>
+</div>
 <style>
 	@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
@@ -9,19 +176,23 @@
 		--error-color: #d9534f;
 	}
 
-	* {
-		box-sizing: border-box;
-		margin: 0;
-		padding: 0;
+	
+{{#equals user.isStaff 1}}
+	.invis {
+		color:#ffffff;
+		display: inline-block
 	}
+{{/equals}}
 
-	body {
-		font-family: 'Roboto', sans-serif;
-		font-size: 16px;
-
-		margin: 20px;
+{{#equals user.isStaff 0}}
+	.invis {
+		color:#1f1f20;
+		display: none
 	}
+{{/equals}}
 
+
+	
 	ul {
 		list-style: none;
 	}
@@ -192,170 +363,6 @@
 		}
 	}
 </style>
-<div class="chat-container">
-	<header class="chat-header">
-		<h1><i class="fas fa-smile"></i> KeyhubChat</h1>
-		<a href="/" class="button">Leave Room</a>
-	</header>
-	<main class="chat-main">
-		<div class="chat-sidebar">
-			<h3><i class="fas fa-comments"></i> Room Name:</h3>
-
-			{{#each all_rooms}}
-			<a href="/community/chat/{{this}}">
-				<h2 style="color:white; max-width: 300px" id="room-name"><a href="/community/chat/{{this}}" style="color: white">{{this}}</a><button
-						style="display:inline-block;margin-left: 55%; background-color:#1f1f20; border:#1f1f20"><i
-							class="fa fa-refresh" data-toggle="modal" data-target="#update-{{this}}"style="color: white" aria-hidden="true"></i></button>
-					<button style="display:inline-block;background-color:#1f1f20; border:#1f1f20"><i class="fa fa-trash"
-							aria-hidden="true" style="margin-left: 5px; color:white;" data-toggle="modal" data-target="#delete-{{this}}"></i></button>
-				</h2>
-	
-
-
-
-<div class="modal fade" id="update-{{this}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle" style="color: black">Update {{this}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-                <form method="POST" action="/community/chat/update-room">
-
-					
-					<div class="form-group ">
-						<label style="color:black">Room name</label>
-					    <input class="form-control" name="name" value="{{this}}" type="text" required>
-						<input name="prev_name" value="{{this}}" type="hidden">
-					</div> <!-- form-group end.// --> 
-	
-				
-			    <div class="form-group">
-			        <button type="submit" class="btn btn-primary btn-block"> Update Room </button>
-			    </div> 
-				
-				
-				<!-- form-group// -->     
-</form>
-
-		
-      </div>
-     
-    </div>
-  </div>
-</div>
-
-
-
-
-
-<div class="modal fade" id="delete-{{this}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle" style="color: black">Are You Sure You Want To Delete {{this}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-                <form method="POST" action="/community/chat/delete-room">
-
-			
-					    <input class="form-control" name="delete" value="{{this}}" type="hidden" required>
-			
-	
-				
-			    <div class="form-group">
-			        <button type="submit" class="btn btn-danger btn-block"> Delete Room </button>
-			    </div> 
-				
-				
-				<!-- form-group// -->     
-</form>
-
-		
-      </div>
-     
-    </div>
-  </div>
-</div>
-
-
-
-
-			{{/each}}
-			<!-- Button trigger modal -->
-			{{#equals user.isStaff 1}}
-			<button type="button" style="margin-bottom: 50px;" class="btn btn-primary" data-toggle="modal"
-				data-target="#exampleModalCenter">
-				Add Chat Room
-			</button>
-
-			{{/equals}}
-
-
-			<!-- Modal -->
-			<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-				aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalCenterTitle" style="color: black">Create a room</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form method="POST" action="/community/chat/create-room">
-
-
-								<div class="form-group ">
-									<label style="color:black">Room name</label>
-									<input class="form-control" name="name" type="text" required>
-								</div> <!-- form-group end.// -->
-
-
-								<div class="form-group">
-									<button type="submit" class="btn btn-primary btn-block"> Create Room </button>
-								</div>
-
-
-								<!-- form-group// -->
-							</form>
-
-
-						</div>
-
-					</div>
-				</div>
-			</div>
-			<h3><i class="fas fa-users"></i>Online Users In This Room: {{user_count}}</h3>
-
-		</div>
-		<div class="chat-messages">
-
-			{{#each messages}}
-			<div class="message">
-				<p class="meta">{{this.username}}<span> {{this.time}}</span></p>
-				<p class="text">
-					{{this.text}}
-				</p>
-			</div>
-			{{/each}}
-		</div>
-	</main>
-	<div class="chat-form-container">
-		<form id="chat-form">
-			<input id="msg" type="text" placeholder="Enter Message" required autocomplete="off" />
-			<button class="button"><i class="fas fa-paper-plane"></i> Send</button>
-		</form>
-	</div>
-</div>
-
 
 <script src="/socket.io/socket.io.js"></script>
 

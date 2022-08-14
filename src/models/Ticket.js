@@ -19,7 +19,7 @@ Ticket.init(
             unique: false,
         },
         description: {
-            type: Sequelize.DataTypes.STRING(500),
+            type: Sequelize.DataTypes.STRING(9000),
             allowNull: true,
             unique: false,
         },
