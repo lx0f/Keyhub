@@ -6,13 +6,15 @@ const { VoucherItem } = require('../models/CustomerVoucher');
 const manageVoucher = express.Router();
 const { Mail, transporter } = require('../configuration/nodemailer');
 const Redeemables = require('../models/Redeemables');
+const { Usertraffic, Individualtraffic } = require("../models/Usertraffic");
 const cron = require('node-cron');
 const moment = require('moment');
 require('dotenv').config();
 const fetch = require('node-fetch');
 
-
 const url = require('url');
+
+
 
 
 // let sendSmtpEmail = new Sib.SendSmtpEmail();
@@ -97,9 +99,31 @@ manageVoucher.route('/').get(async (req, res) => {
 
 });
 manageVoucher.get("/test", async (req, res) => {
-  const path = url.parse(req.url).path;
-  var fullUrl = req.originalUrl;
-  res.render("./staff/voucher/testing",{path,fullUrl})
+
+    var pathUrl = req.originalUrl
+    const find_traffic = await Usertraffic.findOne({ where: { path: pathUrl } })
+    var now = moment().format('YYYY-MM-DD HH:mm:ss');
+
+    if (find_traffic) {
+        const indviudal_traffic = await Individualtraffic.findOne({ where: { path: find_traffic , UserId:1} })
+        if (indviudal_traffic) {
+            var latestvisit = moment(indviudal_traffic.latestvisit).format('YYYY-MM-DD HH:mm:ss');
+            if ((now - latestvisit) >= 3) {
+                find_traffic.update({ pathcount: find_traffic.pathcount + 1 })
+                indviudal_traffic.update({latestvisit:now,visitcount:indviudal_traffic.visitcount + 1})
+            }
+        } else {
+            await Individualtraffic.create({ UserId: 1, path: find_traffic.path,visitcount:1,latestvisit:now })
+        }
+        
+    } else {
+        await Usertraffic.create({ UserId: 1, path: pathUrl, pathcount: 1, usercount: 1 })
+        const new_traffic = await Usertraffic.findOne({ where: { path: pathUrl } })
+
+        await Individualtraffic.create({ UserId: 1, path: new_traffic.path,visitcount:1,latestvisit:now })
+    }
+
+  res.render("./staff/voucher/testing")
 
 });
 

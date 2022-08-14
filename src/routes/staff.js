@@ -2,7 +2,6 @@ const express = require('express');
 
 const { restart } = require('nodemon');
 const User = require('../models/user');
-const LoyaltyCard = require('../models/LoyaltyCard');
 const Message = require('../models/Message');
 const { Order } = require('../models/order');
 
@@ -29,6 +28,8 @@ const loyaltyprogram = require('./manage_loyaltyprogram');
 
 const Chart = require('./pipeline');
 
+const usertraffic = require("./manage_traffic");
+
 enableDebugMode(false);
 
 staffRouter.use((req, res, next) => {
@@ -47,7 +48,7 @@ staffRouter.use('/manage-pe', staffpeRouter);
 staffRouter.use('/manage-orders', OrderManagement);
 // staffRouter.use("/manage-mail", manageMail);
 staffRouter.use('/manage-loyaltyprogram', loyaltyprogram);
-
+staffRouter.use('/manage-traffic', usertraffic);
 staffRouter.use('/data', dataRouter);
 
 staffRouter.route('/').get(async (req, res) => {
