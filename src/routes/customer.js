@@ -56,9 +56,7 @@ customerRouter.route('/logout').get((req, res) => {
     res.redirect('/login');
 });
 
-customerRouter
-.route('/')
-.get(async (req, res) => {
+customerRouter.route('/').get(async (req, res) => {
     const popularProducts = await Product.findAll();
     const firstProduct = popularProducts.pop(0);
     return res.render('./customers/home', { firstProduct, popularProducts });
