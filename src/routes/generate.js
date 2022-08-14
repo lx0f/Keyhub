@@ -136,7 +136,7 @@ generateRouter.route('/chart').get(async (req, res) => {
         120
     );
 
-    const filename = `KeyHubReport ${from}-${to}.pdf`;
+    const filename = `KeyHubReports ${from}-${to}.pdf`;
 
     doc.save(filename);
 
@@ -144,17 +144,17 @@ generateRouter.route('/chart').get(async (req, res) => {
  
 try{
     const upload = await bucket.upload(filename)
-    await PDF.create({link: `https://storage.googleapis.com/keyhub-files/KeyHubReport%20${from}-${to}.pdf`, name: filename})
+    await PDF.create({link: `https://storage.googleapis.com/keyhub-files/KeyHubReports%20${from}-${to}.pdf`, name: filename})
 
     console.log(upload);
 
 
-    res.download(`KeyHubReport ${from}-${to}.pdf`);
+    res.download(`KeyHubReports ${from}-${to}.pdf`);
  
 }
 catch(e) {
     console.log(e)
-    res.download(`KeyHubReport ${from}-${to}.pdf`);
+    res.download(`KeyHubReports ${from}-${to}.pdf`);
 }
    
 
