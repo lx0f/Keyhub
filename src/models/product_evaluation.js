@@ -39,14 +39,17 @@ Pevaluation.init(
         imageFilePath1: {
             type: Sequelize.DataTypes.STRING,
             defaultValue: 'uploads/unknownimage.png',
+            allowNull: true,
         },
         imageFilePath2: {
             type: Sequelize.DataTypes.STRING,
             defaultValue: 'uploads/unknownimage.png',
+            allowNull: true,
         },
         imageFilePath3: {
             type: Sequelize.DataTypes.STRING,
             defaultValue: 'uploads/unknownimage.png',
+            allowNull: true,
         },
     },
     {

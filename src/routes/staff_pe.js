@@ -65,10 +65,14 @@ PevaluationRouter.get('/evaluationdetail/:id', async function (req, res) {
         const count1 = onestar.length;
 
         const count = review.length;
-
-        const average =
+        console.log(1)
+        console.log(count1)
+        let average =
             (count5 * 5 + count4 * 4 + count3 * 3 + count2 * 2 + count1 * 1) /
             count;
+        if (count == 0) {
+            average = 0;
+        }
         res.render('./staff/productevaluation/staff-evaluationdetail', {
             review,
             count,
