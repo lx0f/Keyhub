@@ -300,21 +300,20 @@ OrderManagement.post('/delivery-detail/:id', async (req, res) => {
         case 'received':
             deliveryDetail.CompleteDate = nextDate;
 
-            deliveryDetail.shipping_status = 'received'
+            deliveryDetail.shipping_status = 'received';
             order.shipping_status = 'received';
             break;
-
 
         case 'on the way':
             deliveryDetail.ReceivedDate = nextDate;
 
-            deliveryDetail.shipping_status = 'on the way'
+            deliveryDetail.shipping_status = 'on the way';
             order.shipping_status = 'on the way';
             break;
 
         case 'ship':
             deliveryDetail.ShipOutDate = nextDate;
-            deliveryDetail.shipping_status = 'shipped out'
+            deliveryDetail.shipping_status = 'shipped out';
             order.shipping_status = 'shipped out';
             break;
 

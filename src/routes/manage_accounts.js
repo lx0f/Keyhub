@@ -19,7 +19,7 @@ manageAccountRoute
         user.isStaff = req.body.isStaff || user.isStaff;
         user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
-        user.address = req.body.address || user.address
+        user.address = req.body.address || user.address;
         if (req.body.password) {
             user.password = req.body.password; //unable to use short circuit eval as hashed password
         }
@@ -78,13 +78,15 @@ manageAccountRoute.get('/:id', async (req, res) => {
     const id = req.params.id;
     const user = await User.findByPk(id);
     if (user) {
-        const img =    'data:image/png;base64, ' +
-        require('fs').readFileSync(
-            `public/${user.dataValues.imageFilePath}`,
-            'base64'
-        );
+        const img =
+            'data:image/png;base64, ' +
+            require('fs').readFileSync(
+                `public/${user.dataValues.imageFilePath}`,
+                'base64'
+            );
         return res.render('./staff/staff-manage-account', {
-            user: user.dataValues, img //what happens when no id
+            user: user.dataValues,
+            img, //what happens when no id
         });
     }
     req.flash('error', 'No such account!');
