@@ -59,9 +59,25 @@
 												</div>
 											</form>
 											
-											<div style="width:{{convert this.ProductRating}}%" class="stars-active">
-												<img src="/images/misc/stars-active.svg" alt="" style="z-index:2;"> <small class="label-rating text-muted" style="padding-left:10px;"> Commented on  {{dateFormat this.createdAt 'DD MMM YYYY'}}</small>
+
+
+											<div class="rating-wrap">
+												<ul class="rating-stars" style="display: inline-block;vertical-align: middle;list-style: none;margin: 0;padding: 0;position: relative;white-space: nowrap;clear: both;">
+                                                <li  class="stars-active" style="width:{{convert this.ProductRating}}%;z-index: 2;position: absolute;top: 0;left: 0;overflow:hidden">
+                                                    <img src="/images/misc/stars-active.svg" alt="">
+                                                </li>
+                                                <li style="display: block;text-overflow: clip;white-space: nowrap;z-index: 1;"> 
+													<img src="/images/misc/starts-disable.svg" alt=""> 
+												</li>
+                                            </ul>
+											<b class="dot"></b>
+											<small class="label-rating text-muted" style="padding-left:10px;"> Commented on  {{dateFormat this.createdAt 'DD MMM YYYY'}}</small>
+
 											</div>
+											
+											
+											
+											
 
 											<br>
 											{{#notequals this.imageFilePath1 null}}
@@ -110,11 +126,24 @@
 				<div class="mt-3" style="text-align:center;">
 					<b class="label-rating text-lg"> {{average}}  out of 5 </b>	
 					{{!-- <ul class="stars-lg" style="list-style: none;"> --}}
-					<div style="width:{{convert average}}% " class="stars-active"  style="padding-right:100px;"> <img src="/images/misc/stars-active.svg" alt=""> </div>
+					
 						{{!-- {{convert average}} --}}
 						{{!-- <li> <img height="520" src="/images/misc/starts-disable.svg" alt=""> </li> --}}
 					{{!-- </ul> --}}
+						<div class="rating-wrap">
+							<ul class="rating-stars" style="display: inline-block;vertical-align: middle;list-style: none;margin: 0;padding: 0;position: relative;white-space: nowrap;clear: both;">
+								<li  class="stars-active" style="width:{{convert average}}%;z-index: 2;position: absolute;top: 0;left: 0;overflow:hidden">
+									<img src="/images/misc/stars-active.svg" alt="">
+								</li>
+								<li style="display: block;text-overflow: clip;white-space: nowrap;z-index: 1;"> 
+									<img src="/images/misc/starts-disable.svg" alt=""> 
+								</li>
+							</ul>
 						
+
+						</div>
+						<br>
+											
 				</div> <!-- rating-wrap.// -->
 				{{!-- <p class="mt-1 text-muted"> {{count}} reviews </p> --}}
 
