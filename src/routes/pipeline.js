@@ -229,7 +229,7 @@ class Chart {
         });
 
         data.push(
-            moment(data[data.length - 1][0], 'MM/DD/YYYY')
+            moment(data[data.length - 1], 'MM/DD/YYYY')
                 .add(1, 'days')
                 .format('MM/DD/YYYY')
         );
@@ -258,7 +258,7 @@ class Chart {
         });
 
         data.push(
-            moment(data[data.length - 1][0], 'MM/DD/YYYY')
+            moment(data[data.length - 1], 'MM/DD/YYYY')
                 .add(1, 'days')
                 .format('MM/DD/YYYY')
         );
@@ -277,6 +277,50 @@ class Chart {
 
         return JSON.stringify({ Customers, Staff });
     }
+
+    static async DisablePieChart(to, from) {
+        let data = dateSpan(to, from);
+
+        data = data.map((v) => {
+            const isoDate = v.toISOString().slice(0, 10).split('-');
+            return [isoDate[1], isoDate[isoDate.length - 1], isoDate[0]].join(
+                '/'
+            );
+        });
+
+        data.push(
+            moment(data[data.length - 1], 'MM/DD/YYYY')
+                .add(1, 'days')
+                .format('MM/DD/YYYY')
+        );
+
+        data.shift();
+       
+
+
+        console.log("WFIOJIFIOFJWIFW")
+        console.log("WFIOJIFIOFJWIFW")
+
+        console.log("WFIOJIFIOFJWIFW")
+
+        console.log("WFIOJIFIOFJWIFW")
+
+
+        const disabled = (await User.findAll({ where: { disabled:1 } }))
+            .filter((x) => data.includes(x.dataValues.date))
+            .map((x) => x.dataValues).length;
+
+        const active = (
+            await User.findAll({ where: {disabled: 0 } })
+        )
+            .filter((x) => data.includes(x.dataValues.date))
+            .map((x) => x.dataValues).length;
+
+        return JSON.stringify({ disabled, active });
+    }
+
+
+    
 }
 
 module.exports = Chart;
