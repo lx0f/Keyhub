@@ -140,7 +140,7 @@ ShoppingCart.post('/postcart', async (req, res) => {
                 'error',
                 `ProductId:${req.body.productId} is out of stock!`
             );
-            return res.redirect('/');
+            return res.status(200).redirect('back');
         }
         // find cart or create
         let cart = {};
@@ -180,7 +180,7 @@ ShoppingCart.post('/postcart', async (req, res) => {
                     'error',
                     `ProductId:${req.body.productId} stock left with${addProduct.stock}!`
                 );
-                // return res.redirect('back')
+                return res.status(200).redirect('back');
             }
             product.quantity += 1;
         }
@@ -188,7 +188,8 @@ ShoppingCart.post('/postcart', async (req, res) => {
 
         // save cartId in session
         req.session.cartId = cart.id;
-        return res.redirect('/cart');
+        req.flash('success','Items add to cart successfully')
+        return res.status(200).redirect('back');
     } catch (e) {
         console.log(e);
     }

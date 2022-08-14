@@ -28,13 +28,15 @@ customerManageAccountRouter.use((req, res, next) => {
     next();
 });
 
-customerManageAccountRouter.route('/').get((req, res) => {
-    res.render('./customers/page-profile-main');
+customerManageAccountRouter.route('/').get(async(req, res) => {
+    const nooforder = await (await Order.findAll({where:{UserId: req.user.id}})).length
+    const noofreview = await (await Pevaluation.findAll({where:{UserId: req.user.id}})).length
+    res.render('./customers/page-profile-main',{nooforder,noofreview});
 });
 
-customerManageAccountRouter.route('/').get((req, res) => {
-    res.render('./customers/page-profile-main');
-});
+// customerManageAccountRouter.route('/').get((req, res) => {
+//     res.render('./customers/page-profile-main');
+// });
 
 customerManageAccountRouter
     .route('/edit')
