@@ -16,7 +16,7 @@ const loyaltyprogram = require('./loyaltyprogram');
 
 const CustomerVoucher = require('./customer_voucher');
 const communityRouter = require('./community');
-
+const Product = require('../models/product');
 
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -43,7 +43,6 @@ customerRouter.use('/account', customerManageAccountRouter);
 
 customerRouter.use('/loyaltyprogram', loyaltyprogram);
 
-
 customerRouter.use('/policies', Policies);
 
 customerRouter.use('/cart', ShoppingCart);
@@ -57,8 +56,10 @@ customerRouter.route('/logout').get((req, res) => {
     res.redirect('/login');
 });
 
-customerRouter.route('/').get((req, res) => {
-    res.render('./customers/page-index-3');
+customerRouter.route('/').get(async (req, res) => {
+    const popularProducts = await Product.findAll();
+    const firstProduct = popularProducts.pop(0);
+    return res.render('./customers/home', { firstProduct, popularProducts });
 });
 
 module.exports = customerRouter;

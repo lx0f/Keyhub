@@ -18,7 +18,7 @@ DeliveryDetail.init(
         shipping_status: {
             type: Sequelize.DataTypes.STRING,
         },
-        
+
         // ShipOutDate - We send to delivery company
         // OnTheWayDate - Delivery company sends to you
         // ReceivedDate - User received

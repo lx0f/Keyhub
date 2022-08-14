@@ -13,10 +13,10 @@ PDF.init(
             allowNull: false,
         },
         link: {
-            type: Sequelize.DataTypes.STRING
+            type: Sequelize.DataTypes.STRING,
         },
         name: {
-            type:Sequelize.DataTypes.STRING
+            type: Sequelize.DataTypes.STRING,
         },
         updatedAt: {
             type: Sequelize.DataTypes.DATE,
@@ -33,9 +33,7 @@ PDF.init(
         createdAt: true,
         updatedAt: true,
         sequelize,
-  
     }
 );
 
-module.exports = PDF
-
+module.exports = PDF;

@@ -123,7 +123,7 @@ productRouter.post('/update', async function (req, res) {
     //     req.body;
     //console.log('I AM HERE', name);
     //const products = await (await Products.findAll()).map((x) => x.dataValues);
-    
+
     // Product.update(
     //     {
     //         productID,
@@ -142,20 +142,22 @@ productRouter.post('/update', async function (req, res) {
     //req.flash("success",name," has been updated successfully!")
     //res.render("./staff/staff-productCheck",{ products });
     upload(req, res, async (err) => {
-        console.log(req.file)
-        product.update({
-            name: req.body.name,
-            description: req.body.description,
-            category: req.body.category,
-            stock: req.body.stock,
-            price: req.body.price,
-            colour: req.body.colour,
-            image: `uploads/${req.file.filename}`,
-            brand: req.body.brand,
+        console.log(req.file);
+        product.update(
+            {
+                name: req.body.name,
+                description: req.body.description,
+                category: req.body.category,
+                stock: req.body.stock,
+                price: req.body.price,
+                colour: req.body.colour,
+                image: `uploads/${req.file.filename}`,
+                brand: req.body.brand,
 
-            //list of attributes
-        }
-        ,{where: {id:req.body.id}});
+                //list of attributes
+            },
+            { where: { id: req.body.id } }
+        );
         req.flash('success', req.body.name, ' has been successfully updated');
         res.redirect('/staff/product/check');
     });
