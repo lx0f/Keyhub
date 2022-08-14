@@ -254,6 +254,7 @@ customerManageAccountRouter.route('/loyaltyprogram').get(async (req, res) => {
                 await Voucher.findAll()
             ).map((x) => x.dataValues);
             const voucherlist = await CustomerVoucher.findAll({
+                where:{UserId:req.user.id},
                 include: ['voucheritem', { model: User }],
             });
             const voucheritem = await (
