@@ -14,33 +14,25 @@
 	</aside>
 	<main class="col-lg-6">
 	<article class="ps-lg-3">
-		<h4 class="title text-dark"> {{productdetail.name}} </h4>
-		<div class="rating-wrap my-3">
+		<h4 class="title text-dark"> 
+			{{productdetail.name}} 
+			
+		</h4>
+		
+		{{!-- <div class="rating-wrap my-3">
 		<ul class="rating-stars">
 			<li style="width:80%" class="stars-active"> <img src="images/misc/stars-active.svg" alt=""> </li>
 			<li> <img src="images/misc/starts-disable.svg" alt=""> </li>
 		</ul>
 		
-		<b class="label-rating text-warning"> {{average}} stars</b>
 		
-		<i class="dot"></i>
-		<span class="label-rating text-muted"> <i class="fa fa-shopping-basket"></i> {{sum_quantity totalorder}} orders </span>
-		<i class="dot"></i>
-		{{#notequals productdetail.stock 0}}
-		<span class="label-rating text-success">In Stock</span>
-		{{/notequals}}
-		{{#equals productdetail.stock 0}}
-			<span class="label-rating text-danger">Out Of Stock</span>
-		{{/equals}}
-		</div> <!-- rating-wrap.// -->
+		</div> <!-- rating-wrap.// --> --}}
 
-		<div class="mb-3"> 
-		<var class="price h5">${{productdetail.price}}</var> 
-		<span class="text-muted">/per set</span> 
-		</div> 
+		<br>
 
-		<p>{{productdetail.description}}</p>
+		<p>{{productdetail.description}} This is a High Fibre Material Reynox Keyboard. Highly durable materials crafted in Japan. Custom design & made in Singapore</p>
 
+		<br>
 		<dl class="row">
 		<dt class="col-3">Type: </dt>
 		<dd class="col-9">{{productdetail.category}}</dd>
@@ -50,6 +42,16 @@
 
 		<dt class="col-3">Brand</dt>
 		<dd class="col-9">{{productdetail.brand}} </dd>
+
+		<dt class="col-3">Availability </dt>
+		<dd class="col-9">
+			{{#notequals productdetail.stock 0}}
+			<span class="label-rating text-success" style="font-size:15px;float:left;">In Stock</span>
+			{{/notequals}}
+			{{#equals productdetail.stock 0}}
+				<span class="label-rating text-danger">Out Of Stock</span>
+			{{/equals}}
+		</dd>
 		</dl>
 
 		<hr>
@@ -58,17 +60,31 @@
 		
 		
 		</div> <!-- row.// -->
+		<div class="row">
+			<div class="col-8">
+				<div class="mb-3"> 
+				<var class="price h4 mb-1 m-1" style="line-height: 10px;">${{productdetail.price}}.00</var> 
+				<br>
+				<span class="text-muted m-1">* Tax Included *</span> 
+				</div> 
+			</div>
+			<div class="col-4">
+				{{#notequals productdetail.stock 0}}
+					<form action="/cart/postcart" method="POST">
+						<input type="hidden" name="productId" value="{{productdetail.id}}">
+						<button type="submit" class="btn  btn-dark" style="float: right;"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
+					</form>
+				{{/notequals}}
+				{{#equals productdetail.stock 0}}
+					<button href="#" class="btn  btn-dark" disabled style="float: right;"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
+				{{/equals}}
+			</div>
+		</div>
+		
+		<br>
 
 		{{!-- <a href="#" class="btn  btn-warning"> Buy now </a> --}}
-		{{#notequals productdetail.stock 0}}
-			<form action="/cart/postcart" method="POST">
-				<input type="hidden" name="productId" value="{{productdetail.id}}">
-				<button type="submit" class="btn  btn-primary"> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
-			</form>
-		{{/notequals}}
-		{{#equals productdetail.stock 0}}
-			<button href="#" class="btn  btn-primary" disabled> <i class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
-		{{/equals}}
+		
 		{{!-- <a href="#" class="btn  btn-light"> <i class="me-1 fa fa-heart"></i> Save </a> --}}
 	
 	</article> <!-- product-info-aside .// -->
@@ -76,7 +92,7 @@
 </div> <!-- row.// -->
 
 <!-- =================== COMPONENT REVIEW ====================== -->
-<div class="row" style="margin:auto;">
+<div class="row" style="">
 	<aside class="col-lg-9">
 		<div class="card mb-4" style="height:605px ;">
 			<div class="card-body">
