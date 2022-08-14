@@ -119,27 +119,45 @@ productRouter.post('/updateRoute', async function (req, res) {
 });
 
 productRouter.post('/update', async function (req, res) {
-    let { id, name, description, category, stock, price, colour, brand } =
-        req.body;
+    // let { id, name, description, category, stock, price, colour, brand } =
+    //     req.body;
     //console.log('I AM HERE', name);
     //const products = await (await Products.findAll()).map((x) => x.dataValues);
-    Product.update(
-        {
-            name: name,
-            description: description,
-            category: category,
-            stock: stock,
-            price: price,
-            colour: colour,
-            image: `uploads/${req.file.filename}`,
-            brand: brand,
-        },
-        { where: { id: id } } //change the button value to this.name to use name:id comparison
-    );
+    
+    // Product.update(
+    //     {
+    //         productID,
+    //         name: req.body.name,
+    //         description: req.body.description,
+    //         category: req.body.category,
+    //         stock: req.body.stock,
+    //         price: req.body.price,
+    //         colour: req.body.colour,
+    //         image: `uploads/${req.file.filename}`,
+    //         brand: req.body.brand,
+    //     },
+    //     { where: { id: id } } //change the button value to this.name to use name:id comparison
+    // );
 
     //req.flash("success",name," has been updated successfully!")
     //res.render("./staff/staff-productCheck",{ products });
-    req.flash('success', name, ' has been successfully updated');
-    res.redirect('/staff/product/check');
+    upload(req, res, async (err) => {
+        console.log(req.file)
+        product.update({
+            name: req.body.name,
+            description: req.body.description,
+            category: req.body.category,
+            stock: req.body.stock,
+            price: req.body.price,
+            colour: req.body.colour,
+            image: `uploads/${req.file.filename}`,
+            brand: req.body.brand,
+
+            //list of attributes
+        }
+        ,{where: {id:req.body.id}});
+        req.flash('success', req.body.name, ' has been successfully updated');
+        res.redirect('/staff/product/check');
+    });
 });
 module.exports = productRouter;

@@ -194,10 +194,10 @@
             	                                                            <button class="btn btn-primary">Next status</button>
             	                                                        </div>
             	                                                        {{#if this.DeliveryDetail.ReceivedDate}}
-																			<input type="hidden" name="deliveryStage" value="complete">
+																			<input type="hidden" name="deliveryStage" value="received">
 																		{{else}}
                     	                                        			{{#if this.DeliveryDetail.ShipOutDate}}
-																				<input type="hidden" name="deliveryStage" value="received">
+																				<input type="hidden" name="deliveryStage" value="on the way">
 																			{{else}}
 																				<h6>{{this.DeliveryDetail.ShipOutDate}}</h6>
 																				<input type="hidden" name="deliveryStage" value="ship">

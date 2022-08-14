@@ -11,7 +11,7 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Updating {{product.name}}<h1>
                             </div>
-                            <form method="POST" action="/staff/product/update"> 
+                            <form method="POST" action="/staff/product/update" enctype="multipart/form-data"> 
                                 <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Name</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput1" name = "name" placeholder="{{product.name}}" required>
@@ -67,7 +67,7 @@
                                     </div> 
                                 </div>
                                 <hr>
-                                <button class="btn btn-primary btn-user btn-block" style="margin-bottom: 15px; margin-top: 40px;" name = "id"value = {{product.id}}>
+                                <button class="btn btn-primary btn-user btn-block" style="margin-bottom: 15px; margin-top: 40px;" name = "id" value = {{product.id}}>
                                     Submit
                                 </button>
                             </form>

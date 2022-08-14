@@ -152,13 +152,22 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
 
     // if the order is shipped out cannot be cancel
     if (order.shipping_status != 'pending') {
+
+
         req.flash(
             'info',
             'Your order is shipped out, so you are not allowed to cancel it'
         );
     }
-    // if the system automatically cancel the order:
 
+    // if the system automatically cancel the order:
+    // so means if the cancelrequest.length == 0 and order.order_status is Cancelled
+    if (cancelrequest.length == 0 && order.order_status == "Cancelled"){
+        req.flash(
+            'info',
+            'Your orer is cancelled since it is unpaid'
+        )
+    }
     if (cancelrequest.length > 0) {
         req.flash(
             'info',
