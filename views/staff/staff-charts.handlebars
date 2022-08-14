@@ -471,21 +471,6 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <div class="tile" id="tile-1" style="margin-top: 10px;margin-left: 10px; width: 1000px;">
 
         <!-- Nav tabs -->
@@ -552,9 +537,24 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
           </div>
 
         </div>
-
+        
       </div>
 
+      <div class="card shadow mb-4" style="margin-top: 400px;margin-left: 25px; width: 970px;">
+        <div class="card-header py-3" >
+            <h6 class="m-0 font-weight-bold text-primary">Inventory Stocks</h6>
+        </div>
+        <div class="card-body">
+            <div class="chart-bar">
+                <canvas id="InventoryReportBarchart"></canvas>
+            </div>
+            <hr>
+            <div class="text-center">
+                <h5 class="small"><b>Inventory Stocks</b></h5>
+                <h4 class="small font-weight-bold text-primary">Stock Of All Products</h4>
+            </div>
+        </div>
+      </div>  
 
 
 
@@ -1089,5 +1089,113 @@ const mychart = new Chart(document.getElementById("doughnut-chart").getContext("
         console.log("WHAT THE FUCK")
          console.log("WHAT THE FUCK")
   </script>
+  <script>
+    // Your Products Bar Chart
+    var getInventoryData = $.get('/staff/InventoryReport')
+    var ctx6 = document.getElementById("InventoryReportBarchart");
+    getInventoryData.done(function(data){
+    var stock = []
+    var name = []
+    // console.log(data.data)
+    data.data.forEach(element => {
+      stock.push(element["Stocks"])
+      name.push(element["ProductName"])
+      // console.log(element["Stocks"])
+      // console.log("hi")
+      
+    });
+  
+      var mybarChart = new Chart(ctx6, {
+      type: 'bar',
+      data: {
+        labels: name,
+        datasets: [{
+          label: "Current Stock",
+          lineTension: 0.3,
+          backgroundColor: "blue",
+          borderColor: "rgba(78, 115, 223, 1)",
+          pointRadius: 3,
+          pointBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointBorderColor: "rgba(78, 115, 223, 1)",
+          pointHoverRadius: 3,
+          pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+          pointHitRadius: 10,
+          pointBorderWidth: 2,
+          data: stock,
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            left: 10,
+            right: 25,
+            top: 25,
+            bottom: 0
+          }
+        },
+        scales: {
+          xAxes: [{
+            time: {
+              unit: 'productname'
+            },
+            gridLines: {
+              display: false,
+              drawBorder: false
+            },
+            ticks: {
+              maxTicksLimit: 7
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              maxTicksLimit: 5,
+              min: 0,
+              padding: 10,
+              // Include a dollar sign in the ticks
+              callback: function(value, index, values) {
+                return number_format(value);
+              }
+            },
+            gridLines: {
+              color: "rgb(234, 236, 244)",
+              zeroLineColor: "rgb(234, 236, 244)",
+              drawBorder: false,
+              borderDash: [2],
+              zeroLineBorderDash: [2]
+            }
+          }],
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          backgroundColor: "rgb(255,255,255)",
+          bodyFontColor: "#858796",
+          titleMarginBottom: 10,
+          titleFontColor: '#6e707e',
+          titleFontSize: 14,
+          borderColor: '#dddfeb',
+          borderWidth: 1,
+          xPadding: 15,
+          yPadding: 15,
+          displayColors: false,
+          intersect: false,
+          mode: 'index',
+          caretPadding: 10,
+          callbacks: {
+            label: function(tooltipItem, chart) {
+              var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+              return datasetLabel + " "+ number_format(tooltipItem.yLabel);
+            }
+          }
+        }
+      }
+    });
+
+  })
+  </script>
+  
 </div>
 

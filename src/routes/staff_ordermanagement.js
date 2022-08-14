@@ -17,7 +17,7 @@ const cron = require('node-cron');
 const DeliveryDetail = require('../models/DeliveryDetail');
 const { where } = require('sequelize');
 
-cron.schedule('*/15 * * * * ', async () => {
+cron.schedule('0*/15 * * * *', async () => {
     console.log('running a task every 15 minute');
     let orders = await Order.findAll({
         where: { payment_status: 0 && order_status != 'Cancelled' },
