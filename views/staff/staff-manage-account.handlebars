@@ -253,7 +253,7 @@
                        
                                 </div>
                                                             <div class="form-group">
-                                   Change Address: <input style="margin-bottom: 30px" type="text" name="address" class="form-control form-control-user" id="exampleInputEmail"
+                                   Change Address: <input style="margin-bottom: 30px" type="text" name="address" class="form-control form-control-user" id="address"
                                         placeholder="Email Address" value="{{user.address}}">
                                 </div>
                          <input type="hidden" value="{{user.id}}" name="id">
@@ -291,6 +291,17 @@
         </div>
 
     </div>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7Semp5ggtMoLi_2f0nF4axCB5ocgcdLA&libraries=places&callback=initialize"></script>
+<script>
+  
+
+
+
+ function initialize() {
+    var input = document.getElementById('address');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+}
+</script>
 
 
 

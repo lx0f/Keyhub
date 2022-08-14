@@ -51,6 +51,13 @@ customerManageAccountRouter
                 user.imageFilePath = `uploads/${req.file.filename}`;
             }
 
+            console.log(req)
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+            console.log("HIHIHIHIHIHIHIHIHIHIH")
+
             user.username = req.body.username || user.username;
             user.email = req.body.email || user.email;
             user.address = req.body.address || user.address;
@@ -65,9 +72,11 @@ customerManageAccountRouter
                 }
             }
             await user.save();
+            return res.redirect('/account')
         });
+     
 
-        return res.redirect('/account');
+       
     });
 
 customerManageAccountRouter.get('/orderhistory', async (req, res) => {
@@ -150,19 +159,21 @@ customerManageAccountRouter.get('/cancelorderform/:id', async (req, res) => {
         },
     });
 
+    console.log(order.shipping_status)
     // if the order is shipped out cannot be cancel
-    if (order.shipping_status != 'pending') {
+    if (order.shipping_status == 'shipped out') {
         req.flash(
             'info',
             'Your order is shipped out, so you are not allowed to cancel it'
         );
+        res.redirect('/account/orderhistory')
     }
 
     // if the system automatically cancel the order:
     // so means if the cancelrequest.length == 0 and order.order_status is Cancelled
-    if (cancelrequest.length == 0 && order.order_status == 'Cancelled') {
-        req.flash('info', 'Your orer is cancelled since it is unpaid');
-    }
+    // if (cancelrequest.length == 0 && order.order_status == 'Cancelled') {
+    //     req.flash('info', 'Your orer is cancelled since it is unpaid');
+    // }
     if (cancelrequest.length > 0) {
         req.flash(
             'info',

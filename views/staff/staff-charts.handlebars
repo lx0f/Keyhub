@@ -394,7 +394,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
                   <div class="h5 mb-0 font-weight-bold text-gray-800">{{users}}</div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                  <i class="fas fa-users fa-2x" ></i>
                 </div>
               </div>
             </div>
@@ -412,7 +412,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
                   <div class="h5 mb-0 font-weight-bold text-gray-800">{{messages}}</div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                 <i class="fas fa-comment-dots fa-2x"></i>
                 </div>
               </div>
             </div>
@@ -440,7 +440,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
                   </div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                <i class="fas fa-truck fa-2x"></i>
                 </div>
               </div>
             </div>
@@ -458,7 +458,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
                   <div class="h5 mb-0 font-weight-bold text-gray-800">{{loyaltyCards}}</div>
                 </div>
                 <div class="col-auto">
-                  <i class="fas fa-comments fa-2x text-gray-300"></i>
+                  <i class="fas fa-address-card fa-2x"></i>
                 </div>
               </div>
             </div>
@@ -974,7 +974,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
               <div class="card-body">
                 <div class="chart-area">
                  
-<canvas id="pie-chart" style="width:70%;max-width:700px;"></canvas>
+<canvas id="pie-chart" style="width:70%;max-width:700px; margin-left: 50px"></canvas>
                 </div>
                 <hr>
 
@@ -987,7 +987,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
               <div class="card-body">
                 <div class="chart-area">
                  
-<canvas id="doughnut-chart" style="width:70%;max-width:700px;"></canvas>
+<canvas id="doughnut-chart" style="width:70%;max-width:700px;margin-left: 50px"></canvas>
                 </div>
                 <hr>
 
@@ -1061,10 +1061,10 @@ console.log("hihiihihihihihihih")
 const mychart = new Chart(document.getElementById("doughnut-chart").getContext("2d"), {
     type: 'doughnut',
     data: {
-      labels: ["Local", "OAuth"],
+      labels: ["OAuth", "Local"],
       datasets: [{
         label: "Population (millions)",
-        backgroundColor: ["#b2e061", "#fd7f6f"],
+        backgroundColor: ["#fd7f6f", "#b2e061"],
         data: Object.values(JSON.parse(a.a))
       }]
     },
