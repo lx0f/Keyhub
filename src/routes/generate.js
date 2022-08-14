@@ -12,6 +12,7 @@ const Chart = require('./pipeline');
 const User = require('../models/User');
 const bucket = require('../configuration/cloudStorage');
 
+
 const width = docs.internal.pageSize.getWidth();
 const height = docs.internal.pageSize.getHeight();
 
@@ -55,6 +56,7 @@ generateRouter.route('/chart').get(async (req, res) => {
     const yearlyPath = await generateImageCharts.GenerateLineUserChartYearly();
     await generateImageCharts.GeneratePieChart();
     await generateImageCharts.GenerateDoughnutChart();
+    await generateImageCharts.GenerateDisabledChart();
     const doc = new jsPDF();
 
     doc.setFont('Helvetica');
@@ -135,6 +137,11 @@ generateRouter.route('/chart').get(async (req, res) => {
         205,
         120
     );
+
+    doc.addImage(
+        'data:image/png;base64,' + require("fs").readFileSync("disabledChart.png", "base64"),'png', 
+        -5, 165, 205, 120
+    )
 
     const filename = `KeyHubReports ${from}-${to}.pdf`;
 

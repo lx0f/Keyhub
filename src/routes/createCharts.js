@@ -299,7 +299,7 @@ class GenerateImageCharts {
                 datasets: [
                     {
                         label: 'Population (millions)',
-                        backgroundColor: ['#fd7f6f', '#b2e061'],
+                        backgroundColor: ["#7289da", "#282b30"],
                         data: Object.values(JSON.parse(a)),
                     },
                 ],
@@ -313,6 +313,31 @@ class GenerateImageCharts {
         });
 
         await myChart.toFile('doughnutChart.png');
+    }
+
+    async GenerateDisabledChart() {
+        const d = await Chart.DisablePieChart(this.to, this.from);
+        const myChart = new chartJsImg();
+        myChart.setConfig(
+            {
+                type: 'doughnut',
+                data: {
+                  labels: ["Disabled", "Active"],
+                  datasets: [{
+                    label: "Population (millions)",
+                    backgroundColor: ["#fd7f6f", '#7CBB5D'],
+                    data: Object.values(JSON.parse(d))
+                  }]
+                },
+                options: {
+                  title: {
+                    display: true,
+                    text: 'Proportion of Active and Disabled Accounts'
+                  }
+                }
+            }
+        )
+        await myChart.toFile("disabledChart.png")
     }
 }
 

@@ -976,7 +976,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
                  
 <canvas id="pie-chart" style="width:70%;max-width:700px; margin-left: 50px"></canvas>
                 </div>
-                <hr>
+                 <hr style="margin-top: 40px">
 
               </div>
             </div>
@@ -989,7 +989,21 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
                  
 <canvas id="doughnut-chart" style="width:70%;max-width:700px;margin-left: 50px"></canvas>
                 </div>
-                <hr>
+                  <hr style="margin-top: 40px">
+
+              </div>
+            </div>
+
+                  <div class="card shadow mb-4" style="position: relative; top: 350px; left: 30px;max-width: 900px;">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Proportion of Active and Disabled Accounts</h6>
+              </div>
+              <div class="card-body" >
+                <div class="chart-area" style=" padding-bottom: 120px ">
+                 
+<canvas id="disabled-chart" style="width:70%;max-width:700px;margin-left: 50px"></canvas>
+                </div>
+                <hr style="margin-top: 40px">
 
               </div>
             </div>
@@ -1014,7 +1028,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
 
 
             <br>
-
+ <script async src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
 
   <script>
 const a = $.get('/staff/data/chart-info-pie')
@@ -1035,6 +1049,14 @@ const mychart = new Chart(document.getElementById("pie-chart").getContext("2d"),
       title: {
         display: true,
         text: 'Proportion of Staff and Customers'
+      },
+      plugins: {
+        labels: {
+          fontSize: 14,
+          fontColor: '#fff',
+          fontStyle: 'bold'
+
+        }
       }
     }
 });
@@ -1064,7 +1086,7 @@ const mychart = new Chart(document.getElementById("doughnut-chart").getContext("
       labels: ["OAuth", "Local"],
       datasets: [{
         label: "Population (millions)",
-        backgroundColor: ["#fd7f6f", "#b2e061"],
+        backgroundColor: ["#7289da", "#282b30"],
         data: Object.values(JSON.parse(a.a))
       }]
     },
@@ -1072,6 +1094,14 @@ const mychart = new Chart(document.getElementById("doughnut-chart").getContext("
       title: {
         display: true,
         text: 'Proportion of Local and OAuth Accounts'
+      },
+      plugins: {
+        labels: {
+          fontSize: 14,
+          fontColor: '#fff',
+          fontStyle: 'bold'
+
+        }
       }
     }
 });
@@ -1081,13 +1111,58 @@ const mychart = new Chart(document.getElementById("doughnut-chart").getContext("
 
   </script>
 
-  <script>
-    console.log("WHAT THE FUCK")
-     console.log("WHAT THE FUCK")
-      console.log("WHAT THE FUCK")
-       console.log("WHAT THE FUCK")
-        console.log("WHAT THE FUCK")
-         console.log("WHAT THE FUCK")
+
+
+
+
+
+
+    <script>
+const p = $.get('/staff/data/chart-info-disabled')
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+console.log("hihiihihihihihihih")
+p.done(function (data) {
+
+const mychart = new Chart(document.getElementById("disabled-chart").getContext("2d"), {
+    type: 'doughnut',
+    data: {
+      labels: ["Disabled", "Active"],
+      datasets: [{
+        label: "Population (millions)",
+        backgroundColor: ["#fd7f6f", '#7CBB5D'],
+        data: Object.values(JSON.parse(data.d))
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Proportion of Active and Disabled Accounts'
+      },
+      plugins: {
+        labels: {
+          fontSize: 14,
+          fontColor: '#fff',
+          fontStyle: 'bold'
+
+        }
+      }
+    }
+});
+})
+
+
+
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+
   </script>
   <script>
     // Your Products Bar Chart
