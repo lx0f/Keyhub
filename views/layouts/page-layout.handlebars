@@ -259,11 +259,13 @@ $(document).ready(function() {
 
     {{#equals path "/staff"}}
     {{>_staffLayoutEndTag}}
+    {{else}}
+{{>_footer-1}}  
     {{/equals}}
 
-   <!-- {{#equals path "/"}}
-    {{>_footer-1}}
-    {{/equals}}-->
+   
+    
+   
 
     {{#notequals path "/staff"}}
     {{> _chatbot }}

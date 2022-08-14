@@ -21,15 +21,11 @@
 <div class="container">
 
 <div class="row">
-	<aside class="col-md-2">
-		
-
-
-	</aside> <!-- col.// -->
-	<main class="col-md-7">
+	
+	<main class="col-md-10">
 
 <header class="border-bottom mb-4 pb-3">
-		<div class="form-inline">
+		<div class="form-inline" style="width: 100%;">
 			<span class="mr-md-auto">{{items}} found</span>
 
 		</div>
@@ -85,12 +81,12 @@
 						{{/equals}}
 						</div>						
 				</div>
-				<div class="btn">
+				
 					<form action="/cart/postcart" method="POST">
 						<input type="hidden" name="productId" value="{{this.id}}">
-						<button type="submit" class="btn btn-outline-info"><i class="fas fa-shopping-cart fa-1x"></i> Add to Cart</button>
+						<button type="submit" class="btn btn-dark addtocart" style="float:right"><i class="list fas fa-shopping-cart fa-1x" style="color:white;"></i> Add to Cart</button>
 					</form>
-              	</div>
+              	
 			</figcaption>
 		</figure>
 	</div> <!-- col.// -->
@@ -108,18 +104,12 @@
 </section>
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
-<!-- ========================= FOOTER ========================= -->
-<footer class="section-footer border-top padding-y">
-	<div class="container">
-		<p class="float-md-right"> 
-			&copy Copyright 2019 All rights reserved
-		</p>
-		<p>
-			<a href="#">Terms and conditions</a>
-		</p>
-	</div><!-- //container -->
-</footer>
-<!-- ========================= FOOTER END // ========================= -->
 
 
+<style>
+	.list.i.fa-shopping-cart{
+		color: white;
+	}
+	
+</style>
 

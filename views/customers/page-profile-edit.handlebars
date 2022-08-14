@@ -204,11 +204,7 @@
     }
   }
 </style>
-<section class="section-pagetop bg">
-  <div class="container">
-    <h2 class="title-page">My account</h2>
-  </div> <!-- container //  -->
-</section>
+
 <!-- ========================= SECTION INTRO END// ========================= -->
 
 <!-- ========================= SECTION CONTENT ========================= -->
@@ -217,14 +213,14 @@
 
     <div class="row">
       <aside class="col-md-3">
-        <ul class="list-group">
-          <a class="list-group-item active" href="/account"> Account overview  </a>
-			<a class="list-group-item " href="/account/orderhistory"> My Orders </a>
-			<a class="list-group-item" href="/account/review"> My Comments </a>
-			<a class="list-group-item" href="#"> Return and refunds </a>
-            <a class="list-group-item " href="/account/myvouchers"> Vouchers</a>
-			<a class="list-group-item " href="/account/loyaltyprogram"> Rewards Program</a>
-        </ul>
+       <ul class="list-group">
+			<a class="list-group-item active" href="/account" style="background-color: black;border:none"> Account overview  </a>
+			<a class="list-group-item " href="/account/orderhistory" style="color: black;"> My Orders </a>
+			<a class="list-group-item" href="/account/review" style="color: black;"> My Comments </a>
+			<a class="list-group-item" href="#" style="color: black;"> Return and refunds </a>
+            <a class="list-group-item " href="/account/myvouchers" style="color: black;"> Vouchers</a>
+			<a class="list-group-item " href="/account/loyaltyprogram" style="color: black;"> Rewards Program</a>
+		</ul>
       </aside> <!-- col.// -->
       <main class="col-md-9">
 
@@ -233,46 +229,39 @@
 
 
             <form method="POST" action="/account/edit" enctype="multipart/form-data">
-              <figure class="icontext">
-                <div class="icon" style="margin-right: 50px;">
+              <center><figure class="" style="width: 100%;">
+                <div class="icon" style="">
 
 
+                    
+                      <div class="pic-holder">
+                        <!-- uploaded pic shown here -->
+                        <img id="profilePic" class="pic" src="{{imageAsBase64}}" style="width:150px;height:150px;">
 
-                  <div class="pic-holder">
-                    <!-- uploaded pic shown here -->
-                    <img id="profilePic" class="pic" src="{{imageAsBase64}}" style="width:150px;height:150px;">
-
-                    <input class="uploadProfileInput" type="file" name="myImage" id="newProfilePhoto" accept="image/*"
-                      style="opacity: 0;" />
-                    <label for="newProfilePhoto" class="upload-file-block">
-                      <div class="text-center">
-                        <div class="mb-2">
-                          <i class="fa fa-camera fa-2x"></i>
-                        </div>
-                        <div class="text-uppercase">
-                          Update <br /> Profile Photo
-                        </div>
+                        <input class="uploadProfileInput" type="file" name="myImage" id="newProfilePhoto" accept="image/*"
+                          style="opacity: 0;" />
+                        <label for="newProfilePhoto" class="upload-file-block">
+                          <div class="text-center">
+                            <div class="mb-2">
+                              <i class="fa fa-camera fa-2x"></i>
+                            </div>
+                            <div class="text-uppercase">
+                              Update <br /> Profile Photo
+                            </div>
+                          </div>
+                        </label>
                       </div>
-                    </label>
-                  </div>
-
-
-
-
+                      
+                   
+                   
+                  
+                
                 </div>
 
               </figure>
+              </center>
               <hr>
-              <div class="text" style="line-height: 25px;">
-                <strong><i class="fa fas fa-user"></i>&nbsp; Username: </strong><br>{{user.username}}<br> <br>
-                <b> <i class="fa fa-solid fa-envelope"></i>&nbsp; Email:</b><br>{{user.email}}<br> <br>
-
-                <p>
-                  <i class="fa fas fa-map-marker"></i>&nbsp; <b>Address:</b><br>
-                  {{user.address}}
-
-                </p>
-              </div>
+              
               <hr>
               <div class="form-group">
 
@@ -309,7 +298,7 @@
               <input type="hidden" value="{{user.id}}" name="id">
 
               <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Update Profile</button>
+                <button type="submit" class="btn btn-dark btn-block">Update Profile</button>
               </div> <!-- form-group// -->
             </form>
 

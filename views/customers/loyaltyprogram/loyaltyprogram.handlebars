@@ -2,14 +2,14 @@
     <div class="container">
         <div class="row">
             <aside class="col-md-3">
-                <ul class="list-group">
-                   <a class="list-group-item " href="/account"> Account overview  </a>
-			<a class="list-group-item " href="/account/orderhistory"> My Orders </a>
-			<a class="list-group-item" href="/account/review"> My Comments </a>
-			<a class="list-group-item" href="#"> Return and refunds </a>
-            <a class="list-group-item " href="/account/myvouchers"> Vouchers</a>
-			<a class="list-group-item active " href="/account/loyaltyprogram"> Rewards Program</a>
-                </ul>
+               <ul class="list-group">
+			<a class="list-group-item " href="/account" style="color: black;"> Account overview  </a>
+			<a class="list-group-item " href="/account/orderhistory" style="color: black;"> My Orders </a>
+			<a class="list-group-item" href="/account/review" style="color: black;"> My Comments </a>
+			<a class="list-group-item" href="#" style="color: black;"> Return and refunds </a>
+            <a class="list-group-item " href="/account/myvouchers" style="color: black;"> Vouchers</a>
+			<a class="list-group-item active" href="/account/loyaltyprogram" style="background-color: black;border:none"> Rewards Program</a>
+		</ul>
             </aside> <!-- col.// -->
             {{#if User_Card}}
             {{#each User_Card}}
@@ -237,6 +237,8 @@
             {{/if }}
         </div>
 </section>
+<br>
+<br>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
