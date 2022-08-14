@@ -25,7 +25,7 @@
         </li>
 		{{#each cart.cartProducts}}
         <li class="list-group-item d-flex justify-content-between lh-condensed">
-				<figure class="itemside align-items-center mb-4">
+				<figure class="itemside align-items-center  mb-4">
 					<div class="aside">
 						{{!-- <div class="badge bg-secondary rounded-pill">{{this.CartItem.quantity}}</div> --}}
 						<img src="/{{this.image}}" class="img-sm rounded border">
@@ -39,7 +39,10 @@
 						
 					</figcaption>
 					<br>
-					<strong class="" style="float:right;padding-left:30px;">X {{this.CartItem.quantity}}</strong>
+					
+					<strong style="position:absolute;right:0;margin-right:10px;">X {{this.CartItem.quantity}}</strong>
+					
+					
 				</figure>
         </li>
 		{{/each}}
