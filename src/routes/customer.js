@@ -17,7 +17,6 @@ const loyaltyprogram = require('./loyaltyprogram');
 const CustomerVoucher = require('./customer_voucher');
 const communityRouter = require('./community');
 
-
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
       return res.redirect("/login")
@@ -42,7 +41,6 @@ customerRouter.use('/Cproducts', customerproductRouter);
 customerRouter.use('/account', customerManageAccountRouter);
 
 customerRouter.use('/loyaltyprogram', loyaltyprogram);
-
 
 customerRouter.use('/policies', Policies);
 

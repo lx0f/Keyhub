@@ -4,9 +4,8 @@ const { Order, Shippinginfo } = require('../models/order');
 const { OrderItem } = require('../models/order');
 const { Cancelrequest } = require('../models/order');
 const Product = require('../models/product');
-const { Mail } = require("../configuration/nodemailer");
+const { Mail } = require('../configuration/nodemailer');
 const sequelize = require('sequelize');
-
 
 const User = require('../models/User');
 
@@ -60,8 +59,8 @@ OrderManagement.get('/', async (req, res) => {
                 model: Shippinginfo,
             },
             {
-                model: Payment
-            }
+                model: Payment,
+            },
         ],
     });
     return res.render('./staff/ordermanagement/staff-getorders', { orders });
@@ -77,13 +76,14 @@ OrderManagement.get('/cancel/:id', async function (req, res) {
             req.flash(res, 'error', 'order not found');
             res.redirect('/staff/manage-orders');
         }
-       
+
         await Order.update(
             { order_status: 'Cancelled' },
-            { where: { id: req.params.id } })
+            { where: { id: req.params.id } }
+        );
         req.flash('success', 'You have cancel the order successfully');
         res.redirect('/staff/manage-orders');
-        } catch (err) {
+    } catch (err) {
         console.log(err);
     }
 });
@@ -206,21 +206,19 @@ OrderManagement.get('/cancelrequests', async function (req, res) {
     }
 });
 
-
 OrderManagement.get('/top10', async function (req, res) {
     // TOP Selling Product of each category, Pre-built keyboard
     const top10sp = await OrderItem.findAll({
-        
-        attributes: [[sequelize.fn("SUM", sequelize.col("quantity")), "sold"]],
-        include:{
+        attributes: [[sequelize.fn('SUM', sequelize.col('quantity')), 'sold']],
+        include: {
             model: Product,
             where: {
-                category :  "Pre-Built Keyboard"
-            }
+                category: 'Pre-Built Keyboard',
+            },
         },
-        limit : 10,
-        group: "ProductId",
-        order: [[sequelize.fn("SUM", sequelize.col("quantity")), 'desc']]
+        limit: 10,
+        group: 'ProductId',
+        order: [[sequelize.fn('SUM', sequelize.col('quantity')), 'desc']],
     });
     // console.log('10')
     // console.log(top10s)
@@ -228,106 +226,110 @@ OrderManagement.get('/top10', async function (req, res) {
     // TOP Selling Product of each category, Barebone Kit
 
     const top10sb = await OrderItem.findAll({
-        
-        attributes: [[sequelize.fn("SUM", sequelize.col("quantity")), "sold"]],
-        include:{
+        attributes: [[sequelize.fn('SUM', sequelize.col('quantity')), 'sold']],
+        include: {
             model: Product,
             where: {
-                category :  "Barebone Kit"
-            }
+                category: 'Barebone Kit',
+            },
         },
-        limit : 10,
-        group: "ProductId",
-        order: [[sequelize.fn("SUM", sequelize.col("quantity")), 'desc']]
+        limit: 10,
+        group: 'ProductId',
+        order: [[sequelize.fn('SUM', sequelize.col('quantity')), 'desc']],
     });
 
     // TOP Selling Product of each category, Key Cap
 
     const top10sk = await OrderItem.findAll({
-        
-        attributes: [[sequelize.fn("SUM", sequelize.col("quantity")), "sold"]],
-        include:{
+        attributes: [[sequelize.fn('SUM', sequelize.col('quantity')), 'sold']],
+        include: {
             model: Product,
             where: {
-                category :  "Key Cap"
-            }
+                category: 'Key Cap',
+            },
         },
-        limit : 10,
-        group: "ProductId",
-        order: [[sequelize.fn("SUM", sequelize.col("quantity")), 'desc']]
+        limit: 10,
+        group: 'ProductId',
+        order: [[sequelize.fn('SUM', sequelize.col('quantity')), 'desc']],
     });
 
     // TOP Selling Product of each category, Switches
     const top10ss = await OrderItem.findAll({
-        
-        attributes: [[sequelize.fn("SUM", sequelize.col("quantity")), "sold"]],
-        include:{
+        attributes: [[sequelize.fn('SUM', sequelize.col('quantity')), 'sold']],
+        include: {
             model: Product,
             where: {
-                category :  "Switches"
-            }
+                category: 'Switches',
+            },
         },
-        limit : 10,
-        group: "ProductId",
-        order: [[sequelize.fn("SUM", sequelize.col("quantity")), 'desc']]
+        limit: 10,
+        group: 'ProductId',
+        order: [[sequelize.fn('SUM', sequelize.col('quantity')), 'desc']],
     });
 
     // TOP Selling Product of each category, Accessories
     const top10sa = await OrderItem.findAll({
-        
-        attributes: [[sequelize.fn("SUM", sequelize.col("quantity")), "sold"]],
-        include:{
+        attributes: [[sequelize.fn('SUM', sequelize.col('quantity')), 'sold']],
+        include: {
             model: Product,
             where: {
-                category :  "Accessories"
-            }
+                category: 'Accessories',
+            },
         },
-        limit : 10,
-        group: "ProductId",
-        order: [[sequelize.fn("SUM", sequelize.col("quantity")), 'desc']]
+        limit: 10,
+        group: 'ProductId',
+        order: [[sequelize.fn('SUM', sequelize.col('quantity')), 'desc']],
     });
 
-
-    return res.render('./staff/topsellingproduct',{top10sp,top10sb, top10sk,top10ss, top10sa })
-})
-
+    return res.render('./staff/topsellingproduct', {
+        top10sp,
+        top10sb,
+        top10sk,
+        top10ss,
+        top10sa,
+    });
+});
 
 OrderManagement.post('/delivery-detail/:id', async (req, res) => {
     const deliveryDetailId = req.params.id;
     const deliveryStage = req.body.deliveryStage;
     const nextDate = new Date();
-    const order = await DeliveryDetail.findByPk(req.params.id)
+    const order = await DeliveryDetail.findByPk(req.params.id);
     const deliveryDetail = await DeliveryDetail.findByPk(deliveryDetailId);
     switch (deliveryStage) {
         case 'complete':
             deliveryDetail.CompleteDate = nextDate;
             await Order.update(
-                {shipping_status: "received"},
-                {where:{ id: order.id}}
-            )
+                { shipping_status: 'received' },
+                { where: { id: order.id } }
+            );
 
         case 'received':
             deliveryDetail.ReceivedDate = nextDate;
             await Order.update(
                 {
-                shipping_status: "on the way"
+                    shipping_status: 'on the way',
                 },
-                {where:{
-                    id: order.id
-                }}
-            )
+                {
+                    where: {
+                        id: order.id,
+                    },
+                }
+            );
             break;
 
         case 'ship':
             deliveryDetail.ShipOutDate = nextDate;
             await Order.update(
                 {
-                shipping_status: "shipped out"
+                    shipping_status: 'shipped out',
                 },
-                {where:{
-                    id: order.id
-                }}
-            )
+                {
+                    where: {
+                        id: order.id,
+                    },
+                }
+            );
             break;
 
         default:

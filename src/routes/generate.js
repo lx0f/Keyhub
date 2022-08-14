@@ -1,8 +1,8 @@
 const generateRouter = require('express').Router();
 const { jsPDF } = require('jspdf');
 
-require("jspdf-autotable");
-const PDF = require("../models/Pdf")
+require('jspdf-autotable');
+const PDF = require('../models/Pdf');
 
 const chartJsImg = require('chartjs-to-image');
 const docs = new jsPDF('p', 'mm', 'a4');
@@ -140,31 +140,25 @@ generateRouter.route('/chart').get(async (req, res) => {
 
     doc.save(filename);
 
+    try {
+        const upload = await bucket.upload(filename);
+        await PDF.create({
+            link: `https://storage.googleapis.com/keyhub-files/KeyHubReports%20${from}-${to}.pdf`,
+            name: filename,
+        });
 
- 
-try{
-    const upload = await bucket.upload(filename)
-    await PDF.create({link: `https://storage.googleapis.com/keyhub-files/KeyHubReports%20${from}-${to}.pdf`, name: filename})
+        console.log(upload);
 
-    console.log(upload);
-
-
-    res.download(`KeyHubReports ${from}-${to}.pdf`);
- 
-}
-catch(e) {
-    console.log(e)
-    res.download(`KeyHubReports ${from}-${to}.pdf`);
-}
-   
-
-  
-   
+        res.download(`KeyHubReports ${from}-${to}.pdf`);
+    } catch (e) {
+        console.log(e);
+        res.download(`KeyHubReports ${from}-${to}.pdf`);
+    }
 });
 
-generateRouter.route("/overview").get(async(req, res) => {
-    const pdfs = (await PDF.findAll()).map((x) => x.dataValues)
-    res.render("./staff/staff-pdf", {pdfs})
-})
+generateRouter.route('/overview').get(async (req, res) => {
+    const pdfs = (await PDF.findAll()).map((x) => x.dataValues);
+    res.render('./staff/staff-pdf', { pdfs });
+});
 
 module.exports = generateRouter;

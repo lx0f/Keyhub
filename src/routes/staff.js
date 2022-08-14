@@ -53,7 +53,6 @@ staffRouter.use('/generate', generateRouter);
 
 staffRouter.use('/manage-loyaltyprogram', loyaltyprogram);
 
-
 staffRouter.use('/data', dataRouter);
 
 staffRouter.route('/').get(async (req, res) => {

@@ -177,7 +177,7 @@ CustomerOrder.post('/data', async (req, res) => {
             amount: req.body.amount,
             discount: req.body.discount,
             shipping_fee: req.body.shipping,
-            shipping_status: "pending",
+            shipping_status: 'pending',
             payment_status: req.body.payment_status,
         });
         // create order delivery details
