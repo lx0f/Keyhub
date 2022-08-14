@@ -301,7 +301,7 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
 </style>
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
-  <form class="modal-dialog modal-dialog-centered" style="width: 800px" method="GET" action="/generate/chart">
+  <form class="modal-dialog modal-dialog-centered" style="width: 800px" method="GET" action="/staff/generate/chart">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -316,16 +316,14 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
           <p>
           <div class="form-row">
             <div class="col">
-              <h4>Date From</h4>
+            Date From
               <input type="date" name="from" style="display: inline-block ">
               </p>
             </div>
 
-            <div class="col" style="position: relative; bottom: 16px; margin-right: 80px">
+            <div class="col" style="margin-right: 60px">
               <p>
-              <h4>
                 Date To
-              </h4>
               <input type="date" style="display: inline-block " name="to">
               </p>
             </div>
@@ -355,8 +353,11 @@ box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.2
   <!-- Content Row -->
   <div class="whitebutton" style="position: relative; padding: 30px;float: right; right: 50px; bottom: 90px;">
 
-    <a href="/generate/chart" data-toggle="modal" data-target="#exampleModalCenter">Download Report</a><br>
+    <a href="/staff/generate/chart" data-toggle="modal" data-target="#exampleModalCenter">Download Report</a><br>
+   
   </div>
+
+   <a href="/staff/generate/overview"  style="position: relative; left: 77%; bottom: 35px" class="btn btn-primary">Archived PDFs</a>
 
   <div class="row">
 

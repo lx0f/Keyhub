@@ -23,7 +23,7 @@ const dataRouter = require('./data');
 
 const manageTicketRoute = require('./manage_tickets');
 
-
+const generateRouter = require('./generate');
 
 const staffpeRouter = require("./staff_pe")
 
@@ -52,7 +52,7 @@ staffRouter.use('/manage-pe', staffpeRouter);
 staffRouter.use('/manage-orders', OrderManagement);
 // staffRouter.use("/manage-mail", manageMail);
 staffRouter.use("/manage-loyaltyprogram",loyaltyprogram)
-
+staffRouter.use('/generate', generateRouter);
 staffRouter.use('/data', dataRouter);
 
 staffRouter.route('/').get(async (req, res) => {
