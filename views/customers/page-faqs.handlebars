@@ -16,29 +16,42 @@
                     <div class="btn" type="button" data-toggle="collapse" data-target="#collapseOne{{this.id}}" aria-expanded="true" aria-controls="collapseOne{{this.id}}">
                     {{ this.Question }} 
                     </div>
+                   
                 </h5>
                 </div>
 
                 <div id="collapseOne{{this.id}}" class="collapse " aria-labelledby="headingOne" data-parent="#accordionExample">
-                <div class="card-body">
+                <div class="card-body" style="border-bottom: 1px black;">
                     {{ this.Answer }} 
                 </div>
                 </div>
             </div>
+            <div class="card" style="border-bottom: none;border-left:none;border-right:none;border-radius:5px;height:1px;">
+    <div class="card-body" id="headingOne">
+      <h2 class="">
+        <button class="btn btn-link btn-block text-left " type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        
+        </button>
+      </h2>
+    </div>
+    
+  </div>
         {{/equals}}
     {{/each}}
+    
 </div>
 <br><br>
 <h5>Delivery & Shipping</h5>
 <div class="accordion2" id="accordionExample">
     {{#each faqs}}
         {{#equals this.Category "Delivery & Shipping"}}
-            <div class="card">
+            <div class="card" style="border-bottom: red;">
                 <div class="card-header" id="headingOne">
                 <h5 class="mb-0">
                     <div class="btn" type="button" data-toggle="collapse" data-target="#collapseOne{{this.id}}" aria-expanded="true" aria-controls="collapseOne{{this.id}}">
                     {{ this.Question }} 
                     </div>
+                    
                 </h5>
                 </div>
 
@@ -48,8 +61,19 @@
                 </div>
                 </div>
             </div>
+            <div class="card" style="border-bottom: none;border-left:none;border-right:none;border-radius:5px;height:1px;">
+    <div class="card-body" id="headingOne">
+      <h2 class="">
+        <button class="btn btn-link btn-block text-left " type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        
+        </button>
+      </h2>
+    </div>
+    
+  </div>
         {{/equals}}
     {{/each}}
+    
 </div>
 <br>
 <br>
@@ -72,6 +96,16 @@
                 </div>
                 </div>
             </div>
+            <div class="card" style="border-bottom: none;border-left:none;border-right:none;border-radius:5px;height:1px;">
+    <div class="card-body" id="headingOne">
+      <h2 class="">
+        <button class="btn btn-link btn-block text-left " type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        
+        </button>
+      </h2>
+    </div>
+    
+  </div>
         {{/equals}}
     {{/each}}
 </div>
