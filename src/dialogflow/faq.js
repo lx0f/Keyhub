@@ -24,12 +24,8 @@ async function exportFAQDocument(path) {
         fs.mkdirSync(dir, { recursive: true });
     }
     fs.writeFileSync(path, '');
-    const faqInfo =[]
     faqs.forEach((faq) => {
-        var data = `${faq.Question},${faq.Answer}\n`;
-        
-
-        
+        var data = `${faq.Question},${faq.Answer}`;
         fs.appendFileSync(path, data);
     });
 }
