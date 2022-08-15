@@ -1,8 +1,8 @@
 <div class="container-fluid">
     <div class="d-flex bg-gradient-primary align-items-center p-4 shadow text-white">
         <div>
-            <h1 class="h3 mb-2">Ticket Management</h1>
-            <span>To see your tickets</span>
+            <h1 class="h3 mb-2">Assigned Tickets</h1>
+            <span>To see tickets assigned</span>
         </div>
     </div>
     <div class="card shadow my-4">
@@ -66,28 +66,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each tickets}}
+                        {{#each assignedTickets}}
                             <tr>
-                                <td>{{this.id}}</td>
+                                <td>{{this.Ticket.id}}</td>
                                 <td>
                                     <span class="badge p-2" style="color: white; background-color:
-                                    {{#equals this.status "open"}}
+                                    {{#equals this.Ticket.status "open"}}
                                     #34A853
                                     {{/equals}}
-                                    {{#equals this.status "closed"}}
+                                    {{#equals this.Ticket.status "closed"}}
                                     #6E53D3
                                     {{/equals}}
                                     ;">
-                                    {{this.status}}
+                                    {{this.Ticket.status}}
                                     </span>
                                 </td>
-                                <td>{{this.title}}</td>
-                                <td>{{this.severity}}</td>
-                                <td>{{this.category}}</td>
-                                <td>{{this.authorID}}</td>
+                                <td>{{this.Ticket.title}}</td>
+                                <td>{{this.Ticket.severity}}</td>
+                                <td>{{this.Ticket.category}}</td>
+                                <td>{{this.Ticket.authorID}}</td>
                                 <td>
                                     <a
-                                        href="/staff/tickets/{{this.id}}"
+                                        href="/staff/tickets/{{this.Ticket.id}}"
                                         class="btn btn-info"
                                     >View</a>
                                 </td>

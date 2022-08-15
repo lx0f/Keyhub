@@ -214,12 +214,18 @@
                 <span class="text-muted">Date: {{dateFormat this.createdAt 'DD MMM YYYY'}}</span>
               </div>
               <div>
-				{{#equals this.payment_status 0}}
-                  	<a href="/order/payment/{{this.id}}" class="btn btn-sm btn-info">Complete Payment</a> 
-				{{/equals}}
-				{{#equals this.payment_status 1}}
-                  	<a href="/account/cancelorderform/{{this.id}}" class="btn btn-sm btn-outline-danger">Cancel order</a>
-					<a href="#" data-toggle="modal" data-target="#deliveryStatusModal{{this.id}}" class="btn btn-sm btn-primary">Track order</a> 
+				{{#notequals this.order_status null}}
+					<a href="" class="btn btn-sm btn-danger">Order Cancelled</a> 
+				{{/notequals}}
+
+				{{#equals this.order_status null}}
+					{{#equals this.payment_status 0}}
+						<a href="/order/payment/{{this.id}}" class="btn btn-sm btn-info">Complete Payment</a> 
+					{{/equals}}
+					{{#equals this.payment_status 1}}
+						<a href="/account/cancelorderform/{{this.id}}" class="btn btn-sm btn-outline-danger">Cancel order</a>
+						<a href="#" data-toggle="modal" data-target="#deliveryStatusModal{{this.id}}" class="btn btn-sm btn-primary">Track order</a> 
+					{{/equals}}
 				{{/equals}}
               
 			  </div>
