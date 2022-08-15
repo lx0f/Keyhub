@@ -1,6 +1,13 @@
 const { addDocumentToKnowledgeBase } = require('./util');
 
 async function exportFAQDocument(path) {
+    // ERROR:
+    // In the .csv
+    // Row 1: Question, Answer, Question Answer
+
+    // EXPECTED:
+    // Row 1: Question, Answer
+    // Row 2: Question, Answer
     const FAQs = require('../models/FAQs');
     const fs = require('fs');
     const faqs = await FAQs.findAll();
@@ -17,8 +24,12 @@ async function exportFAQDocument(path) {
         fs.mkdirSync(dir, { recursive: true });
     }
     fs.writeFileSync(path, '');
+    const faqInfo =[]
     faqs.forEach((faq) => {
-        var data = `${faq.Question},${faq.Answer}`;
+        var data = `${faq.Question},${faq.Answer}\n`;
+        
+
+        
         fs.appendFileSync(path, data);
     });
 }
