@@ -122,9 +122,6 @@ customervoucher.post('/postvoucherlist', async (req, res) => {
                     );
                     return res.redirect('/account/myvouchers');
                 } else {
-                    await voucher.update({
-                        voucher_used: (voucher.voucher_used += 1),
-                    });
                     if (voucher.voucher_used >= voucher.total_voucher) {
                         await voucher.update({
                             voucher_used: (voucher.voucher_used += 1),
