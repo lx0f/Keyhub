@@ -33,7 +33,7 @@ const Chart = require('./pipeline');
 
 const usertraffic = require("./manage_traffic");
 
-enableDebugMode(false);
+enableDebugMode(true);
 
 staffRouter.use((req, res, next) => {
     res.locals.path = req.baseUrl;
