@@ -25,7 +25,7 @@ async function exportFAQDocument(path) {
     }
     fs.writeFileSync(path, '');
     faqs.forEach((faq) => {
-        var data = `${faq.Question},${faq.Answer}`;
+        var data = `${faq.Question},${faq.Answer}\r\n`;
         fs.appendFileSync(path, data);
     });
 }
