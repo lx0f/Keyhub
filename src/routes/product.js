@@ -118,6 +118,17 @@ productRouter.post('/updateRoute', async function (req, res) {
     res.render('./staff/staff-productUpdate', { product });
 });
 
+productRouter.post('/online', async function (req,res){
+    const product = await Products.findOne({where: {id:req.body.productID}})
+    Product.update(
+        {
+            status: 'online',
+        },
+        { where: { id: req.body.productID } }
+    );
+    req.flash('success', req.body.name, ' is back online.');
+    res.redirect('/staff/product/checkD')
+})
 productRouter.post('/update', async function (req, res) {
     // let { id, name, description, category, stock, price, colour, brand } =
     //     req.body;
