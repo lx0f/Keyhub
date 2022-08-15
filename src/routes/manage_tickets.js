@@ -10,6 +10,20 @@ manageTicketRouter.get('/', async (req, res) => {
     return res.render('./staff/ticket/ticket-table', { tickets });
 });
 
+manageTicketRouter.get('/assigned', async (req, res) => {
+    const userId = req.user.id;
+    var assignedTickets = await TicketAssignee.findAll({ 
+        where: { userId },
+        include: {
+            model: Ticket,
+            where: { status: 'open' }
+        }
+    });
+
+    return res.render('./staff/ticket/assigned-ticket-table', { assignedTickets });
+});
+
+
 manageTicketRouter.patch('/', async (req, res) => {
     const ticket = await Ticket.findByPk(req.body.id);
     const meta = req.body.meta;
@@ -116,6 +130,7 @@ manageTicketRouter.post('/assign/severity', async (req, res) => {
     ticket.update({ severity });
     return res.redirect(`/staff/tickets/${ticket.id}`);
 });
+
 
 manageTicketRouter.get('/:id', async (req, res) => {
     const id = req.params.id;
