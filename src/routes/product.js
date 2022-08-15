@@ -32,24 +32,24 @@ productRouter.post('/', async function (req, res) {
         //console.log("AFTER",productID)
     }
     flag = true;
-    // for (let index = 0; index < products.length; index++) {
-    //     const usedName = products[index]['name'].toUpperCase();
-    //     console.log(products[index]['colour']);
-    //     const usedColour = products[index]['colour'].toUpperCase();
-    //     if (
-    //         products[index]['category'] == 'Pre-Built Keyboard' ||
-    //         products[index]['category'] == 'Barebones Kit'
-    //     ) {
-    //         if (
-    //             usedName == name.toUpperCase() &&
-    //             usedColour == colour.toUpperCase()
-    //         ) {
-    //             flag = false;
-    //         }
-    //     } else if (usedName == name.toUpperCase()) {
-    //         flag = false;
-    //     }
-    // }
+    for (let index = 0; index < products.length; index++) {
+        const usedName = products[index]['name'].toUpperCase();
+        console.log(products[index]['colour']);
+        const usedColour = products[index]['colour'].toUpperCase();
+        if (
+            products[index]['category'] == 'Pre-Built Keyboard' ||
+            products[index]['category'] == 'Barebone Kit'
+        ) {
+            if (
+                usedName == req.body.name.toUpperCase() &&
+                usedColour == req.body.colour.toUpperCase()
+            ) {
+                flag = false;
+            }
+        } else if (usedName == req.body.name.toUpperCase()) {
+            flag = false;
+        }
+    }
     if (flag) {
         // console.log(image);
         upload(req, res, async (err) => {
