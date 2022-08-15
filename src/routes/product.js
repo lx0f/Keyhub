@@ -17,63 +17,68 @@ productRouter.get('/', (req, res) => {
 productRouter.post('/', async function (req, res) {
     // let { name, description, category, stock, price, colour, brand } = req.body;
     //const imageAsBase64 = "data:image/png;base64, " + fs.readFileSync(`public/uploads/${image}`, 'base64');
-    const products = await (
-        await product.findAll({
-            attributes: ['name', 'id', 'colour', 'category'],
-        })
-    ).map((x) => x.dataValues);
-    productID = 1;
-
-    if (products.length == 0) {
+        // console.log(image);
+    upload(req, res, async (err) => {
+        const products = await (
+            await product.findAll({
+                attributes: ['name', 'id', 'colour', 'category'],
+            })
+        ).map((x) => x.dataValues);
         productID = 1;
-    } else {
-        //console.log("ID IS HERE",products[products.length-1]["productID"])
-        productID = products[products.length - 1]['productID'] + 1;
-        //console.log("AFTER",productID)
-    }
-    flag = true;
-    for (let index = 0; index < products.length; index++) {
-        const usedName = products[index]['name'].toUpperCase();
-        console.log(products[index]['colour']);
-        const usedColour = products[index]['colour'].toUpperCase();
-        if (
-            products[index]['category'] == 'Pre-Built Keyboard' ||
-            products[index]['category'] == 'Barebone Kit'
-        ) {
+    
+        if (products.length == 0) {
+            productID = 1;
+        } else {
+            //console.log("ID IS HERE",products[products.length-1]["productID"])
+            productID = products[products.length - 1]['productID'] + 1;
+            //console.log("AFTER",productID)
+        }
+        flag = true;
+        for (let index = 0; index < products.length; index++) {
+            const usedName = products[index]['name'];
+            //console.log(products[index]['colour']);
+            const usedColour = products[index]['colour'];
             if (
-                usedName == req.body.name.toUpperCase() &&
-                usedColour == req.body.colour.toUpperCase()
+                products[index]['category'] == 'Pre-Built Keyboard' ||
+                products[index]['category'] == 'Barebone Kit'
             ) {
+                if (
+                    //console.log(req.body.name)
+                    usedName == (req.body.name) &&
+                    usedColour == (req.body.colour)
+                ) {
+                    flag = false;
+                }
+            } 
+            else if (usedName == req.body.name) {
                 flag = false;
             }
-        } else if (usedName == req.body.name.toUpperCase()) {
-            flag = false;
         }
-    }
-    if (flag) {
-        // console.log(image);
-        upload(req, res, async (err) => {
-            product.create({
-                productID,
-                name: req.body.name,
-                description: req.body.description,
-                category: req.body.category,
-                stock: req.body.stock,
-                price: req.body.price,
-                colour: req.body.colour,
-                image: `uploads/${req.file.filename}`,
-                brand: req.body.brand,
+        if (flag){
+        product.create({
+            productID,
+            name: req.body.name,
+            description: req.body.description,
+            category: req.body.category,
+            stock: req.body.stock,
+            price: req.body.price,
+            colour: req.body.colour,
+            image: `uploads/${req.file.filename}`,
+            brand: req.body.brand,
 
-                //list of attributes
-            });
-            req.flash('success', ' product has been successfully added!');
-            res.redirect('/staff/product/check');
+            //list of attributes
         });
-        // req.flash('success', name, ' has been successfully added!');
-    } else {
-        req.flash('error', 'It is already a product!');
+
+        req.flash('success', req.body.name,'has been successfully added!');
         res.redirect('/staff/product/check');
     }
+    else{
+        req.flash('error', req.body.name,'is already a product!');
+        res.redirect('/staff/product/check');
+
+    }
+    });
+    // req.flash('success', name, ' has been successfully added!');
 });
 
 productRouter.post('/delete', async function (req, res) {
@@ -152,25 +157,79 @@ productRouter.post('/update', async function (req, res) {
 
     //req.flash("success",name," has been updated successfully!")
     //res.render("./staff/staff-productCheck",{ products });
-    upload(req, res, async (err) => {
-        console.log(req.file);
-        product.update(
-            {
-                name: req.body.name,
-                description: req.body.description,
-                category: req.body.category,
-                stock: req.body.stock,
-                price: req.body.price,
-                colour: req.body.colour,
-                image: `uploads/${req.file.filename}`,
-                brand: req.body.brand,
 
-                //list of attributes
-            },
-            { where: { id: req.body.id } }
+    upload(req, res, async (err) => {
+        const products = await (
+            await product.findAll({
+                attributes: ['name', 'id', 'colour', 'category'],
+            })
+        ).map((x) => x.dataValues);
+        flag = true;
+        for (let index = 0; index < products.length; index++) {
+            const usedName = products[index]['name'];
+            //console.log(products[index]['colour']);
+            const usedColour = products[index]['colour'];
+            if (
+                products[index]['category'] == 'Pre-Built Keyboard' ||
+                products[index]['category'] == 'Barebone Kit'
+            ) {
+                if (
+                    //console.log(req.body.name)
+                    usedName == (req.body.name) &&
+                    usedColour == (req.body.colour)
+                ) {
+                    flag = false;
+                }
+            } 
+            else if (usedName == req.body.name) {
+                flag = false;
+            }
+        }
+        if (flag){
+        product.update({
+            name: req.body.name,
+            description: req.body.description,
+            category: req.body.category,
+            stock: req.body.stock,
+            price: req.body.price,
+            colour: req.body.colour,
+            image: `uploads/${req.file.filename}`,
+            brand: req.body.brand,
+
+            //list of attributes
+        },
+        { where: { id: req.body.id } }
         );
-        req.flash('success', req.body.name, ' has been successfully updated');
+
+        req.flash('success', req.body.name,'has been successfully updated!');
         res.redirect('/staff/product/check');
+    }
+    else{
+        req.flash('error', req.body.name,'is already a product!');
+        res.redirect('/staff/product/check');
+
+    }
     });
+
+    // upload(req, res, async (err) => {
+    //     console.log(req.file);
+    //     product.update(
+    //         {
+    //             name: req.body.name,
+    //             description: req.body.description,
+    //             category: req.body.category,
+    //             stock: req.body.stock,
+    //             price: req.body.price,
+    //             colour: req.body.colour,
+    //             image: `uploads/${req.file.filename}`,
+    //             brand: req.body.brand,
+
+    //             //list of attributes
+    //         },
+    //         { where: { id: req.body.id } }
+    //     );
+    //     req.flash('success', req.body.name, ' has been successfully updated');
+    //     res.redirect('/staff/product/check');
+    // });
 });
 module.exports = productRouter;

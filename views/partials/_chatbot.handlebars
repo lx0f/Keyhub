@@ -1,37 +1,24 @@
 <div class="chatbot">
-  <div class="card">
-    <div id="chatbot-header" class="card-header" data-toggle="collapse" href="#collapse1">
-      <h4 class="mb-0">Chatbot</h4>
-    </div>
-    <div id="collapse1" class="collapse">
-            <div
-                id="chat"
-                class="card-body overflow-auto"
-                style="max-height: 300px; min-height: 300px;"
-            >
-            <!-- Texts go here -->
+    <div class="card">
+        <div id="chatbot-header" class="card-header" data-toggle="collapse" href="#collapse1">
+            <h4 class="mb-0">Chatbot</h4>
+        </div>
+        <div id="collapse1" class="collapse" style="width: 400px; max-width: 400px;">
+            <div id="chat" class="card-body overflow-auto" style="max-height: 300px; min-height: 300px;">
+                <!-- Texts go here -->
             </div>
-      <div class="card-footer">
-        <div class="input-group">
-            <input
-                type="text"
-                name=""
-                id="queryInput"
-                class="form-control"
-                placeholder="Enter message here"
-                aria-describedby="message-send"
-            />
-            <div class="input-group-append">
-                <button
-                    class="btn btn-dark"
-                    id="message-send"
-                >Send</button>
+            <div class="card-footer">
+                <div class="input-group">
+                    <input type="text" name="" id="queryInput" class="form-control" placeholder="Enter message here"
+                        aria-describedby="message-send" />
+                    <div class="input-group-append">
+                        <button class="btn btn-dark" id="message-send">Send</button>
+                    </div>
+                </div>
+
             </div>
         </div>
-
-      </div>
     </div>
-  </div>
 </div>
 
 <script>
@@ -46,7 +33,7 @@
         const query = queryInput.value;
         queryInput.value = '';
         const userMessage = document.createElement('div');
-        userMessage.className = "card user p-2 mb-2";
+        userMessage.className = "card text-break user p-2 mb-2";
         userMessage.innerText = query;
         chatBody.appendChild(userMessage);
 
@@ -60,7 +47,7 @@
 
         // add chatbot response into the chat body
         const chatbotMessage = document.createElement('div');
-        chatbotMessage.className = "card bg-primary text-white p-2 mb-2";
+        chatbotMessage.className = "card text-break bg-primary text-white p-2 mb-2";
         chatbotMessage.innerText = fulfillmentText;
         chatBody.appendChild(chatbotMessage)
 
@@ -69,15 +56,18 @@
 
 </script>
 <style>
-    .user { text-align: right; }
+    .user {
+        text-align: right;
+    }
+
     .chatbot {
         position: fixed;
         bottom: 1%;
         right: 1%;
     }
-    #chatbot-header {
 
-    }
+    #chatbot-header {}
+
     #chatbot-header:hover {
         background-color: black;
         color: white;
