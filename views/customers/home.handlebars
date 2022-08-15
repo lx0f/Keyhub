@@ -221,131 +221,30 @@
 
 <header class="section-heading">
 	<a href="#" class="btn seeall float-right">View all</a>
-	<h3 class="section-title">Trending products</h3>
+	<h3 class="section-title">Top Selling products</h3>
 </header><!-- sect-heading -->
 
 	
 <div class="row">
+    {{#each populars}}
 	<div class="col-md-3">
 		<div href="#" class="card card-product-grid">
             <div class="card viewmore" style="overflow:hidden;height:50%;border:none;">
-			    <a href="#" class="img-wrap"> <img src="images/items/1.jpg"> </a>
-            <center> <button class="btn btn-primary view"> View More </button> </center>
-                
+			    <a href="#" class="img-wrap"> <img src="/{{this.Product.image}}"> </a>
+            <center> 
+                <form action="/Cproducts/detail/{{this.Product.id}}" method="GET">
+                <button class="btn btn-primary view"> View More </button> </center>
+                </form>
             </div>
             <center> <hr style="width: 80%;"> </center>
 			<center><figcaption class="info-wrap" style="top:0;">
-				<a href="#" class="title">Just another product name</a>
-				<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
+				<a href="#" class="title">{{this.Product.name}}</a>
+				<div class="price mt-1">${{this.Product.price}}.00</div> <!-- price-wrap.// -->
 			</figcaption>
             </center>
 		</div>
 	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div href="#" class="card card-product-grid">
-            <div class="card viewmore" style="overflow:hidden;height:50%;border:none;">
-			    <a href="#" class="img-wrap"> <img src="images/items/1.jpg"> </a>
-            <center> <button class="btn btn-primary view"> View More </button> </center>
-                
-            </div>
-            <center> <hr style="width: 80%;"> </center>
-			<center><figcaption class="info-wrap" style="top:0;">
-				<a href="#" class="title">Just another product name</a>
-				<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-			</figcaption>
-            </center>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div href="#" class="card card-product-grid">
-            <div class="card viewmore" style="overflow:hidden;height:50%;border:none;">
-			    <a href="#" class="img-wrap"> <img src="images/items/1.jpg"> </a>
-            <center> <button class="btn btn-primary view"> View More </button> </center>
-                
-            </div>
-            <center> <hr style="width: 80%;"> </center>
-			<center><figcaption class="info-wrap" style="top:0;">
-				<a href="#" class="title">Just another product name</a>
-				<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-			</figcaption>
-            </center>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div href="#" class="card card-product-grid">
-            <div class="card viewmore" style="overflow:hidden;height:50%;border:none;">
-			    <a href="#" class="img-wrap"> <img src="images/items/5.jpg"> </a>
-            <center> <button class="btn btn-primary view"> View More </button> </center>
-                
-            </div>
-            <center> <hr style="width: 80%;"> </center>
-			<center><figcaption class="info-wrap" style="top:0;">
-				<a href="#" class="title">Just another product name</a>
-				<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-			</figcaption>
-            </center>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div href="#" class="card card-product-grid">
-            <div class="card viewmore" style="overflow:hidden;height:50%;border:none;">
-			    <a href="#" class="img-wrap"> <img src="images/items/6.jpg"> </a>
-            <center> <button class="btn btn-primary view"> View More </button> </center>
-                
-            </div>
-            <center> <hr style="width: 80%;"> </center>
-			<center><figcaption class="info-wrap" style="top:0;">
-				<a href="#" class="title">Just another product name</a>
-				<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-			</figcaption>
-            </center>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div href="#" class="card card-product-grid">
-            <div class="card viewmore" style="overflow:hidden;height:50%;border:none;">
-			    <a href="#" class="img-wrap"> <img src="images/items/2.jpg"> </a>
-            <center> <button class="btn btn-primary view"> View More </button> </center>
-                
-            </div>
-            <center> <hr style="width: 80%;"> </center>
-			<center><figcaption class="info-wrap" style="top:0;">
-				<a href="#" class="title">Just another product name</a>
-				<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-			</figcaption>
-            </center>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div href="#" class="card card-product-grid">
-            <div class="card viewmore" style="overflow:hidden;height:50%;border:none;">
-			    <a href="#" class="img-wrap"> <img src="images/items/4.jpg"> </a>
-            <center> <button class="btn btn-primary view"> View More </button> </center>
-                
-            </div>
-            <center> <hr style="width: 80%;"> </center>
-			<center><figcaption class="info-wrap" style="top:0;">
-				<a href="#" class="title">Just another product name</a>
-				<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-			</figcaption>
-            </center>
-		</div>
-	</div> <!-- col.// -->
-	<div class="col-md-3">
-		<div href="#" class="card card-product-grid">
-            <div class="card viewmore" style="overflow:hidden;height:50%;border:none;">
-			    <a href="#" class="img-wrap"> <img src="images/items/3.jpg"> </a>
-            <center> <button class="btn btn-primary view"> View More </button> </center>
-                
-            </div>
-            <center> <hr style="width: 80%;"> </center>
-			<center><figcaption class="info-wrap" style="top:0;">
-				<a href="#" class="title">Just another product name</a>
-				<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-			</figcaption>
-            </center>
-		</div>
-	</div> <!-- col.// -->
+    {{/each}}
 </div> <!-- row.// -->
 
 </div><!-- container // -->

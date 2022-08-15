@@ -1,5 +1,7 @@
 const express = require('express');
 const customerRouter = express.Router();
+const { OrderItem } = require('../models/order');
+const sequelize = require('sequelize');
 
 const customerFAQRouter = require('./customer_FAQ');
 const customerTicketRouter = require('./customer_tickets');
@@ -57,9 +59,17 @@ customerRouter.route('/logout').get((req, res) => {
 });
 
 customerRouter.route('/').get(async (req, res) => {
-    const popularProducts = await Product.findAll();
-    const firstProduct = popularProducts.pop(0);
-    return res.render('./customers/home', { firstProduct, popularProducts });
+    const populars = await OrderItem.findAll({
+        attributes: [[sequelize.fn('SUM', sequelize.col('quantity')), 'sold']],
+        include: {
+            model: Product,
+        },
+        limit: 8,
+        group: 'ProductId',
+        order: [[sequelize.fn('SUM', sequelize.col('quantity')), 'desc']],
+    });
+
+    return res.render('./customers/home', { populars });
 });
 
 module.exports = customerRouter;

@@ -5,6 +5,8 @@ const Ticket = require('../models/Ticket');
 const TicketComment = require('../models/TicketComment');
 const TicketAssignee = require('../models/TicketAssignee');
 const User = require('../models/User');
+const { Mail } = require('../configuration/nodemailer');
+
 manageTicketRouter.get('/', async (req, res) => {
     const tickets = await Ticket.findAll();
     return res.render('./staff/ticket/ticket-table', { tickets });
@@ -31,6 +33,19 @@ manageTicketRouter.patch('/', async (req, res) => {
 
     ticket.status = meta || ticket.status;
     ticket.save();
+
+    const user = await User.findByPk(ticket.authorID);
+    console.log('USER', user)
+
+    if (ticket.status == 'closed') {
+        Mail.Send({
+            email_recipient: user.email,
+            subject: 'Ticket Resolved',
+            template_path: '../../views/customers/ticketResolveMail.html',
+            context: { ticketId: ticket.id, ticketTitle: ticket.title }
+        });  
+    }
+
     await TicketComment.create({
         message,
         meta: meta || null,
