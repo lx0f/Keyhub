@@ -57,6 +57,7 @@ generateRouter.route('/chart').get(async (req, res) => {
     await generateImageCharts.GeneratePieChart();
     await generateImageCharts.GenerateDoughnutChart();
     await generateImageCharts.GenerateDisabledChart();
+    await generateImageCharts.generateInventoryReport();
     const doc = new jsPDF();
 
     doc.setFont('Helvetica');
@@ -143,6 +144,10 @@ generateRouter.route('/chart').get(async (req, res) => {
         -5, 165, 205, 120
     )
 
+    doc.addPage();
+
+    doc.addImage( 'data:image/png;base64,' + require("fs").readFileSync("inventoryReport.png", "base64"),'png', 
+    20, 10, 180, 105)
     const filename = `KeyHubReports ${from}-${to}.pdf`;
 
     doc.save(filename);
