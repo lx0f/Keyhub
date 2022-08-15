@@ -70,6 +70,18 @@ productRouter.route('/general').get(async (req, res) => {
     });
 });
 
+productRouter.get('/keyboard', async (req, res) => {
+    const display = await product.findAll({ where: { status: 'online' } });
+    var items = display.length;
+    if (items == 1) {
+        items = items.toString() + ' product';
+    } else {
+        items = items.toString() + ' products';
+    }
+    const keeb = true;
+    return res.render('./customers/page-listing-grid', { display, items, keeb})
+});
+
 productRouter.get('/pre', async (req, res) => {
     const products = await (
         await product.findAll({ where: { status: 'online' } })
