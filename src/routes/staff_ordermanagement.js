@@ -194,6 +194,9 @@ OrderManagement.get('/cancelrequests', async function (req, res) {
                         {
                             model: Shippinginfo,
                         },
+                        {
+                            model: Payment
+                        }
                     ],
                 },
             ],
