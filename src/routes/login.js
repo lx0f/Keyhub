@@ -33,8 +33,17 @@ loginRouter
                 );
                 return res.redirect('/register');
             } else if (
-                await User.findOne({ where: { email: req.body.email } })
+                (await User.findOne({ where: { email: req.body.email } }))
             ) {
+                console.log((await User.findOne({ where: { email: req.body.email } })))
+                console.log("EMAIL")
+                console.log("EMAIL")
+
+                console.log("EMAIL")
+
+                console.log("EMAIL")
+
+                
                 req.flash('error', 'Email is not unique!');
                 return res.redirect('/register');
             }

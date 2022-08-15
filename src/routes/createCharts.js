@@ -4,11 +4,124 @@ const User = require('../models/user');
 const chartJsImg = require('chartjs-to-image');
 const Chart = require('./pipeline');
 const { lineUserChartDaily } = require('./pipeline');
-
+const product = require("../models/product")
 class GenerateImageCharts {
     constructor(to, from) {
         this.to = to;
         this.from = from;
+    }
+
+    async generateInventoryReport() {
+        const Inventory = await product.findAll()
+  
+  
+        let data = [];
+        let cols = ["Stocks","ProductName"];
+      
+             
+        var stock = []
+        var name = []
+
+        Inventory.forEach(element => {
+          stock.push(element.stock), 
+          name.push(element.name)
+ 
+        });
+
+     
+     
+  
+   
+        // console.log(data.data)
+  
+
+
+    const myChart = new chartJsImg();
+    myChart.setConfig(
+        {
+            type: 'bar',
+            data: {
+              labels: name,
+              datasets: [{
+                label: "Current Stock",
+                lineTension: 0.3,
+                backgroundColor: "blue",
+                borderColor: "rgba(78, 115, 223, 1)",
+                pointRadius: 3,
+                pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointBorderColor: "rgba(78, 115, 223, 1)",
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                pointHitRadius: 10,
+                pointBorderWidth: 2,
+                data: stock,
+              }],
+            },
+            options: {
+              maintainAspectRatio: false,
+              layout: {
+                padding: {
+                  left: 10,
+                  right: 25,
+                  top: 25,
+                  bottom: 0
+                }
+              },
+              scales: {
+                xAxes: [{
+                  time: {
+                    unit: 'productname'
+                  },
+                  gridLines: {
+                    display: true,
+                    drawBorder: false
+                  },
+                  ticks: {
+                    maxTicksLimit: 7
+                  }
+                }],
+                yAxes: [{
+                  ticks: {
+                    maxTicksLimit: 5,
+                    min: 0,
+                    padding: 10,
+                    // Include a dollar sign in the ticks
+
+                  },
+                  gridLines: {
+                    color: "rgb(234, 236, 244)",
+                    zeroLineColor: "rgb(234, 236, 244)",
+                    drawBorder: false,
+                    borderDash: [2],
+                    zeroLineBorderDash: [2]
+                  }
+                }],
+              },
+              legend: {
+                display: false
+              },
+              tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                titleFontSize: 14,
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                intersect: false,
+                mode: 'index',
+                caretPadding: 10,
+
+              }
+            }
+          }
+    )
+
+    await myChart.toFile("inventoryReport.png")
     }
 
     async generateLineUserChartDaily() {
