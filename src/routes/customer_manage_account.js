@@ -26,6 +26,7 @@ customerManageAccountRouter.use((req, res, next) => {
         return res.redirect('/');
 
     }
+    next()
 });
 
 

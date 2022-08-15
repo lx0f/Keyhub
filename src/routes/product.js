@@ -32,24 +32,24 @@ productRouter.post('/', async function (req, res) {
         //console.log("AFTER",productID)
     }
     flag = true;
-    // for (let index = 0; index < products.length; index++) {
-    //     const usedName = products[index]['name'].toUpperCase();
-    //     console.log(products[index]['colour']);
-    //     const usedColour = products[index]['colour'].toUpperCase();
-    //     if (
-    //         products[index]['category'] == 'Pre-Built Keyboard' ||
-    //         products[index]['category'] == 'Barebones Kit'
-    //     ) {
-    //         if (
-    //             usedName == name.toUpperCase() &&
-    //             usedColour == colour.toUpperCase()
-    //         ) {
-    //             flag = false;
-    //         }
-    //     } else if (usedName == name.toUpperCase()) {
-    //         flag = false;
-    //     }
-    // }
+    for (let index = 0; index < products.length; index++) {
+        const usedName = products[index]['name'].toUpperCase();
+        console.log(products[index]['colour']);
+        const usedColour = products[index]['colour'].toUpperCase();
+        if (
+            products[index]['category'] == 'Pre-Built Keyboard' ||
+            products[index]['category'] == 'Barebone Kit'
+        ) {
+            if (
+                usedName == req.body.name.toUpperCase() &&
+                usedColour == req.body.colour.toUpperCase()
+            ) {
+                flag = false;
+            }
+        } else if (usedName == req.body.name.toUpperCase()) {
+            flag = false;
+        }
+    }
     if (flag) {
         // console.log(image);
         upload(req, res, async (err) => {
@@ -118,6 +118,17 @@ productRouter.post('/updateRoute', async function (req, res) {
     res.render('./staff/staff-productUpdate', { product });
 });
 
+productRouter.post('/online', async function (req,res){
+    const product = await Products.findOne({where: {id:req.body.productID}})
+    Product.update(
+        {
+            status: 'online',
+        },
+        { where: { id: req.body.productID } }
+    );
+    req.flash('success', req.body.name, ' is back online.');
+    res.redirect('/staff/product/checkD')
+})
 productRouter.post('/update', async function (req, res) {
     // let { id, name, description, category, stock, price, colour, brand } =
     //     req.body;

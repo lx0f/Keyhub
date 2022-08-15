@@ -16,7 +16,6 @@ const manageMail = require('./manage_mail');
 
 const FAQrouter = require('./staff_FAQs');
 const productRouter = require('./product');
-const enableDebugMode = require('../configuration/settings');
 const OrderManagement = require('./staff_ordermanagement');
 
 const dataRouter = require('./data');
@@ -33,9 +32,10 @@ const Chart = require('./pipeline');
 
 const usertraffic = require("./manage_traffic");
 
-enableDebugMode(false);
-
 staffRouter.use((req, res, next) => {
+  if (req.isUnauthenticated() || !req.user.isStaff) {
+    return res.redirect('/');
+}
     res.locals.path = req.baseUrl;
     console.log(req.baseUrl);
 
