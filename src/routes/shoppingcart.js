@@ -152,6 +152,8 @@ ShoppingCart.post('/postcart', async (req, res) => {
             });
             cart = userCart;
         } else {
+            req.flash('error', 'please login as customer first');
+            return res.redirect('/login');
             const [userCart] = await Cart.findOrCreate({
                 where: {
                     id: req.session.cartId || 0,
