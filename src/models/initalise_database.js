@@ -60,14 +60,6 @@ const initaliseDatabase = async () => {
                 password: superuser.password,
                 isStaff: superuser.isStaff,
             });
-            // @lx0f - for experimenting
-            await Ticket.create({
-                title: 'hello this is ticket',
-                description: 'this is the super mega ultra description',
-                severity: 'high',
-                category: 'bug',
-                authorID: user.id,
-            });
         }
     });
 
