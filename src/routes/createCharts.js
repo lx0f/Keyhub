@@ -45,7 +45,7 @@ class GenerateImageCharts {
               datasets: [{
                 label: "Current Stock",
                 lineTension: 0.3,
-                backgroundColor: "blue",
+                backgroundColor: "#B2A4FF",
                 borderColor: "rgba(78, 115, 223, 1)",
                 pointRadius: 3,
                 pointBackgroundColor: "rgba(78, 115, 223, 1)",
