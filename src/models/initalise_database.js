@@ -7,6 +7,7 @@ const Permission = require('../models/Permissions');
 const Role = require('../models/Role');
 const CartItem = require('../models/cart');
 const PDF = require('../models/Pdf');
+const IPLogger = require('./IPLogger');
 require('dotenv').config();
 
 const ensureCreated = async () => {
@@ -33,6 +34,7 @@ const initaliseDatabase = async () => {
         .authenticate()
         .then(async () => {
             Role.belongsToMany(Permission, { through: 'RolePermission' });
+        
             await sequelize
                 .sync({ alter: true })
                 .then((e) => console.log('Successfully altered'))

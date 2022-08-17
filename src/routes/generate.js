@@ -155,7 +155,7 @@ generateRouter.route('/chart').get(async (req, res) => {
     try {
         const upload = await bucket.upload(filename);
         await PDF.create({
-            link: `https://storage.googleapis.com/keyhub-files/KeyHubReports%20${from}-${to}.pdf`,
+            link: `https://storage.googleapis.com/keyhub-files-three/KeyHubReports%20${from}-${to}.pdf`,
             name: filename,
         });
 

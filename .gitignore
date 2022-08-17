@@ -4,3 +4,4 @@ data/database.sqlite
 .env
 public\uploads
 src/dialogflow/docs
+hardstore-334605-d7656fb6ffde.json
