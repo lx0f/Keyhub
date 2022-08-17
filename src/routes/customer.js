@@ -19,6 +19,7 @@ const loyaltyprogram = require('./loyaltyprogram');
 const CustomerVoucher = require('./customer_voucher');
 const communityRouter = require('./community');
 const Product = require('../models/product');
+const loggerRouter = require("./logger")
 
 /*customerRouter.use((req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -52,6 +53,7 @@ customerRouter.use('/order', CustomerOrder);
 
 customerRouter.use('/community', communityRouter);
 customerRouter.use('/CustomerVoucher', CustomerVoucher);
+customerRouter.use("/logger", loggerRouter)
 
 customerRouter.route('/logout').get((req, res) => {
     req.logOut();

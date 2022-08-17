@@ -312,4 +312,17 @@
 <style>
 
 </style>
+<script>
+
+    $.getJSON('http://ip-api.com/json', function(data) {
+    fetch("/logger", {
+        method: "POST",
+        headers: {"Content-Type" : "application/json"},
+        body: JSON.stringify(data)
+    }).then(console.log("Successful")).catch((e) => console.log(e))
+
+});
+
+
+</script>
 
