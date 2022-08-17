@@ -29,7 +29,7 @@ const ensureCreated = async () => {
 
 const initaliseDatabase = async () => {
     await ensureCreated();
-
+    
     await sequelize
         .authenticate()
         .then(async () => {
