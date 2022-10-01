@@ -1,0 +1,12 @@
+<main class="container my-3">
+    <h1>{{room.name}}</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/staff/chat">Chat</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{room.id}}</li>
+        </ol>
+    </nav>
+    <div>Description: {{room.description}}</div>
+    <a href="/staff/chat/{{room.id}}/edit" class="btn btn-primary">Edit</a>
+</main>

@@ -1,0 +1,62 @@
+<main class="container grid my-5">
+    <div class="row">
+        <div class="col-md-3">
+            {{>_account_aside}}
+        </div>
+        <div class="col-md-9 grid ">
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">My Addresses</h5>
+                            View and manage your addresses
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">
+                                {{#unless addresses}}
+                                <div class="">No Addresses</div>
+                                {{/unless}}
+                                <a href="/account/address/add" class="btn btn-primary">Add Address</a>
+                            </div>
+                            {{#if addresses}}
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Country</th>
+                                        <th>City</th>
+                                        <th>Street</th>
+                                        <th>Zip code</th>
+                                        <th>Unit number</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each addresses}}
+                                    <tr>
+                                        <td>{{this.country}}</td>
+                                        <td>{{this.city}}</td>
+                                        <td>{{this.street}}</td>
+                                        <td>{{this.zipCode}}</td>
+                                        <td>{{this.unitNumber}}</td>
+                                        <form action="/account/address/{{this.id}}/?_method=DELETE" method="post">
+                                            <td><button class="btn btn-danger" type="submit"><i
+                                                        class="fa fa-trash"></i></button></td>
+                                        </form>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

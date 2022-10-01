@@ -1,0 +1,56 @@
+<main class="container">
+    <h1>Add Product</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/staff/product">Product</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add</li>
+        </ol>
+    </nav>
+    <form class="grid" action="/staff/product" enctype="multipart/form-data" method="post">
+        <div class="row">
+            <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" type="text" id="name" name="name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="description"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="category">Category</label>
+                    <select class="form-select" aria-label="Category" name="category">
+                        <option value='switch' selected>switch</option>
+                        <option value='custom'>custom</option>
+                        <option value='prebuilt'>prebuilt</option>
+                        <option value='keycap'>keycap</option>
+                        <option value='accessory'>accessory</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" name="price">
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input class="form-control" type="file" name="image">
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Add</button>
+        <button class="btn btn-secondary" type="reset">Reset</button>
+        <a class="btn btn-danger" style="text-decoration: none; color: white;" href="/staff/product">Cancel</a>
+    </form>
+</main>

@@ -1,0 +1,64 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<main class="container my-3">
+    <h1>Order #{{order.id}}</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/staff/order">Order</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{order.id}}</li>
+        </ol>
+    </nav>
+    <h6>Summary</h6>
+    <div>Number of products: {{order.count}}</div>
+    <div>Revenue: S${{order.total}}.00</div>
+    <div>Address:
+        {{#if order.Address}}
+        {{order.Address.country}}, {{order.Address.street}}, {{order.Address.unitNumber}},
+        {{order.Address.zipCode}}
+        {{else}}
+        No address
+        {{/if}}
+    </div>
+    <div>Created at: {{dateFormat order.createdAt 'DD MMM YYYY'}}</div>
+    <div>Status: {{order.status}}</div>
+    {{#equals order.status 'waiting'}}
+    <form action="/staff/order/{{order.id}}/?_method=PUT" method="post">
+        <button type="submit" name="status" value="delivering" class="btn btn-primary">Start delivery</button>
+    </form>
+    {{/equals}}
+    {{#notEquals order.status 'waiting'}}
+    <div>Delivery #{{delivery.id}}: <a href="/staff/delivery/{{delivery.id}}">Link</a></div>
+    {{/notEquals}}
+    <hr>
+    <table id="order-table" class="border">
+        <thead>
+            <tr>
+                <th>Thumbnail</th>
+                <th>Product link</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each order.OrderItems}}
+            <tr>
+                <td>
+                    <img src="{{this.Product.imagePath}}" alt="thumbnail of {{this.Product.name}}" height="30px"
+                        width="30px">
+                </td>
+                <td><a href="/staff/product/{{this.Product.id}}">Link</a></td>
+                <td>{{this.quantity}}</td>
+                <td>S${{this.Product.price}}.00</td>
+                <td>S${{multiply this.quantity this.Product.price}}.00</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</main>
+<script>
+    $(document).ready(function () {
+        $('#order-table').DataTable();
+    });
+</script>

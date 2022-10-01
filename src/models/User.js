@@ -1,119 +1,137 @@
 const bcrypt = require('bcrypt');
-const Sequelize = require('sequelize');
-const sequelize = require('./database_setup');
-const moment = require('moment');
+const sequelize = require('../data');
+const { Model, DataTypes } = require('sequelize');
 const { v4: uuid } = require('uuid');
-const { set } = require('../setup');
 
-class User extends Sequelize.Model {
-    compareHash(value) {
-        return bcrypt.compareSync(value, this.getDataValue('password'));
-    }
+class User extends Model {
+  compareHash(value) {
+    return bcrypt.compareSync(value, this.getDataValue('password'));
+  }
 
-    verifyTokenAge() {
-        return moment().unix() - this.getDataValue('resetTokenDate') < 300;
-    }
+  verifyTokenAge() {
+    return moment().unix() - this.getDataValue('resetTokenDate') < 300;
+  }
 
-    generateResetToken() {
-        this.setDataValue('resetTokenID', uuid());
-        this.setDataValue('resetTokenDate', moment().unix());
-        this.save();
-    }
+  generateResetToken() {
+    this.setDataValue('resetTokenID', uuid());
+    this.setDataValue('resetTokenDate', moment().unix());
+    this.save();
+  }
 }
 
 User.init(
-    {
-        id: {
-            type: Sequelize.DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            unique: 'id',
-            allowNull: false,
-        },
-        username: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false,
-        },
-        email: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false,
-            unique: 'email',
-        },
-        image: {
-            type: Sequelize.DataTypes.BLOB,
-            allowNull: true,
-            defaultValue: null,
-        },
-        password: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: true,
-            unique: 'password',
-            set(value) {
-                if (value) {
-                    this.setDataValue(
-                        'password',
-                        bcrypt.hashSync(value, 10) + ''
-                    );
-                }
-            },
-        },
-        isStaff: {
-            type: Sequelize.DataTypes.INTEGER,
-            allowNull: true,
-            defaultValue: null,
-        },
-        authMethod: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false,
-            defaultValue: 'local',
-            isIn: [['local', 'oauth', 'both']],
-        },
-        resetTokenID: {
-            //denormalisation
-            type: Sequelize.DataTypes.UUID,
-            allowNull: true,
-            defaultValue: null,
-        },
-        resetTokenDate: {
-            type: Sequelize.DataTypes.INTEGER,
-            allowNull: false,
-            defaultValue: 0,
-        },
-        disabled: {
-            type: Sequelize.DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: 0,
-        },
-        updatedAt: {
-            type: Sequelize.DataTypes.DATE,
-            allowNull: false,
-        },
-        createdAt: {
-            type: Sequelize.DataTypes.DATE,
-            allowNull: false,
-        },
-        date: {
-            type: Sequelize.DataTypes.STRING,
-            defaultValue: moment().format('L'),
-        },
-        imageFilePath: {
-            type: Sequelize.DataTypes.STRING,
-            defaultValue: 'uploads/unknownimage.png',
-        },
-
-        address: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: true,
-            defaultValue: null,
-        },
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
-
-    {
-        freezeTableName: true,
-        timestamps: true,
-        sequelize,
-        modelName: 'User',
-    }
+    username: {
+      type: DataTypes.STRING(30),
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: 'email',
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      set(value) {
+        if (value) {
+          this.setDataValue('password', bcrypt.hashSync(value, 10) + '');
+        }
+      },
+    },
+    disabled: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    authMethod: {
+      type: DataTypes.ENUM(['local', 'oauth', 'both']),
+      defaultValue: 'local',
+      allowNull: false,
+    },
+    resetTokenID: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      defaultValue: null,
+    },
+    resetTokenDate: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    isStaff: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+  },
+  {
+    sequelize,
+  }
 );
 
-module.exports = User;
+class Address extends Model {}
+Address.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      unique: 'id',
+    },
+    country: {
+      type: DataTypes.STRING,
+    },
+    zipCode: {
+      type: DataTypes.INTEGER,
+    },
+    city: {
+      type: DataTypes.STRING,
+    },
+    street: {
+      type: DataTypes.STRING,
+    },
+    unitNumber: {
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    sequelize,
+  }
+);
+
+class PaymentMethod extends Model {}
+PaymentMethod.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: 'id',
+      allowNull: false,
+    },
+    holderName: {
+      type: DataTypes.STRING,
+    },
+    cardNumber: {
+      type: DataTypes.STRING,
+    },
+    expiryDate: {
+      type: DataTypes.STRING,
+    },
+    cvv: {
+      type: DataTypes.INTEGER,
+    },
+  },
+  {
+    sequelize,
+  }
+);
+
+User.hasMany(Address);
+Address.belongsTo(User);
+User.hasMany(PaymentMethod);
+PaymentMethod.belongsTo(User);
+
+module.exports = { User, Address, PaymentMethod };

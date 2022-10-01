@@ -1,0 +1,90 @@
+<script src="https://cdn.socket.io/4.5.0/socket.io.min.js"
+    integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k"
+    crossorigin="anonymous"></script>
+<input type="hidden" id="id" name="id" value="{{user.id}}">
+<main class="container d-grid  my-3">
+    <div class="row">
+        <div class="col-3">
+            <aside>
+                <div class="card">
+                    <div class="card-header">
+                        <h1>Rooms</h1>
+                    </div>
+                    <div class="card-body overflow-scroll" style="height: 500px;">
+                        <ul>
+                            {{#each rooms}}
+                            <li><a href="/chat/{{this.id}}">{{this.name}}</a></li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+        </div>
+        <div class="col-9">
+            <div class="card">
+                <div class="card-header">
+                    <h1>{{room.name}}</h1>
+                    <p>{{room.description}}</p>
+                </div>
+                <div class="card-body overflow-scroll d-flex flex-column-reverse" style="height: 500px;">
+                    <ul id="messageList" style="list-style:none;">
+
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <form action="" class="input-group" id="sendMessageForm">
+                        <input class="form-control" id="messageInput" type="text" placeholder="message">
+                        <button class="btn btn-dark" id="messageBtn">Send</button>
+                    </form>
+                    <input type="hidden" id="roomInput" value="{{room.id}}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</main>
+<script>
+    const form = document.getElementById('sendMessageForm');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.currentTarget.reset();
+    })
+</script>
+<script>
+    const socket = io();
+    const room = document.getElementById('roomInput').value;
+    const reqUserId = document.getElementById('id').value;
+    socket.emit('join-room', room)
+
+    socket.on('join-room', ({ username }) => {
+        const el = document.createElement('li');
+        el.innerHTML = `${username} joined the room`;
+        el.classList = 'text-center text-muted';
+        document.getElementById('messageList').appendChild(el);
+    })
+
+    socket.on('message', ({ text, username, userId }) => {
+        const el = document.createElement('li');
+        const usernameDiv = document.createElement('div');
+        const textDiv = document.createElement('div');
+        const contentDiv = document.createElement('div');
+        usernameDiv.innerHTML = username;
+        textDiv.innerHTML = text;
+        contentDiv.appendChild(usernameDiv);
+        contentDiv.appendChild(textDiv);
+        if (userId == reqUserId) {
+            contentDiv.classList = 'border p-2 rounded ms-auto';
+        } else {
+            contentDiv.classList = 'bg-dark border text-white p-2 rounded';
+        }
+        el.appendChild(contentDiv);
+        el.classList = 'mb-1 d-flex align-items-end'
+        document.getElementById('messageList').appendChild(el);
+    })
+
+    document.getElementById('messageBtn').onclick = () => {
+        const text = document.getElementById('messageInput').value;
+        socket.emit('message', text, room)
+    }
+</script>

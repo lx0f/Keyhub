@@ -1,0 +1,55 @@
+<main class="my-3">
+    <div class="card mx-auto mb-3" style="max-width: 380px;">
+        <div class="card-body">
+            <h4 class="card-title mb-4">Add payment method</h4>
+            <form action="/account/payment/" method="POST">
+                <div class="form-group mb-3">
+                    <label for="cardNumber">Card Number</label>
+                    <input class="form-control" type="number" name="cardNumber" max="9999999999999999">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="holderName">Card holder</label>
+                    <input class="form-control" type="text" name="holderName">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="expiryDateMonth">MM</label>
+                    <select class="form-select" name="expiryDateMonth">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="expiryDateYear">YY</label>
+                    <select class="form-select" name="expiryDateYear">
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                    </select>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="cvv">CVV</label>
+                    <input class="form-control" type="number" name="cvv" max="999" id="">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-dark btn-block w-100">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,41 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<main class="container my-3">
+    <h1>Ticket Table</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Ticket</li>
+        </ol>
+    </nav>
+    <a href="/staff/product/add" class="btn btn-primary mb-3 disabled">Add ticket</a>
+    <table id="ticket-table" class="border">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Severity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each tickets}}
+            <tr>
+                <td>{{this.status}}</td>
+                <td>{{this.id}}</td>
+                <td>{{this.title}}</td>
+                <td>{{this.category}}</td>
+                <td>{{this.severity}}</td>
+                <td><a href="ticket/{{this.id}}">View</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</main>
+<script>
+    $(document).ready(function () {
+        $('#ticket-table').DataTable();
+    });
+</script>

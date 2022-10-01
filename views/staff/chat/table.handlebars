@@ -1,0 +1,35 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<main class="container my-3">
+    <h1>Chat Table</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chat</li>
+        </ol>
+    </nav>
+    <a href="/staff/chat/add" class="btn btn-primary mb-3">Add room</a>
+    <table id="chat-table" class="border">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each rooms}}
+            <tr>
+                <td>{{this.id}}</td>
+                <td>{{this.name}}</td>
+                <td><a href="/staff/chat/{{this.id}}">View</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</main>
+<script>
+    $(document).ready(function () {
+        $('#chat-table').DataTable();
+    });
+</script>

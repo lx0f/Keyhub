@@ -1,0 +1,42 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<main class="container my-3">
+    <h1>Order Table</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Order</li>
+        </ol>
+    </nav>
+    <table id="order-table" class="border">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Revenue</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each orders}}
+            <tr>
+                <td>{{this.id}}</td>
+                <td class="text-truncate">{{this.User.username}}</td>
+                <td class="text-truncate">{{this.User.email}}</td>
+                <td>{{this.status}}</td>
+                <td>S${{this.total}}.00</td>
+                <td>{{dateFormat this.createdAt 'DD MMM YYYY'}}</td>
+                <td><a href="/staff/order/{{this.id}}">View</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</main>
+<script>
+    $(document).ready(function () {
+        $('#order-table').DataTable();
+    });
+</script>

@@ -1,0 +1,44 @@
+<main class="container my-3">
+    <form action="/order" method="post">
+        <div class="card mx-auto" style="max-width: 40rem;">
+            <div class="card-body">
+                <div class="card-text mb-3">
+                    <label for="address">Select address</label>
+                    {{#if addresses}}
+                    <select class="form-select" name="addressId" id="">
+                        {{#each addresses}}
+                        <option value="{{this.id}}">
+                            <div>{{this.country}}</div>,
+                            <div>{{this.city}}</div>,
+                            <div>{{this.street}}</div>,
+                            <div>{{this.unitNumber}}</div>,
+                            <div>{{this.zipCode}}</div>
+                        </option>
+                        {{/each}}
+                    </select>
+                    {{else}}
+                    You don't have any address set! Go to <a href="/account/address">here</a> to set it up.
+                    {{/if}}
+                </div>
+                <div class="card-text">
+                    <label for="payment">Select payment method</label>
+                    {{#if paymentMethods}}
+                    <select class="form-select" name="paymentMethodId" id="">
+                        {{#each paymentMethods}}
+                        <option value="{{this.id}}">
+                            <div>{{this.holderName}}</div>,
+                            <div>{{censor this.cardNumber}}</div>
+                        </option>
+                        {{/each}}
+                    </select>
+                    {{else}}
+                    You don't have any address set! Go to <a href="/account/payment">here</a> to set it up.
+                    {{/if}}
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-dark">Make payment</button>
+            </div>
+        </div>
+    </form>
+</main>

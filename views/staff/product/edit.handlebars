@@ -1,0 +1,61 @@
+<main class="container">
+    <h1>Edit Product {{product.id}}</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/staff/product">Product</a></li>
+            <li class="breadcrumb-item"><a href="/staff/product/{{product.id}}">{{product.id}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit</li>
+        </ol>
+    </nav>
+    <form class="grid" action="/staff/product/{{product.id}}?_method=PUT" enctype="multipart/form-data" method="POST">
+        <div class="row">
+            <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" type="text" id="name" name="name" value="{{product.name}}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description"
+                    name="description">{{product.description}}</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="mb-3">
+                    <label class="form-label" for="category">Category</label>
+                    <select class="form-select" aria-label="Category" name="category">
+                        <option value='{{product.category}}' hidden="hidden" selected="selected">{{product.category}}
+                        </option>
+                        <option value='switch'>switch</option>
+                        <option value='custom'>custom</option>
+                        <option value='prebuilt'>prebuilt</option>
+                        <option value='keycap'>keycap</option>
+                        <option value='accessory'>accessory</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" name="price" value="{{product.price}}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input class="form-control" type="file" name="image">
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Edit</button>
+        <button class="btn btn-secondary" type="reset">Reset</button>
+        <a class="btn btn-danger" style="text-decoration: none; color: white;"
+            href="/staff/product/{{product.id}}">Cancel</a>
+    </form>
+</main>

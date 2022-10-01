@@ -1,222 +1,54 @@
-const Sequelize = require('sequelize');
-const sequelize = require('./database_setup');
-const Product = require('./product');
-const User = require('./User');
-const DeliveryDetail = require('./DeliveryDetail');
+const sequelize = require('../data');
+const { Model, DataTypes } = require('sequelize');
+const { Product } = require('./Product');
+const { User, Address, PaymentMethod } = require('./User');
 
-class Order extends Sequelize.Model {}
-
+class Order extends Model {}
 Order.init(
-    {
-        id: {
-            type: Sequelize.DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            unique: 'id',
-        },
-        UserId: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        subtotal: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        amount: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        discount: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        shipping_fee: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        shipping_status: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        payment_status: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        order_status: {
-            type: Sequelize.DataTypes.STRING,
-        },
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
-    {
-        freezeTableName: true,
-        timestamps: true,
-        sequelize,
-        modelName: 'Order',
-    }
+    total: {
+      type: DataTypes.INTEGER,
+    },
+    count: {
+      type: DataTypes.INTEGER,
+    },
+    status: {
+      type: DataTypes.ENUM(['waiting', 'delivering', 'done']),
+      defaultValue: 'waiting',
+    },
+  },
+  { sequelize }
 );
 
-class OrderItem extends Sequelize.Model {}
+class OrderItem extends Model {}
 OrderItem.init(
-    {
-        id: {
-            type: Sequelize.DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            unique: 'id',
-        },
-        OrderId: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        ProductId: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        price: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        quantity: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
+  {
+    quantity: {
+      type: DataTypes.INTEGER,
     },
-    {
-        freezeTableName: true,
-        timestamps: true,
-        sequelize,
-        modelName: 'OrderItem',
-    }
+  },
+  { sequelize }
 );
 
-class Payment extends Sequelize.Model {}
-
-Payment.init(
-    {
-        id: {
-            type: Sequelize.DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            unique: 'id',
-        },
-        OrderId: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        Payment_method: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        last4digit: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        isSuccess: {
-            type: Sequelize.DataTypes.BOOLEAN,
-        },
-        payTime: {
-            type: Sequelize.DataTypes.DATE,
-        },
-    },
-    {
-        freezeTableName: true,
-        timestamps: true,
-        sequelize,
-        modelName: 'Payment',
-    }
-);
-
-class Cancelrequest extends Sequelize.Model {}
-
-Cancelrequest.init(
-    {
-        id: {
-            type: Sequelize.DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            unique: true,
-        },
-        OrderId: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        message: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        status: {
-            type: Sequelize.DataTypes.STRING,
-        },
-    },
-    {
-        freezeTableName: true,
-        timestamps: true,
-        sequelize,
-        modelName: 'Cancelrequest',
-    }
-);
-// cancel request and order
-Order.hasOne(Cancelrequest);
-Cancelrequest.belongsTo(Order);
-
-// User and order association
-class Shippinginfo extends Sequelize.Model {}
-
-Shippinginfo.init(
-    {
-        id: {
-            type: Sequelize.DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            unique: true,
-        },
-        OrderId: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        Fname: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        Lname: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        address: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        zipcode: {
-            type: Sequelize.INTEGER,
-        },
-    },
-    {
-        freezeTableName: true,
-        timestamps: true,
-        sequelize,
-        modelName: 'Shippinginfo',
-    }
-);
-
-// User and order association
-Order.belongsTo(User);
-User.hasMany(Order);
-
-//shippinginfo and order
-Shippinginfo.belongsTo(Order);
-Order.hasOne(Shippinginfo);
-
-// Order and Product association
-Order.belongsToMany(Product, {
-    through: {
-        model: OrderItem,
-        unique: false,
-    },
-    foreignKey: 'OrderId',
-    as: 'products',
-});
-Product.belongsToMany(Order, {
-    through: {
-        model: OrderItem,
-        unique: false,
-    },
-    foreignKey: 'ProductId',
-    as: 'orders',
-});
+Order.belongsToMany(Product, { through: OrderItem });
+Product.belongsToMany(Order, { through: OrderItem });
 Order.hasMany(OrderItem);
 OrderItem.belongsTo(Order);
-
 Product.hasMany(OrderItem);
 OrderItem.belongsTo(Product);
 
-// Order and Payment association
-Order.hasOne(Payment);
-Payment.belongsTo(Order);
+Address.hasMany(Order);
+Order.belongsTo(Address);
 
-Order.hasOne(DeliveryDetail);
-DeliveryDetail.belongsTo(Order);
+PaymentMethod.hasMany(Order);
+Order.belongsTo(PaymentMethod);
 
-// cancel request and order
-Order.hasOne(Cancelrequest);
-Cancelrequest.belongsTo(Order);
+User.hasMany(Order);
+Order.belongsTo(User);
 
-module.exports = { Order, OrderItem, Payment, Shippinginfo, Cancelrequest };
+module.exports = { Order, OrderItem };

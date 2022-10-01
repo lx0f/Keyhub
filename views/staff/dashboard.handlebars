@@ -1,0 +1,90 @@
+{{!--
+Content:
+- Revenue
+- Orders today/last 7 days/last 30 days
+- Orders : Waiting to delivering to done ratio
+- Tickets : Open to close ratio
+--}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+<main class="container my-3">
+    <h1>Dashboard</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Revenue</h4>
+                    <small class="card-subtitle text-muted">Last 7 days</small>
+                    <h2 class="text-success">S${{revenue}}.00</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Tickets Status</h4>
+                    <canvas style="max-width: 20rem; max-height: 20rem;" id="ticket-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{!-- <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Top 5 sold products</h4>
+                    <small class="card-subtitle text-muted">Last 7 days</small>
+                    <table id="product-table" class="border">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Thumbnail</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each products}}
+                            <tr>
+                                <td>{{this.id}}</td>
+                                <td><img src="{{this.imagePath}}" alt="thumbnail of {{this.name}}" height="30px"
+                                        width="30px">
+                                </td>
+                                <td>{{this.name}}</td>
+                                <td>{{this.category}}</td>
+                                <td>{{this.stock}}</td>
+                                <td><a href="product/{{this.id}}">View</a></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div> --}}
+</main>
+<script>
+    $(document).ready(function () {
+        $('#product-table').DataTable();
+    });
+
+    const config = {
+        type: 'pie',
+        data: {{{ ticketsData }}}
+    };
+    const ticketChart = new Chart(
+        document.getElementById('ticket-chart'),
+        config
+    );
+</script>

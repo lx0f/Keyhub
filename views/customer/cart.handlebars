@@ -1,0 +1,87 @@
+<section class="container my-5">
+    <div class="row">
+        <main class="col-md-9">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Cart</h3>
+                    <div class="card-text">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Thumbnail</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each cart.CartItems}}
+                                <tr>
+                                    <td><img src="{{this.Product.imagePath}}" height="30px" width="30px" alt=""></td>
+                                    <td><a href="/product/view/{{this.Product.id}}">{{this.Product.name}}</a></td>
+                                    <td>{{this.Product.category}}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center" style="gap: 10px;">
+                                            <form action="/cart/{{@root.cart.id}}/{{this.Product.id}}/?_method=POST"
+                                                method="post">
+                                                <button class="btn btn-dark p-0" type="submit">
+                                                    <i class="fa fa-plus  p-1"></i>
+                                                </button>
+                                            </form>
+                                            {{this.quantity}}
+                                            <form action="/cart/{{@root.cart.id}}/{{this.Product.id}}/?_method=DELETE"
+                                                method="post">
+                                                <button class="btn btn-dark p-0" type="submit">
+                                                    <i class="fa fa-minus  p-1"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td>S${{this.Product.price}}.00</td>
+                                    <td>S${{multiply this.quantity this.Product.price}}.00</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer ">
+                    <a href="/" class="btn btn-light">
+                        <i class="fa fa-chevron-left"></i>Continue shopping
+                    </a>
+                </div>
+            </div>
+        </main>
+        <aside class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-text">
+                        <hr>
+                        <div>
+                            <strong>Total:</strong>
+                            S${{total}}.00
+                        </div>
+                        <hr>
+                        <form action="/order" method="GET">
+                            <button type="submit" class="btn btn-dark w-100">
+                                Make Purchase
+                                <i class="fa fa-chevron-right"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</section>
+<section class="container my-3">
+    <h6>Payment and refund policy</h6>
+    <small>Latest Updates. All returns are valid only for up to 7 days from day of receving goods with original receipts
+        To return an item, please contact the customer service via the hotline +65 8903 3844 or you can email us at
+        Keyhub1@gmail.com.All returns will not be reimbursed
+        and you will have to pay for your shipping charges if needed.For any defective goods please contact us via
+        our website through our chat bot ChatUrd. Thank You !
+    </small>
+</section>

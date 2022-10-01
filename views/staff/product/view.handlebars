@@ -1,0 +1,32 @@
+<div class="container my-3">
+    <h1>{{product.name}}</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/staff/product">Product</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{product.id}}</li>
+        </ol>
+    </nav>
+    <main class="grid">
+        <div class="row">
+            <div class="col-8">
+                <div>Name: {{product.name}}</div>
+                <div>Description: {{product.description}}</div>
+                <div>Category: {{product.category}}</div>
+                <div>Stock: {{product.stock}}</div>
+                <div>Created at: {{dateFormat product.createdAt 'DD MMM YYYY'}}</div>
+                <div>Last updated at: {{product.updatedAt}}</div>
+                <hr>
+                <div class="d-flex" style="gap: 15px;">
+                    <a href="{{product.id}}/edit" class="btn btn-primary text-white">Edit</a>
+                    <form action="/staff/product/{{product.id}}/?_method=DELETE" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-4">
+                <img src="{{product.imagePath}}" alt="image of {{product.name}}" style="max-width: 100%;">
+            </div>
+        </div>
+    </main>
+</div>

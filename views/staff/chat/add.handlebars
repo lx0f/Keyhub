@@ -1,0 +1,27 @@
+<main class="container">
+    <h1>Add Chat Room</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/staff/chat">Chat</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add</li>
+        </ol>
+    </nav>
+    <form class="grid" action="/staff/chat" method="post">
+        <div class="row">
+            <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input class="form-control" type="text" id="name" name="name">
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" type="text" id="description" name="description"></textarea>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Add</button>
+        <button class="btn btn-secondary" type="reset">Reset</button>
+        <a class="btn btn-danger" style="text-decoration: none; color: white;" href="/staff/chat">Cancel</a>
+    </form>
+</main>

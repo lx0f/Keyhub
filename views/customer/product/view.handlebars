@@ -1,0 +1,188 @@
+<main class="container my-3">
+    <div class="row mb-3">
+        <aside class="col-lg-6">
+            <article class="gallery-wrap">
+                <div class="img-big-wrap img-thumbnail">
+                    <a data-fslightbox="mygalley" data-type="image" href="">
+                        <img style="width: 100%; object-fit: cover;" src="{{product.imagePath}}">
+                    </a>
+                </div>
+            </article>
+        </aside>
+        <main class="col-lg-6">
+            <article class="ps-lg-3">
+                <h4 class="title text-dark">
+                    {{product.name}}
+                </h4>
+                <p>{{product.description}}</p>
+                <dl class="row">
+                    <dt class="col-3">Category: </dt>
+                    <dd class="col-9">{{product.category}}</dd>
+
+                    <dt class="col-3">Availability: </dt>
+                    <dd class="col-9">
+                        {{#notEquals product.stock 0}}
+                        <span class="label-rating text-success" style="font-size:15px;float:left;">In Stock</span>
+                        {{/notEquals}}
+                        {{#equals product.stock 0}}
+                        <span class="label-rating text-danger">Out Of Stock</span>
+                        {{/equals}}
+                    </dd>
+                </dl>
+                <hr>
+                <div class="row mb-4">
+                </div>
+                <div class="row">
+                    <div class="col">
+                        {{#notEquals product.stock 0}}
+                        <form action="/cart/postcart" method="POST">
+                            <input type="hidden" name="productId" value="{{product.id}}">
+                            <button type="submit" class="btn  btn-dark" style="float: right;"> <i
+                                    class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
+                        </form>
+                        {{/notEquals}}
+                        {{#equals product.stock 0}}
+                        <button href="#" class="btn  btn-dark" disabled style="float: right;"> <i
+                                class="me-1 fa fa-shopping-basket"></i> Add to cart </button>
+                        {{/equals}}
+                    </div>
+                </div>
+                <br>
+            </article>
+        </main>
+    </div>
+    <div class="row">
+        <aside class="col-lg-9">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Reviews ({{product.reviews.count}})</h4>
+                    <hr>
+                    <div class="scroll" style="overflow-y:auto; max-height:400px;">
+                        {{#each product.reviews.rows}}
+                        <blockquote class="border-bottom">
+                            <div class="icontext">
+                                <div class="text">
+                                    <h6 class="mb-0"> {{this.User.username}} </h6>
+                                    <p>{{this.message}}</p>
+                                    {{#times this.rating}}
+                                    <i class="fa fa-star"></i>
+                                    {{/times}}
+                                    {{#times (minus 5 this.rating)}}
+                                    <i class="fa text-muted fa-star"></i>
+                                    {{/times}}
+                                    </span>
+                                    <p>
+                                        <small class="label-rating text-muted"> {{dateFormat
+                                            this.createdAt 'DD MMM YYYY'}}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </blockquote>
+                        <br>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <aside class="col-lg-3">
+            <article class="card" style="width: 300px;">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="rating-wrap">
+                            <b class="label-rating text-lg">
+                                {{#if product.reviews.average}}
+                                {{product.reviews.average}}
+                                {{else}}
+                                0
+                                {{/if}}
+                                out of 5 <i class="fa fa-star"></i> </b>
+                        </div>
+                    </div>
+                    <table class="table table-borderless table-sm">
+                        <tr valign="middle">
+                            <td width="50"> 5 <i class="fa-solid fa-star"></i></td>
+                            <td style="vertical-align:middle ;">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: {{percentage product.reviews.five product.reviews.count}}%"
+                                        aria-valuenow="{{percentage product.reviews.five product.reviews.count}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                            <td width="60"> {{percentage product.reviews.five product.reviews.count}} % </td>
+                        </tr>
+                        <tr valign="middle">
+                            <td> 4 <i class="fa-solid fa-star"></i> </td>
+                            <td style="vertical-align:middle ;">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: {{percentage product.reviews.four product.reviews.count}}%"
+                                        aria-valuenow="{{percentage product.reviews.four product.reviews.count}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                            <td> {{percentage product.reviews.four product.reviews.count}} % </td>
+                        </tr>
+                        <tr valign="middle">
+                            <td> 3 <i class="fa-solid fa-star"></i></td>
+                            <td style="vertical-align:middle ;">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: {{percentage product.reviews.three product.reviews.count}}%"
+                                        aria-valuenow="{{percentage product.reviews.three product.reviews.count}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                            <td> {{percentage product.reviews.three product.reviews.count}} % </td>
+                        </tr>
+                        <tr valign="middle">
+                            <td> 2 <i class="fa-solid fa-star"></i> </td>
+                            <td style="vertical-align:middle ;">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: {{percentage product.reviews.two product.reviews.count}}%"
+                                        aria-valuenow="{{percentage product.reviews.two product.reviews.count}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                            <td> {{percentage product.reviews.two product.reviews.count}} % </td>
+                        </tr>
+                        <tr valign="middle">
+                            <td> 1 <i class="fa-solid fa-star"></i> </td>
+                            <td style="vertical-align:middle ;">
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: {{percentage product.reviews.one product.reviews.count}}%"
+                                        aria-valuenow="{{percentage product.reviews.one product.reviews.count}}"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                            <td> {{percentage product.reviews.one product.reviews.count}} % </td>
+                        </tr>
+                    </table>
+                </div>
+            </article>
+        </aside>
+    </div>
+</main>
+
+<style>
+    .scroll::-webkit-scrollbar-track {
+        background-color: ghostwhite;
+        scroll-margin-left: 10px !important;
+    }
+
+    .scroll::-webkit-scrollbar {
+        width: 12px;
+        /* width of the entire scrollbar */
+    }
+
+    .scroll::-webkit-scrollbar-thumb {
+        background-color: #F3F3F3;
+        /* color of the scroll thumb */
+        border-radius: 20px;
+        height: 40px;
+        /* roundness of the scroll thumb */
+        /* creates padding around scroll thumb */
+    }
+</style>

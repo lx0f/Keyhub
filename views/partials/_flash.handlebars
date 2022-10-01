@@ -1,41 +1,22 @@
-<div class="container">
-{{#each info}}
-  <div class="alert alert-info alert-dismissible">
-    <a
-      href="#"
-      class="close"
-      data-dismiss="alert"
-      aria-la-
-      bel="close"
-    >&times;</a>
-    <h6><i class="fas fa-info-circle"></i> {{this}}</h6>
+<div>
+  {{#each info}}
+  <div class="alert alert-info alert-dismissible fade show mb-0" role="alert">
+    <strong><i class="fa fa-info-circle"></i>Info!</strong> {{this}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
-{{/each}}
+  {{/each}}
 
-{{#each error}}
-  <div class="alert alert-danger alert-dismissible">
-    <a
-      href="#"
-      class="close"
-      data-dismiss="alert"
-      aria-la-
-      bel="close"
-    >&times;</a>
-    <h6><i class="fas fa-exclamation-circle"></i> {{this}}</h6>
+  {{#each error}}
+  <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+    <strong><i class="fa fa-error-circle"></i>Error!</strong> {{this}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
-{{/each}}
+  {{/each}}
 
-{{#each success}}
-  <div class="alert alert-success alert-dismissible">
-    <a
-      href="#"
-      class="close"
-      data-dismiss="alert"
-      aria-la-
-      bel="close"
-    >&times;</a>
-    <h6><i class="fas fa-success-circle"></i> {{this}}</h6>
+  {{#each success}}
+  <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+    <strong><i class="fa fa-success-circle"></i>Success!</strong> {{this}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
-{{/each}}
-
+  {{/each}}
 </div>

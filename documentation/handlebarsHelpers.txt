@@ -1,4 +1,0 @@
-How to equate values in Handlebars:
-{{#equals arg1 arg2 }}
-<!--Your stuff here-->
-{{/equals}}

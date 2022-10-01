@@ -1,57 +1,67 @@
 <div class="chatbot">
     <div class="card">
-        <div id="chatbot-header" class="card-header" data-toggle="collapse" href="#collapse1">
+        <div id="chatbot-header" class="card-header" data-bs-toggle="collapse" href="#collapse1">
             <h4 class="mb-0">Chatbot</h4>
         </div>
         <div id="collapse1" class="collapse" style="width: 400px; max-width: 400px;">
             <div id="chat" class="card-body overflow-auto" style="max-height: 300px; min-height: 300px;">
-                <!-- Texts go here -->
             </div>
             <div class="card-footer">
-                <div class="input-group">
-                    <input type="text" name="" id="queryInput" class="form-control" placeholder="Enter message here"
-                        aria-describedby="message-send" />
-                    <div class="input-group-append">
-                        <button class="btn btn-dark" id="message-send">Send</button>
-                    </div>
-                </div>
-
+                <form onsubmit="onSubmit(); return false;">
+                    <div class="input-group">
+                        <input type="text" name="query" id="queryInput" class="form-control"
+                            placeholder="Enter message here" aria-describedby="message-send" />
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-dark" id="message-send">Send</button>
+                        </div>
+                </form>
             </div>
+
         </div>
     </div>
 </div>
-
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     const chatBody = document.getElementById('chat');
     const sendBtn = document.getElementById('message-send');
     const queryInput = document.getElementById('queryInput');
 
+    const addUserMessage = (text) => {
+        const userMessage = document.createElement('div');
+        userMessage.className = "card text-break user p-2 mb-2";
+        userMessage.innerText = text;
+        chatBody.appendChild(userMessage);
+    }
+
+    const addChatbotMessage = (text) => {
+        const chatbotMessage = document.createElement('div');
+        chatbotMessage.className = "card text-break bg-primary text-white p-2 mb-2";
+        chatbotMessage.innerText = text;
+        chatBody.appendChild(chatbotMessage);
+    }
+
+    const sendChatbotRequest = async (query) => {
+        const response = await axios.post('/api/chatbot', { query });
+        return response;
+    }
 
     sendBtn.addEventListener("click", async (e) => {
         e.preventDefault();
         // adds query into the chat body
         const query = queryInput.value;
-        queryInput.value = '';
-        const userMessage = document.createElement('div');
-        userMessage.className = "card text-break user p-2 mb-2";
-        userMessage.innerText = query;
-        chatBody.appendChild(userMessage);
-
-        // sends the query into dialogflow
-        const response = await fetch(`/chatbot/${query}`);
-        const resJson = await response.json();
-        const queryResult = resJson.queryResult;
+        addUserMessage(query);
 
         // retrieve chatbot response
-        const { fulfillmentText } = queryResult;
+        const response = await sendChatbotRequest(query);
+        console.log(response);
 
         // add chatbot response into the chat body
-        const chatbotMessage = document.createElement('div');
-        chatbotMessage.className = "card text-break bg-primary text-white p-2 mb-2";
-        chatbotMessage.innerText = fulfillmentText;
-        chatBody.appendChild(chatbotMessage)
+        const { fulfillmentText } = response.data;
+        addChatbotMessage(fulfillmentText);
 
         console.log(queryResult);
+        queryInput.value = '';
     });
 
 </script>
@@ -61,6 +71,7 @@
     }
 
     .chatbot {
+        z-index: 2;
         position: fixed;
         bottom: 1%;
         right: 1%;
@@ -70,6 +81,7 @@
 
     #chatbot-header:hover {
         background-color: black;
+        cursor: pointer;
         color: white;
     }
 </style>

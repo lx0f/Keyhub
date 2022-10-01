@@ -1,0 +1,48 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+{{#if understocked}}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong><i class="fa fa-info-circle"></i>Warning!</strong>
+    There are understocked products! The ids are: {{underIdString}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
+<main class="container my-3">
+    <h1>Product Table</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Product</li>
+        </ol>
+    </nav>
+    <a href="/staff/product/add" class="btn btn-primary mb-3">Add product</a>
+    <table id="product-table" class="border">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Thumbnail</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td>{{this.id}}</td>
+                <td><img src="{{this.imagePath}}" alt="thumbnail of {{this.name}}" height="30px" width="30px"></td>
+                <td>{{this.name}}</td>
+                <td>{{this.category}}</td>
+                <td>{{this.stock}}</td>
+                <td><a href="product/{{this.id}}">View</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</main>
+<script>
+    $(document).ready(function () {
+        $('#product-table').DataTable();
+    });
+</script>

@@ -1,0 +1,29 @@
+<main class="container my-3">
+    <h1>Delivery #{{delivery.id}}</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/staff/delivery">Delivery</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{delivery.id}}</li>
+        </ol>
+    </nav>
+    <div>Order #{{delivery.OrderId}}: <a href="/staff/order/{{delivery.OrderId}}">Link</a></div>
+    <div>Stage: {{delivery.stage}}</div>
+    <div>Address:
+        {{#if delivery.Address}}
+        {{delivery.Address.country}}, {{delivery.Address.street}}, {{delivery.Address.unitNumber}},
+        {{delivery.Address.zipCode}}
+        {{else}}
+        No address
+        {{/if}}
+    </div>
+    <div>Updated at: {{delivery.updatedAt}}</div>
+    {{#notEquals delivery.stage 'received'}}
+    <form action="/staff/delivery/{{delivery.id}}?_method=PUT" method="post">
+        {{#notEquals delivery.stage 'packing'}}
+        <button type="submit" name="action" value="back" class="btn btn-primary">Previous stage</button>
+        {{/notEquals}}
+        <button type="submit" name="action" value="next" class="btn btn-primary">Next stage</button>
+    </form>
+    {{/notEquals}}
+</main>

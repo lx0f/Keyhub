@@ -1,0 +1,58 @@
+<div class="container grid my-5">
+    <div class="row">
+        <div class="col-md-3">
+            {{>_account_aside}}
+        </div>
+        <div class="col-md-9">
+            <article class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <h4>My Profile</h4>
+                            <span>Manage your account</span>
+                        </div>
+                        <div class="col-lg-2">
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="card mb-3">
+                <div class="card-body">
+                    <figure class="icontext">
+                        <div class="content">
+                            <strong><i class="fa fas fa-user"></i>&nbsp; Username
+                            </strong><br>{{user.username}}<br> <br>
+                            <b> <i class="fa fa-solid fa-envelope"></i>&nbsp;
+                                Email</b><br>{{user.email}}<br> <br>
+                            <p>
+                                <i class="fa fas fa-map-marker"></i>&nbsp; <b>Address</b><br>
+                                {{user.address}}
+                            </p>
+                            <br>
+                            <button class="btn btn-dark" style="float: left;">
+                                <a href="/account/edit" style="color:white;text-decoration:none;">Edit</a>
+                            </button>
+                    </figure>
+                </div>
+            </article>
+            <div class="grid">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">Orders</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">Comments</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

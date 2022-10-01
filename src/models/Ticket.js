@@ -1,58 +1,84 @@
-const Sequelize = require('sequelize');
-const sequelize = require('./database_setup');
-const User = require('./User');
+const sequelize = require('../data');
+const { Model, DataTypes } = require('sequelize');
+const { User } = require('./User');
 
-class Ticket extends Sequelize.Model {}
-
+class Ticket extends Model {}
 Ticket.init(
-    {
-        id: {
-            type: Sequelize.DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            unique: 'id',
-            allowNull: false,
-        },
-        title: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false,
-            unique: false,
-        },
-        description: {
-            type: Sequelize.DataTypes.STRING(9000),
-            allowNull: true,
-            unique: false,
-        },
-        status: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false,
-            validate: { isIn: [['open', 'closed']] },
-            defaultValue: 'open',
-        },
-        severity: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false,
-            unique: false,
-            validate: { isIn: [['low', 'medium', 'high']] },
-        },
-        category: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: false,
-            unique: false,
-            validate: { isIn: [['bug', 'product', 'request']] },
-        },
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    {
-        freezeTableName: true,
-        timestamps: true,
-        createdAt: true,
-        updatedAt: true,
-        sequelize,
-        modelName: 'Ticket',
-    }
+    title: {
+      type: DataTypes.STRING,
+    },
+    description: {
+      type: DataTypes.STRING(9000),
+    },
+    status: {
+      type: DataTypes.ENUM(['open', 'closed']),
+      defaultValue: 'open',
+    },
+    severity: {
+      type: DataTypes.ENUM(['low', 'medium', 'high']),
+    },
+    category: {
+      type: DataTypes.ENUM(['bug', 'product', 'request']),
+    },
+  },
+  {
+    sequelize,
+  }
 );
 
-Ticket.belongsTo(User, { foreignKey: 'authorID' });
-User.hasMany(Ticket, { foreignKey: 'authorID' });
+class TicketAssignee extends Model {}
+TicketAssignee.init(
+  {},
+  {
+    sequelize,
+  }
+);
 
-module.exports = Ticket;
+class TicketComment extends Model {}
+TicketComment.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
+    message: {
+      type: DataTypes.STRING(9000),
+    },
+    meta: {
+      type: DataTypes.ENUM(['open', 'closed']),
+      allowNull: true,
+      defaultValue: null,
+    },
+  },
+  {
+    sequelize,
+  }
+);
+
+// Author relationship
+User.hasMany(Ticket);
+Ticket.belongsTo(User);
+
+// Assigned relationship
+Ticket.belongsToMany(User, { through: TicketAssignee });
+User.belongsToMany(Ticket, { through: TicketAssignee });
+Ticket.hasMany(TicketAssignee);
+TicketAssignee.belongsTo(Ticket);
+User.hasMany(TicketAssignee);
+TicketAssignee.belongsTo(User);
+
+// Comments relationship
+Ticket.hasMany(TicketComment);
+TicketComment.belongsTo(Ticket);
+User.hasMany(TicketComment);
+TicketComment.belongsTo(User);
+
+module.exports = { Ticket, TicketAssignee, TicketComment };

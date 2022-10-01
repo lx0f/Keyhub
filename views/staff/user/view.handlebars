@@ -1,0 +1,36 @@
+<div class="container my-3">
+    <h1>{{user.username}}</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/staff/user">User</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{user.id}}</li>
+        </ol>
+    </nav>
+    <main class="">
+        <div class="">
+            <div>Username: {{user.username}}</div>
+            <div>Email: {{user.email}}</div>
+            <div>Is staff: {{user.isStaff}}</div>
+            <div>Disabled: {{user.disabled}}</div>
+            <div>Auth method: {{user.authMethod}}</div>
+            <hr>
+            <div class="d-flex" style="gap: 15px;">
+                <form action="/staff/user/{{user.id}}/?_method=PUT" method="post">
+                    {{#equals user.isStaff 0}}
+                    <button type="submit" value="1" name="isStaff" class="btn btn-success">Give staff role</button>
+                    {{/equals}}
+                    {{#equals user.isStaff 1}}
+                    <button type="submit" value="0" name="isStaff" class="btn btn-danger">Revoke staff role</button>
+                    {{/equals}}
+                    {{#equals user.disabled 0}}
+                    <button type="submit" value="1" name="disabled" class="btn btn-danger">Disable</button>
+                    {{/equals}}
+                    {{#equals user.disabled 1}}
+                    <button type="submit" value="0" name="disabled" class="btn btn-success">Enable</button>
+                    {{/equals}}
+                </form>
+            </div>
+        </div>
+    </main>
+</div>

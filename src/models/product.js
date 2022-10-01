@@ -1,55 +1,43 @@
-const Sequelize = require('sequelize');
-const sequelize = require('./database_setup');
+const sequelize = require('../data');
+const { Model, DataTypes } = require('sequelize');
 
-class Product extends Sequelize.Model {}
-
+class Product extends Model {}
 Product.init(
-    {
-        id: {
-            type: Sequelize.DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            unique: 'id',
-            allowNull: false,
-        },
-        name: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        description: {
-            type: Sequelize.DataTypes.TEXT,
-        },
-        brand: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        category: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        stock: {
-            type: Sequelize.DataTypes.INTEGER,
-            allowNull: false,
-        },
-        price: {
-            type: Sequelize.DataTypes.INTEGER,
-        },
-        colour: {
-            type: Sequelize.DataTypes.STRING,
-        },
-        image: {
-            type: Sequelize.DataTypes.STRING,
-            allowNull: true,
-            defaultValue: null,
-        },
-        status: {
-            type: Sequelize.DataTypes.STRING,
-            defaultValue: 'online',
-        },
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
-    {
-        freezeTableName: true,
-        timestamps: true,
-        sequelize,
-        modelName: 'Product',
-    }
+    name: {
+      type: DataTypes.STRING,
+    },
+    description: {
+      type: DataTypes.TEXT,
+    },
+    category: {
+      type: DataTypes.ENUM([
+        'switch',
+        'custom',
+        'prebuilt',
+        'keycap',
+        'accessory',
+      ]),
+    },
+    stock: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    imagePath: {
+      type: DataTypes.STRING,
+      defaultValue: null,
+    },
+  },
+  { sequelize }
 );
 
-module.exports = Product;
+module.exports = { Product };

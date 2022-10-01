@@ -1,0 +1,66 @@
+<main class="container grid my-5">
+    <div class="row">
+        <div class="col-md-3">
+            {{>_account_aside}}
+        </div>
+        <div class="col-md-9 grid ">
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">My Past Orders</h5>
+                            View your orders from the past
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {{#unless orders}}
+                    <div class="">No orders</div>
+                    {{/unless}}
+                    {{#if orders}}
+                    {{#each orders}}
+                    <div class="card mb-3">
+                        <div class="card-header">Order #{{this.id}}</div>
+                        <div class="card-body">
+                            <div class="card-text">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h4>Address</h4>
+                                            {{#if this.Address}}
+                                            <div>Country: {{this.Address.country}}</div>
+                                            <div>City: {{this.Address.city}}</div>
+                                            <div>Street: {{this.Address.street}}</div>
+                                            <div>Unit number: {{this.Address.unitNumber}}</div>
+                                            <div>Zip code: {{this.Address.zipCode}}</div>
+                                            {{/if}}
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h4>Status</h4>
+                                                    <div>Status: {{this.status}}</div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h4>Delivery</h4>
+                                                    <div>Stage: {{this.Delivery.stage}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

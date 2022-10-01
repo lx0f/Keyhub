@@ -1,0 +1,36 @@
+<main class="container my-3">
+    {{#if query}}
+    <h1>{{query}}</h1>
+    {{else}}
+    <h1>All</h1>
+    {{/if}}
+    {{#unless products}}
+    <div>
+        No products were found. Try searching for <code>`custom`</code>
+    </div>
+    <img src="/img/site/not-found.jpg" alt="cat crying because there were no matching products. sadge">
+    {{/unless}}
+    <div class="row">
+        {{#each products}}
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+            <div class="card" style="max-height: 22rem; min-height: 22rem;">
+                <img src="{{this.imagePath}}" style="object-fit: cover; height: 11rem; width: auto;"
+                    class="card-img-top" alt="image of {{this.name}}">
+                <hr class="m-0">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.name}}</h5>
+                    <small class="card-subtitle text-muted">S${{this.price}}.00</small>
+                    <p class="card-text text-truncate">{{this.description}}</p>
+                </div>
+                <div class="card-footer d-flex" style="gap: 10px;">
+                    <form action="/cart" method="post">
+                        <input type="hidden" name="productId" value="{{this.id}}">
+                        <button type="submit" class="btn btn-primary">Add to cart</button>
+                    </form>
+                    <a class="btn btn-secondary" href="/product/view/{{this.id}}">View</a>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</main>

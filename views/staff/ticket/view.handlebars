@@ -1,0 +1,314 @@
+<script src="https://cdn.jsdelivr.net/npm/showdown@<version>/dist/showdown.min.js"></script>
+<div class="container my-3">
+    <h1>{{ticket.title}} <span class="small text-muted">#{{ticket.id}}</span></h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/staff/">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="/staff/ticket">Ticket</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ticket.id}}</li>
+        </ol>
+    </nav>
+    <div id="meta">
+        {{#equals ticket.status "open" }}
+        <span class="badge" style="color: white; background: #34A853;">{{ticket.status}}</span>
+        {{/equals}}
+        {{#equals ticket.status "closed" }}
+        <span class="badge" style="color: white; background: #6E53D3;">{{ticket.status}}</span>
+        {{/equals}}
+        <span class="text-muted">
+            <span>{{ticket.User.username}}</span>
+            {{#equals ticket.status "open"}}
+            opened this ticket {{dateFormat ticket.createdAt "lll"}}
+            {{/equals}}
+            {{#equals ticket.status "closed"}}
+            closed this ticket {{dateFormat ticket.updatedAt "lll"}}
+            {{/equals}}
+        </span>
+    </div>
+    <div class="row mt-4">
+        <div class="col-8">
+            <div class="card text-left mb-4">
+                <p class="card-header">
+                    <!-- INSERT PROFILE PICTURE -->
+                    <a class="link">{{ticket.User.username}}</a>
+                </p>
+                <div class="card-body" id="description" data-value="{{quillDeltaToHtml ticket.description}}">
+                </div>
+            </div>
+            {{#each ticket.TicketComments}}
+            {{#if this.message}}
+            <div class="card text-left my-4">
+                <p class="card-header">
+                    <!-- INSERT PROFILE PICTURE -->
+                    <a class="link">{{this.User.username}}</a>
+                    {{dateFormat this.createdAt "lll"}}
+                </p>
+                <div class="card-body">
+                    <p class="card-text card-comment" data-value="{{quillDeltaToHtml this.message}}"></p>
+                </div>
+            </div>
+            {{/if}}
+            {{#if this.meta}}
+            <div class="card">
+                <div class="card-header">
+                    {{#equals this.meta "open"}}
+                    <span class="badge" style="color: white; background-color: #34A853;">{{this.meta}}</span>
+                    {{/equals}}
+                    {{#equals this.meta "closed"}}
+                    <span class="badge" style="color: white; background-color: #6E53D3;">{{this.meta}}</span>
+                    {{/equals}}
+                    {{this.User.username}} {{this.meta}} this ticket on {{dateFormat this.createdAt "lll"}}
+                </div>
+            </div>
+            {{/if}}
+            {{/each}}
+            <hr>
+            <div class="card text-left my-2">
+                <p class="card-header">
+                    <a class="link">{{user.username}}</a>
+                </p>
+                <div class="card-body">
+                    <p class="card-text">
+                    <form method="post" action="/api/ticket/{{ticket.id}}/comment/" id="form-message">
+                        <input type="hidden" name="userId" value="{{user.id}}">
+                        <div id="quill-editor" class="mb-3"></div>
+                        <input type="hidden" name="message" id="message">
+                        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+                        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary mx-2">Comment</button>
+                            {{#equals ticket.status "open"}}
+                            <button type="submit" name="meta" value="closed" class="btn"
+                                style="background: #6E53D3; color: white;">
+                                Close
+                            </button>
+                            {{/equals}}
+                            {{#equals ticket.status "closed"}}
+                            <button type="submit" name="meta" value="open" class="btn"
+                                style="background: #34A853; color: white;">
+                                Reopen
+                            </button>
+                            {{/equals}}
+                        </div>
+                    </form>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="assignees">
+                        <a class="link" data-bs-toggle="modal" data-bs-target="#assigneeModal">Assignee</a>
+                        {{#if ticket.TicketAssignees}}
+                        {{#each ticket.TicketAssignees}}
+                        <div>{{this.User.username}}</div>
+                        {{/each}}
+                        {{else}}
+                        <div>No staff assigned</div>
+                        {{/if}}
+                    </div>
+                    <hr>
+                    <div class="category">
+                        <a class="link" data-bs-toggle="modal" data-bs-target="#categoryModal">Category</a>
+                        <div>{{ticket.category}}</div>
+                    </div>
+                    <hr>
+                    <div class="severity">
+                        <a class="link" data-bs-toggle="modal" data-bs-target="#severityModal">Severity</a>
+                        <div>{{ticket.severity}}</div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
+----------------------------
+---------- MODALS ----------
+----------------------------
+-->
+
+{{!-- Assignee Modal --}}
+<div class="modal fade" id="assigneeModal" tabindex="-1" aria-labelledby="assigneeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assigneeModalLabel">Assign Staff</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input class="form-control" type="text" id="userQuery" placeholder="Type or choose user">
+                <hr>
+                <form action="/api/ticket/{{ticket.id}}/reassign/?_method=PUT" method="post" id="assignUser">
+                    {{#if ticket.TicketAssignees}}
+                    {{#each ticket.TicketAssignees}}
+                    <div class="form-check">
+                        <input type="checkbox" name="users" class="form-check-input filter-checkbox"
+                            value="{{this.User.id}}" checked="true">
+                        <label class="form-check-label">{{this.User.username}}</label>
+                    </div>
+                    {{/each}}
+                    {{else}}
+                    <div>No Assignees</div>
+                    {{/if}}
+
+                </form>
+                <hr>
+                <form action="/api/ticket/{{ticket.id}}/assign/?_method=PUT" method="post">
+                    <div class="users list-group" id="users">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="assignUser" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- Category Modal --}}
+<div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categoryModalLabel">Change Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/api/ticket/{{ticket.id}}/?_method=PUT" method="post" id="assignCategory">
+                    <div class="list-group">
+                        {{#equals ticket.category "bug"}}
+                        <button name="category" value="bug"
+                            class="list-group-item list-group-item-action disabled">bug</button>
+                        {{/equals}}
+                        {{#notEquals ticket.category "bug"}}
+                        <button name="category" value="bug" class="list-group-item list-group-item-action">bug</button>
+                        {{/notEquals}}
+
+                        {{#equals ticket.category "request"}}
+                        <button name="category" value="request"
+                            class="list-group-item list-group-item-action disabled">request</button>
+                        {{/equals}}
+                        {{#notEquals ticket.category "request"}}
+                        <button name="category" value="request"
+                            class="list-group-item list-group-item-action">request</button>
+                        {{/notEquals}}
+
+                        {{#equals ticket.category "product"}}
+                        <button name="category" value="product"
+                            class="list-group-item list-group-item-action disabled">product</button>
+                        {{/equals}}
+                        {{#notEquals ticket.category "product"}}
+                        <button name="category" value="product"
+                            class="list-group-item list-group-item-action">product</button>
+                        {{/notEquals}}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Severity Modal -->
+<div class="modal fade" id="severityModal" tabindex="-1" aria-labelledby="severityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="severityModalLabel">Change Severity</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/api/ticket/{{ticket.id}}/?_method=PUT" method="post" id="assignSeverity">
+                    <div class="list-group">
+
+                        {{#equals ticket.severity "low"}}
+                        <button name="severity" value="low"
+                            class="list-group-item list-group-item-action disabled">low</button>
+                        {{/equals}}
+                        {{#notEquals ticket.severity "low"}}
+                        <button name="severity" value="low" class="list-group-item list-group-item-action">low</button>
+                        {{/notEquals}}
+
+                        {{#equals ticket.severity "medium"}}
+                        <button name="severity" value="medium"
+                            class="list-group-item list-group-item-action disabled">medium</button>
+                        {{/equals}}
+                        {{#notEquals ticket.severity "medium"}}
+                        <button name="severity" value="medium"
+                            class="list-group-item list-group-item-action">medium</button>
+                        {{/notEquals}}
+
+                        {{#equals ticket.severity "high"}}
+                        <button name="severity" value="high"
+                            class="list-group-item list-group-item-action disabled">high</button>
+                        {{/equals}}
+                        {{#notEquals ticket.severity "high"}}
+                        <button name="severity" value="high"
+                            class="list-group-item list-group-item-action">high</button>
+                        {{/notEquals}}
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Logic to convert html string into actual html
+    const descriptionDiv = document.getElementById("description");
+    var html = descriptionDiv.dataset.value;
+    descriptionDiv.innerHTML = html;
+
+    // Logic to get user suggestions in the user
+    // search in assign users modal
+    const input = document.getElementById("userQuery");
+    const usersDiv = document.getElementById("users")
+    var oldUsers;
+    input.addEventListener("keyup", async () => {
+        const query = input.value;
+        const res = await fetch(`/api/user/staff/${query}`);
+        const users = await res.json();
+        var userList = [];
+
+        users.forEach((user) => {
+            let { id, username } = user;
+            const userSelect = document.createElement('button');
+            userSelect.innerText = username;
+            userSelect.name = "id";
+            userSelect.value = id;
+            userSelect.className = 'list-group-item list-group-item-action';
+            userList.push(userSelect);
+        });
+
+        usersDiv.replaceChildren(...userList)
+        oldUsers = users;
+    });
+</script>
+<script>
+    const quill = new Quill('#quill-editor', { theme: 'snow' });
+    const textarea = document.getElementById('message');
+    const form = document.getElementById("form-message");
+    form.addEventListener('submit', (e) => {
+        const contents = quill.getContents();
+        const length = quill.getLength();
+        const jsonContents = JSON.stringify(contents, null, 2).toString();
+        textarea.value = length > 1 ? jsonContents : null;
+    });
+
+    const messages = document.querySelectorAll(".card-comment");
+    messages.forEach((message) => {
+        message.innerHTML = message.dataset.value;
+    });
+</script>
